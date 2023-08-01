@@ -295,6 +295,6 @@ export default {
 
 请作者喝一杯coffee😁
 
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/343d23d5-6d01-4b4e-8c64-cdee36fdc5d5" style="width:300px;height:300px"/>
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cebb4995-6e7a-4907-8002-a3ce6f010ccf" style="width:300px;height:300px"/>
 
 
