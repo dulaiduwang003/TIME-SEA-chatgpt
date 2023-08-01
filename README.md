@@ -1,8 +1,12 @@
 # TIME-SEA-PLUS
-基于SpringBoot3开发的GPT绘图流量主小程序 
+基于SpringBoot3开发的GPT绘图流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者再次留下你的issues
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)]([https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS))
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+
+快速体验
+
+<img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/238ecc44-cbfb-4317-a18d-8d414d7c1276" />
 
 主要功能以及特性
 
@@ -21,7 +25,8 @@
 - 绘图类API 列队处理
 - 微信作品制作通知
 - 数据懒异步处理
-
+- 支持主流语言以及配置类 代码高亮
+- 查看广告获得次数
 
 ## 小程序效果展示
 
@@ -45,6 +50,8 @@
 `Redis 7`
 `MySQL 8`
 
+`项目部署时一定要先在本地部署一遍 如果不会部署 请联系作者微信:SeatimeIsland`
+`另外可以进微信群 一起讨论项目部署 或者 以及其他编程学术类问题`
 
 后端yml配置参考
 
@@ -283,4 +290,11 @@ export default {
 
 
 ```
+
+如果你喜欢这个项目 请你动动小手给此项目点个star吧😁
+
+请作者喝一杯coffee😁
+
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/343d23d5-6d01-4b4e-8c64-cdee36fdc5d5" style="width:300px;height:300px"/>
+
 
