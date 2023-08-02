@@ -1,5 +1,5 @@
 # TIME-SEA-PLUS
-基于SpringBoot3开发的GPT绘图流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
+基于SpringBoot3开发的Ai绘图流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)]([https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS))
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
@@ -49,8 +49,11 @@
 `MJ API`
 `Redis 7`
 `MySQL 8`
+`微信开发中工具`
 
-`项目部署时一定要先在本地部署一遍 如果不会部署 请联系作者微信:SeatimeIsland`
+`项目部署时一定要先在本地部署一遍 如果不会部署 请联系作者微信:SeatimeIsland `
+`后端部署不挑环境 硬性要求为 MYSQL8 Redis7 JDK17即可 `
+`前端代码直接使用微信开发者工具打开 请使用导入功能`
 `另外可以进微信群 一起讨论项目部署 或者 以及其他编程学术类问题`
 
 后端yml配置参考
@@ -146,7 +149,7 @@ config:
 
 ```
 
-前端env.js参考
+前端配置参考
 
 ```yaml
 "use strict";
@@ -191,16 +194,6 @@ export default {
     //SD模型
     sdModels: [
         {
-            modelName: 'lofi_V2.safetensors',
-            text: '真实',
-            isSelected: true //默认选中
-        },
-        {
-            modelName: 'deliberate_v2.safetensors',
-            text: '写实',
-            isSelected: false
-        },
-        {
             modelName: 'revAnimated_v121.safetensors',
             text: '动漫',
             isSelected: false
@@ -241,55 +234,19 @@ export default {
                 }
             ],
 
-        },
-        {
-            icon: '🎑', //功能ICON
-            title: '语言检测器', //菜单功能名称
-            introduce: '根据输入的文字回复所属语言',//功能介绍
-            botInitialization: '您好!请提供内容以便我查找所属语言',//开屏提示
-            //上下文
-            content: [
-                {
-                    answer: '请提供文字',
-                    question: '我希望你充当语言检测器。我会用任何语言输入一个句子，你会回答我，我写的句子在你是用哪种语言写的。不要写任何解释或其他文字，只需回复语言名称即可。如果理解请回复：请提供文字'
-
-                }
-            ],
-
-        }, {
-            icon: '🥓', //功能ICON
-            title: '担任SVG设计师', //菜单功能名称
-            introduce: '根据输入内容创建就SVG图像代码',//功能介绍
-            botInitialization: '您好!请直接提供内容以便我为您提供SVG代码',//开屏提示
-            //上下文
-            content: [
-                {
-                    answer: '请提供描述',
-                    question: '我希望你担任 SVG 设计师。我会要求你创建图像，你会为图像提供 SVG 代码，将代码转换为 base64 数据 url，然后给我一个仅包含引用该数据 url 的降价图像标签的响应。不要将 markdown 放在代码块中。只发送降价，所以没有文本。如果理解请回复：请提供描述'
-
-                }
-            ],
-
-        },{
-            icon: '👩‍⚕️', //功能ICON
-            title: 'Ai医生', //菜单功能名称
-            introduce: '虚拟Ai医生',//功能介绍
-            botInitialization: '我是虚拟Ai医生,请您直接提供您的症状',//开屏提示
-            //上下文
-            content: [
-                {
-                    answer: '请提供症状',
-                    question: '我想让你扮演虚拟医生。我会描述我的症状，你会提供诊断和治疗方案。只回复你的诊疗方案，其他不回复。不要写解释。如果理解请回复：请提供症状'
-
-                }
-            ],
-
-        },
+        }
     ]
 }
 
 
 ```
+
+`前端配置在于 common/vendor.js中 12535行 可用微信开发者工具动态修改`
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/1f121973-da7c-41d0-94ef-c57cb8581032" style="width:800px;height:400px" />
+
+
+`注意把project.config.json中的 appid替换为自己的微信APPID`
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dd504346-364a-46cf-8166-31a5fa2ed4f0" style="width:800px;height:400px" />
 
 如果你喜欢这个项目 请你动动小手给此项目点个star吧😁
 
