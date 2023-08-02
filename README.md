@@ -6,7 +6,7 @@
 
 快速体验
 
-<img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/238ecc44-cbfb-4317-a18d-8d414d7c1276" />
+<img style="width:200px;height:200px" src="static/84f5a40cf54724f31a229545631ca24.jpg" />
 
 主要功能以及特性
 
@@ -30,15 +30,17 @@
 
 ## 小程序效果展示
 
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/7d95d76c-effa-4d75-8196-2fee39930f1b" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/281c7a04-89cd-4a23-be0b-ae601d973750" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b474878b-90d6-4496-8157-90a00a319b11" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/13132b2e-cf57-4112-92f0-ec3e6240fad7" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/ab596339-1931-4955-b99a-e976486eed7d" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/5f23b25b-29ff-42b3-a525-c704cd5310b1" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/c6a7d27f-7e73-4f91-8276-a23e0a600b48" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/a513af6a-b39a-4c18-8462-eaa3c0fb54c7" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/1e560fc8-0af5-4bd5-93a2-f97fe72ea004" style="width:300px;height:600px">
+<img src="static/59001eb8470d83c65b2e5b7c1ceab2e.jpg" style="width:300px;height:600px">
+<img src="static/04c7ef2aabfb021c2fee32399b64e67.jpg" style="width:300px;height:600px">
+<img src="static/24a24259900408831faf24498ee0d2b.jpg" style="width:300px;height:600px">
+<img src="static/6bb33c0cd11f7d708baec6178d1b76f.jpg" style="width:300px;height:600px">
+<img src="static/384ca04e60a2f065480e8f307a6dd3e.jpg" style="width:300px;height:600px">
+<img src="static/b784546e02868884405b823353e226e.jpg" style="width:300px;height:600px">
+<img src="static/ed23bace3db93202764a3fd4a88068a.jpg" style="width:300px;height:600px">
+<img src="static/efa03c325fe750fbff74c2d40d41636.jpg" style="width:300px;height:600px">
+<img src="static/ba8f0f1e4be5ec10ee2e76386f16909.jpg" style="width:300px;height:600px">
+<img src="static/22d5eb67db1e9b0f38197c6d041af34.jpg" style="width:300px;height:600px">
+<img src="static/3630027ee7e41d71f683100665ce426.jpg" style="width:300px;height:600px">
 
 ## 部署环境
 `百度翻译`
@@ -242,16 +244,16 @@ export default {
 ```
 
 `前端配置在于 common/vendor.js中 12535行 可用微信开发者工具动态修改`
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/1f121973-da7c-41d0-94ef-c57cb8581032" style="width:800px;height:400px" />
+<img src="static/img_1.png" style="width:800px;height:400px" />
 
 
 `注意把project.config.json中的 appid替换为自己的微信APPID`
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dd504346-364a-46cf-8166-31a5fa2ed4f0" style="width:800px;height:400px" />
+<img src="static/img_2.png" style="width:800px;height:400px" />
 
 如果你喜欢这个项目 请你动动小手给此项目点个star吧😁
 
 请作者喝一杯coffee😁
 
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cebb4995-6e7a-4907-8002-a3ce6f010ccf" style="width:300px;height:300px"/>
+<img src="static/66b01d2a1116698113ed156044e54a9.jpg" style="width:300px;height:300px" />
 
 
