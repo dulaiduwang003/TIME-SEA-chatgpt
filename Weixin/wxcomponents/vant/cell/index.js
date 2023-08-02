@@ -1,5 +1,6 @@
-import { link } from '../mixins/link';
-import { VantComponent } from '../common/component';
+import {link} from '../mixins/link';
+import {VantComponent} from '../common/component';
+
 VantComponent({
     classes: [
         'title-class',

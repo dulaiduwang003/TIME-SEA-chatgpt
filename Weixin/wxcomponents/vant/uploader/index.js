@@ -1,7 +1,8 @@
-import { VantComponent } from '../common/component';
-import { isImageFile, chooseFile, isVideoFile } from './utils';
-import { chooseImageProps, chooseVideoProps } from './shared';
-import { isBoolean, isPromise } from '../common/validator';
+import {VantComponent} from '../common/component';
+import {chooseFile, isImageFile, isVideoFile} from './utils';
+import {chooseImageProps, chooseVideoProps} from './shared';
+import {isBoolean, isPromise} from '../common/validator';
+
 VantComponent({
     props: Object.assign(Object.assign({ disabled: Boolean, multiple: Boolean, uploadText: String, useBeforeRead: Boolean, afterRead: null, beforeRead: null, previewSize: {
             type: null,

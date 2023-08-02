@@ -1,5 +1,6 @@
-import { VantComponent } from '../common/component';
-import { isDef } from '../common/validator';
+import {VantComponent} from '../common/component';
+import {isDef} from '../common/validator';
+
 const LONG_PRESS_START_TIME = 600;
 const LONG_PRESS_INTERVAL = 200;
 // add num and avoid float number

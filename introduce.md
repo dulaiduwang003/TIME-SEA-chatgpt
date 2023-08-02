@@ -11,4 +11,4 @@
 `作者微信:SeatimeIsland`
 
 喝一杯 coffee
-<img src="temp/img.png" style="width:400px;height:400px">
+<img src="static/img.png" style="width:400px;height:400px">

@@ -1,7 +1,20 @@
-import { VantComponent } from '../common/component';
-import { ROW_HEIGHT, getPrevDay, getNextDay, getToday, compareDay, copyDates, calcDateNum, formatMonthTitle, compareMonth, getMonths, getDayByOffset, } from './utils';
+import {VantComponent} from '../common/component';
+import {
+    calcDateNum,
+    compareDay,
+    compareMonth,
+    copyDates,
+    formatMonthTitle,
+    getDayByOffset,
+    getMonths,
+    getNextDay,
+    getPrevDay,
+    getToday,
+    ROW_HEIGHT,
+} from './utils';
 import Toast from '../toast/toast';
-import { requestAnimationFrame } from '../common/utils';
+import {requestAnimationFrame} from '../common/utils';
+
 const initialMinDate = getToday().getTime();
 const initialMaxDate = (() => {
     const now = getToday();

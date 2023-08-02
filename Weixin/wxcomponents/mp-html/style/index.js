@@ -3,6 +3,7 @@
  */
 // #ifndef APP-PLUS-NVUE
 import Parser from './parser'
+
 // #endif
 
 function Style () {

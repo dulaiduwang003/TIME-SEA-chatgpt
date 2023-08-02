@@ -1,6 +1,7 @@
-import { VantComponent } from '../common/component';
-import { useParent } from '../common/relation';
-import { setContentAnimate } from './animate';
+import {VantComponent} from '../common/component';
+import {useParent} from '../common/relation';
+import {setContentAnimate} from './animate';
+
 VantComponent({
     classes: ['title-class', 'content-class'],
     relation: useParent('collapse'),

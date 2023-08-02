@@ -1,6 +1,7 @@
-import { VantComponent } from '../common/component';
-import { WHITE } from '../common/color';
-import { getSystemInfoSync } from '../common/utils';
+import {VantComponent} from '../common/component';
+import {WHITE} from '../common/color';
+import {getSystemInfoSync} from '../common/utils';
+
 VantComponent({
     props: {
         message: String,

@@ -1,6 +1,7 @@
-import { canIUseModel } from '../common/version';
-import { VantComponent } from '../common/component';
-import { useParent } from '../common/relation';
+import {canIUseModel} from '../common/version';
+import {VantComponent} from '../common/component';
+import {useParent} from '../common/relation';
+
 VantComponent({
     field: true,
     relation: useParent('radio-group', function () {

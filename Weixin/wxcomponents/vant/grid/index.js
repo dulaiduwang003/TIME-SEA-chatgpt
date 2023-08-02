@@ -1,9 +1,6 @@
-import {
-	VantComponent
-} from '../common/component';
-import {
-	useChildren
-} from '../common/relation';
+import {VantComponent} from '../common/component';
+import {useChildren} from '../common/relation';
+
 VantComponent({
 	relation: useChildren('grid-item'),
 	props: {

@@ -4,6 +4,7 @@
  * Include github-markdown-css (https://github.com/sindresorhus/github-markdown-css)
  */
 import marked from './marked.min'
+
 let index = 0
 
 function Markdown (vm) {

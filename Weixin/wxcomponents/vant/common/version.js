@@ -1,4 +1,5 @@
-import { getSystemInfoSync } from './utils';
+import {getSystemInfoSync} from './utils';
+
 function compareVersion(v1, v2) {
     v1 = v1.split('.');
     v2 = v2.split('.');

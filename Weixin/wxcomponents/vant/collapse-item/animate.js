@@ -1,4 +1,5 @@
-import { getRect } from '../common/utils';
+import {getRect} from '../common/utils';
+
 function useAnimation(context, expanded, mounted, height) {
     const animation = wx.createAnimation({
         duration: 0,

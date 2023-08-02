@@ -1,4 +1,5 @@
-import { VantComponent } from '../common/component';
+import {VantComponent} from '../common/component';
+
 VantComponent({
     classes: ['bar-class', 'price-class', 'button-class'],
     props: {

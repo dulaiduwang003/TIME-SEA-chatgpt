@@ -1,4 +1,5 @@
-import { isObj } from '../common/validator';
+import {isObj} from '../common/validator';
+
 const defaultOptions = {
     type: 'text',
     mask: false,

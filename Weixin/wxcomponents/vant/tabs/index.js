@@ -1,8 +1,9 @@
-import { VantComponent } from '../common/component';
-import { touch } from '../mixins/touch';
-import { getAllRect, getRect, groupSetData, nextTick, requestAnimationFrame, } from '../common/utils';
-import { isDef } from '../common/validator';
-import { useChildren } from '../common/relation';
+import {VantComponent} from '../common/component';
+import {touch} from '../mixins/touch';
+import {getAllRect, getRect, groupSetData, nextTick, requestAnimationFrame,} from '../common/utils';
+import {isDef} from '../common/validator';
+import {useChildren} from '../common/relation';
+
 VantComponent({
     mixins: [touch],
     classes: ['nav-class', 'tab-class', 'tab-active-class', 'line-class'],

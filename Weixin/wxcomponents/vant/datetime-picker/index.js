@@ -1,6 +1,7 @@
-import { VantComponent } from '../common/component';
-import { isDef } from '../common/validator';
-import { pickerProps } from '../picker/shared';
+import {VantComponent} from '../common/component';
+import {isDef} from '../common/validator';
+import {pickerProps} from '../picker/shared';
+
 const currentYear = new Date().getFullYear();
 function isValidDate(date) {
     return isDef(date) && !isNaN(new Date(date).getTime());

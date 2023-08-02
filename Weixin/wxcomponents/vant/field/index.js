@@ -1,6 +1,7 @@
-import { nextTick } from '../common/utils';
-import { VantComponent } from '../common/component';
-import { commonProps, inputProps, textareaProps } from './props';
+import {nextTick} from '../common/utils';
+import {VantComponent} from '../common/component';
+import {commonProps, inputProps, textareaProps} from './props';
+
 VantComponent({
     field: true,
     classes: ['input-class', 'right-icon-class', 'label-class'],

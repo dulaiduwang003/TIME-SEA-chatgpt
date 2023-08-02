@@ -1,5 +1,6 @@
-import { VantComponent } from '../common/component';
-import { isSameSecond, parseFormat, parseTimeData } from './utils';
+import {VantComponent} from '../common/component';
+import {isSameSecond, parseFormat, parseTimeData} from './utils';
+
 function simpleTick(fn) {
     return setTimeout(fn, 30);
 }

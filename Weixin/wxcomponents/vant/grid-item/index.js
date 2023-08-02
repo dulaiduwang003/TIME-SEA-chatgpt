@@ -1,12 +1,7 @@
-import {
-	VantComponent
-} from '../common/component';
-import {
-	useParent
-} from '../common/relation';
-import {
-	link
-} from '../mixins/link';
+import {VantComponent} from '../common/component';
+import {useParent} from '../common/relation';
+import {link} from '../mixins/link';
+
 VantComponent({
 	relation: useParent('grid'),
 	classes: ['content-class', 'icon-class', 'text-class'],
