@@ -251,6 +251,8 @@ export default {
 `注意把project.config.json中的 appid替换为自己的微信APPID`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/5952a4bd-0e00-4eff-9878-6335fd7e71d0" style="width:800px;height:400px" />
 
+`请注意在微信公众平台中 把https wss 阿里oss域名 开启白名单校验`
+
 如果你喜欢这个项目 请你动动小手给此项目点个star吧😁
 
 请作者喝一杯coffee😁
