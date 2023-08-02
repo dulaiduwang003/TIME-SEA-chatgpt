@@ -1,0 +1,15 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColorTop": "#000000",
+  "backgroundColorBottom": "#000000",
+  "usingComponents": {
+    "van-popup": "/wxcomponents/vant/popup/index",
+    "van-button": "/wxcomponents/vant/button/index",
+    "disconnect-component": "/wxcomponents/components/disconnectComponent",
+    "loading-component": "/wxcomponents/components/loadingComponent",
+    "personal-view": "/pages/master/view/personalView",
+    "login-view": "/pages/master/view/loginView",
+    "home-view": "/pages/master/view/homeView",
+    "menu-component": "/pages/master/components/menuComponent"
+  }
+}

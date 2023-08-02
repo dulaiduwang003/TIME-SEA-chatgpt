@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "服务器参数面板",
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTextStyle": "white",
+  "backgroundColorTop": "#000000",
+  "backgroundColorBottom": "#000000",
+  "usingComponents": {
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "van-button": "/wxcomponents/vant/button/index",
+    "loading-component": "/wxcomponents/components/loadingComponent"
+  }
+}

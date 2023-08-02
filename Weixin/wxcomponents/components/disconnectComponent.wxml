@@ -1,0 +1,1 @@
+<view class="empty-container" style="{{'height:'+(height+'vh')+';'}}"><view><image class="empty-image" src="/static/assets/disconnect.svg"></image><view class="empty-title">似乎与服务器断开了连接</view><button data-event-opts="{{[['tap',[['reconnect',['$event']]]]]}}" class="connect-btn" bindtap="__e">{{msg}}</button></view></view>

@@ -1,0 +1,15 @@
+{
+  "navigationBarTitleText": "兑换码管理面板",
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTextStyle": "white",
+  "backgroundColorTop": "#000000",
+  "backgroundColorBottom": "#000000",
+  "usingComponents": {
+    "van-popup": "/wxcomponents/vant/popup/index",
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "van-button": "/wxcomponents/vant/button/index",
+    "loading-component": "/wxcomponents/components/loadingComponent",
+    "loading-data-component": "/pages/layout/view/components/loadingDataComponent",
+    "empty-component": "/wxcomponents/components/emptyComponent"
+  }
+}

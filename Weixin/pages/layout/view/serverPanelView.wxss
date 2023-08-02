@@ -1,0 +1,1 @@
+.container{font-size:26rpx;padding:20rpx;color:#d1d1d1}input{width:400rpx}.row{display:flex;align-items:center;padding-bottom:20rpx;border-bottom:1rpx solid #fff;margin-bottom:30rpx}.key{width:280rpx}

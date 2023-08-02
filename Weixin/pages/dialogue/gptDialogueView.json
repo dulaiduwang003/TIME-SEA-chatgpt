@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor": "#101010",
+  "backgroundColorTop": "#101010",
+  "backgroundColorBottom": "#101010",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "mp-html": "/wxcomponents/mp-html/mp-html"
+  }
+}

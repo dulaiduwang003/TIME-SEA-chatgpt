@@ -118,7 +118,7 @@ ali-oss:
   domain: 'https://sea.oss-cn-shanghai.aliyuncs.com'
 
 
-# 初始化配置(只加载一次)
+# 初始化配置(只加载一次, 这些配置不代表最终配置 只是为了项目正常启动而存在 部署完成后可以再后台管理中修改)
 
 config:
   # OPEN AI API

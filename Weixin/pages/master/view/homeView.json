@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "van-icon": "/wxcomponents/vant/icon/index",
+    "van-loading": "/wxcomponents/vant/loading/index"
+  }
+}

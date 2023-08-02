@@ -1,0 +1,1 @@
+.empty-container{height:100%;display:flex;justify-content:center;align-items:center;text-align:center;-webkit-animation:fadeIn .7s ease-in-out forwards;animation:fadeIn .7s ease-in-out forwards}.empty-image{width:200rpx;height:200rpx}.empty-title{padding-top:20rpx;color:#fff;font-size:25rpx}
