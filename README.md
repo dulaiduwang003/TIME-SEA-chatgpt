@@ -1,12 +1,12 @@
 # TIME-SEA-PLUS
-基于SpringBoot3开发的Ai多功能绘图流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
+基于SpringBoot3开发的Ai多功能绘图微信流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)]([https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS))
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 快速体验
 
-<img style="width:200px;height:200px" src="static/84f5a40cf54724f31a229545631ca24.jpg" />
+<img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
 
 主要功能以及特性
 
@@ -30,17 +30,18 @@
 
 ## 小程序效果展示
 
-<img src="static/59001eb8470d83c65b2e5b7c1ceab2e.jpg" style="width:300px;height:600px">
-<img src="static/04c7ef2aabfb021c2fee32399b64e67.jpg" style="width:300px;height:600px">
-<img src="static/24a24259900408831faf24498ee0d2b.jpg" style="width:300px;height:600px">
-<img src="static/6bb33c0cd11f7d708baec6178d1b76f.jpg" style="width:300px;height:600px">
-<img src="static/384ca04e60a2f065480e8f307a6dd3e.jpg" style="width:300px;height:600px">
-<img src="static/b784546e02868884405b823353e226e.jpg" style="width:300px;height:600px">
-<img src="static/ed23bace3db93202764a3fd4a88068a.jpg" style="width:300px;height:600px">
-<img src="static/efa03c325fe750fbff74c2d40d41636.jpg" style="width:300px;height:600px">
-<img src="static/ba8f0f1e4be5ec10ee2e76386f16909.jpg" style="width:300px;height:600px">
-<img src="static/22d5eb67db1e9b0f38197c6d041af34.jpg" style="width:300px;height:600px">
-<img src="static/3630027ee7e41d71f683100665ce426.jpg" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/c45a9d5e-bd6a-4daf-8682-a9eaf010916c" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/f0ba848a-0b30-448e-822a-2c0f17d787a5" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/2d120e58-9383-4d6d-bb10-d12aa1c6e887" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/ffa23726-c98a-40b4-896d-1ba18d98a8a6" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/7ee632d0-b75f-47ba-87ea-02b64a320ab8" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/014fb492-4730-4138-b612-e7cfebe7fefb" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/fdfbb5da-0a87-4f4a-b7c6-2e5327d91f3d" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/59365a6e-a081-43a9-bf8f-0508efadf1de" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/fb378063-acf0-440d-b00d-e74fba21a728" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b161058e-eac3-4fad-a054-8c9bc7369d9a" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cc3fe1c4-04d6-44ce-8c07-26adcd336e81" style="width:300px;height:600px">
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b3e79dfd-5b33-47df-bb59-eda1a2c0e135" style="width:300px;height:600px">
 
 ## 部署环境
 `百度翻译`
@@ -241,19 +242,21 @@ export default {
 }
 
 
+
 ```
 
 `前端配置在于 common/vendor.js中 12535行 可用微信开发者工具动态修改`
-<img src="static/img_1.png" style="width:800px;height:400px" />
-
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/0c9e47bc-c8fe-449b-b5f7-b02d1d763a51" style="width:800px;height:400px" />
 
 `注意把project.config.json中的 appid替换为自己的微信APPID`
-<img src="static/img_2.png" style="width:800px;height:400px" />
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/5952a4bd-0e00-4eff-9878-6335fd7e71d0" style="width:800px;height:400px" />
+
+`请注意在微信公众平台中 把https wss 阿里oss域名 开启白名单校验`
 
 如果你喜欢这个项目 请你动动小手给此项目点个star吧😁
 
 请作者喝一杯coffee😁
 
-<img src="static/66b01d2a1116698113ed156044e54a9.jpg" style="width:300px;height:300px" />
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cb81e952-b28a-4688-a9e2-b61290e489bf" style="width:300px;height:300px" />
 
 
