@@ -35,12 +35,11 @@ public class ImageUtils {
                     .bodyToMono(byte[].class);
             byte[] imageBytes = imageMono.block();
             String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-            return   "data:image/jpg;base64,"+base64Image;
+            return "data:image/jpg;base64,"+base64Image;
         } catch (Exception e) {
             log.error("图片转BASE64失败 错误信息:{} 位置:{}", e.getMessage(), e.getClass());
             throw new RuntimeException(e);
         }
     }
-
 
 }

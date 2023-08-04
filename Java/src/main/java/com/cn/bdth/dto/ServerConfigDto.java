@@ -89,4 +89,11 @@ public class ServerConfigDto {
      */
     @NotNull(message = "GPT消耗次数不能为空")
     private Long gptFrequency;
+
+
+    /**
+     * 签到赠送次数
+     */
+    @NotNull(message = "标准文生图消耗次数不能为空")
+    private Long gptTextImageFrequency;
 }

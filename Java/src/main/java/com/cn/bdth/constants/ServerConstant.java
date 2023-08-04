@@ -10,9 +10,13 @@ public interface ServerConstant {
     String CONFIG = "SUPER_CONFIG";
 
     String ANNOUNCEMENT = "ANNOUNCEMENT";
-    String DRAWING_TASK_QUEUE = "DRAWING_TASK_QUEUE";
-    String DRAWING_IMAGE = "/sdapi/v1/img2img";
-    String DRAWING_TEXT = "/sdapi/v1/txt2img";
+    String DRAWING_SD_TASK_QUEUE = "DRAWING_SD_TASK_QUEUE";
+    String SD_DRAWING_IMAGE = "/sdapi/v1/img2img";
+    String SD_DRAWING_TEXT = "/sdapi/v1/txt2img";
+
+    String GPT_DIALOGUE = "/chat/completions";
+    String GPT_DRAWING = "/images/generations";
+
     Long DRAWING_IMAGE_TYPE = 1L;
     Long DRAWING_TEXT_TYPE = 0L;
 

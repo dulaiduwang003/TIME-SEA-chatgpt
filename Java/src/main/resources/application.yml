@@ -3,7 +3,6 @@ server:
 
 sa-token:
   token-name: token
-  # 生存过期时间 小程序
   activity-timeout: -1
   is-concurrent: true
   is-share: true
@@ -34,7 +33,7 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
 
   configuration:
-    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     cache-enabled: true
     jdbc-type-for-null: 'null'

@@ -1,6 +1,5 @@
-import {VantComponent} from '../common/component';
-import {useParent} from '../common/relation';
-
+import { VantComponent } from '../common/component';
+import { useParent } from '../common/relation';
 VantComponent({
     classes: ['active-class', 'disabled-class'],
     relation: useParent('sidebar'),

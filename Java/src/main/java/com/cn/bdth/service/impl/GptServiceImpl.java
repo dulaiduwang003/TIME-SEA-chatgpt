@@ -2,6 +2,7 @@ package com.cn.bdth.service.impl;
 
 import com.cn.bdth.common.FunCommon;
 
+import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.model.GptModel;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ServerStructure;
@@ -34,6 +35,7 @@ public class GptServiceImpl implements GptService {
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + server.getOpenKey())
                 .build()
                 .post()
+                .uri(ServerConstant.GPT_DIALOGUE)
                 .body(BodyInserters.fromValue(model))
                 .retrieve()
                 .bodyToFlux(String.class);

@@ -1,5 +1,4 @@
-import {VantComponent} from '../common/component';
-
+import { VantComponent } from '../common/component';
 VantComponent({
     props: {
         themeVars: {

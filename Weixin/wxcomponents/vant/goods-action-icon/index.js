@@ -1,7 +1,6 @@
-import {VantComponent} from '../common/component';
-import {button} from '../mixins/button';
-import {link} from '../mixins/link';
-
+import { VantComponent } from '../common/component';
+import { button } from '../mixins/button';
+import { link } from '../mixins/link';
 VantComponent({
     classes: ['icon-class', 'text-class'],
     mixins: [link, button],

@@ -1,5 +1,4 @@
-import {canIUseGetUserProfile} from '../common/version';
-
+import { canIUseGetUserProfile } from '../common/version';
 export const button = Behavior({
     externalClasses: ['hover-class'],
     properties: {

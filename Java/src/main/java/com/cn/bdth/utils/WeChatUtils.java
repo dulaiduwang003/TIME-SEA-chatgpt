@@ -8,9 +8,16 @@ import com.cn.bdth.model.WeChatMsgCheckModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * 微信工具类
@@ -31,8 +38,12 @@ public class WeChatUtils {
     @Value("${we-chat.secret}")
     private String secret;
 
+    @Value("${ali-oss.domain}")
+    private String domain;
 
     private final RedisUtils redisUtils;
+
+    private final BaiduTranslationUtil translationUtil;
 
     private static final WebClient WEB_CLIENT = WebClient.builder().build();
 
@@ -52,7 +63,12 @@ public class WeChatUtils {
         }
     }
 
-    public void filterText(final String content, final String openId) {
+    public void filterText(String content, final String openId) {
+        try {
+            content = translationUtil.chineseTranslation(content);
+        } catch (Exception e) {
+            log.error("微信文本安全调用翻译失败,将采用原文检测");
+        }
         JSONObject jsonObject = null;
         try {
             final String response = WEB_CLIENT.post().uri("https://api.weixin.qq.com/wxa/msg_sec_check?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret))
@@ -71,7 +87,34 @@ public class WeChatUtils {
         if (!("pass".equals(jsonObject.getString("suggest")))) {
             throw new ViolationsException(ExceptionMessages.WECHAT_VIOLATIONS);
         }
-
     }
 
+    public void filterImage(final String image) {
+        try {
+            String imageUrl = domain + image;
+            final byte[] block = WebClient.builder()
+                    .codecs(item -> item.defaultCodecs().maxInMemorySize(10 * 1024 * 1024)).build().get()
+                    .uri(imageUrl)
+                    .accept(MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG, MediaType.IMAGE_JPEG)
+                    .retrieve()
+                    .bodyToMono(byte[].class)
+                    .block();
+            final String json = WebClient.create().post()
+                    .uri("https://api.weixin.qq.com/wxa/img_sec_check?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret))
+                    .header("Content-Type", "application/octet-stream")
+                    .body(BodyInserters.fromValue(block))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+            final Integer errcode = JSONObject.parseObject(json).getInteger("errcode");
+            if (errcode != 0) {
+                throw new RuntimeException();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+
+    }
 }
+

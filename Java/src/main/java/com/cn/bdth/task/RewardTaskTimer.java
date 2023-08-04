@@ -26,16 +26,10 @@ public class RewardTaskTimer {
 
     private final DrawingMapper drawingMapper;
 
-    @Scheduled(cron = "0 0 0 * * ?") // 每天晚上12点执行一次
+    @Scheduled(cron = " 0 0 0 * * ?")
     @Transactional(rollbackFor = Exception.class)
     public void executeTask() {
         //回滚签到
         userMapper.update(new User().setIsSignIn(0L), null);
-        //删除废弃图片
-        drawingMapper.delete(new QueryWrapper<Drawing>()
-                .lambda()
-                .le(Drawing::getCreatedTime, LocalDateTime.now().minusHours(2))
-                .isNull(Drawing::getGenerateUrl)
-        );
     }
 }

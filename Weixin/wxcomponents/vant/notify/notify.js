@@ -1,5 +1,4 @@
-import {WHITE} from '../common/color';
-
+import { WHITE } from '../common/color';
 const defaultOptions = {
     selector: '#van-notify',
     type: 'danger',

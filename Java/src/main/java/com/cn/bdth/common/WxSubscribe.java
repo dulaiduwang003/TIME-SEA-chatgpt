@@ -33,12 +33,14 @@ public class WxSubscribe {
      */
     public void wxSubscribeMessages(final JSONObject json) {
         final String wechatToken = WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret);
-        final String response = WebClient.create().post().uri("https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" + wechatToken)
+        WebClient.create().post().uri("https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" + wechatToken)
                 .body(BodyInserters.fromValue(json))
                 .retrieve()
                 .bodyToMono(String.class)
-                .block();
-        log.info("消息发送结果:{}", response);
+                .subscribe(res->{
+                    log.info("消息发送结果:{}", res);
+                });
+
     }
 
 

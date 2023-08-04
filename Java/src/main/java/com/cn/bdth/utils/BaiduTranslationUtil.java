@@ -35,10 +35,9 @@ public class BaiduTranslationUtil {
 
     private final WebClient.Builder webClientBuilder;
 
-    public String translation(final String parameter) throws Exception {
+    public String translate(String parameter, String to) throws Exception {
         Random random = new Random(10);
         String salt = Integer.toString(random.nextInt());
-
         String appid = this.appid + parameter + salt + this.secret;
         String sign = SaSecureUtil.md5(appid);
         // 封装请求参数
@@ -48,8 +47,7 @@ public class BaiduTranslationUtil {
         paramMap.add("salt", salt);
         paramMap.add("sign", sign);
         paramMap.add("from", "auto");
-        paramMap.add("to", "en");
-
+        paramMap.add("to", to);
         final WebClient build = webClientBuilder
                 .baseUrl(URL)
                 .build();
@@ -66,4 +64,13 @@ public class BaiduTranslationUtil {
         final JSONArray transResult = jsonObject.getJSONArray("trans_result");
         return transResult.getJSONObject(0).getString("dst");
     }
+
+    public String chineseTranslation(final String parameter) throws Exception {
+        return translate(parameter, "zh");
+    }
+
+    public String englishTranslation(final String parameter) throws Exception {
+        return translate(parameter, "en");
+    }
+
 }

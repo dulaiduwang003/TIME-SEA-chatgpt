@@ -1,6 +1,5 @@
-import {VantComponent} from '../common/component';
-import {canIUseModel} from '../common/version';
-
+import { VantComponent } from '../common/component';
+import { canIUseModel } from '../common/version';
 VantComponent({
     field: true,
     classes: ['field-class', 'input-class', 'cancel-class'],

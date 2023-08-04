@@ -1,7 +1,12 @@
-import {VantComponent} from '../common/component';
-import {useChildren} from '../common/relation';
-import {getRect} from '../common/utils';
-
+import {
+	VantComponent
+} from '../common/component';
+import {
+	useChildren
+} from '../common/relation';
+import {
+	getRect
+} from '../common/utils';
 VantComponent({
 	relation: useChildren('tabbar-item', function() {
 		this.updateChildren();

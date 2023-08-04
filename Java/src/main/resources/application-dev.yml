@@ -1,3 +1,10 @@
+# server:
+#   #   SSL证书
+#   ssl:
+#     key-store: classpath:adahwngb.cn.pfx
+#     key-store-password: g15xrx4u57
+#     key-store-type: PKCS12
+
 spring:
   data:
     # redis配置
@@ -10,6 +17,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/super_bot?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
     username: root
     password: 123
+
 
 # 管理员 多个使用，隔开
 admin: ooskO5McQ18QR1J4-DMJp2M67F2o,
@@ -26,45 +34,56 @@ enable-gpt: false
 # 微信
 we-chat:
   # APPID
-  appId: 'wx28a1a5bea9ea7eed'
+  appId: 'wx28a155bea9ea7eedad'
   # 密钥
-  secret: 'c82fb93cf76db68b67bdd8aff6bae'
+  secret: 'c82fb9368ecf76asd7bdd8aff6bae'
   # 通知模板
-  template: '1I4ck9JlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw'
+  template: '1I4casds-H7rAMMoavLS-xu9t1QuT5Irezvaw'
 
 # 百度翻译
 baidu-translation:
   # 百度翻译Appid
-  appid: '20220929001362'
+  appid: '20220asd12001361832'
   # 百度翻译密码要
-  secret: '2WibA9sYnubh1IDPT'
+  secret: '2WibA9sY1231IDPTBG8'
 
 # 阿里OSS
 ali-oss:
-  endpoint: 'oss-cn-shanghai.aliyuncs.com'
-  accessKey: 'LT5tLMX9wK5coPBoonh48n'
-  secretKey: 'WDqm4vVnqqH27o61iWoZUMUtCrI'
-  bucketName: 'sea'
-  domain: 'https://sea.oss-cn-shanghai.aliyuncs.com'
+  endpoint: 'oss-c123123anghai.aliyuncs.com'
+  accessKey: 'LTAI51231239wK5coPBoonh48n'
+  secretKey: 'WDqm4vVn12312327o61iWoZUMUtCrI'
+  bucketName: 'sea123e'
+  domain: 'https://sea-time.oss-cn-shanghai.aliyuncs.com'
+
+# GPT 对话助手配置
+gpt:
+  # 开发者名称
+  author: '时间海'
+  # BOT 中文名
+  botNameChinese: '时间海'
+  # BOT 英文名
+  botNameEnglish: 'TIME SEA'
 
 
 # 初始化配置(只加载一次)
 
 config:
   # OPEN AI API
-  openAiUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1/chat/completions'
+  openAiUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
   # SD API
   sdUrl: 'http://127.0.0.1:7860'
   # MJ API
   mjUrl: 'http://127.0.0.1:7860'
   # OpenKey
-  openKey: 'sk-nNsDRBTCnz89FeoY86ncT3BlbkFJRykdEucYaNk01EHf'
+  openKey: 'sk-Nw4Oe7C81231239MALjjTdr7ArT3BlbkFJzFkhF1exF1MtLxEaFhKU'
   # 用户第一次登录奖励次数
   incentiveFrequency: 10
   # 观看视频奖励次数
   videoFrequency: 1
   # SD图生图消耗次数
   sdImage2Frequency: 5
+  # GPT文生图消耗次数
+  gptTextImageFrequency: 5
   # SD文生图消耗次数
   sdTextImageFrequency: 5
   # MJ文生图消耗次数

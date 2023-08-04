@@ -11,15 +11,15 @@
     "minified": true,
     "newFeature": true,
     "bigPackageSizeSupport": true,
-    "condition": true,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "condition": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.33.0",
+  "libVersion": "3.0.0",
   "appid": "wx28a155bea9ea7eed",
   "projectname": "SUPER",
   "condition": {},

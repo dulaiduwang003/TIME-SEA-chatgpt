@@ -1,7 +1,6 @@
-import {VantComponent} from '../common/component';
-import {useChildren} from '../common/relation';
-import {addUnit, getRect, getSystemInfoSync} from '../common/utils';
-
+import { VantComponent } from '../common/component';
+import { useChildren } from '../common/relation';
+import { addUnit, getRect, getSystemInfoSync } from '../common/utils';
 let ARRAY = [];
 VantComponent({
     field: true,

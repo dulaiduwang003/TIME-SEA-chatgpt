@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -22,7 +23,7 @@ public enum WeChatTokenUtil {
     private final AtomicLong tokenExpireTime = new AtomicLong(0L);
 
     public String getWechatToken(final String appid, final String secret) {
-        if (System.currentTimeMillis() / 1000 >= tokenExpireTime.get()) {
+        if ((System.currentTimeMillis() / 1000) + 200 >= tokenExpireTime.get()) {
             resetToken(appid, secret);
         }
         return token.getToken();
@@ -39,16 +40,12 @@ public enum WeChatTokenUtil {
 
     private String getAccessToken(final String appid, final String secret) {
         final String accessTokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + secret;
-        try {
-            return WebClient.create()
-                    .get().uri(accessTokenUrl)
-                    .retrieve()
-                    .bodyToMono(String.class).block();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException();
 
-        }
+        return WebClient.create()
+                .get().uri(accessTokenUrl)
+                .retrieve()
+                .bodyToMono(String.class).block(Duration.ofSeconds(5));
+
     }
 
     @Accessors(chain = true)

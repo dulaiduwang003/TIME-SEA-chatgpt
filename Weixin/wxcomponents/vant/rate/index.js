@@ -1,7 +1,6 @@
-import {getAllRect} from '../common/utils';
-import {VantComponent} from '../common/component';
-import {canIUseModel} from '../common/version';
-
+import { getAllRect } from '../common/utils';
+import { VantComponent } from '../common/component';
+import { canIUseModel } from '../common/version';
 VantComponent({
     field: true,
     classes: ['icon-class'],

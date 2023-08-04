@@ -1,8 +1,7 @@
-import {VantComponent} from '../common/component';
-import {useParent} from '../common/relation';
-import {button} from '../mixins/button';
-import {link} from '../mixins/link';
-
+import { VantComponent } from '../common/component';
+import { useParent } from '../common/relation';
+import { button } from '../mixins/button';
+import { link } from '../mixins/link';
 VantComponent({
     mixins: [link, button],
     relation: useParent('goods-action'),

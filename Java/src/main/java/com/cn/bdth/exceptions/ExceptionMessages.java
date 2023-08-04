@@ -21,7 +21,16 @@ public interface ExceptionMessages {
 
     String WECHAT_AUTHORIZATION = "微信API能力调用失败";
 
+    String DRAWING_DELETE = "本次生成可能涉及敏感词,已被系统自动删除";
+
+    String DRAWING_VIOLATIONS = "请勿上传违规图片";
 
     String TOKEN_LAPSE = "登录信息已过期,请重新登录";
 
+
+    String DRAWING_SUCCEED = "创作成功!前往个人中心查看吧!";
+
+    String DRAWING_MISTAKE = "创作失败!请检查是否涉及敏感词!";
+
+    String DRAWING_ERR = "创作失败!请联系管理员解决!";
 }

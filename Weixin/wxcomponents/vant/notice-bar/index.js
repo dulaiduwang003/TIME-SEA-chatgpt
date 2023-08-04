@@ -1,6 +1,5 @@
-import {VantComponent} from '../common/component';
-import {getRect, requestAnimationFrame} from '../common/utils';
-
+import { VantComponent } from '../common/component';
+import { getRect, requestAnimationFrame } from '../common/utils';
 VantComponent({
     props: {
         text: {

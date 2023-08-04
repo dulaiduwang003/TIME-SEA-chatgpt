@@ -1,5 +1,4 @@
-import {basic} from '../mixins/basic';
-
+import { basic } from '../mixins/basic';
 function mapKeys(source, target, map) {
     Object.keys(map).forEach((key) => {
         if (source[key]) {

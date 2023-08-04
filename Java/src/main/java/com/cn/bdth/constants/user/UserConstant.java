@@ -13,4 +13,7 @@ public interface UserConstant {
     int NOT_IT_SIGN_IN = 0;
 
 
+    String ACCESS_FREQUENCY = "ACCESS_FREQUENCY_USER_ID:";
+
+    String ACCESS_FREQUENCY_OVERDUE = "ACCESS_FREQUENCY_OVERDUE_USER_ID:";
 }

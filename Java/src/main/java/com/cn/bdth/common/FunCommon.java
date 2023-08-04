@@ -40,6 +40,9 @@ public class FunCommon {
     @Value("${config.videoFrequency}")
     private Long videoFrequency;
 
+    @Value("${config.gptTextImageFrequency}")
+    private Long gptTextImageFrequency;
+
     @Value("${config.sdTextImageFrequency}")
     private Long sdTextImageFrequency;
 
@@ -70,6 +73,7 @@ public class FunCommon {
                     .setMjUrl(mjUrl)
                     .setOpenKey(openKey)
                     .setGptFrequency(gptFrequency)
+                    .setGptTextImageFrequency(gptTextImageFrequency)
                     .setSdImage2Frequency(sdImage2Frequency)
                     .setSdTextImageFrequency(sdTextImageFrequency)
                     .setMjImage2Frequency(mjImage2Frequency)

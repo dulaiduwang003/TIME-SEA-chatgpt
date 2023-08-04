@@ -1,6 +1,5 @@
-import {VantComponent} from '../common/component';
-import {getRect, getSystemInfoSync} from '../common/utils';
-
+import { VantComponent } from '../common/component';
+import { getRect, getSystemInfoSync } from '../common/utils';
 VantComponent({
     classes: ['title-class'],
     props: {

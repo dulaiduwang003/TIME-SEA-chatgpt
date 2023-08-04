@@ -37,7 +37,7 @@ public class WxSubscribeTemplate {
         body.put("touser", openId);
         body.put("template_id", templateId);
         final JSONObject data = new JSONObject();
-        data.put("phrase1", jsonCase(succeed ? "成功" : "失败!"));
+        data.put("phrase1", jsonCase(succeed ? "成功" : "失败"));
         data.put("thing5", jsonCase(msg));
         data.put("time9", jsonCase(createdTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
         body.put("data", data);

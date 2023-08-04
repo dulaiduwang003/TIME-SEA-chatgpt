@@ -51,6 +51,7 @@ public class ServerStructure {
      */
     private Long sdTextImageFrequency;
 
+
     /**
      * 调取图生图次数消耗
      */
@@ -66,11 +67,14 @@ public class ServerStructure {
      */
     private Long mjImage2Frequency;
 
-
+    /**
+     * 签到赠送次数不能为空
+     */
+    private Long signInFrequency;
 
 
     /**
      * 签到赠送次数不能为空
      */
-    private Long signInFrequency;
+    private Long gptTextImageFrequency;
 }

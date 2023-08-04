@@ -1,7 +1,6 @@
-import {VantComponent} from '../common/component';
-import {BLUE} from '../common/color';
-import {getRect} from '../common/utils';
-
+import { VantComponent } from '../common/component';
+import { BLUE } from '../common/color';
+import { getRect } from '../common/utils';
 VantComponent({
     props: {
         inactive: Boolean,

@@ -19,9 +19,11 @@ import com.cn.bdth.utils.RedisLockHelper;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 雨纷纷旧故里草木深
@@ -67,14 +69,21 @@ public class InspiritServiceImpl implements InspiritService {
 
     @Override
     public void rewardVideo() {
-
-        final ServerStructure server = funCommon.getServer();
-
-        userMapper.update(null, new UpdateWrapper<User>()
-                .lambda()
-                .eq(User::getUserId, UserUtils.getCurrentLoginId())
-                .setSql("frequency = frequency + " + server.getVideoFrequency())
-        );
+        final String key = UserConstant.ACCESS_FREQUENCY + UserUtils.getCurrentLoginId();
+        final long increment = redisUtils.increment(key, 1);
+        if (increment <= 6) {
+            if (increment == 1) {
+                redisUtils.expire(key, 1, TimeUnit.MINUTES);
+            } else {
+                redisUtils.expire(key, redisUtils.getExpire(key), TimeUnit.SECONDS);
+            }
+            final ServerStructure server = funCommon.getServer();
+            userMapper.update(null, new UpdateWrapper<User>()
+                    .lambda()
+                    .eq(User::getUserId, UserUtils.getCurrentLoginId())
+                    .setSql("frequency = frequency + " + server.getVideoFrequency())
+            );
+        }
     }
 
     @Override

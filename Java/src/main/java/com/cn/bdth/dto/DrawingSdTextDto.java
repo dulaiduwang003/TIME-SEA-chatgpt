@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @SuppressWarnings("all")
-public class DrawingTextDto {
+public class DrawingSdTextDto {
 
     @NotBlank(message = "提示词不能为空")
     private String prompt;
@@ -24,12 +24,6 @@ public class DrawingTextDto {
 
     @NotNull(message = "图片高度不能为空")
     private Long height;
-
-    @NotNull(message = "人类特征不能为空")
-    private Integer restore_faces;
-
-    @NotNull(message = "随机性不能为空")
-    private Integer seed;
 
     @NotBlank(message = "模型名称不能为空")
     private String modelName;

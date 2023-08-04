@@ -1,6 +1,5 @@
-import {useChildren} from '../common/relation';
-import {VantComponent} from '../common/component';
-
+import { useChildren } from '../common/relation';
+import { VantComponent } from '../common/component';
 VantComponent({
     field: true,
     relation: useChildren('checkbox', function (target) {

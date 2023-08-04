@@ -1,7 +1,6 @@
-import {getRect} from '../common/utils';
-import {VantComponent} from '../common/component';
-import {useParent} from '../common/relation';
-
+import { getRect } from '../common/utils';
+import { VantComponent } from '../common/component';
+import { useParent } from '../common/relation';
 VantComponent({
     relation: useParent('index-bar'),
     props: {

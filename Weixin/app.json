@@ -11,6 +11,7 @@
     "pages/master/view/homeView",
     "pages/dialogue/gptDialogueView",
     "pages/drawing/sdTextImageView",
+    "pages/drawing/dallTextImageView",
     "pages/drawing/sdImage2imageView",
     "pages/drawing/mjTextImageView",
     "pages/drawing/mjImage2imageView",

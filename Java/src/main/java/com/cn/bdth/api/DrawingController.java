@@ -1,11 +1,15 @@
 package com.cn.bdth.api;
 
 import com.cn.bdth.annotations.note.UserLastOperationTime;
-import com.cn.bdth.dto.DrawingImage2TaskDto;
-import com.cn.bdth.dto.DrawingTextDto;
+import com.cn.bdth.dto.DrawingGptTextDto;
+import com.cn.bdth.dto.DrawingSdImage2TaskDto;
+import com.cn.bdth.dto.DrawingSdTextDto;
+import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.FrequencyException;
+import com.cn.bdth.exceptions.ViolationsException;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.DrawingService;
+import com.cn.bdth.utils.UserUtils;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +40,30 @@ public class DrawingController {
      * @param dto the dto
      * @return the result
      */
+    @PostMapping(value = "/gpt/text", name = "根据用户描述来进行绘画传作(GPT)", produces = MediaType.APPLICATION_JSON_VALUE)
+    @UserLastOperationTime
+    public Result addGptDrawingTextTaskQueue(@Validated @RequestBody final DrawingGptTextDto dto) {
+        try {
+            return Result.data(drawingService.publishGptDrawingTextTask(dto));
+        } catch (FrequencyException | DrawingException | ViolationsException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+
+    /**
+     * 添加文字生图任务
+     * Add task.
+     *
+     * @param dto the dto
+     * @return the result
+     */
     @PostMapping(value = "/sd/text", name = "根据用户描述来进行绘画传作(SD)", produces = MediaType.APPLICATION_JSON_VALUE)
     @UserLastOperationTime
-    public Result addSdDrawingTextTaskQueue(@Validated @RequestBody final DrawingTextDto dto) {
+    public Result addSdDrawingTextTaskQueue(@Validated @RequestBody final DrawingSdTextDto dto) {
         try {
-            return Result.data(drawingService.publishDrawingTextTask(dto));
-        } catch (FrequencyException e) {
+            return Result.data(drawingService.publishSdDrawingTextTask(dto));
+        } catch (FrequencyException | DrawingException | ViolationsException e) {
             return Result.error(e.getMessage());
         }
     }
@@ -56,10 +78,10 @@ public class DrawingController {
      */
     @PostMapping(value = "/sd/image2image", name = "根据用户上传的图片来进行二次创作(SD)", consumes = "multipart/form-data")
     @UserLastOperationTime
-    public Result addSdDrawingImageTaskQueue(@Valid DrawingImage2TaskDto dto) {
+    public Result addSdDrawingImageTaskQueue(@Valid DrawingSdImage2TaskDto dto) {
         try {
-            return Result.data(drawingService.publishDrawingImage2Task(dto));
-        } catch (FrequencyException e) {
+            return Result.data(drawingService.publishSdDrawingImage2Task(dto));
+        } catch (FrequencyException | DrawingException | ViolationsException e) {
             return Result.error(e.getMessage());
         }
 
@@ -75,7 +97,7 @@ public class DrawingController {
     public Result sdConnectivity(@PathVariable final Long isType) {
         try {
             return Result.data(drawingService.isSdServerStateAndFrequency(isType));
-        } catch (FrequencyException e) {
+        } catch (FrequencyException | ViolationsException e) {
             return Result.error(e.getMessage());
         }
     }
@@ -92,7 +114,7 @@ public class DrawingController {
     public Result addMjDrawingTextTaskQueue() {
         try {
             return Result.data(null);
-        } catch (FrequencyException e) {
+        } catch (FrequencyException | ViolationsException e) {
             return Result.error(e.getMessage());
         }
     }
@@ -109,7 +131,7 @@ public class DrawingController {
     public Result addMjDrawingImageTaskQueue() {
         try {
             return Result.data(null);
-        } catch (FrequencyException e) {
+        } catch (FrequencyException | ViolationsException e) {
             return Result.error(e.getMessage());
         }
 
@@ -138,7 +160,11 @@ public class DrawingController {
      */
     @GetMapping(value = "/status/{drawingId}", name = "监测绘图是否成功", produces = MediaType.APPLICATION_JSON_VALUE)
     public Result isDrawingSucceed(@PathVariable final Long drawingId) {
-        return Result.data(drawingService.isDrawingSuccessful(drawingId));
+        try {
+            return Result.data(drawingService.isDrawingSuccessful(drawingId));
+        } catch (DrawingException e) {
+            return Result.error(e.getMessage());
+        }
     }
 
 

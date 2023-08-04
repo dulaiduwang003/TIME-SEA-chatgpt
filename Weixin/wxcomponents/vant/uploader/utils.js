@@ -1,6 +1,5 @@
-import {pickExclude} from '../common/utils';
-import {isImageUrl, isVideoUrl} from '../common/validator';
-
+import { pickExclude } from '../common/utils';
+import { isImageUrl, isVideoUrl } from '../common/validator';
 export function isImageFile(item) {
     if (item.isImage != null) {
         return item.isImage;

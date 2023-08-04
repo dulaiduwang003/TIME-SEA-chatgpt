@@ -1,8 +1,9 @@
 package com.cn.bdth.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.cn.bdth.dto.DrawingImage2TaskDto;
-import com.cn.bdth.dto.DrawingTextDto;
+import com.cn.bdth.dto.DrawingGptTextDto;
+import com.cn.bdth.dto.DrawingSdImage2TaskDto;
+import com.cn.bdth.dto.DrawingSdTextDto;
 import com.cn.bdth.vo.DrawingDetailVo;
 import com.cn.bdth.vo.DrawingOpsVo;
 import com.cn.bdth.vo.DrawingTaskVo;
@@ -17,6 +18,13 @@ import com.cn.bdth.vo.admin.DrawingVo;
  */
 public interface DrawingService {
 
+    /**
+     * 发布文生图任务
+     *
+     * @param dto the dto
+     * @return the drawing task vo
+     */
+    DrawingTaskVo publishGptDrawingTextTask(final DrawingGptTextDto dto);
 
     /**
      * 发布文生图任务
@@ -24,7 +32,7 @@ public interface DrawingService {
      * @param dto the dto
      * @return the long
      */
-    DrawingTaskVo publishDrawingTextTask(final DrawingTextDto dto);
+    DrawingTaskVo publishSdDrawingTextTask(final DrawingSdTextDto dto);
 
     /**
      * 发布图生图任务
@@ -32,10 +40,7 @@ public interface DrawingService {
      * @param dto the dto
      * @return the long
      */
-    DrawingTaskVo publishDrawingImage2Task(final DrawingImage2TaskDto dto);
-
-
-
+    DrawingTaskVo publishSdDrawingImage2Task(final DrawingSdImage2TaskDto dto);
 
     /**
      * 检查SD连通性以及次数检查
@@ -44,7 +49,6 @@ public interface DrawingService {
      * @return the boolean
      */
     boolean isSdServerStateAndFrequency(final Long isType);
-
 
 
     /**

@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * redis工具类
+ *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */
@@ -36,12 +37,23 @@ public final class RedisUtils {
         return expire(key, timeout, TimeUnit.SECONDS);
     }
 
+    public Long getExpire(final String key) {
+      return redisTemplate.getExpire(key);
+    }
+
 
     public boolean expire(final String key, final long timeout, final TimeUnit unit) {
         Boolean ret = redisTemplate.expire(key, timeout, unit);
         return ret != null && ret;
     }
 
+    public boolean hasKey(final String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    public long increment(final String key, final long delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
 
     public boolean delKey(final String key) {
         Boolean ret = redisTemplate.delete(key);
@@ -174,12 +186,12 @@ public final class RedisUtils {
         });
     }
 
-    public Double selfIncreaseSource(final String key,final Object value) {
+    public Double selfIncreaseSource(final String key, final Object value) {
         return redisTemplate.execute(new SessionCallback<Double>() {
             @Override
             public Double execute(RedisOperations operations) throws DataAccessException {
                 operations.multi();
-                Double count = operations.opsForZSet().incrementScore(key,value,1);
+                Double count = operations.opsForZSet().incrementScore(key, value, 1);
                 operations.exec();
                 return count;
             }

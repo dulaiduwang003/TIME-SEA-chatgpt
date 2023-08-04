@@ -1,6 +1,6 @@
 package com.cn.bdth.dto;
 
-import com.cn.bdth.model.PictureDrawingModel;
+import com.cn.bdth.model.PictureSdDrawingModel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @Accessors(chain = true)
 @SuppressWarnings("all")
-public class DrawingImage2TaskDto {
+public class DrawingSdImage2TaskDto {
 
     @NotNull(message = "上传图片不能为空")
     private MultipartFile images;
@@ -30,27 +30,21 @@ public class DrawingImage2TaskDto {
     @NotNull(message = "图片高度不能为空")
     private Long height;
 
-    @NotNull(message = "人类特征不能为空")
-    private Integer restore_faces;
-
-    @NotNull(message = "随机性不能为空")
-    private Integer seed;
-
     @NotBlank(message = "模型名称不能为空")
     private String modelName;
 
     private String negative_prompt;
 
-    public static PictureDrawingModel convertToPictureImgModel(DrawingImage2TaskDto item) {
+    public static PictureSdDrawingModel convertToPictureImgModel(DrawingSdImage2TaskDto item) {
         if (item == null) {
             return null;
         }
-        PictureDrawingModel result = new PictureDrawingModel();
+        PictureSdDrawingModel result = new PictureSdDrawingModel();
         result.setPrompt(item.getPrompt());
         result.setWidth(item.getWidth());
         result.setNegative_prompt(item.negative_prompt);
         result.setHeight(item.getHeight());
-        result.setOverride_settings(new PictureDrawingModel.Override().setSd_model_checkpoint(item.modelName));
+        result.setOverride_settings(new PictureSdDrawingModel.Override().setSd_model_checkpoint(item.modelName));
         return result;
     }
 

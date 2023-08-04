@@ -1,6 +1,5 @@
-import {useParent} from '../common/relation';
-import {VantComponent} from '../common/component';
-
+import { useParent } from '../common/relation';
+import { VantComponent } from '../common/component';
 function emit(target, value) {
     target.$emit('input', value);
     target.$emit('change', value);

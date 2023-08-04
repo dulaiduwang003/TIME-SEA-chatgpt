@@ -3,11 +3,18 @@
 //原生功能
 export default {
     menu: [
+
         {
             icon: '/static/assets/super.svg',
             title: 'Super',
             path: '/pages/dialogue/gptDialogueView',
             introduce: '根据您的需求提供个性化的建议和回答'
+        },
+        {
+            icon: '/static/assets/dall.svg',
+            title: 'DALL Visualize',
+            path: '/pages/drawing/dallTextImageView',
+            introduce: '根据提示词让DALL绘制丰富多彩的插画'
         },
         {
             icon: '/static/assets/code.svg',

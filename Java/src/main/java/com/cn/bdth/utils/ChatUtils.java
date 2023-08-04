@@ -17,6 +17,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,6 +46,15 @@ public class ChatUtils {
     @Value("${enable-gpt}")
     private Boolean enableGpt;
 
+    @Value("${gpt.author}")
+    private String author;
+
+    @Value("${gpt.botNameChinese}")
+    private String botNameChinese;
+
+    @Value("${gpt.botNameEnglish}")
+    private String botNameEnglish;
+
     private final UserMapper userMapper;
 
     private final RedisUtils redisUtils;
@@ -69,6 +79,8 @@ public class ChatUtils {
                     ))
                     .collect(Collectors.toList());
         }
+        messages.add(0, new GptModel.Messages().setRole("user").setContent("请你扮演 " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author +" 开发者"));
+        messages.add(new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是"+botNameEnglish+"。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。"));
         messages.add(
                 new GptModel.Messages().setRole("user").setContent(dto.getPrompt())
         );

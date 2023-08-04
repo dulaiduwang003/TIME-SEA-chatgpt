@@ -2,7 +2,6 @@
  * @fileoverview audio 插件
  */
 import context from './context'
-
 let index = 0
 
 function Audio (vm) {

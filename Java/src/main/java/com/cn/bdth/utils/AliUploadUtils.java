@@ -1,7 +1,9 @@
 package com.cn.bdth.utils;
 
+import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ObjectMetadata;
 import com.cn.bdth.exceptions.UploadException;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.UUID;
@@ -50,7 +53,7 @@ public class AliUploadUtils {
             String originalFileName = file.getOriginalFilename();
 
             assert originalFileName != null;
-            String fileName ;
+            String fileName;
             fileName = Objects.requireNonNullElseGet(newFileName, () -> UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf('.')));
 
             String filePath = path + "/" + fileName;
@@ -72,6 +75,36 @@ public class AliUploadUtils {
         // 生成随机的图片文件名
         final String fileName = UUID.randomUUID().toString() + ".jpg";
         MultipartFile multipartFile = new MockMultipartFile(fileName, inputStream);
-        return uploadFile(multipartFile, path,fileName);
+        return uploadFile(multipartFile, path, fileName);
+    }
+
+    public void deleteFile(final String filePath) {
+        OSS ossClient = new OSSClientBuilder()
+                .build(endpoint, accessKey, secretKey);
+        try {
+            ossClient.deleteObject(bucketName, filePath);
+        } catch (OSSException | ClientException e) {
+            log.error("无法从阿里云删除图片。错误消息： {} 错误类： {}", e.getMessage(), e.getClass());
+        } finally {
+            ossClient.shutdown();
+        }
+    }
+
+
+    public String uploadImageFromUrl(String imageUrl, String path, String newFileName) {
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKey, secretKey);
+        try (InputStream inputStream = new URL(imageUrl).openStream()) {
+            String fileName = newFileName != null ? newFileName : UUID.randomUUID().toString();
+            String filePath = path + "/" + fileName;
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentType("image/jpeg"); // 根据实际情况设置图片类型
+            ossClient.putObject(bucketName, filePath, inputStream, objectMetadata);
+            return "/" + filePath;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new UploadException();
+        } finally {
+            ossClient.shutdown();
+        }
     }
 }

@@ -66,7 +66,6 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public void deleteById(final Long id) {
-        System.out.println(id);
         starMapper.delete(new QueryWrapper<Star>()
                 .lambda()
                 .eq(Star::getStarId, id)

@@ -1,6 +1,6 @@
 package com.cn.bdth.structure;
 
-import com.cn.bdth.model.PictureDrawingModel;
+import com.cn.bdth.model.PictureSdDrawingModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -12,10 +12,10 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class DrawingStructure {
+public class DrawingSdStructure {
 
     private int isType;
 
-    private PictureDrawingModel pictureDrawingModel;
+    private PictureSdDrawingModel pictureSdDrawingModel;
 
 }

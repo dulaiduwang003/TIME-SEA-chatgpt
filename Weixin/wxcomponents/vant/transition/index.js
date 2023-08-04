@@ -1,6 +1,5 @@
-import {VantComponent} from '../common/component';
-import {transition} from '../mixins/transition';
-
+import { VantComponent } from '../common/component';
+import { transition } from '../mixins/transition';
 VantComponent({
     classes: [
         'enter-class',
