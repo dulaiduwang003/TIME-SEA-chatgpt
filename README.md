@@ -8,7 +8,16 @@
 
 快速体验
 
+小程序
+
+
+
 <img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
+
+
+
+web plugs拓展演示
+https://anchwngb.cn/
 
 主要功能以及特性
 
