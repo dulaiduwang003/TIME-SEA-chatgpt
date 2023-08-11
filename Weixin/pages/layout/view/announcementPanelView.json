@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "发布公告",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "van-button": "/wxcomponents/vant/button/index",
-    "loading-component": "/wxcomponents/components/loadingComponent"
-  }
-}

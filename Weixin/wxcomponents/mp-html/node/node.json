@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "my-audio": "/wxcomponents/mp-html/audio/audio",
-    "node": "/wxcomponents/mp-html/node/node"
-  }
-}

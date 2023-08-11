@@ -1,1 +1,0 @@
-.problem{display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;text-overflow:ellipsis;-webkit-line-clamp:1;font-size:40rpx;font-weight:550;margin-bottom:100rpx}.answer{border-radius:20rpx;padding:20rpx;background-color:#161616}.label{font-size:27rpx;color:#949494;padding-bottom:30rpx}scroll-view{height:66vh}.container{padding:20rpx;color:#fff}.btn{margin-top:3vh}

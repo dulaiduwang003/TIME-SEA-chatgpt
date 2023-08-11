@@ -1,1 +1,0 @@
-<view class="empty-container" style="{{'height:'+(height+'vh')+';'}}"><view><image class="empty-image" src="/static/assets/empty.svg"></image><view class="empty-title">{{msg?msg:'这里空空如也'}}</view></view></view>

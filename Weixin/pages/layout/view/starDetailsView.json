@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "",
-  "usingComponents": {
-    "van-button": "/wxcomponents/vant/button/index",
-    "loading-component": "/wxcomponents/components/loadingComponent",
-    "mp-html": "/wxcomponents/mp-html/mp-html"
-  }
-}
