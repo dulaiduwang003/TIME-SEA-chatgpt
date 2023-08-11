@@ -4,20 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.ViolationsException;
 import com.cn.bdth.exceptions.WechatException;
+import com.cn.bdth.model.WeChaQrCodeModel;
 import com.cn.bdth.model.WeChatMsgCheckModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-import java.time.Duration;
-import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.Base64;
 
 /**
  * 微信工具类
@@ -41,11 +38,15 @@ public class WeChatUtils {
     @Value("${ali-oss.domain}")
     private String domain;
 
+    @Value("${we-chat.env}")
+    private String env;
+
     private final RedisUtils redisUtils;
 
     private final BaiduTranslationUtil translationUtil;
-
     private static final WebClient WEB_CLIENT = WebClient.builder().build();
+
+
 
     public String getOpenId(final String code) {
         try {
@@ -59,6 +60,21 @@ public class WeChatUtils {
             return openid;
         } catch (Exception e) {
             log.error("获取微信用户标识失败 信息:{},错误类:{}", e.getMessage(), e.getClass());
+            throw new WechatException(ExceptionMessages.WECHAT_AUTHORIZATION);
+        }
+    }
+
+    public String getQrCode(final String secene) {
+        try {
+            final String url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret);
+            final byte[] block = WEB_CLIENT.post()
+                    .uri(url)
+                    .body(BodyInserters.fromValue(new WeChaQrCodeModel().setScene(secene).setEnv_version(env)))
+                    .retrieve().bodyToMono(byte[].class).block();
+            final String s = "data:image/png;base64," + Base64.getEncoder().encodeToString(block);
+            return s;
+        } catch (Exception e) {
+            log.error("获取小程序二维码失败 信息:{},错误类:{}", e.getMessage(), e.getClass());
             throw new WechatException(ExceptionMessages.WECHAT_AUTHORIZATION);
         }
     }
@@ -116,5 +132,7 @@ public class WeChatUtils {
         }
 
     }
+
+
 }
 

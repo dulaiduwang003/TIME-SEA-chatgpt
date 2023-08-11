@@ -1,17 +1,16 @@
 package com.cn.bdth.api;
 
 import com.cn.bdth.dto.WeChatAuthLoginDto;
+import com.cn.bdth.dto.WeChatAuthQrCodeLoginDto;
 import com.cn.bdth.exceptions.LoginPasswordException;
+import com.cn.bdth.exceptions.WechatException;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -45,12 +44,59 @@ public class AuthController {
         }
     }
 
+
     /**
-     * 小程序退出登录
+     * 获取扫码登录二维码
+     *
+     * @return the WeChat code
+     */
+    @PostMapping(value = "/wechat/get/code", name = "获取微信登录二维码", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result getWechatQcCode() {
+        try {
+            return Result.data(authService.getWechatQrCode());
+        } catch (WechatException e) {
+            return Result.error(e.getMessage(), e.getCode());
+        }
+    }
+
+
+    /**
+     * 扫码结果 是否登录成功
+     *
+     * @param verifyCode the verify code
+     * @return the result
+     */
+    @GetMapping(value = "/wechat/code/result", name = "扫码结果", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result isQrCodeLoginSucceed(final String verifyCode) {
+        try {
+            return Result.data(authService.isQrcodeLoginSucceed(verifyCode));
+        } catch (WechatException e) {
+            return Result.error(e.getMessage(), e.getCode());
+        }
+    }
+
+    /**
+     * 扫码确认授权登录
+     *
+     * @param dto the dto
+     * @return the result
+     */
+    @PostMapping(value = "/wechat/code/login", name = "确认授权登录", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result wechatAuthQrCodeLogin(@RequestBody @Validated final WeChatAuthQrCodeLoginDto dto) {
+        try {
+            authService.wechatAuthorizedLogin(dto.getVerifyCode(), dto.getCode());
+            return Result.ok();
+        } catch (WechatException e) {
+            return Result.error(e.getMessage(), e.getCode());
+        }
+    }
+
+    /**
+     * 退出登录
      *
      * @return the result
      */
-    @PostMapping(value = "/wechat/logout", name = "微信小程序退出登录", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/wechat/logout", name = "退出登录", produces = MediaType.APPLICATION_JSON_VALUE)
     public Result wechatLogout() {
         try {
             authService.logout();

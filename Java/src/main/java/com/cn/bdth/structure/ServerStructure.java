@@ -52,6 +52,7 @@ public class ServerStructure {
     private Long sdTextImageFrequency;
 
 
+
     /**
      * 调取图生图次数消耗
      */

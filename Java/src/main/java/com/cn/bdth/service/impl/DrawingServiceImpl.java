@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cn.bdth.common.FunCommon;
-
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
 import com.cn.bdth.constants.ServerConstant;
@@ -37,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,9 +43,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -76,8 +72,6 @@ public class DrawingServiceImpl implements DrawingService {
     private final UserMapper userMapper;
 
     private final ChatUtils chatUtils;
-
-    private final RedisUtils redisUtils;
 
     private final WebClient.Builder webClientBuilder;
 
@@ -115,7 +109,7 @@ public class DrawingServiceImpl implements DrawingService {
                 .subscribe(block -> {
                     final JSONObject jsonObject = JSONObject.parseObject(block);
                     final String imageUrl = jsonObject.getJSONArray("data").getJSONObject(0).getString("url");
-                    final Drawing drawing = new Drawing().setDrawingId(drawingId).setGenerateUrl(aliUploadUtils.uploadImageFromUrl(imageUrl, FileEnum.PAINTING.getDec(), UUID.randomUUID().toString() + ".jpg"));
+                    final Drawing drawing = new Drawing().setDrawingId(drawingId).setGenerateUrl(aliUploadUtils.uploadImageFromUrl(imageUrl, FileEnum.PAINTING.getDec(), UUID.randomUUID() + ".jpg"));
                     drawingMapper.updateById(drawing);
                     //把制作结果发给用户
                     final JSONObject json = wxSubscribeTemplate.drawingOutcomeNotice(openId, true, ExceptionMessages.DRAWING_SUCCEED, LocalDateTime.now());
@@ -333,4 +327,5 @@ public class DrawingServiceImpl implements DrawingService {
                 .select(Drawing::getDrawingId, Drawing::getGenerateUrl)
         ).convert(c -> new UserDrawingVo().setDrawingId(c.getDrawingId()).setGenerateUrl(c.getGenerateUrl()));
     }
+
 }

@@ -19,5 +19,7 @@ public class UserStarVo implements Serializable {
 
     private String issue;
 
+    private String answer;
+
     private LocalDateTime createdTime;
 }

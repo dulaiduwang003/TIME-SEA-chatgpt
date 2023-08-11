@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 雨纷纷旧故里草木深
  *
@@ -71,5 +73,15 @@ public class StarServiceImpl implements StarService {
                 .eq(Star::getStarId, id)
                 .eq(Star::getUserId, UserUtils.getCurrentLoginId())
         );
+    }
+
+
+    @Override
+    public List<UserStarVo> getUserStarWeb() {
+        return starMapper.selectList(new QueryWrapper<Star>()
+                .lambda().eq(Star::getUserId, UserUtils.getCurrentLoginId())
+                .select(Star::getAnswer, Star::getIssue, Star::getCreatedTime, Star::getStarId)
+                .orderByDesc(Star::getCreatedTime)
+        ).stream().map(s -> new UserStarVo().setStarId(s.getStarId()).setAnswer(s.getAnswer()).setIssue(s.getIssue()).setCreatedTime(s.getCreatedTime())).toList();
     }
 }

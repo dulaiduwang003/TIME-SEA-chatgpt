@@ -3,7 +3,6 @@ package com.cn.bdth.task;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.common.FunCommon;
-
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
 import com.cn.bdth.constants.ServerConstant;
@@ -24,14 +23,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.Semaphore;
@@ -53,7 +49,6 @@ public class DrawingTaskListener {
 
     private final FunCommon funCommon;
 
-    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     private final WebClient.Builder webClientBuilder;
     private final Semaphore semaphoreSd = new Semaphore(1);
@@ -77,9 +72,9 @@ public class DrawingTaskListener {
      */
     @EventListener(ApplicationReadyEvent.class)
     public void sdListening() {
-        threadPoolTaskExecutor.execute(() -> {
-            while (!Thread.currentThread().isInterrupted()) {
-                DrawingSdStructure drawingSdStructure = null;
+        new Thread(() -> {
+            while (true) {
+                DrawingSdStructure drawingSdStructure;
                 try {
                     semaphoreSd.acquire();
                     // 尝试获取信号量许可
@@ -100,7 +95,7 @@ public class DrawingTaskListener {
                     semaphoreSd.release(); // 释放信号量许可
                 }
             }
-        });
+        }).start();
     }
 
 

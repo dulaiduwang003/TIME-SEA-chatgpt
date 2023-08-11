@@ -81,6 +81,7 @@ public class UserController {
     /**
      * 分页获取收藏
      *
+     * @param pageNum the page num
      * @return the result
      */
     @GetMapping(value = "/star/page", name = "分页获取收藏", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,6 +93,7 @@ public class UserController {
     /**
      * 删除指定收藏
      *
+     * @param id the id
      * @return the result
      */
     @PostMapping(value = "/star/delete/{id}", name = "删除指定收藏", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -104,6 +106,7 @@ public class UserController {
     /**
      * 查看指定收藏
      *
+     * @param starId the star id
      * @return the result
      */
     @GetMapping(value = "/stat/get/data", name = "查看指定收藏", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -116,6 +119,7 @@ public class UserController {
     /**
      * 添加收藏
      *
+     * @param dto the dto
      * @return the result
      */
     @PostMapping(value = "/stat/put/data", name = "添加收藏", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -127,10 +131,21 @@ public class UserController {
     /**
      * 获取我的作品管理
      *
+     * @param pageNum the page num
      * @return the result
      */
     @GetMapping(value = "/drawing/page", name = "获取我的作品", produces = MediaType.APPLICATION_JSON_VALUE)
     public Result getUserOpsPage(@RequestParam(defaultValue = "1") final int pageNum) {
         return Result.data(drawingService.getUserDrawingOpsPage(pageNum));
+    }
+
+    /**
+     * 获取我的收藏(兼容WEB接口)
+     *
+     * @return the result
+     */
+    @GetMapping(value = "/star/get/web", name = "获取我的收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result getUserStarWeb() {
+        return Result.data(starService.getUserStarWeb());
     }
 }

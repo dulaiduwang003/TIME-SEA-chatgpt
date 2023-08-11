@@ -5,6 +5,8 @@ import com.cn.bdth.dto.StarDialogueDto;
 import com.cn.bdth.vo.UserStarDetailVo;
 import com.cn.bdth.vo.UserStarVo;
 
+import java.util.List;
+
 /**
  * 雨纷纷旧故里草木深
  *
@@ -47,4 +49,13 @@ public interface StarService {
      * @param id the id
      */
     void deleteById(final Long id);
+
+
+
+    /**
+     * 获取我的收藏列
+     *
+     * @return the user star web
+     */
+    List<UserStarVo> getUserStarWeb();
 }

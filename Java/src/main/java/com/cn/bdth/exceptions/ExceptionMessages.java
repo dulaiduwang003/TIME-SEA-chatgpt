@@ -9,6 +9,10 @@ package com.cn.bdth.exceptions;
 public interface ExceptionMessages {
     String NOT_EXIST_CODE = "兑换码不存在或已失效";
 
+    String NOT_PAID_FOR_LONG_TIME = "长时间未支付,已自动取消";
+
+    String PRODUCT_NULL_ERR ="商品不存在";
+
     String BUILD_CODE_ERR = "兑换码生成次数不能为0";
 
     String CONCURRENT = "手速太快了! 请稍后重新点击";
@@ -16,6 +20,12 @@ public interface ExceptionMessages {
     String IS_SIGN_IN = "今天你已经签到过了,请明天再来";
 
     String WECHAT_VIOLATIONS = " 请勿发布违反微信社区规则的内容";
+
+    String WECHAT_CODE_ERR = "二维码已过期,请重新扫一扫";
+
+    String PLACE_AN_ORDER_REPEATEDLY_ERR = "请勿重复下单";
+
+    String BUILD_FAILED_PAY_ERR = "生成支付二维码失败";
 
     String GPT_TIMEOUT = ", 当前使用人数过多,请稍后再试";
 

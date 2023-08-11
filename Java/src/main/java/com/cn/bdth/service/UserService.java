@@ -2,6 +2,7 @@ package com.cn.bdth.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cn.bdth.dto.admin.UserPutDto;
+import com.cn.bdth.vo.ProductVo;
 import com.cn.bdth.vo.UserInfoVo;
 import com.cn.bdth.vo.admin.UserDataVo;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +47,6 @@ public interface UserService {
      * @return the user page vo
      */
     IPage<UserDataVo> getUserPageVo(final int pageNum, final String prompt);
-
 
     /**
      * 修改用户信息

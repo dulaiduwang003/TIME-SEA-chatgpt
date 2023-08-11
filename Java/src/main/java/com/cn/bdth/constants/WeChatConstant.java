@@ -9,7 +9,9 @@ package com.cn.bdth.constants;
  */
 public interface WeChatConstant {
 
-    String RE_TOKEN = "WECHAT_ACCESS_TOKEN";
+    String QC_CODE_SCENE = "QC_CODE_SCENE:";
 
 
+
+    String RC_MODE ="@gitHub dulaiduwang003";
 }

@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -67,9 +66,7 @@ public class ServerServiceImpl implements ServerService {
             }
             list.add(randomString.toString());
         }
-        list.parallelStream().forEach(p -> {
-            exchangeMapper.insert(new Exchange().setExchangeCode(p).setFrequency(dto.getBuildFrequency()));
-        });
+        list.parallelStream().forEach(p -> exchangeMapper.insert(new Exchange().setExchangeCode(p).setFrequency(dto.getBuildFrequency())));
     }
 
     @Override

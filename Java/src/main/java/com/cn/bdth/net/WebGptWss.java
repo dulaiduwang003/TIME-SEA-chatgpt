@@ -4,8 +4,8 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cn.bdth.common.FunCommon;
-import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.dto.GptMiniDto;
+import com.cn.bdth.dto.GptWebDto;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.exceptions.ViolationsException;
@@ -37,10 +37,10 @@ import java.util.concurrent.TimeoutException;
  * @author bdth
  */
 @Slf4j
-@ServerEndpoint("/gpt/api/{token}/{model}")
+@ServerEndpoint("/gpt-web/api/{token}/{model}")
 @SuppressWarnings("all")
 @Service
-public class MiniGptWss {
+public class WebGptWss {
 
     private Session session;
     private static ConcurrentHashMap<String, Session> webSocketSet = new ConcurrentHashMap<>();
@@ -81,10 +81,9 @@ public class MiniGptWss {
      */
     @OnMessage
     public void onMessage(String messages, @PathParam("token") String token, @PathParam("model") String model) {
+
         try {
-            final GptMiniDto gptMiniDto = JSONObject.parseObject(messages, GptMiniDto.class);
-            // 微信文字识别能力 防止用户发送色情 政治信息
-            //weChatUtils.filterText(gptMiniDto.getPrompt(), UserUtils.getOpenIdByToken(token));
+            final GptWebDto gptWebDto = JSONObject.parseObject(messages, GptWebDto.class);
             //校验用户次数
             final Long userId = UserUtils.getLoginIdByToken(token);
             //消耗次数
@@ -92,9 +91,7 @@ public class MiniGptWss {
             //更新用户最后操作时间
             chatUtils.lastOperationTime(userId);
             chatUtils.deplete(gptFrequency, userId);
-            // 缓存对话数据 初始化缓存长度
-            final StringBuilder builder = new StringBuilder(500);
-            final GptModel gptModel = new GptModel().setMessages(chatUtils.conversionStructure(gptMiniDto));
+            final GptModel gptModel = new GptModel().setMessages(gptWebDto.getMessages());
             if (chatUtils.getEnableGpt()) {
                 gptModel.setModel(model);
             }
@@ -116,15 +113,6 @@ public class MiniGptWss {
                             final JSONObject delta = jsonObject.getJSONArray("choices").getJSONObject(0).getJSONObject("delta");
                             if (delta.containsKey("content")) {
                                 final String string = delta.getString("content");
-                                // 是否开启自定义校验
-                                if (chatUtils.getIsSensitive()) {
-                                    builder.append(string.trim().toUpperCase());
-                                    if (chatUtils.isSusceptible(builder.toString())) {
-                                        handleWebSocketError(WeChatConstant.RC_MODE);
-                                        handleWebSocketCompletion();
-                                        return;
-                                    }
-                                }
                                 AppointSending(session.getId(), string);
                             }
                         }
@@ -134,6 +122,7 @@ public class MiniGptWss {
                         // throwable.printStackTrace(); 输出错误堆栈信息
                         handleWebSocketError(ExceptionMessages.GPT_TIMEOUT);
                     });
+
         } catch (WechatException | FrequencyException | ViolationsException e) {
             AppointSending(session.getId(), e.getMessage());
             handleWebSocketCompletion();

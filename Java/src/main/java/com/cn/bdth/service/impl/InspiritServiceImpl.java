@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.common.FunCommon;
 
-import com.cn.bdth.constants.lock.ExchangePrefix;
+import com.cn.bdth.constants.lock.LockPrefix;
 import com.cn.bdth.constants.user.UserConstant;
 import com.cn.bdth.entity.Exchange;
 import com.cn.bdth.entity.User;
@@ -19,7 +19,6 @@ import com.cn.bdth.utils.RedisLockHelper;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -99,7 +98,7 @@ public class InspiritServiceImpl implements InspiritService {
         }
         final Exchange exchange = exchanges.get(0);
         final String lockTime = String.valueOf(System.currentTimeMillis());
-        final String lockPrefix = ExchangePrefix.EXCHANGE_CODE_KEY + code;
+        final String lockPrefix = LockPrefix.EXCHANGE_CODE_KEY + code;
         final boolean lock = lockHelper.lock(lockPrefix, lockTime);
         if (!lock) {
             throw new ExchangeException(ExceptionMessages.CONCURRENT);

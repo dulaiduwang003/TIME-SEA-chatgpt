@@ -19,6 +19,5 @@ public interface ServerConstant {
 
     Long DRAWING_IMAGE_TYPE = 1L;
     Long DRAWING_TEXT_TYPE = 0L;
-
     int IS_PUBLIC = 1;
 }

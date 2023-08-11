@@ -51,6 +51,45 @@ create index idx_frequency
 create index idx_update_time
     on exchange (update_time);
 
+create table if not exists orders
+(
+    orders_id      varchar(100)                       not null
+        primary key,
+    user_id        bigint                             not null,
+    product_id     bigint                             not null,
+    product_name   varchar(50)                        not null,
+    product_price  double                             not null,
+    state          tinyint                            not null,
+    created_time   datetime default CURRENT_TIMESTAMP not null,
+    update_time    datetime default CURRENT_TIMESTAMP not null,
+    frequency      bigint                             not null,
+    reason_failure varchar(50)                        null,
+    pay_time       datetime                           null
+);
+
+create index orders_product_id_index
+    on orders (product_id);
+
+create index orders_state_index
+    on orders (state);
+
+create index orders_user_id_index
+    on orders (user_id);
+
+create table if not exists product
+(
+    product_id    bigint auto_increment
+        primary key,
+    product_name  varchar(100)                       not null,
+    frequency     bigint                             not null,
+    product_price double                             not null,
+    created_time  datetime default CURRENT_TIMESTAMP not null,
+    update_time   datetime default CURRENT_TIMESTAMP not null
+);
+
+create index product_product_name_index
+    on product (product_name);
+
 create table if not exists star
 (
     star_id      bigint auto_increment comment '主键'

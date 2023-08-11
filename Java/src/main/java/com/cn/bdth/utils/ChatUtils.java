@@ -4,7 +4,8 @@ package com.cn.bdth.utils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.constants.OperateConstant;
-import com.cn.bdth.dto.GptDto;
+import com.cn.bdth.dto.GptMiniDto;
+import com.cn.bdth.dto.GptWebDto;
 import com.cn.bdth.entity.User;
 import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.mapper.UserMapper;
@@ -17,7 +18,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +55,12 @@ public class ChatUtils {
     @Value("${gpt.botNameEnglish}")
     private String botNameEnglish;
 
+    @Value("${gpt.web-message-max}")
+    private Integer webGptMessageMax;
+
+    @Value("${gpt.web-message-size}")
+    private Integer webGptMessageSize;
+
     private final UserMapper userMapper;
 
     private final RedisUtils redisUtils;
@@ -69,9 +75,31 @@ public class ChatUtils {
         return matcher.find();
     }
 
-    public List<GptModel.Messages> conversionStructure(final GptDto dto) {
+    public List<GptModel.Messages> conversionStructure(final GptWebDto dto) {
+        List<GptModel.Messages> messages = dto.getMessages();
+        //处理行数
+        if (messages.size() > webGptMessageMax) {
+            messages = messages.subList(messages.size() - webGptMessageMax, messages.size());
+        }
+        //判断文字数量
+        if (webGptMessageSize != -1) {
+            messages.forEach(m -> {
+                final String content = m.getContent();
+                if (content.length() > webGptMessageSize) {
+                    m.setContent(content.substring(0, webGptMessageSize) + "...");
+                }
+            });
+        }
+
+        messages.add(0, new GptModel.Messages().setRole("user").setContent("请你扮演 " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author + " 开发者"));
+        messages.add(1, new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是" + botNameEnglish + "。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。有什么需要我帮助的吗?"));
+
+        return messages;
+    }
+
+    public List<GptModel.Messages> conversionStructure(final GptMiniDto dto) {
         List<GptModel.Messages> messages;
-        try (Stream<GptDto.Context> contextStream = dto.getContext().stream()) {
+        try (Stream<GptMiniDto.Context> contextStream = dto.getContext().stream()) {
             messages = contextStream.parallel()
                     .flatMap(context -> Stream.of(
                             new GptModel.Messages().setRole("user").setContent(context.getQuestion()),
@@ -79,13 +107,14 @@ public class ChatUtils {
                     ))
                     .collect(Collectors.toList());
         }
-        messages.add(0, new GptModel.Messages().setRole("user").setContent("请你扮演 " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author +" 开发者"));
-        messages.add(new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是"+botNameEnglish+"。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。"));
+        messages.add(0, new GptModel.Messages().setRole("user").setContent("请你扮演 " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author + " 开发者"));
+        messages.add(new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是" + botNameEnglish + "。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。"));
         messages.add(
                 new GptModel.Messages().setRole("user").setContent(dto.getPrompt())
         );
         return messages;
     }
+
 
     public void deplete(final Long requiredFrequency, final Long userId) {
         final User user = userMapper.selectOne(new QueryWrapper<User>()

@@ -1,5 +1,7 @@
 package com.cn.bdth.dto;
 
+import com.cn.bdth.model.GptModel;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,19 +15,9 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class GptDto {
+public class GptWebDto {
 
-    private String prompt;
+    @NotEmpty(message = "消息数据不能为空")
+    private List<GptModel.Messages> messages;
 
-
-    private List<Context> context;
-
-    @Data
-    @Accessors(chain = true)
-    public static class Context {
-
-        private String question;
-
-        private String answer;
-    }
 }

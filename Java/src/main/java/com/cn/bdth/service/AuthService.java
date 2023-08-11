@@ -1,5 +1,7 @@
 package com.cn.bdth.service;
 
+import com.cn.bdth.vo.WechatCodeVo;
+
 /**
  * 登录接口
  *
@@ -15,6 +17,32 @@ public interface AuthService {
      * @return the string
      */
     String wechatAuthorizedLogin(final String code);
+
+
+    /**
+     * 获取微信登录二维码
+     *
+     * @return the WeChat qr code
+     */
+    WechatCodeVo getWechatQrCode();
+
+
+    /**
+     * 扫码登录
+     *
+     * @param verifyCode the verify code
+     * @param code       the code
+     */
+    void wechatAuthorizedLogin(final String verifyCode, final String code);
+
+
+    /**
+     * 是否授权登录
+     *
+     * @param verifyCode the verify code
+     * @return the string
+     */
+    String isQrcodeLoginSucceed(final String verifyCode);
 
 
     /**

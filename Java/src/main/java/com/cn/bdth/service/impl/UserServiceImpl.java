@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     @Override
     public IPage<UserDataVo> getUserPageVo(final int pageNum, final String prompt) {
         return userMapper.selectPage(new Page<>(pageNum, 20), new QueryWrapper<User>()

@@ -3,16 +3,22 @@ package com.cn.bdth.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cn.bdth.common.FunCommon;
+import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.entity.User;
+import com.cn.bdth.exceptions.ExceptionMessages;
+import com.cn.bdth.exceptions.WechatException;
 import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.service.AuthService;
+import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.WeChatUtils;
+import com.cn.bdth.vo.WechatCodeVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * 登录授权业务处理类
@@ -32,6 +38,8 @@ public class AuthServiceImpl implements AuthService {
     private Set<String> administrators;
 
     private final FunCommon funCommon;
+
+    private final RedisUtils redisUtils;
 
     /**
      * 微信授权登录
@@ -68,13 +76,39 @@ public class AuthServiceImpl implements AuthService {
         return StpUtil.getTokenValue();
     }
 
-    /**
-     * 注销登录
-     */
+    @Override
+    public WechatCodeVo getWechatQrCode() {
+        final String verifyCode = UUID.randomUUID().toString().substring(0, 13);
+        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, "", 300);
+        return new WechatCodeVo().setQrCode(weChatUtils.getQrCode(verifyCode)).setVerifyCode(verifyCode);
+    }
+
+    @Override
+    public void wechatAuthorizedLogin(final String verifyCode, final String code) {
+        if (!redisUtils.doesItExist(WeChatConstant.QC_CODE_SCENE + verifyCode)) {
+            throw new WechatException(ExceptionMessages.WECHAT_CODE_ERR);
+        }
+        final String token = this.wechatAuthorizedLogin(code);
+        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, token, 300);
+
+    }
+
+    @Override
+    public String isQrcodeLoginSucceed(final String verifyCode) {
+        final String s = WeChatConstant.QC_CODE_SCENE + verifyCode;
+        final Boolean aBoolean = redisUtils.doesItExist(s);
+        if (!aBoolean) {
+            throw new WechatException(ExceptionMessages.WECHAT_CODE_ERR);
+        }
+        return (String) redisUtils.getValue(s);
+    }
+
     @Override
     public void logout() {
         if (StpUtil.isLogin()) {
             StpUtil.logout();
         }
     }
+
+
 }
