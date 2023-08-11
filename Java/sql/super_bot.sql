@@ -60,11 +60,11 @@ create table if not exists orders
     product_name   varchar(50)                        not null,
     product_price  double                             not null,
     state          tinyint                            not null,
+    frequency      bigint                             not null,
+    reason_failure varchar(100)                        null,
+    pay_time       datetime                           null,
     created_time   datetime default CURRENT_TIMESTAMP not null,
     update_time    datetime default CURRENT_TIMESTAMP not null,
-    frequency      bigint                             not null,
-    reason_failure varchar(50)                        null,
-    pay_time       datetime                           null
 );
 
 create index orders_product_id_index
