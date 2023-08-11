@@ -1,3 +1,5 @@
+#### 如果项目能帮到你，还请给仓库点下 Star，谢谢！
+
 # TIME-SEA-PLUS
 基于SpringBoot3开发的Ai多功能绘图微信流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
 
@@ -408,3 +410,25 @@ npm install
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cb81e952-b28a-4688-a9e2-b61290e489bf" style="width:300px;height:300px" />
 
 
+## web端todo
+
+- 完善 B 站喂饭级别教程
+- 完善 docker 镜像，以及快速部署教程
+- 对话记录留存、本地存储会话记录
+- 支持暗黑模式
+- 打赏信息里显示打赏用户邮箱
+- 用户签到功能，签到赠送多少AI币
+- 密码重置
+- 公告通知功能，可以自定义
+- 兑换码机制
+- 更多的注册方式
+- 移动端管理员页面兼容适配
+- 管理员页面补充上下文交互,可以配置记忆、压缩等
+- 后期接口请求，支持用户上传提示词
+- 为每个对话设置系统 Prompt
+- 允许用户自行编辑内置 Prompt 列表
+- 预制角色：使用预制角色快速定制新对话
+- 分享为图片，分享到 ShareGPT 链接
+- 脚本部署，争取做到半自动或者开箱即用
+- 推进服务端部署 LocalAI 项目 llama / gpt4all / rwkv / vicuna / koala / gpt4all-j / cerebras / falcon / dolly 等等，或者使用 api-for-open-llm
+- 看如何搭配oneAPI项目一起增强体验
