@@ -356,12 +356,20 @@ export default {
     ]
 }
 
-
-
 ```
+
+
+
+`在uniApp根目录中执行以下命令`
+
+``` 
+npm install
+```
+
 
 `前端配置在于 uitls/env.js中 12535行 可用VSCODE 或者 Websotrm 或 HBuilder动态修改`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/eb7fa337-72ee-436a-9452-b1b6930f477c" style="width:800px;height:400px" />
+
 
 `注意把manifest.json中的 appid替换为自己的微信APPID`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/4f9286f4-d37d-4800-81a1-90e113827927" style="width:800px;height:400px" />
