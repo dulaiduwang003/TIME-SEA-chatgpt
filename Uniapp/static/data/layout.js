@@ -52,7 +52,7 @@ export default {
         {
             icon: '🛰️',
             title: '卡片管理',
-            path: '/pages/layout/view/exchangeCodeView',
+            path: '/pages/layout/view/productPanelView',
             type: 'ADMIN',
             introduce: '赞赏数据名单'
         },
