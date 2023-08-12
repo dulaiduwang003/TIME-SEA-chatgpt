@@ -107,7 +107,7 @@ export default defineComponent({
               message: '欢迎来到TIME-SEA-PLUS',
               type: 'success',
             })
-            clearInterval(timerId);
+            location.reload();
             lock.value = false
           }
 
