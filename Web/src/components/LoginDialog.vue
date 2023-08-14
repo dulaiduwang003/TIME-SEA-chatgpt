@@ -96,7 +96,6 @@ export default defineComponent({
             loginLoading.value = false
             try {
               let res = await GetUserInfo()
-              console.log(res)
               store.commit("setUserinfo", res);
               // eslint-disable-next-line no-empty
             } catch (e) {
@@ -108,6 +107,7 @@ export default defineComponent({
               type: 'success',
             })
             location.reload();
+            clearInterval(timerId);
             lock.value = false
           }
 
