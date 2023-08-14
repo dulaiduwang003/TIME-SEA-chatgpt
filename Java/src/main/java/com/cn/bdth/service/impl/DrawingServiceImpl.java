@@ -122,7 +122,7 @@ public class DrawingServiceImpl implements DrawingService {
     @Transactional(rollbackFor = Exception.class)
     public DrawingTaskVo publishGptDrawingTextTask(final DrawingGptTextDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
-        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
+//        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
 
         chatUtils.deplete(funCommon.getServer().getGptTextImageFrequency(), UserUtils.getCurrentLoginId());
         final Drawing drawing = new Drawing()
@@ -137,7 +137,7 @@ public class DrawingServiceImpl implements DrawingService {
     @Transactional(rollbackFor = Exception.class)
     public DrawingTaskVo publishSdDrawingTextTask(final DrawingSdTextDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
-        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
+        //   weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
 
         final Long currentLoginId = UserUtils.getCurrentLoginId();
         final Long sdTextImageFrequency = funCommon.getServer().getSdTextImageFrequency();
@@ -163,7 +163,7 @@ public class DrawingServiceImpl implements DrawingService {
     @Transactional(rollbackFor = Exception.class)
     public DrawingTaskVo publishSdDrawingImage2Task(final DrawingSdImage2TaskDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
-        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
+//        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
         final Long sdImage2Frequency = funCommon.getServer().getSdImage2Frequency();
         final Long currentLoginId = UserUtils.getCurrentLoginId();
         chatUtils.deplete(sdImage2Frequency, currentLoginId);
