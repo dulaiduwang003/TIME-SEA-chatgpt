@@ -44,7 +44,7 @@
                         </el-icon>
                     </div>
                     <div class="pay-succeed-title">
-                        赞赏成功! 为了感谢您维护站点运行已为您赠送相对应的魔法币
+                        赞赏成功! 为了感谢您维护站点运行已为您赠送相对应的Ai币
                     </div>
                 </div>
                 <div style="padding-bottom: 190px" v-show="showSucceed">
@@ -52,7 +52,7 @@
                     </div>
                     <el-button size="large" round @click="router().push({ path: '/Orders' })">查看我的赞赏记录</el-button>
                 </div>
-                <div style="font-size: 12px;color: #b0b0b0">对订单有疑问 可在微信小程序端中联系小程序客服</div>
+                <div style="font-size: 12px;color: #b0b0b0">对订单疑问 可在微信小程序端中联系站点维护者</div>
             </div>
 
         </div>
@@ -243,76 +243,4 @@ export default {
     align-items: center
 }
 
-@media (max-width: 767px) {
-  .cash-container {
-    flex-direction: column;
-  }
-
-  .cash-info {
-    width: 100%;
-    height: auto;
-    margin-top: 20px;
-  }
-
-  .cash-code-container {
-    flex-direction: column;
-    padding: 20px;
-  }
-
-  .cash-qc-img {
-    width: 100%;
-    height: auto;
-    margin-top: -30px;
-  }
-
-  .cash-order-data {
-    padding: 20px;
-    font-size: 12px;
-  }
-
-  .cash-amount {
-  display: flex;
-  flex-direction: row;
-  margin-top: 20px;
-}
-
-  .cash-pay-prompt {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-right: 20%;
-  }
-
-  .cash-pay-text {
-    font-size: 12px;
-  }
-
-  .pay-succeed {
-    padding-top: 80px;
-  }
-
-  .pay-succeed-title {
-    font-size: 20px;
-    padding-left: 10px;
-  }
-
-  .pay-succeed-no {
-    font-size: 10px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
-
-  .fade-div {
-    animation-duration: 0.3s;
-  }
-
-  .cash-title-introduce {
-    width: 100%;
-    margin-top: -30px;
-    margin-bottom: 30px;
-    padding-bottom: 15px;
-    padding-top: 60px;
-    border-radius: 0px;
-}
-}
 </style>
