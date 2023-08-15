@@ -382,7 +382,7 @@ npm install
 ```
 
 
-`前端配置在于 uitls/env.js中 12535行 可用VSCODE 或者 Websotrm 或 HBuilder动态修改`
+`前端配置在于 uitls/env.js中 可用VSCODE 或者 Websotrm 或 HBuilder动态修改`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/eb7fa337-72ee-436a-9452-b1b6930f477c" style="width:800px;height:400px" />
 
 
