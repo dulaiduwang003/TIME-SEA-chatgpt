@@ -3,7 +3,7 @@
 		<div class="leftNavigation">
 			<el-avatar class="headPortrait" :size="70" :icon="UserFilled"
 				:src="store.getters.userinfo.avatar ?imageUrl + store.getters.userinfo.avatar : require('../assets/logoHead.svg')" />
-			<div class="surplus" v-if="store.getters.userinfo">Ai币：{{ store.getters.userinfo.frequency }}</div>
+			<div class="surplus" v-if="store.getters.userinfo">魔法币：{{ store.getters.userinfo.frequency }}</div>
 			<div v-else @click="loginVisible = true" class="loginBut">登录</div>
 			<div class="header">
 				<div class="switch-button">

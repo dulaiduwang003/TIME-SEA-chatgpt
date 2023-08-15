@@ -17,7 +17,7 @@
 			<el-table :data="dataTables" stripe height="360px" :row-style="{height:'80px'}">
 				<el-table-column prop="ordersId" label="订单号" width="150" />
 				<el-table-column prop="productName" label="商品名称" width="100" />
-				<el-table-column prop="frequency" label="获赠Ai币" width="200" />
+				<el-table-column prop="frequency" label="获赠魔法币" width="200" />
 				<el-table-column prop="productPrice" label="价格" width="180" />
 				<el-table-column prop="createdTime" label="订单创建时间" width="180" />
 				<el-table-column prop="state" label="支付状态" width="180" />

@@ -44,7 +44,7 @@
                         </el-icon>
                     </div>
                     <div class="pay-succeed-title">
-                        赞赏成功! 为了感谢您维护站点运行已为您赠送相对应的Ai币
+                        赞赏成功! 为了感谢您维护站点运行已为您赠送相对应的魔法币
                     </div>
                 </div>
                 <div style="padding-bottom: 190px" v-show="showSucceed">

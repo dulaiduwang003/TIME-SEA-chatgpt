@@ -9,7 +9,7 @@
 				<el-icon>
 					<Goods />
 				</el-icon>
-				<div class="consumeText">每次提问消耗1个Ai币</div>
+				<div class="consumeText">每次提问消耗1个魔法币</div>
 			</div>
 			<div class="beCareful">请注意不支持违法、违规等不当信息内容</div>
 		</div>

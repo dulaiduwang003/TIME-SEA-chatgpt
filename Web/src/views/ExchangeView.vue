@@ -5,13 +5,13 @@
 				<img class="logo" :src="require('../assets/logoHead.svg')" alt="">
 			</div>
 			<div class="title">
-				兑换Ai币
+				兑换魔法币
 			</div>
 			<input type="text" class="input" placeholder="请输入兑换码" v-model="inputValue" maxlength="8" />
 			<el-button type="primary" color="#626aef" class="button" @click="submit">兑换</el-button>
-			<a href="你售卖兑换码的网站" target="_blank" style="text-decoration: none;">
-				<el-button type="primary" color="#626aef" class="button">购买兑换码</el-button>
-			</a>
+			<a href="https://www.mofaxi.cn/shop" target="_blank" style="text-decoration: none;">
+            <el-button type="primary" color="#626aef" class="button" >购买兑换码</el-button>
+            </a>
 
 		</div>
 	</div>

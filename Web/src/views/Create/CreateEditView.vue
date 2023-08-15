@@ -59,7 +59,7 @@
 				if (parseInt(frequency) <= 0) {
 					ElNotification({
 						title: '错误',
-						message: 'Ai币不足，可前往小程序签到领取，或使用兑换码兑换Ai币，在网页端赞助也可获得Ai币',
+						message: '魔法币不足，可前往小程序签到领取，或使用兑换码兑换魔法币，在网页端赞助也可获得魔法币',
 						type: 'error',
 					})
 					return

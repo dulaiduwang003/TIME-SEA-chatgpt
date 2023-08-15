@@ -2,7 +2,7 @@
   <div class="panel-container">
     <div class="body" v-if="mainPageVisible">
       <div class="article" v-if="store.getters.userinfo">我要赞助站点运行</div>
-      <div class="introduce" v-if="store.getters.userinfo">可获得相应Ai币</div>
+      <div class="introduce" v-if="store.getters.userinfo">可获得相应魔法币</div>
       <ViewState class="state" v-if="!store.getters.userinfo" Type="error"
                  ErrorText="登录后查看" IsShowBottom ButtonText="登录"
                  @ClickTheButton="loginVisible = true"/>
@@ -16,7 +16,7 @@
           <el-col v-for="(item,index) in productList" :key="index" :xs="12" :sm="8" :md="6">
             <div class="item" @click="payChoose(item.productId,item.frequency)">
               <div class="wrapper-title">{{ item.productName }}</div>
-              <div class="quantity">赠送Ai币</div>
+              <div class="quantity">赠送魔法币</div>
               <div class="quantity" style="font-size: 20px;padding-top: 15px">{{ item.frequency }} 个</div>
               <div class="card-introduce">
                 <div class="function-box" v-for="(item2,index2) in introduce" :key="index2">
