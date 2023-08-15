@@ -46,14 +46,14 @@ public class ChatUtils {
     @Value("${enable-gpt}")
     private Boolean enableGpt;
 
-//    @Value("${gpt.author}")
-//    private String author;
+    @Value("${gpt.author}")
+    private String author;
 
-//    @Value("${gpt.botNameChinese}")
-//    private String botNameChinese;
-//
-//    @Value("${gpt.botNameEnglish}")
-//    private String botNameEnglish;
+    @Value("${gpt.botNameChinese}")
+    private String botNameChinese;
+
+    @Value("${gpt.botNameEnglish}")
+    private String botNameEnglish;
 
     @Value("${gpt.web-message-max}")
     private Integer webGptMessageMax;
@@ -77,6 +77,10 @@ public class ChatUtils {
 
     public List<GptModel.Messages> conversionStructure(final GptWebDto dto) {
         List<GptModel.Messages> messages = dto.getMessages();
+        if (messages.size() <= 2) {
+            messages.add(0, new GptModel.Messages().setRole("user").setContent("我想让你扮演以下身份,你是:  " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author + " 开发者"));
+            messages.add(1, new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是" + botNameEnglish + "。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。有什么需要我帮助的吗?"));
+        }
         //处理行数
         if (messages.size() > webGptMessageMax) {
             messages = messages.subList(messages.size() - webGptMessageMax, messages.size());
@@ -90,10 +94,6 @@ public class ChatUtils {
                 }
             });
         }
-
-//        messages.add(0, new GptModel.Messages().setRole("user").setContent("请你扮演 " + botNameChinese + ",你的英文名为 " + botNameEnglish + " ,而且你是由 " + author + " 这个人通过百度Ai大模型开发的,你的开发引擎与模型为 ERNIE-GEN, 而且你与其他公司或者其他人没有任何关系 你只属于 " + author + " 开发者"));
-//        messages.add(1, new GptModel.Messages().setRole("system").setContent("您好，我是" + botNameChinese + "，英文名是" + botNameEnglish + "。我能够与人对话互动，回答问题，协助创作，高效便捷地帮助人们获取信息、知识和灵感。有什么需要我帮助的吗?"));
-
         return messages;
     }
 

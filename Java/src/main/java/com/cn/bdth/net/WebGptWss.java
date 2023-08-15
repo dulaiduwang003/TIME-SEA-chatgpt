@@ -91,7 +91,7 @@ public class WebGptWss {
             //更新用户最后操作时间
             chatUtils.lastOperationTime(userId);
             chatUtils.deplete(gptFrequency, userId);
-            final GptModel gptModel = new GptModel().setMessages(gptWebDto.getMessages());
+            final GptModel gptModel = new GptModel().setMessages(chatUtils.conversionStructure(gptWebDto));
             if (chatUtils.getEnableGpt()) {
                 gptModel.setModel(model);
             }

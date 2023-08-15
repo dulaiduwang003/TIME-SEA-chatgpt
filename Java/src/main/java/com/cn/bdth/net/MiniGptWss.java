@@ -93,7 +93,7 @@ public class MiniGptWss {
             chatUtils.lastOperationTime(userId);
             chatUtils.deplete(gptFrequency, userId);
             // 缓存对话数据 初始化缓存长度
-            final StringBuilder builder = new StringBuilder(500);
+            final StringBuilder builder = new StringBuilder(2000);
             final GptModel gptModel = new GptModel().setMessages(chatUtils.conversionStructure(gptMiniDto));
             if (chatUtils.getEnableGpt()) {
                 gptModel.setModel(model);
