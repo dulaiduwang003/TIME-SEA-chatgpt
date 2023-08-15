@@ -2,23 +2,12 @@ import request from '@/utils/BSideRequest'
 
 
 /**
- *    退出
+ *    邮箱号码登录
  */
 export function Logout() {
     return request({
         url: '/auth/wechat/logout',
         method: 'POST'
-    })
-}
-
-
-/**
- *    获取公告
- */
-export function getAnnouncement() {
-    return request({
-        url: '/public/get/announcement',
-        method: 'GET'
     })
 }
 
