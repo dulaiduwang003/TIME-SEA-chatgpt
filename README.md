@@ -1,6 +1,6 @@
-#### 此分支是 web plugs 拓展的进一步美化
+#### 此分支是 Web plugs 拓展的进一步优化
 
-#### 对 web plugs 拓展做了 H5 的适配，以及其它 UI 的更新
+#### 对 H5 端做了适配，增加和修改了部分 UI
 
 演示
 https://ai.mofaxi.cn/
