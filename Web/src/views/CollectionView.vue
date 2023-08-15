@@ -12,18 +12,12 @@
           <div class="name">{{ item.issue }}</div>
           <div class="time">收藏于{{conversionTime(item.createdTime)}}</div>
           <div v-if="!item.isError" class="operation">
-            <div @click="seeIndex = index; isExpanded = true" v-if="!isExpanded" class="operationItem operationItemSelected">
-            <el-icon size="14">
-              <Promotion/>
-            </el-icon>
-            <div class="operationExplain">查看</div>
-          </div>
-          <div @click="seeIndex = -1; isExpanded = false" v-else class="operationItem operationItemSelecte">
-            <el-icon size="14">
-              <Promotion/>
-            </el-icon>
-            <div class="operationExplain">收回</div>
-          </div>
+            <div @click="seeIndex = index" class="operationItem operationItemSelected">
+              <el-icon size="14">
+                <Promotion/>
+              </el-icon>
+              <div class="operationExplain">查看</div>
+            </div>
             <div @click="cancelCollection(item.starId,index)" class="operationItem"
                  :class="item.isCollection ? 'operationItemSelected' : ''">
               <el-icon size="14">
@@ -71,7 +65,6 @@ export default {
     let list = ref([])
     let seeIndex = ref(-1)
     let loginVisible = ref(false)
-    let isExpanded = ref(false);
 
     onMounted(() => {
       if (store.getters.userinfo) init();
@@ -122,7 +115,7 @@ export default {
     }
 
     return {
-      load, empty, error, init, list, cancelCollection, seeIndex, handleCopyCodeSuccess, loginVisible, isExpanded
+      load, empty, error, init, list, cancelCollection, seeIndex, handleCopyCodeSuccess, loginVisible
     }
   }
 }
@@ -234,7 +227,7 @@ export default {
   margin-right: 5px;
   display: flex;
   align-items: center;
-  background-color: #eeeeee;
+  background-color: #f6f6f6;
   border-radius: 100px;
   font-size: 13px;
 }
@@ -242,10 +235,6 @@ export default {
 .operationItemSelected {
   background-color: #7d80ff;
   color: white;
-}
-.operationItemSelecte {
-  background-color: #eeeeee;
-  color: #303030;
 }
 
 .operationExplain {
@@ -256,11 +245,4 @@ export default {
   padding: 0;
   color: #303030;
 }
-
-@media (max-width: 767px) {
-  .containerOpen {
-    flex-direction: column;
-  }
-}
-
 </style>
