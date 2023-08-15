@@ -1,3 +1,10 @@
+#### 此分支是 web plugs 拓展的进一步美化
+
+#### 对 web plugs 拓展做了 H5 的适配，以及其它 UI 的更新
+
+演示
+https://ai.mofaxi.cn/
+
 #### 如果项目能帮到你，还请给仓库点下 Star，谢谢！
 
 # TIME-SEA-PLUS
@@ -16,9 +23,6 @@
 <img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
 
 
-
-web plugs 拓展演示
-https://anchwngb.cn/
 
 主要功能以及特性
 ` Web 和 小程序 共用一个后端 且 web登录依赖于小程序,需要通过微信扫一扫 登录web数据来源于小程序 数据全一致`
