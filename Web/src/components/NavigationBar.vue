@@ -34,8 +34,8 @@
 						</div>
 						<template #dropdown>
 							<el-dropdown-menu class="dropdown-menu">
-								<el-dropdown-item @click="router().push({ path: '/collection' })">我的收藏</el-dropdown-item>
-								<el-dropdown-item @click="router().push({ path: '/Exchange' })">兑换魔法币</el-dropdown-item>
+								<el-dropdown-item @click="router().push({ path: '/collection' })">个人收藏</el-dropdown-item>
+								<el-dropdown-item @click="router().push({ path: '/Exchange' })">兑换中心</el-dropdown-item>
 								<el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
 							</el-dropdown-menu>
 						</template>

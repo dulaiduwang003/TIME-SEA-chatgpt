@@ -9,24 +9,91 @@
   <!--      <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive"></component>-->
   <!--    </RouterView>-->
   <LeftNavigationBar/>
+  <el-dialog
+      class="gg"
+      v-model="dialogVisible"
+      title="公告"
+      center
+      align-center
+  >
+    <span style="text-align: center">{{ context }}</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="primary" @click="dialogVisible = false">
+          朕已阅
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
 import {useStore} from "vuex";
 import LeftNavigationBar from "@/components/LeftNavigationBar.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
+import {getAnnouncement} from "../api/BSideApi";
+import {onMounted, ref} from "vue";
 
 export default {
   components: {LeftNavigationBar,NavigationBar},
   setup() {
     let store = useStore()
     store.commit("initState");
-
+    const dialogVisible = ref(false)
+    const context = ref('')
+    onMounted(() => {
+    setTimeout(() => {
+    getAnnouncementData()
+      }, 100)
+    })
+    async function getAnnouncementData() {
+      try {
+        let announcement = await getAnnouncement();
+        if (announcement) {
+          let item = localStorage.getItem("announcement");
+          if (item !== null) {
+            let parse = JSON.parse(item);
+            if (parse.logotypeId !== announcement.logotypeId) {
+              localStorage.setItem("announcement", JSON.stringify(announcement))
+              context.value = announcement.context
+              dialogVisible.value = true
+            }
+          } else {
+            localStorage.setItem("announcement", JSON.stringify(announcement))
+            context.value = announcement.context
+            dialogVisible.value = true
+          }
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    return {
+      dialogVisible,
+      getAnnouncementData,
+      context
+    }
   }
 }
+
+
 </script>
 
 <style>
+
+  .gg {
+    width: 25%;
+    border-radius: 10px;
+  }
+
+
+@media (max-width: 767px) {
+  .gg {
+    width: 70%;
+  }
+}
+
+
 #app {
   width: 100%;
   height: 100%;

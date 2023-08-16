@@ -29,7 +29,7 @@
           </el-col>
         </el-row>
       </div>
-      <el-dialog v-model="payVisible" class="zftc" title="赞助站点" v-if="productFrequency" style="text-align: center;" :show-close="false">
+      <el-dialog v-model="payVisible" title="赞助站点" v-if="productFrequency" style="text-align: center;" :show-close="false">
         <div class="pay-title">
           选择支付方式
         </div>
@@ -50,7 +50,7 @@
               </span>
         </template>
       </el-dialog>
-    </div>
+      </div>
     <LoginDialog :show="loginVisible" @close="loginVisible = false" @loginSucceeded="init"/>
     <!--        支付宝支付-->
     <cash-register v-if="!mainPageVisible" :outcome="outcome" :showCover="showCover" :showSucceed="showSucceed"/>
@@ -238,10 +238,6 @@ export default {
   padding-bottom: 30px;
 }
 
-.zftc{
-	width: 50px;
-}
-
 .pay {
   display: flex;
   justify-items: center;
@@ -340,12 +336,6 @@ export default {
   color: rgb(108, 117, 125);
   font-size: 18px;
   font-weight: 500;
-}
-
-@media (max-width: 767px) {
-  .zftc {
-	  width: 60%;
-  }
 }
 
 </style>

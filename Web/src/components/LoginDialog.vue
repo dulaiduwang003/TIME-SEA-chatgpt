@@ -20,10 +20,10 @@
 			<div style="display: flex;justify-content: center;align-items: center;padding-top: 20px" v-if="isFailure">
 				<el-button type="primary" color="#626aef" @click="getLoginQRCode()">重新生成</el-button>
 			</div>
-			<div v-if="!jztsy" class="h5" style="text-align: center;padding-top: 30px;font-size: 8px;padding-bottom: 50px">
+			<div class="h5" v-if="!jztsy" style="text-align: center;padding-top: 30px;padding-bottom: 50px">
 				正在加载中...
 			</div>
-			<div v-if="!dltsy" class="h5" style="text-align: center;padding-top: 30px;font-size: 8px;padding-bottom: 50px">
+			<div class="h5" v-if="!dltsy" style="text-align: center;padding-top: 30px;padding-bottom: 50px">
 				打开微信扫一扫快速登录后使用
 			</div>
 		</div>
@@ -177,6 +177,10 @@
   width: 100%;
   height: 100%; 
   object-fit: none; 
+}
+
+.h5{
+	font-size: 10px;
 }
 
 @media (max-width: 767px) {
