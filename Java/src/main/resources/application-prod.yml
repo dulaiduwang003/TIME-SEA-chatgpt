@@ -66,10 +66,7 @@ gpt:
   botNameChinese: '时间海的助手'
   # BOT 英文名
   botNameEnglish: 'TIME SEA'
-  # Web最大上下文控制条数 记忆 (-1不限制)
-  web-message-max: 10
-  # Web最大处理文字 单条信息数量 (-1不限制)
-  web-message-size: -1
+
 # 支付宝配置
 ali-pay:
   # 支付宝应用ID
