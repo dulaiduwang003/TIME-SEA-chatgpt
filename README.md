@@ -64,8 +64,10 @@ https://anchwngb.cn/
 
 
 
+
 TIME-SEA 搭配 web plugs 效果展示 (同后端 使用微信扫一扫登录 数据同步)
 
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS-GPT/assets/87460202/4eb9b317-0897-45cc-8340-c960857d07bc" style="width:600px;height:420px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/0707260e-61f8-4d00-9aab-e2cb751cbb70" style="width:600px;height:300px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/5ea3adff-5ea9-465b-acc4-aabf05af9fe9" style="width:600px;height:300px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/15c91f85-0bc6-4997-b151-13a1fab19360" style="width:600px;height:300px">
