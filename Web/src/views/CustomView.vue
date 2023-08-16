@@ -22,8 +22,9 @@
         </div>
         <div class="answer">
           <div style="flex: 0">
-            <div style="font-size: 20px;background-color: #ddddf8;border-radius: 100%;display: flex;justify-content: center;align-items: center">
-              <div style="padding-bottom: 3px">{{data.icon}}</div>
+            <div
+                style="font-size: 20px;background-color: #ddddf8;border-radius: 100%;display: flex;justify-content: center;align-items: center">
+              <div style="padding-bottom: 3px">{{ data.icon }}</div>
             </div>
           </div>
           <div v-if="item.assistant" style="flex: 1">
@@ -145,10 +146,9 @@ export default {
         aiLoading.value = true
         // TODO 滚动到底部
         scrollToTheBottom()
-
         // TODO 上下文
         let messages = [];
-        conversationList.value.slice(-4).forEach(({isError, user, assistant}) => {
+        conversationList.value.slice(-10).forEach(({isError, user, assistant}) => {
           if (!isError) {
             messages.push({
               role: 'user',
@@ -242,7 +242,7 @@ export default {
     }
 
     function closeSocket() {
-      if (socket.value){
+      if (socket.value) {
         socket.value.close();
         socket.value = null;
         setTimeout(() => {
@@ -250,7 +250,7 @@ export default {
           if (!assistant) {
             conversationList.value.splice(dataIndex.value, 1);
           }
-          localStorage.setItem("dialogueData", JSON.stringify(conversationList.value))
+
         }, 100);
       }
     }

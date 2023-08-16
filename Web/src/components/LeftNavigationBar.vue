@@ -21,7 +21,7 @@
         <el-avatar :size="40" :icon="UserFilled" :src="require('../assets/logoHead.svg')"/>
         <div class="bottomRight">
           <div class="bottomRightName">TIME SEA PLUS</div>
-          <div class="bottomRightEdition">v1.2.1</div>
+          <div class="bottomRightEdition">v1.2.4</div>
         </div>
       </div>
     </div>

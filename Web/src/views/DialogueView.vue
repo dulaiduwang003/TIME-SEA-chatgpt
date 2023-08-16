@@ -51,7 +51,7 @@
     </div>
     <div class="footer">
       <div class="footer-bar">
-        <div class="clear" @click="clear">
+        <div class="clear" @click="clear" v-show="store.getters.userinfo">
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
               <Clock/>
@@ -59,6 +59,16 @@
           </div>
           <div>
             清理屏幕
+          </div>
+        </div>
+        <div class="clear" style="  margin-left: 92px;" v-show="store.getters.userinfo" @click="dialogueDisplay=true">
+          <div style="padding-top: 4px">
+            <el-icon size="13px" style="padding-right: 3px">
+              <Clock/>
+            </el-icon>
+          </div>
+          <div>
+            问答记忆
           </div>
         </div>
         <el-input @keyup.enter="onSubmit" v-model="input" :placeholder="aiLoading?'思考中..':'输入你想问的...'"
@@ -85,21 +95,62 @@
       </div>
     </div>
   </div>
+  <el-dialog v-model="dialogueDisplay" title="" width="30%" center>
+    <div>
+      <div class="cache-flex-center">
+        <img alt="Vue logo" src="../assets/logo02.svg" class="cache-img">
+      </div>
+      <div class="cache-text">
+        TIME SEA PLUS
+      </div>
+      <div class="cache-flex-center cache-padding-top">
+        <div class="cache-btn" @click="createdNewChat">
+          <el-icon size="16px">
+            <ChatLineSquare/>
+          </el-icon>
+          <div class="cache-btn-text">创建新的聊天</div>
+        </div>
+      </div>
+      <div class="cache-content">
+        <div class="cache-scrollbar">
+          <el-scrollbar height="250px">
+            <div class="cache-padding" v-for="(item,index) in dialogueCache.array" :key="index">
+              <div class="cache-flex-space-between cache-margin">
+                <div class="cache-message" @click="switchChat(index)">
+                  <div class="cache-message-text">
+                    {{ item.title }}
+                  </div>
+                  <div class="cache-message-time">{{ conversionTime(item.time) }}</div>
+                </div>
+                <div class="cache-selected">
+                  <img
+                      :src="dialogueCache.index===index?require('../assets/selected.svg'):require('../assets/close.svg')"
+                      class="cache-selected-img" @click="clearDialogue(index)">
+                </div>
+              </div>
+            </div>
+          </el-scrollbar>
+        </div>
+      </div>
+    </div>
+  </el-dialog>
   <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
 </template>
 
 <script>
 import {onMounted, ref} from "vue";
-import {Clock, CopyDocument, Goods, Promotion, UserFilled, VideoPause} from '@element-plus/icons-vue'
+import {ChatLineSquare, Clock, CopyDocument, Goods, Promotion, UserFilled, VideoPause} from '@element-plus/icons-vue'
 import {ElNotification} from "element-plus";
 import {FavoritesAdd, GetUserInfo} from "../../api/BSideApi";
 import {useStore} from 'vuex'
 import LoginDialog from "@/components/LoginDialog.vue";
 import store from "@/store";
+import {conversionTime} from "../utils/date";
 
 export default {
   name: "dialogueView",
-  components: {Clock, VideoPause, CopyDocument, Goods, Promotion, LoginDialog},
+  methods: {conversionTime},
+  components: {ChatLineSquare, Clock, VideoPause, CopyDocument, Goods, Promotion, LoginDialog},
   computed: {
     store() {
       return store
@@ -119,17 +170,78 @@ export default {
     let model = ref("gpt-3.5-turbo")
     let dataIndex = ref(0)
     const imageUrl = ref('')
+    let dialogueDisplay = ref(false)
+    const dialogueCache = ref({})
     onMounted(() => {
       if (store.getters.userinfo) getUser()
       //获取图片域名
       imageUrl.value = process.env.VUE_APP_IMAGE
-      //获取上一次记录
-      let item = localStorage.getItem("dialogueData");
-      if (item && store.getters.userinfo) {
+
+      let item = localStorage.getItem("dialogueCache");
+      if (store.getters.userinfo) {
         if (!store.getters.userinfo) return loginVisible.value = true
-        conversationList.value = JSON.parse(item)
+        if (item) {
+          dialogueCache.value = JSON.parse(item)
+          let value = dialogueCache.value;
+          conversationList.value = value.array[value.index].context;
+        } else {
+          dialogueCache.value = {
+            index: 0,
+            array: [
+              {
+                title: '新对话',
+                time: Date.now(),
+                context: conversationList.value
+              }
+            ]
+          }
+          localStorage.setItem("dialogueCache", JSON.stringify(dialogueCache.value))
+        }
       }
     })
+
+    // TODO 切换对话
+    function switchChat(index) {
+      dialogueCache.value.index = index
+      conversationList.value = dialogueCache.value.array[index].context
+      localStorage.setItem("dialogueCache", JSON.stringify(dialogueCache.value))
+      dialogueDisplay.value = false
+    }
+
+    // TODO 清除指定对话
+    function clearDialogue(index) {
+      if (index !== dialogueCache.value.index) {
+        let i = parseInt(dialogueCache.value.index);
+        if (index < i) {
+          dialogueCache.value.index = (i - 1)
+        }
+        dialogueCache.value.array.splice(index, 1)
+      }
+      localStorage.setItem("dialogueCache", JSON.stringify(dialogueCache.value))
+    }
+
+    // TODO 写入对话数据
+    function writeDialogue() {
+      let item = conversationList.value;
+      let value = dialogueCache.value;
+      dialogueCache.value.array[value.index].time = Date.now()
+      dialogueCache.value.array[value.index].title = (item[item.length - 1].user).trim().slice(0, 25);
+      dialogueCache.value.array[value.index].context = item
+      localStorage.setItem("dialogueCache", JSON.stringify(dialogueCache.value))
+    }
+
+
+    // TODO 创建新对话
+    function createdNewChat() {
+      dialogueCache.value.array.unshift({
+        title: '新对话',
+        time: Date.now(),
+        context: []
+      })
+      dialogueCache.value.index = 0
+      conversationList.value = []
+      localStorage.setItem("dialogueCache", JSON.stringify(dialogueCache.value))
+    }
 
     // TODO 提交问题
     async function onSubmit() {
@@ -148,7 +260,7 @@ export default {
 
         // TODO 上下文
         let messages = [];
-        conversationList.value.slice(-4).forEach(({isError, user, assistant}) => {
+        conversationList.value.slice(-10).forEach(({isError, user, assistant}) => {
           if (!isError) {
             messages.push({
               role: 'user',
@@ -160,6 +272,9 @@ export default {
             })
           }
         })
+        if (messages.length > 10) {
+          messages.slice(-10)
+        }
         dataIndex.value = index
         webSocket({
           messages: {
@@ -185,7 +300,6 @@ export default {
         socket.value = new WebSocket(process.env.VUE_APP_WSS + "/gpt-web/api/" + localStorage.getItem('token') + '/' + model.value);
         // TODO 建立连接
         socket.value.onopen = function () {
-          console.log("websocket已连接");
           socket.value.send(JSON.stringify(messages))
           conversationList.value[index].isError = true
         };
@@ -202,9 +316,11 @@ export default {
         // TODO 关闭连接
         socket.value.onclose = function () {
           conversationList.value[index].isError = false
+          writeDialogue();
           getUser();
           aiLoading.value = false
-          localStorage.setItem("dialogueData", JSON.stringify(conversationList.value))
+
+
         };
         // TODO 处理错误
         socket.value.onerror = function () {
@@ -243,7 +359,7 @@ export default {
     }
 
     function closeSocket() {
-      if (socket.value){
+      if (socket.value) {
         socket.value.close();
         socket.value = null;
         setTimeout(() => {
@@ -251,7 +367,7 @@ export default {
           if (!assistant) {
             conversationList.value.splice(dataIndex.value, 1);
           }
-          localStorage.setItem("dialogueData", JSON.stringify(conversationList.value))
+          writeDialogue()
         }, 100);
       }
 
@@ -259,13 +375,12 @@ export default {
     }
 
     function clear() {
-      if (socket.value){
+      if (socket.value) {
         socket.value.close();
         socket.value = null;
       }
       conversationList.value = []
-      localStorage.removeItem("dialogueData")
-
+      writeDialogue()
     }
 
     async function onCollection(item, index) {
@@ -311,7 +426,12 @@ export default {
       aiLoading,
       closeSocket,
       dataIndex,
-      imageUrl
+      imageUrl,
+      dialogueDisplay,
+      dialogueCache,
+      createdNewChat,
+      switchChat,
+      clearDialogue
     };
   },
 };
@@ -671,11 +791,106 @@ export default {
   align-items: center;
   color: #6b6b6b;
   position: absolute;
-  top: 0px;
+  top: 0;
   z-index: 1;
   font-size: 8px;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
-  padding: 3px 10px
+  padding: 3px 10px;
+
+}
+
+.cache-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cache-img {
+  width: 80px;
+  height: 80px;
+}
+
+.cache-text {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 550;
+  padding-top: 10px;
+}
+
+.cache-padding-top {
+  padding-top: 15px;
+}
+
+.cache-btn {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(0, 0, 0);
+  padding: 10px 30px;
+  border-radius: 5px;
+}
+
+.cache-btn-img {
+  width: 30px;
+  height: 30px;
+}
+
+.cache-btn-text {
+  padding-left: 10px;
+  font-size: 12px;
+}
+
+.cache-content {
+  padding: 20px 10px 10px;
+}
+
+.cache-scrollbar {
+  background-color: rgb(47, 49, 51);
+  border-radius: 10px;
+  color: #b7b7b7;
+}
+
+.cache-padding {
+  padding: 10px;
+}
+
+.cache-flex-space-between {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.cache-message {
+  padding-bottom: 4px;
+  border-bottom: 1px white solid;
+}
+
+.cache-message-text {
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  color: #f5f5f5;
+  width: 310px;
+}
+
+.cache-message-time {
+  padding-top: 5px;
+  font-size: 5px;
+}
+
+.cache-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+}
+
+.cache-selected-img {
+  width: 20px;
+  height: 20px;
 }
 </style>
