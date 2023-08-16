@@ -64,7 +64,7 @@
         <div class="clear" style="  margin-left: 92px;" v-show="store.getters.userinfo" @click="dialogueDisplay=true">
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <Clock/>
+              <ChatDotRound/>
             </el-icon>
           </div>
           <div>
@@ -139,7 +139,16 @@
 
 <script>
 import {onMounted, ref} from "vue";
-import {ChatLineSquare, Clock, CopyDocument, Goods, Promotion, UserFilled, VideoPause} from '@element-plus/icons-vue'
+import {
+  ChatDotRound,
+  ChatLineSquare,
+  Clock,
+  CopyDocument,
+  Goods,
+  Promotion,
+  UserFilled,
+  VideoPause
+} from '@element-plus/icons-vue'
 import {ElNotification} from "element-plus";
 import {FavoritesAdd, GetUserInfo} from "../../api/BSideApi";
 import {useStore} from 'vuex'
@@ -150,7 +159,7 @@ import {conversionTime} from "../utils/date";
 export default {
   name: "dialogueView",
   methods: {conversionTime},
-  components: {ChatLineSquare, Clock, VideoPause, CopyDocument, Goods, Promotion, LoginDialog},
+  components: {ChatDotRound, ChatLineSquare, Clock, VideoPause, CopyDocument, Goods, Promotion, LoginDialog},
   computed: {
     store() {
       return store
