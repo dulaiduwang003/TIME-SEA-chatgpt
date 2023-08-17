@@ -7,15 +7,14 @@
     <div v-else-if="Type === 'empty' || Type === 'error'" class="errCen">
       <el-empty class="ViewStateCover" :description="Type === 'empty' ? EmptyText : ErrorText"></el-empty>
       <div v-if="IsShowBottom" @click="clickTheButton" hover-class="empty-but-hover" hover-start-time="0"
-           hover-stay-time="0"
-           class="ViewStateBottom">{{ ButtonText }}
+        hover-stay-time="0" class="ViewStateBottom">{{ ButtonText }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ViewState",
@@ -61,7 +60,7 @@ export default defineComponent({
       default: false
     }
   },
-  setup(props, {emit}) {
+  setup(props, { emit }) {
 
     // TODO 返回给父级点击事件
     function clickTheButton() {
@@ -154,11 +153,13 @@ export default defineComponent({
   0% {
     transform: translateX(0px) rotate(0deg)
   }
+
   50% {
     transform: translateX(50px) scale(1.2) rotate(260deg);
     background: #000000;
     border-radius: 0;
   }
+
   100% {
     transform: translateX(0px) rotate(0deg)
   }
@@ -168,11 +169,13 @@ export default defineComponent({
   0% {
     transform: translateX(0px)
   }
+
   50% {
     transform: translateX(-50px) scale(1.2) rotate(-260deg);
     background: #444548;
     border-radius: 0;
   }
+
   100% {
     transform: translateX(0px)
   }
@@ -182,5 +185,4 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-</style>
+}</style>

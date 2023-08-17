@@ -1,11 +1,11 @@
 <template>
   <div class="body">
     <div class="container">
-      <div v-for="(menuItem,menuIndex) in menuCollection" :key="menuIndex" class="list">
+      <div v-for="(menuItem, menuIndex) in menuCollection" :key="menuIndex" class="list">
         <div class="title">&{{ menuItem.title }}</div>
         <div class="content">
           <el-row :gutter="20">
-            <el-col @click="onItem(item)" v-for="(item,index) in menuItem.list" :key="index" :xs="12" :sm="8" :md="6">
+            <el-col @click="onItem(item)" v-for="(item, index) in menuItem.list" :key="index" :xs="12" :sm="8" :md="6">
               <div class="item">{{ item.name }}</div>
             </el-col>
           </el-row>
@@ -13,18 +13,18 @@
       </div>
     </div>
   </div>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {ref} from "vue";
-import {useRouter} from 'vue-router'
-import {useStore} from 'vuex'
+import { ref } from "vue";
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import LoginDialog from "@/components/LoginDialog.vue";
 
 export default {
   name: "CreateView",
-  components: {LoginDialog},
+  components: { LoginDialog },
   setup() {
     let store = useStore()
     let router = useRouter()

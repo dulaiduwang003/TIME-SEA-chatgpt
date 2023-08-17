@@ -28,10 +28,10 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     const res = response.data;
     if (res.code !== 200) {
-        if (res.code ===401){
+        if (res.code === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user')
-        }else{
+        } else {
             throw res.msg
         }
     } else {

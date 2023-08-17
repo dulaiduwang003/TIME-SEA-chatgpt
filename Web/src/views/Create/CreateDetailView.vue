@@ -1,7 +1,7 @@
 <template>
-  <ViewState v-if="load" LoadText="正在生成，请稍后..."/>
-  <ViewState v-else-if="error" @ClickTheButton="back" Type="error" ErrorText="AI服务调用失败，正在紧急处理，请稍后使用。"
-             IsShowBottom ButtonText="返回"/>
+  <ViewState v-if="load" LoadText="正在生成，请稍后..." />
+  <ViewState v-else-if="error" @ClickTheButton="back" Type="error" ErrorText="AI服务调用失败，正在紧急处理，请稍后使用。" IsShowBottom
+    ButtonText="返回" />
   <div v-else class="body" ref="scrollRef">
     <div class="container">
       <div class="title">{{ item }}</div>
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import {useRouter} from 'vue-router'
-import {onMounted, ref} from "vue";
+import { useRouter } from 'vue-router'
+import { onMounted, ref } from "vue";
 import ViewState from "@/components/ViewState.vue";
 import router from "@/router";
-import {GetUserInfo} from "../../../api/BSideApi";
+import { GetUserInfo } from "../../../api/BSideApi";
 import store from "@/store";
 
 
@@ -31,7 +31,7 @@ export default {
       return router
     }
   },
-  components: {ViewState},
+  components: { ViewState },
   setup() {
     let router = useRouter()
     let query = router.currentRoute.value.query;
@@ -125,7 +125,7 @@ export default {
     }
 
     return {
-      load, error, content, item, back,scrollRef
+      load, error, content, item, back, scrollRef
     }
   }
 }
@@ -196,7 +196,7 @@ export default {
   position: relative;
 }
 
->>> .mdPreview > .vuepress-markdown-body {
+>>>.mdPreview>.vuepress-markdown-body {
   padding: 0;
   color: #303030;
 }

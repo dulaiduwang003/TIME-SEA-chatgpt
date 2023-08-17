@@ -1,5 +1,5 @@
 <template>
-  <NavigationBar/>
+  <NavigationBar />
   <!--    <RouterView v-slot="{ Component }">-->
   <!--      &lt;!&ndash; TODO 要缓存 &ndash;&gt;-->
   <!--      <KeepAlive>-->
@@ -8,14 +8,8 @@
   <!--      &lt;!&ndash; TODO 不缓存 &ndash;&gt;-->
   <!--      <component :is="Component" :key="$route.name" v-if="!$route.meta.keepAlive"></component>-->
   <!--    </RouterView>-->
-  <LeftNavigationBar/>
-  <el-dialog
-      v-model="dialogVisible"
-      title="公告"
-      width="25%"
-      center
-      align-center
-  >
+  <LeftNavigationBar />
+  <el-dialog class="gg" v-model="dialogVisible" title="公告" center align-center>
     <span style="text-align: center">{{ context }}</span>
     <template #footer>
       <span class="dialog-footer">
@@ -28,14 +22,14 @@
 </template>
 
 <script>
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 import LeftNavigationBar from "@/components/LeftNavigationBar.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
-import {getAnnouncement} from "../api/BSideApi";
-import {onMounted, ref} from "vue";
+import { getAnnouncement } from "../api/BSideApi";
+import { onMounted, ref } from "vue";
 
 export default {
-  components: {LeftNavigationBar, NavigationBar},
+  components: { LeftNavigationBar, NavigationBar },
   setup() {
     let store = useStore()
     store.commit("initState");
@@ -46,9 +40,7 @@ export default {
         getAnnouncementData()
       }, 100)
     })
-
     async function getAnnouncementData() {
-
       try {
         let announcement = await getAnnouncement();
         if (announcement) {
@@ -69,10 +61,7 @@ export default {
       } catch (e) {
         console.log(e)
       }
-
-
     }
-
     return {
       dialogVisible,
       getAnnouncementData,
@@ -80,9 +69,24 @@ export default {
     }
   }
 }
+
+
 </script>
 
 <style>
+.gg {
+  width: 25%;
+  border-radius: 10px;
+}
+
+
+@media (max-width: 767px) {
+  .gg {
+    width: 70%;
+  }
+}
+
+
 #app {
   width: 100%;
   height: 100%;
@@ -100,7 +104,8 @@ export default {
   }
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   /*background: #f6f6f6;*/
@@ -128,12 +133,11 @@ html, body {
 }
 
 
-.login-dialog > header {
+.login-dialog>header {
   display: none;
 }
 
-.login-dialog > .el-dialog__body {
+.login-dialog>.el-dialog__body {
   padding: 0 !important;
 }
-
 </style>

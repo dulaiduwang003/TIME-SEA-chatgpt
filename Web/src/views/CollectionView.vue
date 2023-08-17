@@ -1,27 +1,33 @@
 <template>
   <ViewState v-if="!store.getters.userinfo" Type="error" ErrorText="登录查看收藏" IsShowBottom ButtonText="登录"
-             @ClickTheButton="loginVisible = true"/>
-  <ViewState v-else-if="load" LoadText="正在加载，请稍后..."/>
-  <ViewState v-else-if="empty" Type="empty" ErrorText="暂无收藏的数据"/>
-  <ViewState v-else-if="error" @ClickTheButton="init" Type="error" ErrorText="加载错误，请重试"
-             IsShowBottom ButtonText="重新加载"/>
+    @ClickTheButton="loginVisible = true" />
+  <ViewState v-else-if="load" LoadText="正在加载，请稍后..." />
+  <ViewState v-else-if="empty" Type="empty" ErrorText="暂无收藏的数据" />
+  <ViewState v-else-if="error" @ClickTheButton="init" Type="error" ErrorText="加载错误，请重试" IsShowBottom ButtonText="重新加载" />
   <div v-else class="body">
     <div :class="seeIndex !== -1 ? 'containerOpen' : ''" class="container">
       <el-scrollbar height="100%" class="leftContent">
-        <div v-for="(item,index) in list" :key="index" class="item">
+        <div v-for="(item, index) in list" :key="index" class="item">
           <div class="name">{{ item.issue }}</div>
-          <div class="time">收藏于{{conversionTime(item.createdTime)}}</div>
+          <div class="time">收藏于{{ conversionTime(item.createdTime) }}</div>
           <div v-if="!item.isError" class="operation">
-            <div @click="seeIndex = index" class="operationItem operationItemSelected">
+            <div @click="seeIndex = index; isExpanded = true" v-if="!isExpanded"
+              class="operationItem operationItemSelected">
               <el-icon size="14">
-                <Promotion/>
+                <Promotion />
               </el-icon>
               <div class="operationExplain">查看</div>
             </div>
-            <div @click="cancelCollection(item.starId,index)" class="operationItem"
-                 :class="item.isCollection ? 'operationItemSelected' : ''">
+            <div @click="seeIndex = -1; isExpanded = false" v-else class="operationItem operationItemSelecte">
               <el-icon size="14">
-                <Star/>
+                <Promotion />
+              </el-icon>
+              <div class="operationExplain">收回</div>
+            </div>
+            <div @click="cancelCollection(item.starId, index)" class="operationItem"
+              :class="item.isCollection ? 'operationItemSelected' : ''">
+              <el-icon size="14">
+                <Star />
               </el-icon>
               <div class="operationExplain">取消收藏</div>
             </div>
@@ -31,33 +37,33 @@
       <el-scrollbar v-if="seeIndex !== -1" height="100%" class="rightContent">
         <div class="title">{{ list[seeIndex].issue }}</div>
         <div class="desc">
-          <v-md-editor :model-value="list[seeIndex].answer" mode="preview" @copy-code-success="handleCopyCodeSuccess"/>
+          <v-md-editor :model-value="list[seeIndex].answer" mode="preview" @copy-code-success="handleCopyCodeSuccess" />
         </div>
       </el-scrollbar>
     </div>
   </div>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false" @loginSucceeded="init"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" @loginSucceeded="init" />
 </template>
 
 <script>
 import ViewState from "@/components/ViewState.vue";
-import {onMounted, ref} from "vue";
-import {Favorites, FavoritesDel} from "../../api/BSideApi";
-import {Promotion, Star} from "@element-plus/icons-vue";
-import {ElMessageBox, ElNotification} from "element-plus";
+import { onMounted, ref } from "vue";
+import { Favorites, FavoritesDel } from "../../api/BSideApi";
+import { Promotion, Star } from "@element-plus/icons-vue";
+import { ElMessageBox, ElNotification } from "element-plus";
 import LoginDialog from "@/components/LoginDialog.vue";
 import store from "@/store";
-import {conversionTime} from "@/utils/date";
+import { conversionTime } from "@/utils/date";
 
 export default {
   name: "CollectionView",
-  methods: {conversionTime},
+  methods: { conversionTime },
   computed: {
     store() {
       return store
     }
   },
-  components: {LoginDialog, Star, Promotion, ViewState},
+  components: { LoginDialog, Star, Promotion, ViewState },
   setup() {
     let load = ref(false)
     let empty = ref(false)
@@ -65,6 +71,7 @@ export default {
     let list = ref([])
     let seeIndex = ref(-1)
     let loginVisible = ref(false)
+    let isExpanded = ref(false);
 
     onMounted(() => {
       if (store.getters.userinfo) init();
@@ -115,7 +122,7 @@ export default {
     }
 
     return {
-      load, empty, error, init, list, cancelCollection, seeIndex, handleCopyCodeSuccess, loginVisible
+      load, empty, error, init, list, cancelCollection, seeIndex, handleCopyCodeSuccess, loginVisible, isExpanded
     }
   }
 }
@@ -227,7 +234,7 @@ export default {
   margin-right: 5px;
   display: flex;
   align-items: center;
-  background-color: #f6f6f6;
+  background-color: #eeeeee;
   border-radius: 100px;
   font-size: 13px;
 }
@@ -237,12 +244,23 @@ export default {
   color: white;
 }
 
+.operationItemSelecte {
+  background-color: #eeeeee;
+  color: #303030;
+}
+
 .operationExplain {
   margin-left: 5px;
 }
 
->>> .vuepress-markdown-body {
+>>>.vuepress-markdown-body {
   padding: 0;
   color: #303030;
+}
+
+@media (max-width: 767px) {
+  .containerOpen {
+    flex-direction: column;
+  }
 }
 </style>

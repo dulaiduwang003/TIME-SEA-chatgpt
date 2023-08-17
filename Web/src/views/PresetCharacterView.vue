@@ -3,16 +3,16 @@
     <div class="container">
       <div class="content">
         <el-row :gutter="20">
-          <el-col @click="onItem(item)" v-for="(item,index) in menuCollection" :key="index" :xs="12" :sm="8" :md="6">
+          <el-col @click="onItem(item)" v-for="(item, index) in menuCollection" :key="index" :xs="12" :sm="8" :md="6">
             <div class="item">
               <div style="text-align: center;font-size: 50px">
-                {{item.icon}}
+                {{ item.icon }}
               </div>
               <div style="font-weight: 550;font-size: 15px;color: #515151;padding-top: 30px">
                 {{ item.title }}
               </div>
               <div style="padding-top: 10px;font-size: 9px;color: #aeaeae">
-                {{item.introduce}}
+                {{ item.introduce }}
               </div>
             </div>
           </el-col>
@@ -20,18 +20,18 @@
       </div>
     </div>
   </div>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {ref} from "vue";
-import {useRouter} from 'vue-router'
-import {useStore} from 'vuex'
+import { ref } from "vue";
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import LoginDialog from "@/components/LoginDialog.vue";
 
 export default {
   name: "PresetCharacterView",
-  components: {LoginDialog},
+  components: { LoginDialog },
   setup() {
     let store = useStore()
     let router = useRouter()
@@ -40,7 +40,7 @@ export default {
 
     function onItem(data) {
       if (!store.getters.userinfo) return loginVisible.value = true
-      localStorage.setItem("roleData",JSON.stringify(data))
+      localStorage.setItem("roleData", JSON.stringify(data))
       router.push({
         path: '/Custom'
       })
