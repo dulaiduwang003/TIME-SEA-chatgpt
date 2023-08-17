@@ -23,7 +23,7 @@ https://anchwngb.cn/
 
 主要功能以及特性
 ` Web 和 小程序 共用一个后端 且 web登录依赖于小程序,需要通过微信扫一扫 登录web数据来源于小程序 数据全一致`
-
+- 小程序对话记忆(历史对话记录)(v1.2.5)
 - Web对话记忆(历史对话记录)(v1.2.4)
 - Web拓展(v1.2.3)
 - 对话暂停(双端支持)
@@ -61,8 +61,7 @@ https://anchwngb.cn/
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b161058e-eac3-4fad-a054-8c9bc7369d9a" style="width:300px;height:600px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cc3fe1c4-04d6-44ce-8c07-26adcd336e81" style="width:300px;height:600px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b3e79dfd-5b33-47df-bb59-eda1a2c0e135" style="width:300px;height:600px">
-
-
+<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS-GPT/assets/87460202/a1fbce71-c077-4c16-aab1-32ce401d157f" style="width:300px;height:600px">
 
 
 TIME-SEA 搭配 web plugs 效果展示 (同后端 使用微信扫一扫登录 数据同步)
