@@ -58,6 +58,16 @@
     </div>
     <div class="footer">
       <div class="footer-bar">
+        <div class="clear" @click="clear" v-show="store.getters.userinfo&& !aiLoading">
+          <div style="padding-top: 4px">
+            <el-icon size="13px" style="padding-right: 3px">
+              <Clock/>
+            </el-icon>
+          </div>
+          <div>
+            清理屏幕
+          </div>
+        </div>
         <el-input @keyup.enter="onSubmit" v-model="input" :placeholder="aiLoading?'思考中..':'输入你想问的...'"
                   :disabled="aiLoading">
           <template #prepend>
@@ -255,6 +265,14 @@ export default {
       }
     }
 
+    function clear() {
+      if (socket.value) {
+        socket.value.close();
+        socket.value = null;
+      }
+      conversationList.value = []
+    }
+
     async function onCollection(item, index) {
       try {
         let bol = !conversationList.value[index].isCollection;
@@ -298,7 +316,8 @@ export default {
       closeSocket,
       dataIndex,
       imageUrl,
-      data
+      data,
+      clear
     };
   },
 };
@@ -655,5 +674,18 @@ export default {
 
 .dot3 {
   animation: jumpT 1.3s linear infinite;
+}
+.clear {
+  display: flex;
+  align-items: center;
+  color: #6b6b6b;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  font-size: 8px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  padding: 3px 10px;
+
 }
 </style>

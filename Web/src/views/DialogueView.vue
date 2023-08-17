@@ -51,7 +51,7 @@
     </div>
     <div class="footer">
       <div class="footer-bar">
-        <div class="clear" @click="clear" v-show="store.getters.userinfo">
+        <div class="clear" @click="clear" v-show="store.getters.userinfo&& !aiLoading">
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
               <Clock/>
@@ -61,7 +61,7 @@
             清理屏幕
           </div>
         </div>
-        <div class="clear" style="  margin-left: 92px;" v-show="store.getters.userinfo" @click="dialogueDisplay=true">
+        <div class="clear" style="  margin-left: 92px;" v-show="store.getters.userinfo && !aiLoading" @click="dialogueDisplay=true">
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
               <ChatDotRound/>
