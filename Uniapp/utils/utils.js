@@ -6,10 +6,9 @@ const ChatKey = 'chat';
 
 const AnnouncementKey = 'announcement';
 
-const historyTempleKey = 'historyTemple'
+const historyKey = 'history'
 
 
-const historyContextKey = 'historyContext'
 
 
 //获取token缓存
@@ -70,36 +69,21 @@ export function setChat(data) {
 }
 
 //移除对话链
-export function removeChat(data) {
+export function removeChat() {
     return uni.removeStorageSync(ChatKey)
 }
 
 //设置历史
-export function getHistoryTemple(data) {
-    return uni.getStorageSync(historyTempleKey)
+export function getHistory(data) {
+    return uni.getStorageSync(historyKey)
 }
 
 //设置历史
-export function setHistoryTemple(data) {
-    return uni.setStorageSync(historyTempleKey, data)
+export function setHistory(data) {
+    return uni.setStorageSync(historyKey, data)
 }
 
 //移除历史
-export function removeHistoryTemple(data) {
-    return uni.removeStorageSync(historyTempleKey)
-}
-
-//设置历史
-export function getHistoryContext(data) {
-    return uni.getStorageSync(historyContextKey)
-}
-
-//设置历史
-export function setHistoryContext(data) {
-    return uni.setStorageSync(historyContextKey, data)
-}
-
-//移除历史
-export function removeHistoryContext(data) {
-    return uni.removeStorageSync(historyContextKey)
+export function removeHistory() {
+    return uni.removeStorageSync(historyKey)
 }

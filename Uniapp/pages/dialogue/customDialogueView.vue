@@ -75,7 +75,7 @@
     </view>
     <!--悬浮-->
     <view class="floating" :animation="animationData ? animationData : ''">
-      <view class="levitation_btn_container">
+      <view class="levitation_btn_container" v-show="isNextSend">
         <view class="levitation_btn" @click="clearDialogue">
           <van-icon name="clock-o"/>
           ️ 清空屏幕

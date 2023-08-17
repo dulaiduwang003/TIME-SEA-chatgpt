@@ -12,15 +12,15 @@ export default {
     // 默认作者名
     author: '时间海',
     // HTTP请求 基类
-    baseUrl: 'https://XXXX:8625',
+    baseUrl: 'https://anchwngb.cn:8625',
     // 长连接请求 基类
-    baseWs: 'wss://XXXX:8625',
+    baseWs: 'wss://anchwngb.cn:8625',
     // 图片服务器域名
-    imageBaseUrl: 'https://XXXX',
+    imageBaseUrl: 'https://sea-time.oss-cn-shanghai.aliyuncs.com',
     // 过滤用户输入关键词 (英文则大写) (初步校验 后端也会做校验)
     filtration: ["GPT", "OPENAI"],
     // BOT最大记忆
-    memory: 6,
+    memory: 10,
     // 每条历史词汇最大长度,
     contextLength: 5000,
     //BOT 初始化词汇 每次打开将随机抽取一条作为显示信息
@@ -34,9 +34,9 @@ export default {
         "嗨！欢迎来到这里，有什么我可以为你做的吗？",
     ],
     //微信授权模板ID
-    tmplIds: ['1I4clXXXXrezvaw'],
+    tmplIds: ['1I4cl8Qk9JlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw'],
     //广告ID
-    motivationalAdvertisingId: "aduXXXX6c",
+    motivationalAdvertisingId: "adunit-ef9b2df38231106c",
     //SD模型
     sdModels: [
         {

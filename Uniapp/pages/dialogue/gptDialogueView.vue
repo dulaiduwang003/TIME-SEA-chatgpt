@@ -76,7 +76,7 @@
     </view>
     <!--悬浮-->
     <view class="floating" :animation="animationData ? animationData : ''">
-      <view class="levitation_btn_container">
+      <view class="levitation_btn_container frames" v-show="isNextSend">
         <view class="levitation_btn" @click="clearDialogue">
           <van-icon name="clock-o"/>
           ️ 清空屏幕
@@ -84,6 +84,10 @@
         <view :class="mode?'mode_btn':'levitation_btn'" @click="mode =!mode">
           <van-icon name="exchange"/>
           ️ {{ mode ? 'MODE-4' : 'MODE-3' }}
+        </view>
+        <view class="levitation_btn" @click="isMemoryDisplay=true" >
+          <van-icon name="birthday-cake-o"/>
+          ️ 记忆回溯
         </view>
       </view>
       <view class="input_container">
@@ -99,6 +103,43 @@
         </view>
       </view>
     </view>
+    <!--    记忆回溯-->
+    <van-popup :show="isMemoryDisplay" round="true" close-on-click-overlay="true" @close="closeMemory"
+               closeable>
+      <view class="memory-container">
+        <view class="memory-logo">
+          <image src="/static/assets/super.svg"/>
+        </view>
+        <view class="memory-title">
+          TIME SEA PLUS
+        </view>
+        <view class="memory-button-model">
+          <view class="memory-button" @click="createdNewChat">
+            <van-icon name="comment-o" size="40rpx"/>
+            <text>创建新的聊天</text>
+          </view>
+        </view>
+        <view class="memory-scroll">
+          <scroll-view scroll-y>
+            <view class="memory--row" v-for="(item,index) in dialogueCache.array" :key="index">
+              <view class="memory-data">
+                <view class="memory-left" @click="switchChat(index)">
+                  <view style="  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #d0d0d0;">
+                    {{ item.title }}
+                  </view>
+                  <view style="padding-top: 10rpx;font-size: 15rpx;color: #656565">
+                    {{ conversionTime(item.time) }}
+                  </view>
+                </view>
+                <view class="memory-right" @click="removeChat(index)">
+                  <image :src="dialogueCache.index===index?'/static/assets/selected.svg':'/static/assets/close.svg'"/>
+                </view>
+              </view>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+    </van-popup>
   </view>
 </template>
 
@@ -106,18 +147,10 @@
 import md from "@/static/css/md";
 import mpHtml from "@/wxcomponents/mp-html/mp-html.vue";
 import env from "@/utils/env";
-import {
-  getChat,
-  getHistoryContext,
-  getHistoryTemple,
-  getToken,
-  getUser,
-  removeChat, removeHistoryContext, removeHistoryTemple,
-  setHistoryContext,
-  setHistoryTemple
-} from "@/utils/utils";
+import {getHistory, getToken, getUser, removeChat, setHistory,} from "@/utils/utils";
 import {deleteStarDialogue, putStarDialogue} from "@/api/user";
 import {conversionImage} from "@/utils/image";
+import {conversionTime} from "@/utils/date";
 
 
 export default {
@@ -132,10 +165,29 @@ export default {
   created() {
     //获取当前登录用户信息
     this.userInfo = getUser();
-    let historyTemple = getHistoryTemple();
-    if (historyTemple) {
-      this.context = JSON.parse(getHistoryContext())
-      this.chatTemporary = JSON.parse(historyTemple)
+    let cache = getHistory();
+
+    if (cache) {
+      this.dialogueCache = JSON.parse(cache)
+      const index = this.dialogueCache.index;
+      let data = this.dialogueCache.array[index].data;
+      this.chatTemporary = data.template
+      this.context = data.context
+    } else {
+      this.dialogueCache = {
+        index: 0,
+        array: [
+          {
+            title: '新对话',
+            time: Date.now(),
+            data: {
+              template: [],
+              context: []
+            }
+          }
+        ]
+      }
+      setHistory(JSON.stringify(this.dialogueCache))
     }
   },
   //刷新次数
@@ -144,7 +196,7 @@ export default {
     removeChat()
     this.closeSocket()
   },
-  onLoad(option) {
+  onLoad() {
     const _this = this
     //加载动画
     const animation = uni.createAnimation({
@@ -157,15 +209,12 @@ export default {
     //加载动画
     _this.loadTitle();
 
-    if (option.continue) {
-      let chat = getChat();
-      this.chatTemporary.push(chat)
-      this.context.push(chat)
-    }
   },
-
   data() {
     return {
+      //缓存记忆数据
+      dialogueCache: {},
+      isMemoryDisplay: false,
       //MODE
       mode: false,
       userInfo: {},
@@ -185,11 +234,69 @@ export default {
       title: '',
       //当前对话索引
       index: 0,
-      cache:{}
+      cache: {}
     };
   },
   methods: {
+    conversionTime,
     conversionImage,
+    closeMemory: function () {
+      this.isMemoryDisplay = false
+    },
+    /**
+     *     创建新对话
+     */
+    createdNewChat: function () {
+      this.dialogueCache.array.unshift({
+        title: '新对话',
+        time: Date.now(),
+        data: {
+          template: [],
+          context: []
+        }
+      })
+      this.dialogueCache.index = 0
+      this.context = []
+      this.chatTemporary = []
+      setHistory(JSON.stringify(this.dialogueCache))
+    },
+    /**
+     * 切换对话
+     * @param index
+     */
+    switchChat: function (index) {
+      this.dialogueCache.index = index
+      let data = this.dialogueCache.array[index].data;
+      this.chatTemporary = data.template
+      this.context = data.context
+      setHistory(JSON.stringify(this.dialogueCache))
+      this.isMemoryDisplay = false
+    },
+    writeChat: function () {
+      let item = this.chatTemporary;
+      this.dialogueCache.array[this.dialogueCache.index].time = Date.now();
+      this.dialogueCache.array[this.dialogueCache.index].data = {
+        context: this.context,
+        template: item
+      }
+      if (item.length > 0) {
+        this.dialogueCache.array[this.dialogueCache.index].title = (item[item.length - 1].answer).trim().slice(0, 25)
+      }
+      setHistory(JSON.stringify(this.dialogueCache))
+    },
+    /**
+     * 删除对话
+     */
+    removeChat: function (index) {
+      if (index !== this.dialogueCache.index) {
+        let i = parseInt(this.dialogueCache.index);
+        if (index < i) {
+          this.dialogueCache.index = (i - 1)
+        }
+        this.dialogueCache.array.splice(index, 1)
+      }
+      setHistory(JSON.stringify(this.dialogueCache))
+    },
     /**
      * 关闭连接
      */
@@ -348,8 +455,7 @@ export default {
         } else {
           _this.chatTemporary.splice(index, 1)
         }
-        setHistoryContext(JSON.stringify(_this.context))
-        setHistoryTemple(JSON.stringify(_this.chatTemporary))
+        _this.writeChat();
         _this.isNextSend = true;
       });
 
@@ -434,12 +540,11 @@ export default {
           content: '确定要清空记录嘛?',
           success: function (res) {
             if (res.confirm) {
-              removeHistoryContext()
-              removeHistoryTemple()
               _this.chatTemporary = []
               _this.context = []
               _this.input = ""
               _this.isNextSend = true
+              _this.writeChat()
             }
           }
         });
@@ -506,7 +611,7 @@ page {
   top: -60rpx;
   left: 0rpx;
   display: flex;
-  width: 400rpx;
+
   padding: 0 10rpx;
   color: #a7a7a7;
   align-items: center
@@ -730,6 +835,10 @@ scroll-view {
   animation: fadeIn 0.5s ease-in-out forwards;
 }
 
+.frames{
+ animation: fadeIn 0.5s ease-in-out forwards;
+}
+
 .stop_model {
   display: flex;
   align-items: center;
@@ -774,4 +883,90 @@ scroll-view {
   font-size: 30rpx;
 }
 
+.memory-container {
+  background-color: #1a1a1a;
+  width: 600rpx
+}
+
+.memory-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.memory-logo image {
+  width: 130rpx;
+  height: 130rpx;
+  margin-top: 80rpx
+}
+
+.memory-title {
+  text-align: center;
+  color: #e5e5e5;
+  font-weight: 550;
+  font-size: 35rpx;
+  padding-top: 40rpx
+}
+
+.memory-button-model {
+  padding-top: 20rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20rpx
+}
+
+.memory-button {
+  font-size: 26rpx;
+  border-radius: 10rpx;
+  background-color: #000000;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 60rpx
+}
+
+.memory-button text {
+  padding-left: 20rpx
+}
+
+.memory-scroll {
+  padding: 20rpx;
+}
+
+.memory-scroll scroll-view {
+  background-color: #000000;
+  height: 550rpx;
+  border-radius: 20rpx
+}
+
+.memory--row {
+  padding: 20rpx
+}
+
+.memory-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx
+}
+
+.memory-left {
+  font-size: 26rpx;
+  border-bottom: 1rpx whitesmoke solid;
+  width: 455rpx;
+  padding: 10rpx 0;
+}
+
+.memory-right {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+.memory-right image {
+  width: 40rpx;
+  height: 40rpx
+}
 </style>

@@ -1,5 +1,6 @@
 {
   "pages": [
+
     {
       "path": "pages/master/master",
       "style": {
@@ -11,6 +12,22 @@
         "usingComponents": {
           "van-popup": "/wxcomponents/vant/popup/index",
           "van-button": "/wxcomponents/vant/button/index"
+        }
+      }
+    },
+    {
+      "path": "pages/dialogue/gptDialogueView",
+      "style": {
+        "navigationBarTitleText": "",
+        "mp-weixin": {
+          "navigationBarBackgroundColor": "#101010",
+          "backgroundColorTop": "#101010",
+          "backgroundColorBottom": "#101010",
+          "navigationBarTextStyle": "white"
+        },
+        "usingComponents": {
+          "van-icon": "/wxcomponents/vant/icon/index",
+          "van-popup": "/wxcomponents/vant/popup/index"
         }
       }
     },
@@ -153,21 +170,6 @@
         "usingComponents": {
           "van-icon": "/wxcomponents/vant/icon/index",
           "van-loading": "/wxcomponents/vant/loading/index"
-        }
-      }
-    },
-    {
-      "path": "pages/dialogue/gptDialogueView",
-      "style": {
-        "navigationBarTitleText": "",
-        "mp-weixin": {
-          "navigationBarBackgroundColor": "#101010",
-          "backgroundColorTop": "#101010",
-          "backgroundColorBottom": "#101010",
-          "navigationBarTextStyle": "white"
-        },
-        "usingComponents": {
-          "van-icon": "/wxcomponents/vant/icon/index"
         }
       }
     },

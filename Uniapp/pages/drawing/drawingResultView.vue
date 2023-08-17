@@ -4,7 +4,7 @@
         :beforeImageUrl="originalImage"
         :afterImageUrl="generateImage" v-if="!isShow"/>
     <view v-else>
-      <image :src="generateImage" class="left_image" mode="widthFix"/>
+      <image :src="generateImage" class="left_image" mode="widthFix" @click="previewImage(generateImage)"/>
     </view>
     <view class="under_container" @click="copyPromptData">
       <scroll-view class="scroll-x" :scroll-with-animation="true" :scroll-bar="false" enable-flex scroll-x>
@@ -69,6 +69,15 @@ export default {
     this.init(option.drawingId)
   },
   methods: {
+    /**
+     * 预览图片
+     * @param url
+     */
+    previewImage(url) {
+      uni.previewImage({
+        urls: [url]
+      });
+    },
     conversionImage,
     conversionTime,
     /**

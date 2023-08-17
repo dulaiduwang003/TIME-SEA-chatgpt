@@ -12,13 +12,13 @@
       <!--  参数配置-->
       <view class="title">
         <view>图片大小</view>
-        <scroll-view class="scroll-x" :scroll-with-animation="true" :scroll-bar="false" enable-flex scroll-x>
+        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
           <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in size"
                 :key="index"
                 @click="handleSize(index)">
             {{ item.text }}
           </view>
-        </scroll-view>
+        </view>
       </view>
     </scroll-view>
     <view class="levitation">
@@ -35,7 +35,7 @@ import {addGptDrawingTextTaskQueue, isDrawingSucceed} from "@/api/drawing";
 import GenerateLoadingComponent from "@/pages/drawing/components/generateLoadingComponent.vue";
 
 export default {
-  components: { GenerateLoadingComponent},
+  components: {GenerateLoadingComponent},
   data() {
     return {
       form: {
@@ -221,7 +221,8 @@ export default {
   background-color: rgb(138, 117, 255);
   flex-shrink: 0;
   border-radius: 10rpx;
-  padding: 5rpx 30rpx;
+  padding: 10rpx 30rpx;
+  margin-bottom: 20rpx;
   margin-right: 20rpx;
   display: flex;
   justify-content: center;
@@ -233,12 +234,14 @@ export default {
   background-color: rgb(92, 72, 204);
   flex-shrink: 0;
   border-radius: 10rpx;
-  padding: 5rpx 30rpx;
+  padding: 10rpx 30rpx;
+  margin-bottom: 20rpx;
   margin-right: 20rpx;
   display: flex;
   justify-content: center;
   align-items: center
 }
+
 
 .preview_model {
   display: flex;
