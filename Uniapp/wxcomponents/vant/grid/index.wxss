@@ -1,0 +1,7 @@
+@import '../common/index.wxss';
+
+.van-grid {
+	box-sizing: border-box;
+	overflow: hidden;
+	position: relative
+}
