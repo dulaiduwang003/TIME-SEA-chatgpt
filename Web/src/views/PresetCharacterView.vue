@@ -8,7 +8,7 @@
               <div style="font-size: 50px">
                 {{item.icon}}
               </div>
-              <div >
+              <div>
                 <div style="font-weight: 700;font-size: 16px;color: #ffffff;padding-top: 10px">
                   {{ item.title }}
                 </div>
