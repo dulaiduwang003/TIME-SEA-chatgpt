@@ -3,7 +3,10 @@ package com.cn.bdth.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.common.ControlCommon;
+import com.cn.bdth.common.StableDiffusionCommon;
+import com.cn.bdth.common.UserInspiritCommon;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.dto.PutExchangeDto;
 import com.cn.bdth.dto.ServerConfigDto;
@@ -11,13 +14,14 @@ import com.cn.bdth.dto.TerminalConfigDto;
 import com.cn.bdth.dto.admin.AnnouncementDto;
 import com.cn.bdth.entity.Exchange;
 import com.cn.bdth.mapper.ExchangeMapper;
+import com.cn.bdth.model.ClaudeModel;
 import com.cn.bdth.service.ServerService;
 import com.cn.bdth.structure.AnnouncementStructure;
 import com.cn.bdth.structure.ControlStructure;
-import com.cn.bdth.structure.ServerStructure;
 import com.cn.bdth.utils.BeanUtils;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.StringUtils;
+import com.cn.bdth.vo.DispositionVo;
 import com.cn.bdth.vo.admin.RedemptionCodeVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,24 +50,79 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public void heavyLoadDisposition(final ServerConfigDto dto) {
-        final ServerStructure serverStructure = BeanUtils.copyClassProperTies(dto, ServerStructure.class);
-        redisUtils.setValue(ServerConstant.SERVER, serverStructure);
+        //激励
+        redisUtils.setValue(ServerConstant.INSPIRIT_CONFIG,
+                new UserInspiritCommon.InspiritStructure()
+                        .setIncentiveFrequency(dto.getIncentiveFrequency())
+                        .setSignInFrequency(dto.getSignInFrequency())
+                        .setVideoFrequency(dto.getVideoFrequency())
+        );
+        //SD
+        redisUtils.setValue(ServerConstant.SD_CONFIG,
+                new StableDiffusionCommon.StableDiffusionStructure()
+                        .setSdUrl(dto.getSdUrl())
+                        .setSdImage2Frequency(dto.getSdImage2Frequency())
+                        .setSdTextImageFrequency(dto.getSdTextImageFrequency())
+        );
+        //Bing
+        redisUtils.setValue(ServerConstant.NEW_BING_CONFIG, dto.getNewBingCookie());
+        // CHAT GPT
+        redisUtils.setValue(ServerConstant.CHAT_GPT_CONFIG,
+                new ChatGptCommon.ChatGptStructure()
+                        .setGptFrequency(dto.getGptFrequency())
+                        .setGptPlusFrequency(dto.getGptPlusFrequency())
+                        .setOpenKey(dto.getOpenKey())
+                        .setOpenPlusKey(dto.getOpenPlusKey())
+                        .setOpenAiUrl(dto.getOpenAiUrl())
+                        .setGptTextImageFrequency(dto.getGptTextImageFrequency())
+        );
+        // claude
+        redisUtils.setValue(ServerConstant.CLAUDE_CONFIG,
+                new ClaudeModel()
+                        .setConversation_uuid(dto.getConversationUuid())
+                        .setOrganization_uuid(dto.getOrganizationUuid())
+                        .setSessionKey(dto.getSessionKey())
+        );
     }
 
     @Override
     public ControlStructure getTerminal() {
-        return (ControlStructure) redisUtils.getValue(ServerConstant.TERMINAL);
+        return (ControlStructure) redisUtils.getValue(ServerConstant.TERMINAL_CONFIG);
     }
 
     @Override
     public void putTerminal(TerminalConfigDto dto) {
         final ControlStructure controlStructure = BeanUtils.copyClassProperTies(dto, ControlStructure.class);
-        redisUtils.setValue(ServerConstant.TERMINAL, controlStructure);
+        redisUtils.setValue(ServerConstant.TERMINAL_CONFIG, controlStructure);
     }
 
     @Override
-    public ServerStructure getDisposition() {
-        return (ServerStructure) redisUtils.getValue(ServerConstant.SERVER);
+    public DispositionVo getDisposition() {
+        final ClaudeModel claudeModel = (ClaudeModel) redisUtils.getValue(ServerConstant.CLAUDE_CONFIG);
+        final StableDiffusionCommon.StableDiffusionStructure sdStructure = (StableDiffusionCommon.StableDiffusionStructure) redisUtils.getValue(ServerConstant.SD_CONFIG);
+        final ChatGptCommon.ChatGptStructure chatGptStructure = (ChatGptCommon.ChatGptStructure) redisUtils.getValue(ServerConstant.CHAT_GPT_CONFIG);
+        final String newBingCookie = String.valueOf(redisUtils.getValue(ServerConstant.NEW_BING_CONFIG));
+        final UserInspiritCommon.InspiritStructure inspiritStructure = (UserInspiritCommon.InspiritStructure) redisUtils.getValue(ServerConstant.INSPIRIT_CONFIG);
+        final DispositionVo dispositionVo = new DispositionVo();
+
+        dispositionVo.setConversationUuid(claudeModel != null ? claudeModel.getConversation_uuid() : null);
+        dispositionVo.setOrganizationUuid(claudeModel != null ? claudeModel.getOrganization_uuid() : null);
+        dispositionVo.setSessionKey(claudeModel != null ? claudeModel.getSessionKey() : null);
+        dispositionVo.setSdImage2Frequency(sdStructure != null ? sdStructure.getSdImage2Frequency() : null);
+        dispositionVo.setSdUrl(sdStructure != null ? sdStructure.getSdUrl() : null);
+        dispositionVo.setSdTextImageFrequency(sdStructure != null ? sdStructure.getSdTextImageFrequency() : null);
+        dispositionVo.setGptFrequency(chatGptStructure != null ? chatGptStructure.getGptFrequency() : null);
+        dispositionVo.setGptPlusFrequency(chatGptStructure != null ? chatGptStructure.getGptPlusFrequency() : null);
+        dispositionVo.setOpenAiUrl(chatGptStructure != null ? chatGptStructure.getOpenAiUrl() : null);
+        dispositionVo.setOpenKey(chatGptStructure != null ? chatGptStructure.getOpenKey() : null);
+        dispositionVo.setOpenPlusKey(chatGptStructure != null ? chatGptStructure.getOpenPlusKey() : null);
+        dispositionVo.setGptTextImageFrequency(chatGptStructure != null ? chatGptStructure.getGptTextImageFrequency() : null);
+        dispositionVo.setNewBingCookie(newBingCookie);
+        dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
+        dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
+        dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);
+
+        return dispositionVo;
     }
 
     @Override

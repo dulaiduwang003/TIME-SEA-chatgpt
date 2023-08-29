@@ -3,8 +3,8 @@ package com.cn.bdth.net;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.common.ControlCommon;
-import com.cn.bdth.common.FunCommon;
 import com.cn.bdth.constants.AiTypeConstant;
 import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.dto.GptMiniDto;
@@ -14,7 +14,6 @@ import com.cn.bdth.exceptions.ViolationsException;
 import com.cn.bdth.exceptions.WechatException;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ControlStructure;
-import com.cn.bdth.structure.ServerStructure;
 import com.cn.bdth.utils.ChatUtils;
 import com.cn.bdth.utils.SpringContextUtil;
 import com.cn.bdth.utils.UserUtils;
@@ -50,7 +49,7 @@ public class MiniGptWss {
     private static ChatUtils chatUtils;
     private static WeChatUtils weChatUtils;
     private static GptService gptService;
-    private static FunCommon funCommon;
+    private static ChatGptCommon chatGptCommon;
     private static ControlCommon controlCommon;
 
     /**
@@ -70,7 +69,7 @@ public class MiniGptWss {
             chatUtils = (ChatUtils) SpringContextUtil.getBean("chatUtils");
             weChatUtils = (WeChatUtils) SpringContextUtil.getBean("weChatUtils");
             gptService = (GptService) SpringContextUtil.getBean("gptServiceImpl");
-            funCommon = (FunCommon) SpringContextUtil.getBean("funCommon");
+            chatGptCommon = (ChatGptCommon) SpringContextUtil.getBean("chatGptCommon");
             controlCommon = (ControlCommon) SpringContextUtil.getBean("controlCommon");
         }
 
@@ -92,22 +91,22 @@ public class MiniGptWss {
             final Long userId = UserUtils.getLoginIdByToken(token);
             //更新用户最后操作时间
             chatUtils.lastOperationTime(userId);
-            final ServerStructure server = funCommon.getServer();
+            final ChatGptCommon.ChatGptStructure chatGptStructure = chatGptCommon.getChatGptStructure();
             //具体选择模型
             boolean equals = AiTypeConstant.ADVANCED.equals(model);
             //检查GPT-4是否开启 如果开启那么需要 把次数定义为 1次
             final Long frequency;
             final ControlStructure control = controlCommon.getControl();
             if (control.getEnableGptPlus()) {
-                frequency = equals ? server.getGptPlusFrequency() : server.getGptFrequency();
+                frequency = equals ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency();
             } else {
-                frequency = server.getGptFrequency();
+                frequency = chatGptStructure.getGptFrequency();
                 //将指向值为 GPT-3
                 equals = false;
             }
             chatUtils.deplete(frequency, userId);
             final StringBuilder builder = new StringBuilder(200);
-            gptService.concatenationGpt(chatUtils.conversionStructure(gptMiniDto), equals)
+            gptService.concatenationGpt(chatUtils.conversionStructure(gptMiniDto), equals, chatGptStructure)
                     .timeout(Duration.ofSeconds(60))
                     .doOnError(TimeoutException.class, e -> {
                         log.error("GPT回复超时 异常信息:{} 异常类:{}", e.getMessage(), e.getClass());

@@ -15,7 +15,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @EnableAsync
 @EnableAspectJAutoProxy
-
 public class BdthSuperApplication {
 
     public static void main(String[] args) {

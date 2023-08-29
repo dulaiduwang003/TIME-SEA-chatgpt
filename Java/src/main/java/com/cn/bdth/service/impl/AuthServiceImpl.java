@@ -3,7 +3,7 @@ package com.cn.bdth.service.impl;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.cn.bdth.common.FunCommon;
+import com.cn.bdth.common.UserInspiritCommon;
 import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.dto.EmailCodeDto;
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final WeChatUtils weChatUtils;
 
-    private final FunCommon funCommon;
+    private final UserInspiritCommon userInspiritCommon;
 
     private final RedisUtils redisUtils;
 
@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
             userMapper.insert(new User()
                     .setEmail(dto.getEmail())
                     .setPassword(SaSecureUtil.md5BySalt(dto.getPassword(), SALT))
-                    .setFrequency(funCommon.getServer().getIncentiveFrequency()));
+                    .setFrequency(userInspiritCommon.getInspiritStructure().getIncentiveFrequency()));
             redisUtils.delKey(KEY);
         } else {
             throw new RegistrationException(ExceptionMessages.CODE_ERR);
@@ -160,7 +160,7 @@ public class AuthServiceImpl implements AuthService {
         if (user == null) {
             //初始化用户登录次数
             user = new User()
-                    .setFrequency(funCommon.getServer().getIncentiveFrequency())
+                    .setFrequency(userInspiritCommon.getInspiritStructure().getIncentiveFrequency())
                     .setOpenId(openId);
             userMapper.insert(user);
         }

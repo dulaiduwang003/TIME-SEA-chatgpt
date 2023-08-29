@@ -101,57 +101,6 @@ public class DrawingController {
         }
     }
 
-
-    /**
-     * 添加文字生图任务
-     * Add task.
-     *
-     * @return the result
-     */
-    @PostMapping(value = "/mj/text", name = "根据用户描述来进行绘画传作(MJ)", produces = MediaType.APPLICATION_JSON_VALUE)
-    @UserLastOperationTime
-    public Result addMjDrawingTextTaskQueue() {
-        try {
-            return Result.data(null);
-        } catch (FrequencyException | ViolationsException e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-
-    /**
-     * 添加图生图任务
-     * Add task.
-     *
-     * @return the result
-     */
-    @PostMapping(value = "/mj/image2image", name = "根据用户上传的图片来进行二次创作(MJ)", consumes = "multipart/form-data")
-    @UserLastOperationTime
-    public Result addMjDrawingImageTaskQueue() {
-        try {
-            return Result.data(null);
-        } catch (FrequencyException | ViolationsException e) {
-            return Result.error(e.getMessage());
-        }
-
-    }
-
-
-    /**
-     * 检查SD 网络连通性
-     *
-     * @return the result
-     */
-    @GetMapping(value = "/mj/connectivity/{isType}", name = "检查MJ网络连通性以及用户次数校验", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result mjConnectivity(@PathVariable final Long isType) {
-        try {
-            return Result.data(drawingService.isMjServerStateAndFrequency(isType));
-        } catch (FrequencyException e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-
     /**
      * 检查SD绘图是否成功
      *

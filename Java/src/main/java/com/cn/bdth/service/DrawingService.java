@@ -52,14 +52,6 @@ public interface DrawingService {
 
 
     /**
-     * 检查SD连通性以及次数检查
-     *
-     * @param isType the is type
-     * @return the boolean
-     */
-    boolean isMjServerStateAndFrequency(final Long isType);
-
-    /**
      * 检查绘图是否成功
      *
      * @param id the id

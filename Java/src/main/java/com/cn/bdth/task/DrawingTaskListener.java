@@ -2,7 +2,7 @@ package com.cn.bdth.task;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cn.bdth.common.FunCommon;
+import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
 import com.cn.bdth.constants.ServerConstant;
@@ -13,8 +13,7 @@ import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.mapper.DrawingMapper;
 import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.model.PictureSdDrawingModel;
-import com.cn.bdth.structure.DrawingSdStructure;
-import com.cn.bdth.structure.ServerStructure;
+import com.cn.bdth.structure.DrawingSdQueueStructure;
 import com.cn.bdth.utils.AliUploadUtils;
 import com.cn.bdth.utils.BaiduTranslationUtil;
 import com.cn.bdth.utils.WeChatUtils;
@@ -47,8 +46,7 @@ public class DrawingTaskListener {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final FunCommon funCommon;
-
+    private final StableDiffusionCommon stableDiffusionCommon;
 
     private final WebClient.Builder webClientBuilder;
     private final Semaphore semaphoreSd = new Semaphore(1);
@@ -74,20 +72,20 @@ public class DrawingTaskListener {
     public void sdListening() {
         new Thread(() -> {
             while (true) {
-                DrawingSdStructure drawingSdStructure;
+                DrawingSdQueueStructure drawingSdQueueStructure;
                 try {
                     semaphoreSd.acquire();
                     // 尝试获取信号量许可
-                    drawingSdStructure = (DrawingSdStructure) redisTemplate.opsForList().rightPop(ServerConstant.DRAWING_SD_TASK_QUEUE, 2, TimeUnit.SECONDS);
-                    if (drawingSdStructure != null) {
-                        final PictureSdDrawingModel model = drawingSdStructure.getPictureSdDrawingModel();
+                    drawingSdQueueStructure = (DrawingSdQueueStructure) redisTemplate.opsForList().rightPop(ServerConstant.DRAWING_SD_TASK_QUEUE, 2, TimeUnit.SECONDS);
+                    if (drawingSdQueueStructure != null) {
+                        final PictureSdDrawingModel model = drawingSdQueueStructure.getPictureSdDrawingModel();
                         //尝试翻译
                         try {
                             model.setPrompt(baiduTranslationUtil.englishTranslation(model.getPrompt()));
                         } catch (Exception e) {
                             log.warn("绘图时调用百度翻译翻译失败 本次绘图将采用原文提示词");
                         }
-                        invokeSdDrawingApi(model, drawingSdStructure.getIsType() == ServerConstant.DRAWING_IMAGE_TYPE ? ServerConstant.SD_DRAWING_IMAGE : ServerConstant.SD_DRAWING_TEXT, drawingSdStructure.getIsType());
+                        invokeSdDrawingApi(model, drawingSdQueueStructure.getIsType() == ServerConstant.DRAWING_IMAGE_TYPE ? ServerConstant.SD_DRAWING_IMAGE : ServerConstant.SD_DRAWING_TEXT, drawingSdQueueStructure.getIsType());
                     }
                 } catch (InterruptedException e) {
                     log.error("信号量异常 原因:{} 位置:{}", e.getMessage(), e.getClass());
@@ -106,10 +104,11 @@ public class DrawingTaskListener {
      */
     public void invokeSdDrawingApi(final PictureSdDrawingModel model, final String uri, final int isType) {
         String imageUri = null;
+
         try {
             final String block = webClientBuilder.build()
                     .post()
-                    .uri(funCommon.getServer().getSdUrl() + uri)
+                    .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + uri)
                     .body(BodyInserters.fromValue(model))
                     .retrieve()
                     .bodyToMono(String.class)
@@ -134,8 +133,8 @@ public class DrawingTaskListener {
             }
             //删除图片
             drawingMapper.deleteById(model.getDrawingId());
-            final ServerStructure server = funCommon.getServer();
-            Long frequency = isType == ServerConstant.DRAWING_IMAGE_TYPE ? server.getSdImage2Frequency() : server.getSdTextImageFrequency();
+            final StableDiffusionCommon.StableDiffusionStructure structure = stableDiffusionCommon.getStableDiffusionStructure();
+            Long frequency = isType == ServerConstant.DRAWING_IMAGE_TYPE ? structure.getSdImage2Frequency() : structure.getSdTextImageFrequency();
             final String openId = model.getOpenId();
             userMapper.update(null, new UpdateWrapper<User>()
                     .lambda()

@@ -18,14 +18,6 @@
     </view>
     <view class="row">
       <view class="key">
-        MJ绘图请求链
-      </view>
-      <view>
-        <input type="text" placeholder="请设置stable diffusion请求链" v-model="form.mjUrl" maxlength="-1"/>
-      </view>
-    </view>
-    <view class="row">
-      <view class="key">
         必应Cookie
       </view>
       <view>
@@ -115,22 +107,6 @@
     </view>
     <view class="row">
       <view class="key">
-        MJ图生图消耗次数
-      </view>
-      <view>
-        <input type="number" placeholder="请设置图生图消耗次数" v-model="form.mjImage2Frequency" maxlength="-1"/>
-      </view>
-    </view>
-    <view class="row">
-      <view class="key">
-        MJ文生图消耗次数
-      </view>
-      <view>
-        <input type="number" placeholder="请设置文生图消耗次数" v-model="form.mjTextImageFrequency" maxlength="-1"/>
-      </view>
-    </view>
-    <view class="row">
-      <view class="key">
         标准对话
       </view>
       <view>
@@ -196,9 +172,7 @@ export default {
         sdTextImageFrequency: undefined,
         gptFrequency: undefined,
         signInFrequency: undefined,
-        mjTextImageFrequency: undefined,
         openAiUrl: undefined,
-        mjImage2Frequency: undefined,
         gptTextImageFrequency: undefined,
         newBingCookie: '',
         organizationUuid: '',

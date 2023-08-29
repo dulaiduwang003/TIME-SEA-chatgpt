@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class DrawingSdStructure {
+public class DrawingSdQueueStructure {
 
     private int isType;
 

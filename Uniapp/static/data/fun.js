@@ -32,18 +32,6 @@ export default {
             title: 'Claude',
             path: '/pages/dialogue/claudeDialogueView',
             introduce: '免费使用 无需消耗Ai币(可能回复失败)'
-        },
-        {
-            icon: '/static/assets/star.svg',
-            title: 'MJ Drawing',
-            path: '/pages/drawing/mjTextImageView',
-            introduce: '根据提示词让MJ绘制丰富多彩的插画'
-        },
-        {
-            icon: '/static/assets/road.svg',
-            title: 'MJ Visualize',
-            path: '/pages/drawing/mjImage2imageView',
-            introduce: '抽象艺术到写实插图,MJ图生图满足各种创作需求'
         }
     ]
 }

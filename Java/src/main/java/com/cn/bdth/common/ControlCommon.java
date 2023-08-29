@@ -49,7 +49,7 @@ public class ControlCommon {
 
     public ControlStructure getControl() {
         try {
-            final ControlStructure value = (ControlStructure) redisUtils.getValue(ServerConstant.TERMINAL);
+            final ControlStructure value = (ControlStructure) redisUtils.getValue(ServerConstant.TERMINAL_CONFIG);
             if (value == null) {
                 log.warn("当前正在使用服务器默认终端配置,请及时前往控制台配置服务器终端参数");
                 return createdDefaultServer();
@@ -57,7 +57,7 @@ public class ControlCommon {
                 return value;
             }
         } catch (Exception e) {
-            redisUtils.delKey(ServerConstant.TERMINAL);
+            redisUtils.delKey(ServerConstant.TERMINAL_CONFIG);
             log.warn("已清除旧版本的服务器配置,当前正在使用服务器默认配置,请及时前往控制台配置服务器参数");
             return createdDefaultServer();
 

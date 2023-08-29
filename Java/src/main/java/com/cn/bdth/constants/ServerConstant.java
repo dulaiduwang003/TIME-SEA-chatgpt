@@ -7,10 +7,12 @@ package com.cn.bdth.constants;
  * @version 1.0
  */
 public interface ServerConstant {
-    String SERVER = "SERVER_CONFIG";
-
-    String TERMINAL = "TERMINAL_CONFIG";
-
+    String INSPIRIT_CONFIG ="INSPIRIT_CONFIG";
+    String SD_CONFIG ="SD_CONFIG";
+    String NEW_BING_CONFIG ="NEW_BING_CONFIG";
+    String CHAT_GPT_CONFIG ="CHAT_GPT_CONFIG";
+    String CLAUDE_CONFIG ="CLAUDE_CONFIG";
+    String TERMINAL_CONFIG = "TERMINAL_CONFIG";
     String ANNOUNCEMENT = "ANNOUNCEMENT";
     String DRAWING_SD_TASK_QUEUE = "DRAWING_SD_TASK_QUEUE";
     String SD_DRAWING_IMAGE = "/sdapi/v1/img2img";

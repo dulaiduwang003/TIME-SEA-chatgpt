@@ -7,7 +7,7 @@ import com.cn.bdth.dto.TerminalConfigDto;
 import com.cn.bdth.dto.admin.AnnouncementDto;
 import com.cn.bdth.structure.AnnouncementStructure;
 import com.cn.bdth.structure.ControlStructure;
-import com.cn.bdth.structure.ServerStructure;
+import com.cn.bdth.vo.DispositionVo;
 import com.cn.bdth.vo.admin.RedemptionCodeVo;
 
 /**
@@ -30,7 +30,7 @@ public interface ServerService {
      *
      * @return the disposition
      */
-    ServerStructure getDisposition();
+    DispositionVo getDisposition();
 
 
     /**

@@ -5,7 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cn.bdth.common.FunCommon;
+import com.cn.bdth.common.ChatGptCommon;
+import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
 import com.cn.bdth.constants.ServerConstant;
@@ -24,8 +25,7 @@ import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.model.GptImageModel;
 import com.cn.bdth.model.PictureSdDrawingModel;
 import com.cn.bdth.service.DrawingService;
-import com.cn.bdth.structure.DrawingSdStructure;
-import com.cn.bdth.structure.ServerStructure;
+import com.cn.bdth.structure.DrawingSdQueueStructure;
 import com.cn.bdth.utils.*;
 import com.cn.bdth.vo.DrawingDetailVo;
 import com.cn.bdth.vo.DrawingOpsVo;
@@ -67,8 +67,6 @@ public class DrawingServiceImpl implements DrawingService {
 
     private final ImageUtils imageUtils;
 
-    private final FunCommon funCommon;
-
     private final UserMapper userMapper;
 
     private final ChatUtils chatUtils;
@@ -83,17 +81,19 @@ public class DrawingServiceImpl implements DrawingService {
 
     private final WeChatUtils weChatUtils;
 
+    private final ChatGptCommon chatGptCommon;
+
+    private final StableDiffusionCommon stableDiffusionCommon;
+
     @Async
-    public void buildAsyncGptImage(final GptImageModel gptImageModel, final Long drawingId, final String openId) {
+    public void buildAsyncGptImage(final GptImageModel gptImageModel, final Long drawingId, final String openId, final String openUrl, final String openKey) {
         try {
             gptImageModel.setPrompt(translationUtil.englishTranslation(gptImageModel.getPrompt()));
         } catch (Exception e) {
             log.warn("GPT绘图时 百度翻译调用失败 本次调用将采用原文提示词");
         }
-        final ServerStructure server = funCommon.getServer();
-
-        webClientBuilder.baseUrl(server.getOpenAiUrl())
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + server.getOpenKey())
+        webClientBuilder.baseUrl(openUrl)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + openKey)
                 .build()
                 .post()
                 .uri(ServerConstant.GPT_DRAWING)
@@ -123,13 +123,13 @@ public class DrawingServiceImpl implements DrawingService {
     public DrawingTaskVo publishGptDrawingTextTask(final DrawingGptTextDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
 //        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
-
-        chatUtils.deplete(funCommon.getServer().getGptTextImageFrequency(), UserUtils.getCurrentLoginId());
+        final ChatGptCommon.ChatGptStructure chatGptStructure = chatGptCommon.getChatGptStructure();
+        chatUtils.deplete(chatGptStructure.getGptTextImageFrequency(), UserUtils.getCurrentLoginId());
         final Drawing drawing = new Drawing()
                 .setPrompt(dto.getPrompt())
                 .setUserId(UserUtils.getCurrentLoginId());
         drawingMapper.insert(drawing);
-        buildAsyncGptImage(DrawingGptTextDto.conversionModels(dto), drawing.getDrawingId(), UserUtils.getCurrentOpenId());
+        buildAsyncGptImage(DrawingGptTextDto.conversionModels(dto), drawing.getDrawingId(), UserUtils.getCurrentOpenId(), chatGptStructure.getOpenAiUrl(), chatGptStructure.getOpenKey());
         return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(0L);
     }
 
@@ -138,10 +138,10 @@ public class DrawingServiceImpl implements DrawingService {
     public DrawingTaskVo publishSdDrawingTextTask(final DrawingSdTextDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
         //   weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
-
+        //获取登录人ID
         final Long currentLoginId = UserUtils.getCurrentLoginId();
-        final Long sdTextImageFrequency = funCommon.getServer().getSdTextImageFrequency();
-        chatUtils.deplete(sdTextImageFrequency, currentLoginId);
+
+        chatUtils.deplete(stableDiffusionCommon.getStableDiffusionStructure().getSdTextImageFrequency(), currentLoginId);
         //发布绘图任务
         final Drawing drawing = new Drawing()
                 .setPrompt(dto.getPrompt())
@@ -153,7 +153,7 @@ public class DrawingServiceImpl implements DrawingService {
                         .setOpenId(UserUtils.getCurrentOpenId()).setDrawingId(drawing.getDrawingId())
                         .setOverride_settings(new PictureSdDrawingModel.Override().setSd_model_checkpoint(dto.getModelName()));
         //提交任务到队列中
-        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdStructure().setIsType(ServerConstant.DRAWING_TEXT_TYPE.intValue()).setPictureSdDrawingModel(model));
+        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdQueueStructure().setIsType(ServerConstant.DRAWING_TEXT_TYPE.intValue()).setPictureSdDrawingModel(model));
         //返回任务VO
         return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(redisTemplate.opsForList().size(ServerConstant.DRAWING_SD_TASK_QUEUE));
     }
@@ -164,9 +164,8 @@ public class DrawingServiceImpl implements DrawingService {
     public DrawingTaskVo publishSdDrawingImage2Task(final DrawingSdImage2TaskDto dto) {
         // 微信文字识别能力 防止用户发送色情 政治信息
 //        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
-        final Long sdImage2Frequency = funCommon.getServer().getSdImage2Frequency();
         final Long currentLoginId = UserUtils.getCurrentLoginId();
-        chatUtils.deplete(sdImage2Frequency, currentLoginId);
+        chatUtils.deplete(stableDiffusionCommon.getStableDiffusionStructure().getSdImage2Frequency(), currentLoginId);
         //上传绘图资源
         final String resource = aliUploadUtils.uploadFile(dto.getImages(), FileEnum.PAINTING.getDec(), null);
         //检查是否为黄图
@@ -188,7 +187,7 @@ public class DrawingServiceImpl implements DrawingService {
                 .setInit_images(List.of(imageUtils.convertImageToBase64(resource)))
                 .setOpenId(UserUtils.getCurrentOpenId()).setDrawingId(drawing.getDrawingId());
         //提交任务到队列中
-        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdStructure().setIsType(ServerConstant.DRAWING_IMAGE_TYPE.intValue()).setPictureSdDrawingModel(model));
+        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdQueueStructure().setIsType(ServerConstant.DRAWING_IMAGE_TYPE.intValue()).setPictureSdDrawingModel(model));
         return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(redisTemplate.opsForList().size(ServerConstant.DRAWING_SD_TASK_QUEUE));
 
 
@@ -211,25 +210,12 @@ public class DrawingServiceImpl implements DrawingService {
         }
     }
 
-    @Override
-    public boolean isMjServerStateAndFrequency(final Long isType) {
-        final ServerStructure server = funCommon.getServer();
-        final Long frequency = Objects.equals(isType, ServerConstant.DRAWING_IMAGE_TYPE) ? server.getMjImage2Frequency() : server.getMjTextImageFrequency();
-
-        if (!(userMapper.selectCount(new QueryWrapper<User>()
-                .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
-                .ge(User::getFrequency, frequency)
-        ) >= 1)) {
-            throw new FrequencyException();
-        }
-
-        return NetUtils.checkUrlConnectivity(server.getMjUrl() + ServerConstant.SD_DRAWING_TEXT);
-    }
 
     @Override
     public boolean isSdServerStateAndFrequency(final Long isType) {
-        final ServerStructure server = funCommon.getServer();
-        final Long frequency = Objects.equals(isType, ServerConstant.DRAWING_IMAGE_TYPE) ? server.getSdImage2Frequency() : server.getSdTextImageFrequency();
+
+        final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
+        final Long frequency = Objects.equals(isType, ServerConstant.DRAWING_IMAGE_TYPE) ? stableDiffusionStructure.getSdImage2Frequency() : stableDiffusionStructure.getSdTextImageFrequency();
 
         if (!(userMapper.selectCount(new QueryWrapper<User>()
                 .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
@@ -238,7 +224,7 @@ public class DrawingServiceImpl implements DrawingService {
             throw new FrequencyException();
         }
 
-        return NetUtils.checkUrlConnectivity(server.getSdUrl() + ServerConstant.SD_DRAWING_TEXT);
+        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl() + ServerConstant.SD_DRAWING_TEXT);
     }
 
     @Override

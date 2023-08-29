@@ -74,7 +74,6 @@ public class NewBingWss {
         final Long userId = UserUtils.getLoginIdByToken(token);
         //更新用户最后操作时间
         chatUtils.lastOperationTime(userId);
-
         gptService.concatenationNewBing(messages)
                 .timeout(Duration.ofSeconds(60))
                 .doOnError(TimeoutException.class, e -> handleWebSocketError(ExceptionMessages.GPT_TIMEOUT))

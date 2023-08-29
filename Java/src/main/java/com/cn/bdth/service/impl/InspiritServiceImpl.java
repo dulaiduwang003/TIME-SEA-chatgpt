@@ -2,7 +2,7 @@ package com.cn.bdth.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cn.bdth.common.FunCommon;
+import com.cn.bdth.common.UserInspiritCommon;
 import com.cn.bdth.constants.lock.LockPrefix;
 import com.cn.bdth.constants.user.UserConstant;
 import com.cn.bdth.entity.Exchange;
@@ -13,7 +13,6 @@ import com.cn.bdth.exceptions.SignInException;
 import com.cn.bdth.mapper.ExchangeMapper;
 import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.service.InspiritService;
-import com.cn.bdth.structure.ServerStructure;
 import com.cn.bdth.utils.RedisLockHelper;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
@@ -34,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class InspiritServiceImpl implements InspiritService {
 
 
-    private final FunCommon funCommon;
+    private final UserInspiritCommon userInspiritCommon;
 
     private final ExchangeMapper exchangeMapper;
 
@@ -55,12 +54,12 @@ public class InspiritServiceImpl implements InspiritService {
             //已经签到过了
             throw new SignInException(ExceptionMessages.IS_SIGN_IN);
         }
-        final ServerStructure server = funCommon.getServer();
+
         userMapper.update(null, new UpdateWrapper<User>()
                 .lambda()
                 .setSql("is_sign_in = 1")
                 .eq(User::getUserId, UserUtils.getCurrentLoginId())
-                .setSql("frequency = frequency + " + server.getSignInFrequency())
+                .setSql("frequency = frequency + " + userInspiritCommon.getInspiritStructure().getSignInFrequency())
 
         );
     }
@@ -75,11 +74,10 @@ public class InspiritServiceImpl implements InspiritService {
             } else {
                 redisUtils.expire(key, redisUtils.getExpire(key), TimeUnit.SECONDS);
             }
-            final ServerStructure server = funCommon.getServer();
             userMapper.update(null, new UpdateWrapper<User>()
                     .lambda()
                     .eq(User::getUserId, UserUtils.getCurrentLoginId())
-                    .setSql("frequency = frequency + " + server.getVideoFrequency())
+                    .setSql("frequency = frequency + " + userInspiritCommon.getInspiritStructure().getVideoFrequency())
             );
         }
     }

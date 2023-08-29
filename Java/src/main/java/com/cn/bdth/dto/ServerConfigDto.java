@@ -21,13 +21,6 @@ public class ServerConfigDto {
     @NotBlank(message = "SD_URL不能为空")
     private String sdUrl;
 
-
-    /**
-     * SD绘图URL
-     */
-    @NotBlank(message = "MJ_URL不能为空")
-    private String mjUrl;
-
     /**
      * SD绘图URL
      */
@@ -81,17 +74,6 @@ public class ServerConfigDto {
     @NotNull(message = "文生图消耗次数不能为空")
     private Long sdTextImageFrequency;
 
-    /**
-     * 签到赠送次数
-     */
-    @NotNull(message = "图生图消耗次数不能为空")
-    private Long mjImage2Frequency;
-
-    /**
-     * 签到赠送次数
-     */
-    @NotNull(message = "文生图消耗次数不能为空")
-    private Long mjTextImageFrequency;
 
     /**
      * 签到赠送次数

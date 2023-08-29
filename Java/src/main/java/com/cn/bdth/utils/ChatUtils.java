@@ -3,8 +3,8 @@ package com.cn.bdth.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.cn.bdth.common.FunCommon;
 import com.cn.bdth.constants.OperateConstant;
+import com.cn.bdth.dto.FreeGptDto;
 import com.cn.bdth.dto.GptMiniDto;
 import com.cn.bdth.dto.GptWebDto;
 import com.cn.bdth.entity.User;
@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +53,7 @@ public class ChatUtils {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final FunCommon funCommon;
+
 
     public boolean isSusceptible(final String data,final String regex) {
         // 将字符串中的英文转换为大写并去除所有空格
@@ -65,6 +66,7 @@ public class ChatUtils {
     public GptModel conversionStructure(final GptWebDto dto) {
         return new GptModel().setMessages(presetWords(dto.getMessages()));
     }
+
 
 
     public GptModel conversionStructure(final GptMiniDto dto) {

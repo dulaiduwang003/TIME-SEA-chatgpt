@@ -3,7 +3,6 @@ package com.cn.bdth.model;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,13 +12,15 @@ import java.util.List;
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */
+
+
 @Data
 @Accessors(chain = true)
-public class ClaudeModel implements Serializable {
+public  class ClaudeModel {
 
     private List<String> attachments = new LinkedList<>();
 
-    private Completion completion;
+    private ClaudeModel.Completion completion;
 
     private String conversation_uuid;
 

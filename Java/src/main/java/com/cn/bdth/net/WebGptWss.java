@@ -3,8 +3,8 @@ package com.cn.bdth.net;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.common.ControlCommon;
-import com.cn.bdth.common.FunCommon;
 import com.cn.bdth.constants.AiTypeConstant;
 import com.cn.bdth.dto.GptWebDto;
 import com.cn.bdth.exceptions.ExceptionMessages;
@@ -12,7 +12,6 @@ import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.exceptions.ViolationsException;
 import com.cn.bdth.exceptions.WechatException;
 import com.cn.bdth.service.GptService;
-import com.cn.bdth.structure.ServerStructure;
 import com.cn.bdth.utils.ChatUtils;
 import com.cn.bdth.utils.SpringContextUtil;
 import com.cn.bdth.utils.UserUtils;
@@ -48,8 +47,7 @@ public class WebGptWss {
     private static ChatUtils chatUtils;
     private static WeChatUtils weChatUtils;
     private static GptService gptService;
-    private static FunCommon funCommon;
-
+    private static ChatGptCommon chatGptCommon;
     private static ControlCommon controlCommon;
 
 
@@ -71,7 +69,7 @@ public class WebGptWss {
             chatUtils = (ChatUtils) SpringContextUtil.getBean("chatUtils");
             weChatUtils = (WeChatUtils) SpringContextUtil.getBean("weChatUtils");
             gptService = (GptService) SpringContextUtil.getBean("gptServiceImpl");
-            funCommon = (FunCommon) SpringContextUtil.getBean("funCommon");
+            chatGptCommon = (ChatGptCommon) SpringContextUtil.getBean("chatGptCommon");
         }
 
     }
@@ -94,20 +92,20 @@ public class WebGptWss {
             final Long userId = UserUtils.getLoginIdByToken(token);
             //更新用户最后操作时间
             chatUtils.lastOperationTime(userId);
-            final ServerStructure server = funCommon.getServer();
+            final ChatGptCommon.ChatGptStructure chatGptStructure = chatGptCommon.getChatGptStructure();
             //具体选择模型
             boolean equals = AiTypeConstant.ADVANCED.equals(model);
             //检查GPT-4是否开启 如果开启那么需要 把次数定义为 1次
             final Long frequency;
             if (controlCommon.getControl().getEnableGptPlus()) {
-                frequency = equals ? server.getGptPlusFrequency() : server.getGptFrequency();
+                frequency = equals ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency();
             } else {
-                frequency = server.getGptFrequency();
+                frequency = chatGptStructure.getGptFrequency();
                 //将指向值为 GPT-3
                 equals = false;
             }
             chatUtils.deplete(frequency, userId);
-            gptService.concatenationGpt(chatUtils.conversionStructure(gptWebDto), equals)
+            gptService.concatenationGpt(chatUtils.conversionStructure(gptWebDto), equals, chatGptStructure)
                     .timeout(Duration.ofSeconds(60))
                     .doOnError(TimeoutException.class, e -> {
                         log.error("GPT回复超时 异常信息:{} 异常类:{}", e.getMessage(), e.getClass());
@@ -130,7 +128,7 @@ public class WebGptWss {
                     }, throwable -> {
                         chatUtils.compensate(frequency, userId);
                         log.error("调用GPT时出现异常 异常信息:{} 异常类:{}", throwable.getMessage(), throwable.getClass());
-                        // throwable.printStackTrace(); 输出错误堆栈信息
+                        throwable.printStackTrace();
                         handleWebSocketError(ExceptionMessages.GPT_TIMEOUT);
                     });
 

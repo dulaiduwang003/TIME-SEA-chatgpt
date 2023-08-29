@@ -27,11 +27,11 @@ spring:
 # 微信
 we-chat:
   # APPID
-  appId: 'wx28a1ea7eed'
+  appId: '微信APPID'
   # 密钥
-  secret: 'c82bdd8aff6bae'
+  secret: '微信密钥'
   # 通知模板
-  template: '1I4cl8T5Irezvaw'
+  template: '1I4cl8Qk9JlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw'
 
 
 # 超级管理员账号密码
@@ -39,22 +39,22 @@ root:
   # 邮箱
   email: 2074055628@qq.com
   # 密码
-  password: 'XXXXX'
+  password: 'bdthznmnb'
 
 # 百度翻译
 baidu-translation:
   # 百度翻译Appid
-  appid: 'XXXXXX'
+  appid: '百度翻译APPID'
   # 百度翻译密码要
-  secret: 'XXXXXX'
+  secret: '密钥'
 
 # 阿里OSS
 ali-oss:
-  endpoint: 'XXXXXX.aliyuncs.com'
-  accessKey: 'XXXXXXh48n'
-  secretKey: 'WDqmXXXXXXMUtCrI'
-  bucketName: 'sea-time'
-  domain: 'https://XXXXXXliyuncs.com'
+  endpoint: 'oss-cn-shanghai.aliyuncs.com'
+  accessKey: 'LTAIasd5tLMX9wK5coPBoonh48n'
+  secretKey: 'WDqm4vVnK6wqasdasdqH27o61iWoZasdUMUtCrI'
+  bucketName: 'sea-asdtime'
+  domain: 'https://图片服务器域名'
 
 # GPT 对话助手配置
 gpt:
@@ -68,27 +68,24 @@ gpt:
 # 支付宝配置
 ali-pay:
   # 支付宝应用ID
-  appId: '2021XXXXXX649746'
+  appId: '2021001129649746'
   # 支付宝公钥
-  alipayPublicKey: 'MIIBXXXXXXy5pyXaHbECraFKpSk3GKNciKCZU5v9EdgapfEkh4hayKhl552gytK0TSY9bfTeISZwPQvlylXQb4B+PUTbBhpz1JLun0hep1MtqcChYNQofAA27Los1V8JoddbCPc+qRwRiavi50OmrBei58NnB8W8AHpeFqXCFpIIDnSBpCtm+Q8hsULFfi2y6iaVP/EggONO51q8Wu+jrW5ql0uRD7BvOFeEyS2NLhiRgG/1Ap0hda/JyU8WcQovwuyoP/RhTHghUEDFwFcMrYBVfjJLkXDsfOHu+G+qD6PAJAyQoF32jaWlN8VpQAp7T0dqo3QIDAQAB'
+  alipayPublicKey: 'MIIBIjANQb4B+PUTbBhpz1JLun0hep1MtqcChYNQofAA27Los1V8JoddbCPc+qRwRiavi50OmrBei58NnB8W8AHpeFqXCFpIIDnSBpCtm+Q8hsULFfi2y6iaVP/EggONO51q8Wu+jrW5ql0uRD7BvOFeEyS2NLhiRgG/1Ap0hda/JyU8WcQovwuyoP/RhTHghUEDFwFcMrYBVfjJLkXDsfOHu+G+qD6PAJAyQoF32jaWlN8VpQAp7T0dqo3QIDAQAB'
   # 私钥
-  privateKey: 'MIIEvwIBAXXXXXXAoIBAQCCHx62yhuxnMZbzHyDK9ck9JXmh2fXAHuBDHYSxCZEPAhjrCa8PmUOuK3CJP1NAzvwKWpd/DaO6e8GTUH5Ez017RZvmDZ0H2ef/SaK8eEF/CixPEIBV9ZPmu/KsW4ovKavptDbDaGcJ4C26qLsGxt3WbYPbqBe6WM9KjfTG5Xk7zI5cN6GzaR/Mm3kYve8Tx772FZuyEvs/xRtOS91oj3W/kkgVjPIjR8+zR1j8o35ZrqjbdV755R6RPGo81eYeuFgt4flqnhKyTNmrSXRZEQ9m4bTJdhs8o+ZaE2Uj4I0ys7ScLY17v0WuiIcHwnLdk2GtudU4TwhXiS8/ckWbxUtAgMBAAECggEAC7fdvjxpTg9+VZoOxIlYML3OGhqroVMrzC1hHMOJZq+5WbCRNHayBydejpNiNGNMLI6uQ5SJHUm3+utOO64d3xNg59/fV4nUfTYBGJY725wf1gZFM3XDmRus6KYd85E5uaveNzv9B+EO2Go9DeJLEO6FVNJzotiF1WZN7LcZQqqfCKMXJqhMGMCpwliGG/fE5rLuVA5BwkSLRoTgW7qQAgM+w9QXJOaz/4JJMMbk8+Ge5eaZXs+MROO5sHl6+eypxRidMRYwYBcBhOLK04kux717pXW6O/HgxXlqjEbeq1fHJIvC2IjP7ahEDdb78Im8ialsU3iPUM0TBGI65pVGgQKBgQC89iWbYhbPrMqLVJHjRwbgYlWr7FEi9t2dLuM+m5VdknvPH6B/26CJTgsRgOWUnDpmt4xyEwUOpahOPxwQsZd81a5MDdGS0MKJSJuTliTUL5WfVA2NXBBB15srh0MWTlpFv/E8b68wjOaBC1S4AGp+mrzCP5QiISdHmQhRngsL0QKBgQCwSQOdooam+OPUNEhts+vRXFvYGPOnmBSPUF+INGd0aX9oFe0uSX5JgRkdBHIi+G5l0A4u3VnB7fF0eQ7oXrS7/3Axnp5zNuh+DZKU0diJx5IIVXtgEt/X+nDqocDi01XLmHzmSUHGL2yrTCtQ3BAvlnFtTrEA9S4cJQhSkO72nQKBgQCOBNIu/oH2g/+WyHD9SJy6eC27kVlJ1hCp2lug6n5QXZAAE90lO4RkretTtHTYRLMAEGPWOMVMROVCKdyGD3Ozt0XQk3I3zf7n/1IukmILt9fUb+/flpoBYnKVPIwHb8wZMDG3Ipmg+8Uip8l8oZNopBPKSs6i+Bf1j+bYsNfMgQKBgQCF380ZJ1Yu85DBlLr0ZNDPe95b7AcN3Zavh5AlNfbjF0MkXpJytmlrlNjninrLR/M+6pP6zyrc9cCKfWzu1w1WQBSJ+jXGtYo2QERzNDHH4IFsRs6dFXhc4tphtVlwaKIdLb6cfEGxKk7Sf9PdYmIAYbXeFwag/ZF42j7JxTtUmQKBgQCT46GxJOMCKGx0tMa8wp6jzLaoXbJF8xAVy6CEYtarfHS3M6bi/Y+dRFRGydRtB2Xjw1OFEhqbLY2Hs9g4m+mYFWMZIrt/4qkwZCFRJC8ED/iTp0lbqFUj5AL3f/04gkMw1PzLojkCqdhBhZPc1/XefZE44Dgxok/I/nhRcfZlnw=='
-  # 后端服务器域名+端口 如果有
-  domain: 'https://ancaehwngb.can:a625'
+  privateKey: 'MIIEvwIBADANIBV9ZPmu/KsW4ovKavptDbDaGcJ4C26qLsGxt3WbYPbqBe6WM9KjfTG5Xk7zI5cN6GzaR/Mm3kYve8Tx772FZuyEvs/xRtOS91oj3W/kkgVjPIjR8+zR1j8o35ZrqjbdV755R6RPGo81eYeuFgt4flqnhKyTNmrSXRZEQ9m4bTJdhs8o+ZaE2Uj4I0ys7ScLY17v0WuiIcHwnLdk2GtudU4TwhXiS8/ckWbxUtAgMBAAECggEAC7fdvjxpTg9+VZoOxIlYML3OGhqroVMrzC1hHMOJZq+5WbCRNHayBydejpNiNGNMLI6uQ5SJHUm3+utOO64d3xNg59/fV4nUfTYBGJY725wf1gZFM3XDmRus6KYd85E5uaveNzv9B+EO2Go9DeJLEO6FVNJzotiF1WZN7LcZQqqfCKMXJqhMGMCpwliGG/fE5rLuVA5BwkSLRoTgW7qQAgM+w9QXJOaz/4JJMMbk8+Ge5eaZXs+MROO5sHl6+eypxRidMRYwYBcBhOLK04kux717pXW6O/HgxXlqjEbeq1fHJIvC2IjP7ahEDdb78Im8ialsU3iPUM0TBGI65pVGgQKBgQC89iWbYhbPrMqLVJHjRwbgYlWr7FEi9t2dLuM+m5VdknvPH6B/26CJTgsRgOWUnDpmt4xyEwUOpahOPxwQsZd81a5MDdGS0MKJSJuTliTUL5WfVA2NXBBB15srh0MWTlpFv/E8b68wjOaBC1S4AGp+mrzCP5QiISdHmQhRngsL0QKBgQCwSQOdooam+OPUNEhts+vRXFvYGPOnmBSPUF+INGd0aX9oFe0uSX5JgRkdBHIi+G5l0A4u3VnB7fF0eQ7oXrS7/3Axnp5zNuh+DZKU0diJx5IIVXtgEt/X+nDqocDi01XLmHzmSUHGL2yrTCtQ3BAvlnFtTrEA9S4cJQhSkO72nQKBgQCOBNIu/oH2g/+WyHD9SJy6eC27kVlJ1hCp2lug6n5QXZAAE90lO4RkretTtHTYRLMAEGPWOMVMROVCKdyGD3Ozt0XQk3I3zf7n/1IukmILt9fUb+/flpoBYnKVPIwHb8wZMDG3Ipmg+8Uip8l8oZNopBPKSs6i+Bf1j+bYsNfMgQKBgQCF380ZJ1Yu85DBlLr0ZNDPe95b7AcN3Zavh5AlNfbjF0MkXpJytmlrlNjninrLR/M+6pP6zyrc9cCKfWzu1w1WQBSJ+jXGtYo2QERzNDHH4IFsRs6dFXhc4tphtVlwaKIdLb6cfEGxKk7Sf9PdYmIAYbXeFwag/ZF42j7JxTtUmQKBgQCT46GxJOMCKGx0tMa8wp6jzLaoXbJF8xAVy6CEYtarfHS3M6bi/Y+dRFRGydRtB2Xjw1OFEhqbLY2Hs9g4m+mYFWMZIrt/4qkwZCFRJC8ED/iTp0lbqFUj5AL3f/04gkMw1PzLojkCqdhBhZPc1/XefZE44Dgxok/I/nhRcfZlnw=='
+  # 后端服务器域名+端口
+  domain: 'https://你的后端服务器域名:8625'
 
 # 默认服务器配置
 
 config:
-  # OPEN AI API / /  https://chatmp.hcolor.pro/v1
   openAiUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
   # SD API
-  sdUrl: 'https://718363a8x8.zicp.fun'
-  # MJ API
-  mjUrl: 'http://127.0.0.1:7860'
-  # GPT-3:
-  openKey: 'sk-Nw4Oe7CMtLxEaFhKU'
+  sdUrl: 'https://71836asd133a8x8.zicp.fun'
+  # OPEN KEY
+  openKey: 'sk-P3xasdasdasdasdasdlbkFJvZkEefhz93BZ0GUwPObB'
   # GPT-4
-  openPlusKey: 'sk-KGUe4N0ECHr4uv52wTt'
+  openPlusKey: 'sk-KGUasdasdasdasd52wTt'
   # 用户第一次登录奖励次数
   incentiveFrequency: 10
   # 观看视频奖励次数
@@ -99,10 +96,6 @@ config:
   gptTextImageFrequency: 5
   # SD文生图消耗次数
   sdTextImageFrequency: 5
-  # MJ文生图消耗次数
-  mjTextImageFrequency: 5
-  # MJ图生图消耗次数
-  mjImage2Frequency: 5
   #GPT消耗次数
   gptFrequency: 1
   #GPT消耗次数
@@ -110,13 +103,13 @@ config:
   # 观看视频奖励次数
   signInFrequency: 1
   # claude
-  organizationUuid: '3eead4-2bec4e62c709'
+  organizationUuid: '3eead2bb-e6b8-49c1-aad4-2bec4e62c709'
   # 连ID
-  conversationUuid: '082e12006cc6dc59'
+  conversationUuid: '082e1205-2081-456a-a0ae-9ea06cc6dc59'
   # sessionKey
-  sessionKey: 'sk-ant-kVED6NVpiBQCESpeGsHustha7YaKDBm8WmC65_vcw6iw8_wU94Qf9NV4d5a2qg-g4Ei8wAA'
+  sessionKey: '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'
   # 必应Cookie
-  newBingCookie: '1c5f33Xsw9n5eBK0_uWUFygYnl_2SSuejpXTnw8R7ZetpesLSSjVuZnOfOOGCVKJ2pEM_0Hg2ozW2ep_bvADewjMZDXBvzjHv8mpOAxrZ1tLjQQphjpeemQAMKl4AqmvObIClK8e0noqoXjr9jZ3l45qKy6ABBEqFeiWMiF8UCkKVqHBI5g'
+  newBingCookie: '1c5f8HXnvasdasdSSjVuZnOfOOGCVKJ2pEM_0Hg2ozW2ep_bvADewjMZDXBvzjHv8mpOAxrZ1tLjQQphjpeemQAMKl4AqmvObIClK8e0noqoXjr9jZ3l45qKy6ABBEqFeiWMiF8UCkKVqHBI5g'
 
 # 默认终端配置
 control:
@@ -131,7 +124,7 @@ control:
   # 是否开启敏感词过滤
   enableSensitive: true
   # 是否开启GPT-4 不开启则 所有流量指向GPT-3模型
-  enableGptPlus: true
+  enableGptPlus: false
   # 是否隐藏小程序主页面
   enableWechatAppMain: true
   # 是否开启代理了

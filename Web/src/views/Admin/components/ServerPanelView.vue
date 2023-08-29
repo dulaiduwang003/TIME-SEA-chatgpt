@@ -14,14 +14,6 @@
             v-model="form.sdUrl" />
         </el-form-item>
         <el-form-item
-          label="MJ绘图请求链"
-          label-width="200px">
-          <el-input
-            placeholder="请设置MJ请求链"
-            clearable
-            v-model="form.mjUrl" />
-        </el-form-item>
-        <el-form-item
           label="GPT对话请求链"
           label-width="200px">
           <el-input
@@ -134,28 +126,12 @@
             v-model="form.gptTextImageFrequency" />
         </el-form-item>
         <el-form-item
-          label="文生图(MJ)消耗次数"
-          label-width="200px">
-          <el-input
-            placeholder="请设置消耗次数"
-            clearable
-            v-model="form.mjTextImageFrequency" />
-        </el-form-item>
-        <el-form-item
           label="图生图(SD)消耗次数"
           label-width="200px">
           <el-input
             placeholder="请设置消耗次数"
             clearable
             v-model="form.sdImage2Frequency" />
-        </el-form-item>
-        <el-form-item
-          label="图生图(MJ)消耗次数"
-          label-width="200px">
-          <el-input
-            placeholder="请设置消耗次数"
-            clearable
-            v-model="form.mjImage2Frequency" />
         </el-form-item>
       </el-form>
 
@@ -187,7 +163,6 @@
     setup() {
       const form = ref({
         sdUrl: "",
-        mjUrl: "",
         openAiUrl: "",
         openKey: "",
         openPlusKey: "",
@@ -198,8 +173,6 @@
         signInFrequency: undefined,
         sdImage2Frequency: undefined,
         sdTextImageFrequency: undefined,
-        mjImage2Frequency: undefined,
-        mjTextImageFrequency: undefined,
         gptFrequency: undefined,
         gptTextImageFrequency: undefined,
         organizationUuid: "",

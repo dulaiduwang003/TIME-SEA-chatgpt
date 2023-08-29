@@ -1,5 +1,6 @@
 package com.cn.bdth.service;
 
+import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.model.GptModel;
 import reactor.core.publisher.Flux;
 
@@ -17,7 +18,9 @@ public interface GptService {
      * @param model 请求模型
      * @return string 流数据
      */
-    Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced);
+    Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure);
+
+
 
 
     /**

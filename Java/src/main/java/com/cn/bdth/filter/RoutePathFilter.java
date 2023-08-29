@@ -28,7 +28,7 @@ public class RoutePathFilter {
                 .addInclude("/**").addExclude("/favicon.ico")
                 .setAuth(obj -> {
                     SaRouter.match("/**")
-                            .notMatch("/auth/**", "/gpt/**", "/public/**", "/gpt-web/**", "/free-web/**","/free/**",  "/bing/**", "/claude/**")
+                            .notMatch("/auth/**", "/gpt/**", "/public/**", "/gpt-web/**","/bing/**", "/claude/**")
                             .check(r -> StpUtil.checkLogin());
                     SaRouter.match("/admin/**", r -> StpUtil.checkRole(AuthConstant.ADMIN));
                     SaRouter.match("/pay/**", r -> StpUtil.checkRoleOr(AuthConstant.USER, AuthConstant.ADMIN));
