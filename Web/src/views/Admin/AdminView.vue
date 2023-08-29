@@ -86,7 +86,47 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  :deep(.container) {
+    .el-table__cell {
+      border-bottom: 1px solid #333;
+    }
+
+    .hover-row {
+      .el-table__cell {
+        background-color: #333;
+        color: #ccc;
+      }
+    }
+
+    .el-table__inner-wrapper::before {
+      background-color: #333;
+    }
+
+    .el-tabs {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .el-tabs__content {
+        height: 100%;
+
+        .el-tab-pane {
+          height: 100%;
+          .u_container {
+            height: 100%;
+
+            .el-table {
+              > .el-table__inner-wrapper {
+                height: 100% !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   @keyframes explainAnimation {
     from {
       transform: scale(0);
@@ -97,7 +137,7 @@
     }
   }
 
-  /deep/ .el-tabs__nav-wrap::after {
+  :deep(.el-tabs__nav-wrap::after) {
     background: rgb(27, 30, 32);
   }
 
@@ -106,9 +146,9 @@
     max-width: 1100px;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 20px 100px;
-    margin-top: 30px;
-    height: 580px;
+    padding: 10px 20px 20px;
+    margin: 30px 0px;
+    height: 90%;
     background-color: rgb(27, 30, 32);
     border-radius: 8px;
   }
@@ -121,7 +161,7 @@
     flex-direction: column;
     flex: 1;
     align-items: center;
-    padding: 0 20px 120px;
+    padding: 0 20px 0px;
     display: flex;
     overflow: auto;
     background-color: rgb(38, 42, 44);

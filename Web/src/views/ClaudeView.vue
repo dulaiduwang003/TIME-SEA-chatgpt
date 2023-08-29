@@ -129,30 +129,14 @@
           </div>
           <div>记忆回溯</div>
         </div>
-        <el-input
+        <InputFormField
           ref="inputRef"
-          @keyup.enter="onSubmit"
-          v-model="input"
-          :placeholder="aiLoading ? '思考中..' : '输入你想问的...'"
-          :disabled="aiLoading">
-        </el-input>
-        <div
-          class="animation-dot"
-          v-if="aiLoading">
-          <div class="dot0"></div>
-          <div class="dot1"></div>
-          <div class="dot2"></div>
-          <div class="dot3"></div>
-          <div class="dot4"></div>
-        </div>
-        <div
-          @click="onSubmit"
-          class="sendIcon"
-          v-else>
-          <el-icon :size="20">
-            <Promotion />
-          </el-icon>
-        </div>
+          :needSelect="false"
+          :aiLoading="aiLoading"
+          :inputText="input"
+          @update:inputText="input = $event"
+          @update:model="model = $event"
+          @onSubmit="onSubmit" />
       </div>
     </div>
   </div>
@@ -237,6 +221,7 @@
   import { FavoritesAdd, GetUserInfo } from "../../api/BSideApi";
   import { useStore } from "vuex";
   import LoginDialog from "@/components/LoginDialog.vue";
+  import InputFormField from "@/components/InputFormField.vue";
   import store from "@/store";
   import { conversionTime } from "../utils/date";
 
@@ -244,6 +229,7 @@
     name: "dialogueView",
     methods: { conversionTime },
     components: {
+      InputFormField,
       StarFilled,
       CopyDocument,
       ChatDotRound,
@@ -312,6 +298,17 @@
           }
         }
       });
+
+      //提交内容的快捷键监听
+      function handleKeyDown(e) {
+        // 判断是否按下了 alt 键和 enter 键
+        if (e.ctrlKey && e.keyCode === 13) {
+          // 执行你的操作
+          console.log("Alt + Enter 被按下");
+
+          onSubmit();
+        }
+      }
 
       //自适应窗口大小
       function handleResize() {
@@ -387,7 +384,8 @@
         let index = conversationList.value.length;
         try {
           let content = input.value;
-          input.value = "";
+          // 调用子组件方法，清空内容
+          inputRef.value.resetInputValue();
           conversationList.value.push({
             user: content,
           });
@@ -445,7 +443,8 @@
             // 滚动到底部
             scrollToTheBottom();
             nextTick(() => {
-              inputRef.value.focus();
+              // 组件内部方法，聚焦
+              inputRef.value.$refs.inputRefInner.focus();
             });
           };
           // TODO 处理错误
@@ -545,6 +544,7 @@
       }
 
       return {
+        handleKeyDown,
         inputRef,
         onSubmit,
         input,
@@ -573,7 +573,7 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @keyframes beating {
     0% {
       transform: translateY(0);
@@ -602,7 +602,7 @@
     flex-direction: column;
     flex: 1;
     align-items: center;
-    padding: 0 20px 120px;
+    padding: 0 20px 140px;
     display: flex;
     overflow: auto;
     background-color: rgb(38, 42, 44);
@@ -820,7 +820,7 @@
   .suspend {
     animation: explainAnimation 0.3s;
     position: fixed;
-    bottom: 130px;
+    bottom: 150px;
     margin-top: 15px;
     display: flex;
     align-items: center;
@@ -1035,7 +1035,7 @@
   }
 
   .cache-scrollbar {
-    background-color: rgb(16, 18, 19);
+    background-color: rgb(42, 44, 46);
     border-radius: 10px;
     color: #b7b7b7;
   }

@@ -154,7 +154,7 @@
   }
 
   .item {
-    width: 210px;
+    width: 80%;
     height: 160px;
     background-color: rgb(27, 30, 32);
     margin-bottom: 15px;

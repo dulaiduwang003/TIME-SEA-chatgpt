@@ -8,7 +8,7 @@
     </div>
     <el-table
       :data="dataTables"
-      height="300px"
+      height="70%"
       :header-cell-style="{
         background: ' rgb(27,30,32)',
         borderColor: '#202020',

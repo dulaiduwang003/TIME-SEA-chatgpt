@@ -1,6 +1,6 @@
 <template>
   <div class="s_container">
-    <el-scrollbar height="400px">
+    <el-scrollbar height="80%">
       <el-form
         class="demo-form-inline"
         label-position="left">

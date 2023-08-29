@@ -3,12 +3,12 @@
     <div class="head_model">
       <div class="head_model_style">
         <div class="number_people">￥ {{ amount }}</div>
-        <div class="text_people">收入</div>
+        <div class="text_people">收到赞助金额</div>
       </div>
     </div>
     <el-table
       :data="dataTables"
-      height="300px"
+      height="70%"
       :header-cell-style="{
         background: ' rgb(27,30,32)',
         borderColor: '#202020',

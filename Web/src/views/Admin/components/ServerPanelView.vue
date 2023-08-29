@@ -1,6 +1,6 @@
 <template>
   <div class="s_container">
-    <el-scrollbar height="400px">
+    <el-scrollbar height="70%">
       <el-form
         :inline="true"
         class="demo-form-inline"

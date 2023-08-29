@@ -111,30 +111,14 @@
           </div>
           <div>清理屏幕</div>
         </div>
-        <el-input
+        <InputFormField
           ref="inputRef"
-          @keyup.enter="onSubmit"
-          v-model="input"
-          :placeholder="aiLoading ? '思考中..' : '输入你想问的...'"
-          :disabled="aiLoading">
-        </el-input>
-        <div
-          style="display: flex; padding-right: 10px"
-          v-if="aiLoading">
-          <div class="dot0"></div>
-          <div class="dot1"></div>
-          <div class="dot2"></div>
-          <div class="dot3"></div>
-          <div class="dot4"></div>
-        </div>
-        <div
-          @click="onSubmit"
-          class="sendIcon"
-          v-else>
-          <el-icon :size="20">
-            <Promotion />
-          </el-icon>
-        </div>
+          :needSelect="false"
+          :aiLoading="aiLoading"
+          :inputText="input"
+          @update:inputText="input = $event"
+          @update:model="model = $event"
+          @onSubmit="onSubmit" />
       </div>
     </div>
   </div>
@@ -156,11 +140,13 @@
   import { FavoritesAdd, GetUserInfo } from "../../api/BSideApi";
   import { useStore } from "vuex";
   import LoginDialog from "@/components/LoginDialog.vue";
+  import InputFormField from "@/components/InputFormField.vue";
   import store from "@/store";
 
   export default {
     name: "dialogueView",
     components: {
+      InputFormField,
       VideoPause,
       CopyDocument,
       Goods,
@@ -220,7 +206,8 @@
         let index = conversationList.value.length;
         try {
           let content = input.value;
-          input.value = "";
+          // 调用子组件方法，清空内容
+          inputRef.value.resetInputValue();
           conversationList.value.push({
             user: content,
           });
@@ -299,7 +286,8 @@
             scrollToTheBottom();
             // 在回复完成后将输入框设置为聚焦状态
             nextTick(() => {
-              inputRef.value.focus();
+              // 组件内部方法，聚焦
+              inputRef.value.$refs.inputRefInner.focus();
             });
           };
           // TODO 处理错误
@@ -583,7 +571,7 @@
   }
 
   .answer {
-    border-top: 1px solid #f4f6f8;
+    border-top: 1px solid #333;
     position: relative;
   }
 
@@ -627,7 +615,7 @@
   .suspend {
     animation: explainAnimation 0.3s;
     position: fixed;
-    bottom: 130px;
+    bottom: 150px;
     margin-top: 15px;
     display: flex;
     align-items: center;
