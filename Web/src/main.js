@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
@@ -15,9 +15,6 @@ import VMdEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
 import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
-import createMermaidPlugin from '@kangc/v-md-editor/lib/plugins/mermaid/cdn';
-import '@kangc/v-md-editor/lib/plugins/mermaid/mermaid.css';
-
 // TODO Prism
 import Prism from 'prismjs';
 // TODO 代码高亮
@@ -29,7 +26,7 @@ import '@kangc/v-md-editor/lib/plugins/copy-code/copy-code.css';
 VMdEditor.use(vuepressTheme, {
     Prism
 });
-VMdEditor.use(createCopyCodePlugin(),createMermaidPlugin());
+VMdEditor.use(createCopyCodePlugin());
 
 
 let app = createApp(App)
