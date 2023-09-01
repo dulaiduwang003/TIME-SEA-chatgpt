@@ -1,29 +1,28 @@
 # TIME-SEA-PLUS
 
-基于SpringBoot3开发的Ai多功能绘图微信流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的issues
+基于 SpringBoot3 开发的 Ai 多功能绘图微信流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
 
-
-v1.3.6 
-
-(1)新增 web配置项 Ai输出速率 默认80 可自行更改 (大幅提升Ai输出帧,调配合理可提升流畅度)
-
-(2)新增 采用双token模式：确保小程序和web平台相互独立，互不干扰(数据依旧同步)。
-
-[![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)]([https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS))
+[![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-快速体验
+#### 迭代记录
 
-小程序 演示
+##### V1.3.6 2023/09/01
 
+1. 新增 Ai 输出帧配置 ，使其呈现流畅的效果 , 默认值为 80 可在 env 中自行设置 (值越小 输出速度越快 越大越忙 调配合理可大幅提升流畅度)
+2. 新增双 token 模式 现在 web 和小程序为独立 token
+3. 修正 Flux 流业务代码 终端输出后 后端不会在尝试发送数据给前端 (减少资源占用 提升性能)
+4. 修正输出对话空等待
 
+#### 快速体验
+
+##### 小程序 演示
 
 <img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
 
+##### web 演示
 
-web 演示
 https://anchwngb.cn/
-
 
 ## 小程序效果展示
 
@@ -41,7 +40,6 @@ https://anchwngb.cn/
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b3e79dfd-5b33-47df-bb59-eda1a2c0e135" style="width:300px;height:600px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS-GPT/assets/87460202/a1fbce71-c077-4c16-aab1-32ce401d157f" style="width:300px;height:600px">
 
-
 网页效果展示 (同后端 使用微信扫一扫登录 如果是邮箱则需要在小程序中绑定手动绑定数据同步)
 
 <img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/f4977f98-1b50-4667-b19b-45964ea1f3a9" style="width:700px;height:350px">
@@ -51,33 +49,33 @@ https://anchwngb.cn/
 <img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/c248355f-79e0-456b-bb0f-79aed885345e" style="width:700px;height:350px">
 <img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/c97379de-5989-498a-bea7-f7b9aee53f7e" style="width:700px;height:350px">
 
-
-主要功能以及特性
+## 主要功能以及特性
 
 ` Web 和 小程序 共用一个后端 数据全一致 ps 如果需要网页的微信扫一扫登录则必须部署小程序应用 小程序和web都有控制台配置`
+
 - 新增小程序主界面隐藏控制机制
 - 网页支持邮箱注册登录
 - 网页新增 控制台
-- 更新WEB 黑色主题系 新增 超级实验室功能 (NewBing  Claude)
-- Web主要GPT对话形式更改为 与小程序相同
+- 更新 WEB 黑色主题系 新增 超级实验室功能 (NewBing Claude)
+- Web 主要 GPT 对话形式更改为 与小程序相同
 - 小程序对话记忆(历史对话记录)
-- Web对话记忆(历史对话记录)
-- Web拓展
+- Web 对话记忆(历史对话记录)
+- Web 拓展
 - 对话暂停(双端支持)
-- 支付宝支付(仅Web)
-- GPT流对话
+- 支付宝支付(仅 Web)
+- GPT 流对话
 - 对话功能收藏功能 以及 收藏对话回溯场景 (双端支持,回溯目前只支持小程序)
-- 支持GPT自定义敏感词拦截 以及 微信铭感词拦截 (web暂时无拦截 , 小程序支持任意拦截)
-- SD MJ 文生图 图生图 (绘图功能仅小程序支持,web不好把控图片涉黄故暂时不写)
-- 支持用户自定义头像昵称(小程序设置后 web同步)
-- 支持自定义GPT预设词功能版块(无限制定义)
+- 支持 GPT 自定义敏感词拦截 以及 微信铭感词拦截 (web 暂时无拦截 , 小程序支持任意拦截)
+- SD MJ 文生图 图生图 (绘图功能仅小程序支持,web 不好把控图片涉黄故暂时不写)
+- 支持用户自定义头像昵称(小程序设置后 web 同步)
+- 支持自定义 GPT 预设词功能版块(无限制定义)
 - 项目工件模块化
-- Ai币兑换码 (也可通过观看广告获得 也可通过支付宝充值)
+- Ai 币兑换码 (也可通过观看广告获得 也可通过支付宝充值)
 - 创意广场(允许将优秀个人作品展示至鉴赏 所有用户可视)
-- 支持GPT对话暂停输出以及继续输出
+- 支持 GPT 对话暂停输出以及继续输出
 - 内置后台管理 (用户管理 绘图管理 服务器管理 兑换码管理)
-- 接入百度翻译API
-- 绘图类API 列队处理
+- 接入百度翻译 API
+- 绘图类 API 列队处理
 - 微信作品制作通知
 - 数据懒异步处理
 - 支持主流语言以及配置类 代码高亮
@@ -85,6 +83,7 @@ https://anchwngb.cn/
 - 发布公告(双端同步)
 
 ## 部署环境
+
 `百度翻译`
 `阿里OSS`
 `微信开发者平台APPID及密钥`
@@ -100,10 +99,9 @@ https://anchwngb.cn/
 `前端代码直接使用微信开发者工具打开 请使用导入功能`
 `另外可以进微信群 一起讨论项目部署 或者 以及其他编程学术类问题`
 
-后端yml配置参考
+后端 yml 配置参考
 
 ```yaml
-
 server:
   #   SSL证书
   ssl:
@@ -118,7 +116,7 @@ spring:
       database: 1
       host: 127.0.0.1
       port: 6379
-      password: ''
+      password: ""
   # mysql配置
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/super_bot?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
@@ -128,7 +126,7 @@ spring:
   mail:
     host: smtp.qq.com
     username: 2074055628@qq.com
-    password: 'vmfxyasluqlaqycabb'
+    password: "vmfxyasluqlaqycabb"
     default-encoding: UTF-8
     properties:
       mail:
@@ -142,66 +140,64 @@ root:
   # 邮箱
   email: 2074055628@qq.com
   # 密码
-  password: 'hjxyran003@'
-
-
+  password: "hjxyran003@"
 
 # 微信
 we-chat:
   # APPID
-  appId: 'wx28a15asda9ea7eed'
+  appId: "wx28a15asda9ea7eed"
   # 密钥
-  secret: 'c82fasdecf76db68b67bdd8aff6bae'
+  secret: "c82fasdecf76db68b67bdd8aff6bae"
   # 通知模板
-  template: '1I4casdlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw'
+  template: "1I4casdlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw"
 
 # 百度翻译
 baidu-translation:
   # 百度翻译Appid
-  appid: '202asd01361832'
+  appid: "202asd01361832"
   # 百度翻译密码要
-  secret: '2Wibasdubh1IDPTBG8'
+  secret: "2Wibasdubh1IDPTBG8"
 
 # 阿里OSS
 ali-oss:
-  endpoint: 'oss-cn-sasdai.aliyuncs.com'
-  accessKey: 'LTAI5tasdoPBoonh48n'
-  secretKey: 'WDqasdwqqH27o61iWoZUMUtCrI'
-  bucketName: 'sea-time'
-  domain: 'https:asd.oss-cn-shanghai.aliyuncs.com'
+  endpoint: "oss-cn-sasdai.aliyuncs.com"
+  accessKey: "LTAI5tasdoPBoonh48n"
+  secretKey: "WDqasdwqqH27o61iWoZUMUtCrI"
+  bucketName: "sea-time"
+  domain: "https:asd.oss-cn-shanghai.aliyuncs.com"
 
 # GPT 对话助手配置
 gpt:
   # 开发者名称
-  author: '时间海'
+  author: "时间海"
   # BOT 中文名
-  botNameChinese: '时间海'
+  botNameChinese: "时间海"
   # BOT 英文名
-  botNameEnglish: 'TIME SEA'
+  botNameEnglish: "TIME SEA"
 
 # 支付宝配置
 ali-pay:
   # 支付宝应用ID
-  appId: '202asd9649746'
+  appId: "202asd9649746"
   # 支付宝公钥
-  alipayPublicKey: 'MIIBasdgKCAQEAke8GlhZEkuXt4TTivqFKAIEz9y5pyXaHbECraFKpSk3GKNciKCZU5v9EdgapfEkh4hayKhl552gytK0TSY9bfTeISZwPQvlylXQb4B+PUTbBhpz1JLun0hep1MtqcChYNQofAA27Los1V8JoddbCPc+qRwRiavi50OmrBei58NnB8W8AHpeFqXCFpIIDnSBpCtm+Q8hsULFfi2y6iaVP/EggONO51q8Wu+jrW5ql0uRD7BvOFeEyS2NLhiRgG/1Ap0hda/JyU8WcQovwuyoP/RhTHghUEDFwFcMrYBVfjJLkXDsfOHu+G+qD6PAJAyQoF32jaWlN8VpQAp7T0dqo3QIDAQAB'
+  alipayPublicKey: "MIIBasdgKCAQEAke8GlhZEkuXt4TTivqFKAIEz9y5pyXaHbECraFKpSk3GKNciKCZU5v9EdgapfEkh4hayKhl552gytK0TSY9bfTeISZwPQvlylXQb4B+PUTbBhpz1JLun0hep1MtqcChYNQofAA27Los1V8JoddbCPc+qRwRiavi50OmrBei58NnB8W8AHpeFqXCFpIIDnSBpCtm+Q8hsULFfi2y6iaVP/EggONO51q8Wu+jrW5ql0uRD7BvOFeEyS2NLhiRgG/1Ap0hda/JyU8WcQovwuyoP/RhTHghUEDFwFcMrYBVfjJLkXDsfOHu+G+qD6PAJAyQoF32jaWlN8VpQAp7T0dqo3QIDAQAB"
   # 私钥
-  privateKey: 'MIIEvwasdAAoIBAQCCHx62yhuxnMZbzHyDK9ck9JXmh2fXAHuBDHYSxCZEPAhjrCa8PmUOuK3CJP1NAzvwKWpd/DaO6e8GTUH5Ez017RZvmDZ0H2ef/SaK8eEF/CixPEIBV9ZPmu/KsW4ovKavptDbDaGcJ4C26qLsGxt3WbYPbqBe6WM9KjfTG5Xk7zI5cN6GzaR/Mm3kYve8Tx772FZuyEvs/xRtOS91oj3W/kkgVjPIjR8+zR1j8o35ZrqjbdV755R6RPGo81eYeuFgt4flqnhKyTNmrSXRZEQ9m4bTJdhs8o+ZaE2Uj4I0ys7ScLY17v0WuiIcHwnLdk2GtudU4TwhXiS8/ckWbxUtAgMBAAECggEAC7fdvjxpTg9+VZoOxIlYML3OGhqroVMrzC1hHMOJZq+5WbCRNHayBydejpNiNGNMLI6uQ5SJHUm3+utOO64d3xNg59/fV4nUfTYBGJY725wf1gZFM3XDmRus6KYd85E5uaveNzv9B+EO2Go9DeJLEO6FVNJzotiF1WZN7LcZQqqfCKMXJqhMGMCpwliGG/fE5rLuVA5BwkSLRoTgW7qQAgM+w9QXJOaz/4JJMMbk8+Ge5eaZXs+MROO5sHl6+eypxRidMRYwYBcBhOLK04kux717pXW6O/HgxXlqjEbeq1fHJIvC2IjP7ahEDdb78Im8ialsU3iPUM0TBGI65pVGgQKBgQC89iWbYhbPrMqLVJHjRwbgYlWr7FEi9t2dLuM+m5VdknvPH6B/26CJTgsRgOWUnDpmt4xyEwUOpahOPxwQsZd81a5MDdGS0MKJSJuTliTUL5WfVA2NXBBB15srh0MWTlpFv/E8b68wjOaBC1S4AGp+mrzCP5QiISdHmQhRngsL0QKBgQCwSQOdooam+OPUNEhts+vRXFvYGPOnmBSPUF+INGd0aX9oFe0uSX5JgRkdBHIi+G5l0A4u3VnB7fF0eQ7oXrS7/3Axnp5zNuh+DZKU0diJx5IIVXtgEt/X+nDqocDi01XLmHzmSUHGL2yrTCtQ3BAvlnFtTrEA9S4cJQhSkO72nQKBgQCOBNIu/oH2g/+WyHD9SJy6eC27kVlJ1hCp2lug6n5QXZAAE90lO4RkretTtHTYRLMAEGPWOMVMROVCKdyGD3Ozt0XQk3I3zf7n/1IukmILt9fUb+/flpoBYnKVPIwHb8wZMDG3Ipmg+8Uip8l8oZNopBPKSs6i+Bf1j+bYsNfMgQKBgQCF380ZJ1Yu85DBlLr0ZNDPe95b7AcN3Zavh5AlNfbjF0MkXpJytmlrlNjninrLR/M+6pP6zyrc9cCKfWzu1w1WQBSJ+jXGtYo2QERzNDHH4IFsRs6dFXhc4tphtVlwaKIdLb6cfEGxKk7Sf9PdYmIAYbXeFwag/ZF42j7JxTtUmQKBgQCT46GxJOMCKGx0tMa8wp6jzLaoXbJF8xAVy6CEYtarfHS3M6bi/Y+dRFRGydRtB2Xjw1OFEhqbLY2Hs9g4m+mYFWMZIrt/4qkwZCFRJC8ED/iTp0lbqFUj5AL3f/04gkMw1PzLojkCqdhBhZPc1/XefZE44Dgxok/I/nhRcfZlnw=='
+  privateKey: "MIIEvwasdAAoIBAQCCHx62yhuxnMZbzHyDK9ck9JXmh2fXAHuBDHYSxCZEPAhjrCa8PmUOuK3CJP1NAzvwKWpd/DaO6e8GTUH5Ez017RZvmDZ0H2ef/SaK8eEF/CixPEIBV9ZPmu/KsW4ovKavptDbDaGcJ4C26qLsGxt3WbYPbqBe6WM9KjfTG5Xk7zI5cN6GzaR/Mm3kYve8Tx772FZuyEvs/xRtOS91oj3W/kkgVjPIjR8+zR1j8o35ZrqjbdV755R6RPGo81eYeuFgt4flqnhKyTNmrSXRZEQ9m4bTJdhs8o+ZaE2Uj4I0ys7ScLY17v0WuiIcHwnLdk2GtudU4TwhXiS8/ckWbxUtAgMBAAECggEAC7fdvjxpTg9+VZoOxIlYML3OGhqroVMrzC1hHMOJZq+5WbCRNHayBydejpNiNGNMLI6uQ5SJHUm3+utOO64d3xNg59/fV4nUfTYBGJY725wf1gZFM3XDmRus6KYd85E5uaveNzv9B+EO2Go9DeJLEO6FVNJzotiF1WZN7LcZQqqfCKMXJqhMGMCpwliGG/fE5rLuVA5BwkSLRoTgW7qQAgM+w9QXJOaz/4JJMMbk8+Ge5eaZXs+MROO5sHl6+eypxRidMRYwYBcBhOLK04kux717pXW6O/HgxXlqjEbeq1fHJIvC2IjP7ahEDdb78Im8ialsU3iPUM0TBGI65pVGgQKBgQC89iWbYhbPrMqLVJHjRwbgYlWr7FEi9t2dLuM+m5VdknvPH6B/26CJTgsRgOWUnDpmt4xyEwUOpahOPxwQsZd81a5MDdGS0MKJSJuTliTUL5WfVA2NXBBB15srh0MWTlpFv/E8b68wjOaBC1S4AGp+mrzCP5QiISdHmQhRngsL0QKBgQCwSQOdooam+OPUNEhts+vRXFvYGPOnmBSPUF+INGd0aX9oFe0uSX5JgRkdBHIi+G5l0A4u3VnB7fF0eQ7oXrS7/3Axnp5zNuh+DZKU0diJx5IIVXtgEt/X+nDqocDi01XLmHzmSUHGL2yrTCtQ3BAvlnFtTrEA9S4cJQhSkO72nQKBgQCOBNIu/oH2g/+WyHD9SJy6eC27kVlJ1hCp2lug6n5QXZAAE90lO4RkretTtHTYRLMAEGPWOMVMROVCKdyGD3Ozt0XQk3I3zf7n/1IukmILt9fUb+/flpoBYnKVPIwHb8wZMDG3Ipmg+8Uip8l8oZNopBPKSs6i+Bf1j+bYsNfMgQKBgQCF380ZJ1Yu85DBlLr0ZNDPe95b7AcN3Zavh5AlNfbjF0MkXpJytmlrlNjninrLR/M+6pP6zyrc9cCKfWzu1w1WQBSJ+jXGtYo2QERzNDHH4IFsRs6dFXhc4tphtVlwaKIdLb6cfEGxKk7Sf9PdYmIAYbXeFwag/ZF42j7JxTtUmQKBgQCT46GxJOMCKGx0tMa8wp6jzLaoXbJF8xAVy6CEYtarfHS3M6bi/Y+dRFRGydRtB2Xjw1OFEhqbLY2Hs9g4m+mYFWMZIrt/4qkwZCFRJC8ED/iTp0lbqFUj5AL3f/04gkMw1PzLojkCqdhBhZPc1/XefZE44Dgxok/I/nhRcfZlnw=="
   # 域名
-  domain: 'https://71asd3a8x8.zicp.fun'
+  domain: "https://71asd3a8x8.zicp.fun"
 
 # 服务器初始化配置(只加载一次)
 config:
   # OPEN AI API
-  openAiUrl: 'https://chatmp.hcolor.pro/v1'
+  openAiUrl: "https://chatmp.hcolor.pro/v1"
   # SD API
-  sdUrl: 'http://127.0.0.1:7860'
+  sdUrl: "http://127.0.0.1:7860"
   # MJ API
-  mjUrl: 'http://127.0.0.1:7860'
+  mjUrl: "http://127.0.0.1:7860"
   # GPT-3:
-  openKey: 'sk-Nw4Oeasd3BlbkFJzFkhF1exF1MtLxEaFhKU'
+  openKey: "sk-Nw4Oeasd3BlbkFJzFkhF1exF1MtLxEaFhKU"
   # GPT-4
-  openPlusKey: 'sk-KGUasdJUv3M0WvrECHr4uv52wTt'
+  openPlusKey: "sk-KGUasdJUv3M0WvrECHr4uv52wTt"
   # 用户第一次登录奖励次数
   incentiveFrequency: 10
   # 观看视频奖励次数
@@ -223,13 +219,13 @@ config:
   # 观看视频奖励次数
   signInFrequency: 1
   # claude
-  organizationUuid: '3eead2bb-e6b8-49c1-aad4-2bec4e62c709'
+  organizationUuid: "3eead2bb-e6b8-49c1-aad4-2bec4e62c709"
   # 连ID
-  conversationUuid: '082e1205-2081-456a-a0ae-9ea06cc6dc59'
+  conversationUuid: "082e1205-2081-456a-a0ae-9ea06cc6dc59"
   # sessionKey
-  sessionKey: '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'
+  sessionKey: "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"
   # 必应Cookie
-  newBingCookie: '1c5f8HXnvasdgmhdrCHD33Xsw9n5eBK0_uWUFygYnl_2SSuejpXTnw8R7ZetpesLSSjVuZnOfOOGCVKJ2pEM_0Hg2ozW2ep_bvADewjMZDXBvzjHv8mpOAxrZ1tLjQQphjpeemQAMKl4AqmvObIClK8e0noqoXjr9jZ3l45qKy6ABBEqFeiWMiF8UCkKVqHBI5g'
+  newBingCookie: "1c5f8HXnvasdgmhdrCHD33Xsw9n5eBK0_uWUFygYnl_2SSuejpXTnw8R7ZetpesLSSjVuZnOfOOGCVKJ2pEM_0Hg2ozW2ep_bvADewjMZDXBvzjHv8mpOAxrZ1tLjQQphjpeemQAMKl4AqmvObIClK8e0noqoXjr9jZ3l45qKy6ABBEqFeiWMiF8UCkKVqHBI5g"
 
 # 终端配置 只加载配置
 control:
@@ -249,14 +245,6 @@ control:
   enableWechatAppMain: true
   # 是否开启代理了
   enableProxy: false
-
-
-
-
-
-
-
-
 ```
 
 前端配置参考
@@ -417,55 +405,45 @@ export default {
 
 ```
 
-
-
 `在uniApp根目录中执行以下命令`
 
-``` 
+```
 npm install
 ```
 
-
 `前端配置在于 uitls/env.js中 可用VSCODE 或者 Websotrm 或 HBuilder动态修改`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/eb7fa337-72ee-436a-9452-b1b6930f477c" style="width:800px;height:400px" />
-
 
 `注意把manifest.json中的 appid替换为自己的微信APPID`
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/4f9286f4-d37d-4800-81a1-90e113827927" style="width:800px;height:400px" />
 
 `如何运行到微信开发者小程序呢? 使用HBuilder打开此项目 如何随便点击里面一个文件(必须,否则Hbuider无法识别项目)`
 
-
-
 ![image](https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/3f95d5e8-29ec-4099-8df5-3ab459277354)
 
 `使用HBuilder打开源码后如图所示(此图操作只是运行到微信小程序,如果通过这种方式上传到微信小程序正式版 代码包是没有压缩的,所以如果你要发布正式版本则选择发行按钮 跟着操作来就行,另外再发行前 请先把原有的unpackage目录删除 再点击发行 之后就可以上传至体验或者正式,如果你只需本地调试则 直接运行即可)`
 
-
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/22b1699b-3202-48d3-8f67-2a09d0408f52" style="width:800px;height:400px" />
-
 
 `请注意在微信公众平台中 把https wss 阿里oss域名 开启白名单校验`
 
+如需二开项目请注意遵循开源规则 个人开发不易 如果你喜欢这个项目 请你动动小手给此项目点个 star 吧 😁 欢迎各位大佬一起维护此项目
 
-如需二开项目请注意遵循开源规则 个人开发不易 如果你喜欢这个项目 请你动动小手给此项目点个star吧😁 欢迎各位大佬一起维护此项目
-
-请作者喝一杯coffee😁
+请作者喝一杯 coffee😁
 
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cb81e952-b28a-4688-a9e2-b61290e489bf" style="width:300px;height:300px" />
 
-
-## web端todo
+## web 端 todo
 
 - 完善 B 站喂饭级别教程
 - 完善 docker 镜像，以及快速部署教程
-- 密码重置
+- [完成]密码重置
 - 移动端管理员页面兼容适配
 - 后期接口请求，支持用户上传提示词
 - 为每个对话设置系统 Prompt
 - 允许用户自行编辑内置 Prompt 列表
-- 预制角色：使用预制角色快速定制新对话
+- [完成]预制角色：使用预制角色快速定制新对话
 - 分享为图片，分享到 ShareGPT 链接
 - 脚本部署，争取做到半自动或者开箱即用
 - 推进服务端部署 LocalAI 项目 llama / gpt4all / rwkv / vicuna / koala / gpt4all-j / cerebras / falcon / dolly 等等，或者使用 api-for-open-llm
-- 看如何搭配oneAPI项目一起增强体验
+- 看如何搭配 oneAPI 项目一起增强体验
