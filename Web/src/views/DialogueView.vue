@@ -1,131 +1,120 @@
 <template>
-  <div
-      class="body"
-      ref="scrollRef">
-    <div
-        v-if="!conversationList.length"
-        class="explain">
-      <img
-          class="logo"
-          alt="Vue logo"
-          src="../assets/logo02.svg"/>
+  <div class="body" ref="scrollRef">
+    <div v-if="!conversationList.length" class="explain">
+      <img class="logo" alt="Vue logo" src="../assets/logo02.svg" />
       <div class="expositoryCase">欢迎使用TIME SEA PLUS</div>
       <div class="consume">
         <el-icon>
-          <Goods/>
+          <Goods />
         </el-icon>
         <div class="consumeText">每次提问消耗1个SUPER币</div>
       </div>
       <div class="beCareful">请注意不支持违法、违规等不当信息内容</div>
     </div>
-    <div
-        v-else
-        class="questions"
-        style="margin: 20px 0">
+    <div v-else class="questions" style="margin: 20px 0">
       <div
-          v-for="(item, index) in conversationList"
-          :key="index"
-          class="item slide-animation">
+        v-for="(item, index) in conversationList"
+        :key="index"
+        class="item slide-animation"
+      >
         <div class="question">
           <div>
             <div class="text">{{ item.user }}</div>
           </div>
           <el-avatar
-              class="flexShrink"
-              :size="35"
-              :icon="UserFilled"
-              :src="
+            class="flexShrink"
+            :size="35"
+            :icon="UserFilled"
+            :src="
               store.getters.userinfo.avatar
                 ? imageUrl + store.getters.userinfo.avatar
                 : require('../assets/my.png')
-            "/>
+            "
+          />
         </div>
 
         <div class="answer">
           <el-avatar
-              class="flexShrink"
-              :size="35"
-              :icon="UserFilled"
-              :src="require('../assets/logoHead.svg')"/>
-          <div v-if="item.assistant">
-            <div
+            class="flexShrink"
+            :size="35"
+            :icon="UserFilled"
+            :src="require('../assets/logoHead.svg')"
+          />
+          <template v-if="item.assistant">
+            <div style="width: 100%">
+              <div
                 class="answer-data"
-                :style="{ width: calculateWidth(item.assistant) }">
-              <v-md-editor
+                :style="{ maxWidth: calculateWidth(item.assistant) }"
+              >
+                <v-md-editor
                   :model-value="item.assistant"
                   mode="preview"
-                  @copy-code-success="handleCopyCodeSuccess"/>
-            </div>
-            <div
-                class="operation--model"
-                v-if="!item.isError">
-              <div
-                  class="op-btn"
-                  @click="copyAnswer(item.assistant)">
-                <el-icon>
-                  <CopyDocument/>
-                </el-icon>
-                <text class="op-font">复制</text>
+                  @copy-code-success="handleCopyCodeSuccess"
+                />
               </div>
-              <div
+
+              <div class="operation--model" v-if="!item.isError">
+                <div class="op-btn" @click="copyAnswer(item.assistant)">
+                  <el-icon>
+                    <CopyDocument />
+                  </el-icon>
+                  <text class="op-font">复制</text>
+                </div>
+                <div
                   class="op-btn"
                   @click="onCollection(item, index)"
-                  v-if="!item.isCollection">
-                <el-icon color="rgb(255,236,160)">
-                  <StarFilled/>
-                </el-icon>
-                <text class="op-font">收藏</text>
+                  v-if="!item.isCollection"
+                >
+                  <el-icon color="rgb(255,236,160)">
+                    <StarFilled />
+                  </el-icon>
+                  <text class="op-font">收藏</text>
+                </div>
               </div>
             </div>
-          </div>
-          <div
-              class="answer-data"
-              v-else
-              style="width: 100px">
-            <div style="display: flex; padding: 5px 9px">
-              <div class="dot_0"></div>
-              <div class="dot_1"></div>
-              <div class="dot_2"></div>
-              <div class="dot_3"></div>
-              <div class="dot_4"></div>
+          </template>
+          <template v-else>
+            <div class="answer-data" style="width: 100px">
+              <div style="display: flex; padding: 5px 9px">
+                <div class="dot_0"></div>
+                <div class="dot_1"></div>
+                <div class="dot_2"></div>
+                <div class="dot_3"></div>
+                <div class="dot_4"></div>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
-    <div
-        class="suspend"
-        v-show="aiLoading"
-        @click="closeSocket">
+    <div class="suspend" v-show="aiLoading" @click="closeSocket">
       <el-icon :size="16">
-        <VideoPause/>
+        <VideoPause />
       </el-icon>
       <div>暂停输出</div>
     </div>
     <div class="footer">
       <div class="footer-bar">
         <div
-            class="clear"
-            @click="clear"
-            v-show="store.getters.userinfo && !aiLoading">
+          class="clear"
+          @click="clear"
+          v-show="store.getters.userinfo && !aiLoading"
+        >
           <div style="padding-top: 4px">
-            <el-icon
-                size="13px"
-                style="padding-right: 3px">
-              <Clock/>
+            <el-icon size="13px" style="padding-right: 3px">
+              <Clock />
             </el-icon>
           </div>
           <div>清除聊天</div>
         </div>
         <div
-            class="clear2"
-            v-show="store.getters.userinfo && !aiLoading"
-            @click="dialogueDisplay = true">
+          class="clear2"
+          v-show="store.getters.userinfo && !aiLoading"
+          @click="dialogueDisplay = true"
+        >
           <div style="padding-top: 4px">
-            <el-icon
-                size="13px"
-                style="padding-right: 3px">
-              <ChatDotRound/>
+            <el-icon size="13px" style="padding-right: 3px">
+              <ChatDotRound />
             </el-icon>
           </div>
           <div>记忆回溯</div>
@@ -143,35 +132,32 @@
         -->
 
         <InputFormField
-            ref="inputRef"
-            :aiLoading="aiLoading"
-            :inputText="input"
-            @update:inputText="input = $event"
-            @update:model="model = $event"
-            @onSubmit="onSubmit"/>
+          ref="inputRef"
+          :aiLoading="aiLoading"
+          :inputText="input"
+          @update:inputText="input = $event"
+          @update:model="model = $event"
+          @onSubmit="onSubmit"
+        />
       </div>
     </div>
   </div>
   <el-dialog
-      v-model="dialogueDisplay"
-      title=""
-      width="430px"
-      center
-      style="background-color: rgb(27, 30, 32)">
+    v-model="dialogueDisplay"
+    title=""
+    width="430px"
+    center
+    style="background-color: rgb(27, 30, 32)"
+  >
     <div>
       <div class="cache-flex-center">
-        <img
-            alt="Vue logo"
-            src="../assets/logo02.svg"
-            class="cache-img"/>
+        <img alt="Vue logo" src="../assets/logo02.svg" class="cache-img" />
       </div>
       <div class="cache-text">TIME SEA PLUS</div>
       <div class="cache-flex-center cache-padding-top">
-        <div
-            class="cache-btn"
-            @click="createdNewChat">
+        <div class="cache-btn" @click="createdNewChat">
           <el-icon size="16px">
-            <ChatLineSquare/>
+            <ChatLineSquare />
           </el-icon>
           <div class="cache-btn-text">创建新的聊天</div>
         </div>
@@ -180,13 +166,12 @@
         <div class="cache-scrollbar">
           <el-scrollbar height="250px">
             <div
-                class="cache-padding"
-                v-for="(item, index) in dialogueCache.array"
-                :key="index">
+              class="cache-padding"
+              v-for="(item, index) in dialogueCache.array"
+              :key="index"
+            >
               <div class="cache-flex-space-between cache-margin">
-                <div
-                    class="cache-message"
-                    @click="switchChat(index)">
+                <div class="cache-message" @click="switchChat(index)">
                   <div class="cache-message-text">
                     {{ item.title }}
                   </div>
@@ -196,13 +181,14 @@
                 </div>
                 <div class="cache-selected">
                   <img
-                      :src="
+                    :src="
                       dialogueCache.index === index
                         ? require('../assets/selected.svg')
                         : require('../assets/close.svg')
                     "
-                      class="cache-selected-img"
-                      @click="clearDialogue(index)"/>
+                    class="cache-selected-img"
+                    @click="clearDialogue(index)"
+                  />
                 </div>
               </div>
             </div>
@@ -211,13 +197,11 @@
       </div>
     </div>
   </el-dialog>
-  <LoginDialog
-      :show="loginVisible"
-      @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {nextTick, onMounted, ref} from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import {
   ChatDotRound,
   ChatLineSquare,
@@ -228,17 +212,17 @@ import {
   UserFilled,
   VideoPause,
 } from "@element-plus/icons-vue";
-import {ElNotification} from "element-plus";
-import {FavoritesAdd, GetUserInfo} from "../../api/BSideApi";
-import {useStore} from "vuex";
+import { ElNotification } from "element-plus";
+import { FavoritesAdd, GetUserInfo } from "../../api/BSideApi";
+import { useStore } from "vuex";
 import LoginDialog from "@/components/LoginDialog.vue";
 import InputFormField from "@/components/InputFormField.vue";
 import store from "@/store";
-import {conversionTime} from "../utils/date";
+import { conversionTime } from "../utils/date";
 
 export default {
   name: "dialogueView",
-  methods: {conversionTime},
+  methods: { conversionTime },
   components: {
     StarFilled,
     CopyDocument,
@@ -275,7 +259,7 @@ export default {
     let dialogueDisplay = ref(false);
     const dialogueCache = ref({});
     const dialogueWidth = ref("30%");
-    const rate = ref(50)
+    const rate = ref(50);
 
     onMounted(() => {
       window.addEventListener("resize", handleResize);
@@ -306,8 +290,8 @@ export default {
             ],
           };
           localStorage.setItem(
-              "dialogueCache",
-              JSON.stringify(dialogueCache.value)
+            "dialogueCache",
+            JSON.stringify(dialogueCache.value)
           );
         }
       }
@@ -338,8 +322,8 @@ export default {
       dialogueCache.value.index = index;
       conversationList.value = dialogueCache.value.array[index].context;
       localStorage.setItem(
-          "dialogueCache",
-          JSON.stringify(dialogueCache.value)
+        "dialogueCache",
+        JSON.stringify(dialogueCache.value)
       );
       dialogueDisplay.value = false;
     }
@@ -364,8 +348,8 @@ export default {
         dialogueCache.value.array.splice(index, 1);
       }
       localStorage.setItem(
-          "dialogueCache",
-          JSON.stringify(dialogueCache.value)
+        "dialogueCache",
+        JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -376,15 +360,15 @@ export default {
       dialogueCache.value.array[value.index].time = Date.now();
       if (item.length > 0) {
         dialogueCache.value.array[value.index].title = item[
-        item.length - 1
-            ].user
-            .trim()
-            .slice(0, 25);
+          item.length - 1
+        ].user
+          .trim()
+          .slice(0, 25);
       }
       dialogueCache.value.array[value.index].context = item;
       localStorage.setItem(
-          "dialogueCache",
-          JSON.stringify(dialogueCache.value)
+        "dialogueCache",
+        JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -398,8 +382,8 @@ export default {
       dialogueCache.value.index = 0;
       conversationList.value = [];
       localStorage.setItem(
-          "dialogueCache",
-          JSON.stringify(dialogueCache.value)
+        "dialogueCache",
+        JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -407,8 +391,8 @@ export default {
     async function onSubmit() {
       // 判断是否登录
       if (!store.getters.userinfo) {
-        loginVisible.value = true
-        return
+        loginVisible.value = true;
+        return;
       }
 
       console.log("父的提交，onSubmit()->input", input);
@@ -434,20 +418,20 @@ export default {
       // TODO 上下文
       let messages = [];
       conversationList.value
-          .slice(-10)
-          .forEach(({isError, user, assistant}) => {
-            if (!isError) {
+        .slice(-10)
+        .forEach(({ isError, user, assistant }) => {
+          if (!isError) {
+            messages.push({
+              role: "user",
+              content: user,
+            });
+            if (assistant)
               messages.push({
-                role: "user",
-                content: user,
+                role: "assistant",
+                content: assistant,
               });
-              if (assistant)
-                messages.push({
-                  role: "assistant",
-                  content: assistant,
-                });
-            }
-          });
+          }
+        });
       if (messages.length > 10) {
         messages = messages.slice(-10);
       }
@@ -457,10 +441,9 @@ export default {
         },
         index: index,
       });
-
     }
 
-    function webSocket({messages, index}) {
+    function webSocket({ messages, index }) {
       if (typeof WebSocket == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
@@ -474,7 +457,7 @@ export default {
         console.log("发起websocket", model.value);
 
         socket.value = new WebSocket(
-            process.env.VUE_APP_WSS +
+          process.env.VUE_APP_WSS +
             "/gpt-web/api/" +
             localStorage.getItem("token") +
             "/" +
@@ -489,13 +472,13 @@ export default {
         socket.value.onmessage = function (news) {
           messageQueue.push({
             msg: news.data,
-            index: index
+            index: index,
           }); // 将接收到的消息存储到队列中
           displayMessages(); // 显示消息
         };
         // TODO 关闭连接
         socket.value.onclose = function () {
-          waitUntilMessageQueueClear(index)
+          waitUntilMessageQueueClear(index);
         };
         // TODO 处理错误
         socket.value.onerror = function () {
@@ -533,7 +516,7 @@ export default {
             } else {
               conversationList.value[index].assistant = character;
             }
-            scrollToTheBottom()
+            scrollToTheBottom();
             setTimeout(displayNextCharacter, rate.value);
           } else {
             isDisplaying = false;
@@ -577,7 +560,6 @@ export default {
       store.commit("setUserinfo", res);
     }
 
-
     // TODO 滚动到底部
     function scrollToTheBottom() {
       nextTick(() => {
@@ -605,14 +587,14 @@ export default {
 
     function closeSocket() {
       if (socket.value) {
-        messageQueue.length=0
+        messageQueue.length = 0;
         socket.value.close();
         socket.value = null;
       }
     }
 
     function clear() {
-      closeSocket()
+      closeSocket();
       conversationList.value = [];
       writeDialogue();
     }
@@ -696,6 +678,8 @@ export default {
     transform: translateX(0);
   }
 }
+
+// 这里需要做媒体查询， 兼容小屏幕的对话框
 
 .body {
   scroll-behavior: smooth;
@@ -789,14 +773,14 @@ export default {
 }
 
 :deep(
-      .footer-bar
-        > .el-input
-        > .el-input-group__prepend
-        > .el-select
-        > .select-trigger
-        > .el-input
-        > .el-input__wrapper
-    ) {
+    .footer-bar
+      > .el-input
+      > .el-input-group__prepend
+      > .el-select
+      > .select-trigger
+      > .el-input
+      > .el-input__wrapper
+  ) {
   box-shadow: none !important;
   font-size: 15px;
   height: 62px;
@@ -848,7 +832,7 @@ export default {
   text-align: left;
   min-height: 28px;
   white-space: pre-wrap;
-  margin-left: 16px;
+  margin-left: 46px;
   font-size: 16px;
   word-break: break-all;
   line-height: 28px;
@@ -940,6 +924,7 @@ export default {
   background-color: #1f2224;
   padding: 10px 10px 10px 5px;
   min-width: 50px;
+  margin-right: 46px;
 }
 
 .suspend div {

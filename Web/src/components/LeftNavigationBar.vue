@@ -247,6 +247,13 @@ export default defineComponent({
   /* background: #f6f6f6; */
 }
 
+@media screen and (max-width: 756px) {
+  ::v-deep(.rightContent .body) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .loginBut {
   width: 80px;
   height: 40px;
