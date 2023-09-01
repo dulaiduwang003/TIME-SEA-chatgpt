@@ -38,6 +38,8 @@ public interface ExceptionMessages {
 
     String GPT_TIMEOUT = "当前使用人数过多,请稍后再试";
 
+    String GPT_FREQUENT = "哦豁!现在貌似出了点问题 请重新发送试试";
+
     String WECHAT_AUTHORIZATION = "微信API能力调用失败";
 
     String BING_ERR = "目前必应可能正在维护中,请稍后再试";
