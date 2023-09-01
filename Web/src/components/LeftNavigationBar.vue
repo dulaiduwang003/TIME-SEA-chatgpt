@@ -252,6 +252,10 @@ export default defineComponent({
     padding-left: 0;
     padding-right: 0;
   }
+  ::v-deep(.rightContent .body .questions > .item) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 }
 
 .loginBut {
