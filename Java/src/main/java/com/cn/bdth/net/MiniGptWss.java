@@ -15,10 +15,7 @@ import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.utils.ChatUtils;
 import com.cn.bdth.utils.SpringContextUtil;
 import com.cn.bdth.utils.UserUtils;
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
+import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
@@ -140,7 +137,7 @@ public class MiniGptWss {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
         } catch (Exception e) {
-            log.error("       与 OPEN Ai建立连接失败 原因:{}", e.getMessage());
+            log.error("与 OPEN Ai建立连接失败 原因:{}", e.getMessage());
             appointSendingSystem(ExceptionMessages.GPT_FREQUENT);
             handleWebSocketCompletion();
         }
@@ -151,9 +148,16 @@ public class MiniGptWss {
         try {
             this.session.close();
         } catch (IOException e) {
-            log.error("关闭 WebSocket 会话失败.", e);
+            log.error("关闭 微信 WebSocket 会话失败.", e);
         }
     }
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        log.warn("微信GPT websocket出现异常 原因:{}", throwable.getMessage());
+        //打印堆栈
+        //      throwable.printStackTrace();
+    }
+
 
     public void appointSendingSystem(final String message) {
         try {

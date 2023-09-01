@@ -9,10 +9,7 @@ import com.cn.bdth.service.GptService;
 import com.cn.bdth.utils.ChatUtils;
 import com.cn.bdth.utils.SpringContextUtil;
 import com.cn.bdth.utils.UserUtils;
-import jakarta.websocket.OnClose;
-import jakarta.websocket.OnMessage;
-import jakarta.websocket.OnOpen;
-import jakarta.websocket.Session;
+import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
@@ -106,8 +103,15 @@ public class ClaudeWss {
         try {
             this.session.close();
         } catch (IOException e) {
-            log.error("关闭 WebSocket 会话失败.", e);
+            log.error("关闭  克劳德 WebSocket 会话失败.", e);
         }
+    }
+
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+        log.warn("克劳德 websocket出现异常 原因:{}", throwable.getMessage());
+        //打印堆栈
+        //      throwable.printStackTrace();
     }
 
     public void appointSendingSystem(final String message) {
