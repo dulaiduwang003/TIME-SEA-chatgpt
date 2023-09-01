@@ -212,7 +212,6 @@
     Clock,
     CopyDocument,
     Goods,
-    Promotion,
     StarFilled,
     UserFilled,
     VideoPause,
@@ -237,7 +236,6 @@
       Clock,
       VideoPause,
       Goods,
-      Promotion,
       LoginDialog,
     },
     computed: {
@@ -259,17 +257,18 @@
       let loginVisible = ref(false);
       let socket = ref(null);
       let aiLoading = ref(false);
-      let dataIndex = ref(0);
       const imageUrl = ref("");
       let dialogueDisplay = ref(false);
       const claudeCache = ref({});
       const dialogueWidth = ref("30%");
+      const rate = ref(50)
       onMounted(() => {
         window.addEventListener("resize", handleResize);
         handleResize();
         if (store.getters.userinfo) getUser();
         //获取图片域名
         imageUrl.value = process.env.VUE_APP_IMAGE;
+        rate.value = parseInt(process.env.VUE_APP_RATE);
         //获取对话缓存数据
         let item = localStorage.getItem("claudeCache");
         if (store.getters.userinfo) {
@@ -392,8 +391,6 @@
           aiLoading.value = true;
           // TODO 滚动到底部
           scrollToTheBottom();
-
-          dataIndex.value = index;
           webSocket({
             messages: {
               messages: content,
@@ -426,26 +423,15 @@
           };
           // TODO 接收消息
           socket.value.onmessage = function (news) {
-            if (conversationList.value[index].assistant) {
-              conversationList.value[index].assistant += news.data;
-            } else {
-              conversationList.value[index].assistant = news.data;
-            }
-            // TODO 滚动到底部
-            scrollToTheBottom();
+            messageQueue.push({
+              msg: news.data,
+              index: index
+            }); // 将接收到的消息存储到队列中
+            displayMessages(); // 显示消息
           };
           // TODO 关闭连接
           socket.value.onclose = function () {
-            conversationList.value[index].isError = false;
-            writeDialogue();
-            getUser();
-            aiLoading.value = false;
-            // 滚动到底部
-            scrollToTheBottom();
-            nextTick(() => {
-              // 组件内部方法，聚焦
-              inputRef.value.$refs.inputRefInner.focus();
-            });
+            waitUntilMessageQueueClear(index)
           };
           // TODO 处理错误
           socket.value.onerror = function () {
@@ -459,6 +445,68 @@
             location.reload();
           };
         }
+      }
+
+
+      const messageQueue = []; // 消息队列
+      let isDisplaying = false; // 是否正在显示消息
+      function displayMessages() {
+        if (isDisplaying) {
+          return; // 如果正在显示消息，则直接返回，等待下一次调用
+        }
+        isDisplaying = true;
+        const message = messageQueue.shift(); // 取出队列中的第一个消息
+        if (message) {
+          let i = 0;
+
+          // eslint-disable-next-line no-inner-declarations
+          function displayNextCharacter() {
+            const index = message.index;
+            const msg = message.msg;
+            const character = msg.charAt(i++);
+            if (character) {
+              if (conversationList.value[index].assistant) {
+                conversationList.value[index].assistant += character;
+              } else {
+                conversationList.value[index].assistant = character;
+              }
+              scrollToTheBottom()
+              setTimeout(displayNextCharacter, rate.value);
+            } else {
+              isDisplaying = false;
+              displayMessages(); // 显示下一条消息
+            }
+          }
+
+          displayNextCharacter();
+        } else {
+          isDisplaying = false; // 重置标志以便下次能够正确显示消息
+        }
+      }
+
+      function waitUntilMessageQueueClear(index) {
+        return new Promise((resolve) => {
+          let interval = setInterval(() => {
+            if (messageQueue.length === 0) {
+              let assistant = conversationList.value[index].assistant;
+              conversationList.value[index].isError = false;
+              if (!assistant) {
+                conversationList.value.splice(index, 1);
+              }
+              writeDialogue();
+              getUser();
+              aiLoading.value = false;
+              // 滚动到底部
+              scrollToTheBottom();
+              nextTick(() => {
+                // 这里修改为调用子组件的聚焦
+                inputRef.value.$refs.inputRefInner.focus();
+              });
+              clearInterval(interval);
+              resolve();
+            }
+          }, 50);
+        });
       }
 
       async function getUser() {
@@ -493,23 +541,14 @@
 
       function closeSocket() {
         if (socket.value) {
+          messageQueue.length=0
           socket.value.close();
           socket.value = null;
-          setTimeout(() => {
-            let assistant = conversationList.value[dataIndex.value].assistant;
-            if (!assistant) {
-              conversationList.value.splice(dataIndex.value, 1);
-            }
-            writeDialogue();
-          }, 100);
         }
       }
 
       function clear() {
-        if (socket.value) {
-          socket.value.close();
-          socket.value = null;
-        }
+        closeSocket()
         conversationList.value = [];
         writeDialogue();
       }
@@ -557,7 +596,6 @@
         copyAnswer,
         aiLoading,
         closeSocket,
-        dataIndex,
         imageUrl,
         dialogueDisplay,
         claudeCache,
@@ -712,6 +750,17 @@
     justify-content: center;
     align-items: center;
     display: flex;
+  }
+
+  ::v-deep(.dot0),
+  ::v-deep(.dot1),
+  ::v-deep(.dot2),
+  ::v-deep(.dot3) {
+    background-color: #667ee1 !important;
+  }
+
+  ::v-deep(.InputFormFieldWapper .sendIcon){
+    background-color: #667ee1 !important;
   }
 
   .questions {

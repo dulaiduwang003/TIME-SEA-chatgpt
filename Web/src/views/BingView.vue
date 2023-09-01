@@ -213,7 +213,6 @@
     Clock,
     CopyDocument,
     Goods,
-    Promotion,
     StarFilled,
     UserFilled,
     VideoPause,
@@ -238,7 +237,6 @@
       Clock,
       VideoPause,
       Goods,
-      Promotion,
       LoginDialog,
     },
     computed: {
@@ -260,7 +258,6 @@
       let loginVisible = ref(false);
       let socket = ref(null);
       let aiLoading = ref(false);
-      let dataIndex = ref(0);
       const imageUrl = ref("");
       let dialogueDisplay = ref(false);
       const bingCache = ref({});
@@ -388,7 +385,6 @@
           // TODO 滚动到底部
           scrollToTheBottom();
 
-          dataIndex.value = index;
           webSocket({
             messages: {
               messages: content,
@@ -427,15 +423,18 @@
           };
           // TODO 关闭连接
           socket.value.onclose = function () {
+            let assistant = conversationList.value[index].assistant;
             conversationList.value[index].isError = false;
-
+            if (!assistant) {
+              conversationList.value.splice(index, 1);
+            }
             writeDialogue();
             getUser();
             aiLoading.value = false;
             // 滚动到底部
             scrollToTheBottom();
             nextTick(() => {
-              // 组件内部方法，聚焦
+              // 这里修改为调用子组件的聚焦
               inputRef.value.$refs.inputRefInner.focus();
             });
           };
@@ -487,21 +486,11 @@
         if (socket.value) {
           socket.value.close();
           socket.value = null;
-          setTimeout(() => {
-            let assistant = conversationList.value[dataIndex.value].assistant;
-            if (!assistant) {
-              conversationList.value.splice(dataIndex.value, 1);
-            }
-            writeDialogue();
-          }, 100);
         }
       }
 
       function clear() {
-        if (socket.value) {
-          socket.value.close();
-          socket.value = null;
-        }
+        closeSocket()
         conversationList.value = [];
         writeDialogue();
       }
@@ -549,7 +538,6 @@
         copyAnswer,
         aiLoading,
         closeSocket,
-        dataIndex,
         imageUrl,
         dialogueDisplay,
         bingCache,
@@ -1010,6 +998,17 @@
     background-color: #fab602;
     padding: 10px 30px;
     border-radius: 5px;
+  }
+
+  ::v-deep(.dot0),
+  ::v-deep(.dot1),
+  ::v-deep(.dot2),
+  ::v-deep(.dot3) {
+    background-color: #fab602 !important;
+  }
+
+  ::v-deep(.InputFormFieldWapper .sendIcon){
+    background-color: #fab602 !important;
   }
 
   .cache-btn-img {

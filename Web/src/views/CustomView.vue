@@ -150,7 +150,6 @@
       VideoPause,
       CopyDocument,
       Goods,
-      Promotion,
       LoginDialog,
     },
     computed: {
@@ -174,11 +173,13 @@
       let model = ref("gpt-3.5-turbo");
       let dataIndex = ref(0);
       const imageUrl = ref("");
+      const rate = ref(50)
+
       onMounted(() => {
         if (store.getters.userinfo) getUser();
         //获取图片域名
         imageUrl.value = process.env.VUE_APP_IMAGE;
-
+        rate.value = parseInt(process.env.VUE_APP_RATE);
         let item = localStorage.getItem("roleData");
 
         data.value = JSON.parse(item);
@@ -269,26 +270,15 @@
           };
           // TODO 接收消息
           socket.value.onmessage = function (news) {
-            if (conversationList.value[index].assistant) {
-              conversationList.value[index].assistant += news.data;
-            } else {
-              conversationList.value[index].assistant = news.data;
-            }
-            // TODO 滚动到底部
-            scrollToTheBottom();
+            messageQueue.push({
+              msg: news.data,
+              index: index
+            }); // 将接收到的消息存储到队列中
+            displayMessages(); // 显示消息
           };
           // TODO 关闭连接
           socket.value.onclose = function () {
-            conversationList.value[index].isError = false;
-            getUser();
-            aiLoading.value = false;
-            // TODO 滚动到底部
-            scrollToTheBottom();
-            // 在回复完成后将输入框设置为聚焦状态
-            nextTick(() => {
-              // 组件内部方法，聚焦
-              inputRef.value.$refs.inputRefInner.focus();
-            });
+            waitUntilMessageQueueClear(index)
           };
           // TODO 处理错误
           socket.value.onerror = function () {
@@ -302,6 +292,67 @@
             location.reload();
           };
         }
+      }
+
+      const messageQueue = []; // 消息队列
+      let isDisplaying = false; // 是否正在显示消息
+      function displayMessages() {
+        if (isDisplaying) {
+          return; // 如果正在显示消息，则直接返回，等待下一次调用
+        }
+        isDisplaying = true;
+        const message = messageQueue.shift(); // 取出队列中的第一个消息
+        if (message) {
+          let i = 0;
+
+          // eslint-disable-next-line no-inner-declarations
+          function displayNextCharacter() {
+            const index = message.index;
+            const msg = message.msg;
+            const character = msg.charAt(i++);
+            if (character) {
+              if (conversationList.value[index].assistant) {
+                conversationList.value[index].assistant += character;
+              } else {
+                conversationList.value[index].assistant = character;
+              }
+              scrollToTheBottom()
+              setTimeout(displayNextCharacter, rate.value);
+            } else {
+              isDisplaying = false;
+              displayMessages(); // 显示下一条消息
+            }
+          }
+
+          displayNextCharacter();
+        } else {
+          isDisplaying = false; // 重置标志以便下次能够正确显示消息
+        }
+      }
+
+      function waitUntilMessageQueueClear(index) {
+        return new Promise((resolve) => {
+          let interval = setInterval(() => {
+            if (messageQueue.length === 0) {
+              let assistant = conversationList.value[index].assistant;
+              conversationList.value[index].isError = false;
+              if (!assistant) {
+                conversationList.value.splice(index, 1);
+              }
+              getUser();
+              aiLoading.value = false;
+              // TODO 滚动到底部
+              scrollToTheBottom();
+              // 在回复完成后将输入框设置为聚焦状态
+              nextTick(() => {
+                // 组件内部方法，聚焦
+                inputRef.value.$refs.inputRefInner.focus();
+              });
+              clearInterval(interval);
+              resolve();
+            }
+          }, 50);
+        });
       }
 
       async function getUser() {
@@ -337,18 +388,9 @@
 
       function closeSocket() {
         if (socket.value) {
+          messageQueue.length=0
           socket.value.close();
           socket.value = null;
-          setTimeout(() => {
-            let assistant = conversationList.value[dataIndex.value].assistant;
-            if (!assistant) {
-              conversationList.value.splice(dataIndex.value, 1);
-            }
-            localStorage.setItem(
-              "dialogueData",
-              JSON.stringify(conversationList.value)
-            );
-          }, 100);
         }
       }
 
