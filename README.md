@@ -24,31 +24,6 @@
 
 https://anchwngb.cn/
 
-## 小程序效果展示
-
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/c45a9d5e-bd6a-4daf-8682-a9eaf010916c" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/f0ba848a-0b30-448e-822a-2c0f17d787a5" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/2d120e58-9383-4d6d-bb10-d12aa1c6e887" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/ffa23726-c98a-40b4-896d-1ba18d98a8a6" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/7ee632d0-b75f-47ba-87ea-02b64a320ab8" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/014fb492-4730-4138-b612-e7cfebe7fefb" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/fdfbb5da-0a87-4f4a-b7c6-2e5327d91f3d" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/59365a6e-a081-43a9-bf8f-0508efadf1de" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/fb378063-acf0-440d-b00d-e74fba21a728" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b161058e-eac3-4fad-a054-8c9bc7369d9a" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cc3fe1c4-04d6-44ce-8c07-26adcd336e81" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/b3e79dfd-5b33-47df-bb59-eda1a2c0e135" style="width:300px;height:600px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS-GPT/assets/87460202/a1fbce71-c077-4c16-aab1-32ce401d157f" style="width:300px;height:600px">
-
-网页效果展示 (同后端 使用微信扫一扫登录 如果是邮箱则需要在小程序中绑定手动绑定数据同步)
-
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/f4977f98-1b50-4667-b19b-45964ea1f3a9" style="width:700px;height:350px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/03f996fe-4c74-42c7-970b-4ad9d500283e" style="width:700px;height:350px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/0667e521-99f0-4e78-bd31-595f46bfdb24" style="width:700px;height:350px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/6a25f839-2982-43f0-8a8d-7f6fade8a730" style="width:700px;height:350px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/c248355f-79e0-456b-bb0f-79aed885345e" style="width:700px;height:350px">
-<img src="https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/87460202/c97379de-5989-498a-bea7-f7b9aee53f7e" style="width:700px;height:350px">
-
 ## 主要功能以及特性
 
 ` Web 和 小程序 共用一个后端 数据全一致 ps 如果需要网页的微信扫一扫登录则必须部署小程序应用 小程序和web都有控制台配置`
