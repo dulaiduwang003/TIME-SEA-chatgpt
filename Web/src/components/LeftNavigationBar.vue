@@ -177,7 +177,7 @@ export default defineComponent({
 
 :deep(.rightContent) {
   .footer {
-    background: transparent;
+    width: calc(100% - 10px);
   }
 }
 </style>
