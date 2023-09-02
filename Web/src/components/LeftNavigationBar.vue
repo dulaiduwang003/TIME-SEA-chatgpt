@@ -173,6 +173,12 @@ export default defineComponent({
     background-color: transparent;
   }
 }
+
+:deep(.rightContent) {
+  .footer {
+    background: transparent;
+  }
+}
 </style>
 
 <style scoped>
@@ -308,6 +314,7 @@ export default defineComponent({
   .NavigationBar {
     border: none;
     border-radius: 0;
+    overflow: auto;
   }
 
   .leftNavigation {

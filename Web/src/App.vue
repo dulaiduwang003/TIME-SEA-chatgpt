@@ -123,19 +123,20 @@ body {
 
 /* TODO 滚动条样式*/
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: rgba(0, 0, 0, 0.2);
 }
 
 ::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0);
+  /* box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); */
   border-radius: 0;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.1);
+  display: block;
 }
 
 .login-dialog > header {
