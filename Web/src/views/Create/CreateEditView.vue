@@ -1,9 +1,10 @@
 <template>
 	<div class="body">
 		<div class="container">
+		<div style="padding: 0px 20px">
 			<div style="height: 80px"></div>
 			<block v-if="item.desc">
-				<view class="title">&{{ item.desc }}</view>
+				<view class="title">{{ item.desc }}</view>
 				<view class="dividingLine"></view>
 			</block>
 			<view class="illustrate">请在下方告诉AI你想要什么</view>
@@ -16,6 +17,7 @@
 
 			<button @click="generate" class="determineTheBuild" type="primary">生成</button>
 			<button @click="router().back()" class="determineTheBuildBack" type="primary">返回上一页</button>
+		</div>
 		</div>
 	</div>
 </template>
@@ -157,7 +159,7 @@ export default {
 .dividingLine {
 	width: 100%;
 	height: 1px;
-	background-color: #e8e8e8;
+	background-color: #333;
 	margin-top: 10px;
 	margin-bottom: 20px;
 	display: block;

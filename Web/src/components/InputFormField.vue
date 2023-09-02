@@ -19,11 +19,6 @@
     2、输入框聚焦   父组件代码
         inputRef.value.$refs.inputRefInner.focus();
 
-
-
-    todo:
-    1、组件兼容其他页面，包括部分页面不需要选择这个组件
-
    -->
     <div class="InputFormFieldWapper">
       <el-select
@@ -32,12 +27,13 @@
         class="selectWrapper"
         placeholder="Ai模型"
         @change="updateModel"
-        style="width: 115px; text-indent: 10px"
+        style="width: 105px; text-indent: 10px"
       >
         <el-option value="BASIC" label="标准" />
         <el-option value="ADVANCED" label="智能" />
       </el-select>
       <el-input
+      :style="{marginLeft: needSelect?'0px':'10px' }"
         @keydown="handleKeyDown"
         v-model="inputTextInner"
         autosize
@@ -286,4 +282,7 @@ export default defineComponent({
 .dot3 {
   animation: jumpT 1.3s linear infinite;
 }
+
+
+
 </style>
