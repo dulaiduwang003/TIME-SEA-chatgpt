@@ -41,6 +41,7 @@
         <div class="bottomRight">
           <div class="bottomRightName">TIME SEA PLUS</div>
           <div class="bottomRightEdition">v1.3.1</div>
+          <div class="bottomRightEdition">v1.3.6</div>
         </div>
       </div>
     </div>
