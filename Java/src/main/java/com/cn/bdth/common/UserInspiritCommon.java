@@ -1,12 +1,12 @@
 package com.cn.bdth.common;
 
+import com.cn.bdth.config.UserInspiritDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.utils.RedisUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
@@ -23,15 +23,7 @@ public class UserInspiritCommon {
 
     private final RedisUtils redisUtils;
 
-    @Value("${config.incentiveFrequency}")
-    private Long incentiveFrequency;
-
-    @Value("${config.signInFrequency}")
-    private Long signInFrequency;
-
-    @Value("${config.videoFrequency}")
-    private Long videoFrequency;
-
+    private final UserInspiritDefaultConfig userInspiritDefaultConfig;
 
     public InspiritStructure getInspiritStructure() {
         final Object value = redisUtils.getValue(ServerConstant.INSPIRIT_CONFIG);
@@ -50,9 +42,9 @@ public class UserInspiritCommon {
     private InspiritStructure getDefault() {
         log.warn("请前往控制台配置ChatGPT参数配置");
         return new InspiritStructure()
-                .setIncentiveFrequency(incentiveFrequency)
-                .setVideoFrequency(videoFrequency)
-                .setSignInFrequency(signInFrequency);
+                .setIncentiveFrequency(userInspiritDefaultConfig.getIncentiveFrequency())
+                .setVideoFrequency(userInspiritDefaultConfig.getVideoFrequency())
+                .setSignInFrequency(userInspiritDefaultConfig.getSignInFrequency());
     }
 
     @Data

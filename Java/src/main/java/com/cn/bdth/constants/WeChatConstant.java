@@ -13,5 +13,5 @@ public interface WeChatConstant {
 
 
 
-    String RC_MODE ="(TIME SEA)";
+    String RC_MODE =" started ";
 }

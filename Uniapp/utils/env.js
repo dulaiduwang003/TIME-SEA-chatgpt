@@ -12,11 +12,11 @@ export default {
     // 默认作者名
     author: '时间海',
     // HTTP请求 基类
-    baseUrl: 'https://XXXXXX:8625',
+    baseUrl: 'https://后端服务器域名:8625',
     // 长连接请求 基类
-    baseWs: 'wss://XXXXXX:8625',
+    baseWs: 'wss://后端服务器域名:8625',
     // 图片服务器域名
-    imageBaseUrl: 'https://XXXXX',
+    imageBaseUrl: 'https://图片服务器域名',
     // 过滤用户输入关键词 (英文则大写) (初步校验 后端也会做校验)
     filtration: ["GPT", "OPENAI", "引擎"],
     // BOT最大记忆

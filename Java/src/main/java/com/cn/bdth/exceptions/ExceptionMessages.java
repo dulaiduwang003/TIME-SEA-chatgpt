@@ -10,6 +10,8 @@ public interface ExceptionMessages {
 
     String EMAIL_BIND_ERR = "当前微信号已经绑定过了,不可再次绑定";
     String EMAIL_LOGIN_PWD_ERR = "邮箱或密码错误";
+
+    String AUDIO_FORM_ERR = "上传音频格式错误";
     String ACCOUNT_ALREADY_EXISTS_ERR = "该账号已存在";
 
     String EMAIL_NOT_EXIST = "该邮箱不存在";
@@ -36,9 +38,11 @@ public interface ExceptionMessages {
 
     String BUILD_FAILED_PAY_ERR = "生成支付二维码失败";
 
-    String GPT_TIMEOUT = "当前使用人数过多,请稍后再试";
+    String GPT_TIMEOUT = "哦豁!现在貌似出了点问题 请重新发送试试";
 
-    String GPT_FREQUENT = "哦豁!现在貌似出了点问题 请重新发送试试";
+    String GPT_CONFIG_ERR = "哦豁!貌似参数配置不对 请检查一下Ai配置";
+
+    String GPT_FREQUENT = "建立连接失败,请重新发送数据";
 
     String WECHAT_AUTHORIZATION = "微信API能力调用失败";
 

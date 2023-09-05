@@ -1,11 +1,11 @@
 package com.cn.bdth.common;
 
+import com.cn.bdth.config.ControlDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,29 +22,7 @@ public class ControlCommon {
 
     private final RedisUtils redisUtils;
 
-    @Value("${control.proxyIp}")
-    private String proxyIp;
-
-    @Value("${control.proxyPort}")
-    private Integer proxyPort;
-
-    @Value("${control.wechatAppEnv}")
-    private String wechatAppEnv;
-
-    @Value("${control.sensitiveWords}")
-    private String sensitiveWords;
-
-    @Value("${control.enableSensitive}")
-    private Boolean enableSensitive;
-
-    @Value("${control.enableGptPlus}")
-    private Boolean enableGptPlus;
-
-    @Value("${control.enableProxy}")
-    private Boolean enableProxy;
-
-    @Value("${control.enableWechatAppMain}")
-    private Boolean enableWechatAppMain;
+    private final ControlDefaultConfig controlDefaultConfig;
 
 
     public ControlStructure getControl() {
@@ -65,15 +43,17 @@ public class ControlCommon {
     }
 
     private ControlStructure createdDefaultServer() {
+        log.info(controlDefaultConfig.toString());
         return new ControlStructure()
-                .setEnableGptPlus(enableGptPlus)
-                .setProxyIp(proxyIp)
-                .setProxyPort(proxyPort)
-                .setEnableProxy(enableProxy)
-                .setSensitiveWords(sensitiveWords)
-                .setEnableSensitive(enableSensitive)
-                .setWechatAppEnv(wechatAppEnv)
-                .setEnableWechatAppMain(enableWechatAppMain);
+                .setEnableGptPlus(controlDefaultConfig.getEnableGptPlus())
+                .setProxyIp(controlDefaultConfig.getProxyIp())
+                .setProxyPort(controlDefaultConfig.getProxyPort())
+                .setEnableProxy(controlDefaultConfig.getEnableProxy())
+                .setSensitiveWords(controlDefaultConfig.getSensitiveWords())
+                .setEnableSensitive(controlDefaultConfig.getEnableSensitive())
+                .setWechatAppEnv(controlDefaultConfig.getWechatAppEnv())
+                .setEnableWechatAppMain(controlDefaultConfig.getEnableWechatAppMain());
 
     }
+
 }

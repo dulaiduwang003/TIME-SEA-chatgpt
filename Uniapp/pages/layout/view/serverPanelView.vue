@@ -2,12 +2,20 @@
   <view class="container">
     <view class="row">
       <view class="key">
-        OPEN-AI-URL请求链
+        OPEN标准请求链
       </view>
       <view>
         <input type="text" placeholder="请设置open ai请求链" v-model="form.openAiUrl" maxlength="-1"/>
       </view>
     </view>
+	<view class="row">
+	  <view class="key">
+	    OPEN增强请求链
+	  </view>
+	  <view>
+	    <input type="text" placeholder="请设置open ai请求链" v-model="form.openAiPlusUrl" maxlength="-1"/>
+	  </view>
+	</view>
     <view class="row">
       <view class="key">
         SD绘图请求链
@@ -140,10 +148,11 @@
 import {getServerConfig, putServerConfig} from "@/api/admin";
 import LoadingComponent from "@/wxcomponents/components/loadingComponent.vue";
 
-const requiredFields = ['sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImage2Frequency', 'sdTextImageFrequency', 'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey'];
+const requiredFields = ['openAiPlusUrl','openAiUrl','sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImage2Frequency', 'sdTextImageFrequency', 'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey'];
 const fieldNames = {
   'sdUrl': 'SD—API',
-  'openKey': 'OPEN',
+  'openKey': '标准密钥',
+  'openAiUrl':'标准请求链',
   'incentiveFrequency': '第一次注册赠送次数',
   'videoFrequency': '视频奖励',
   'sdImage2Frequency': 'SD图生图消耗次数',
@@ -156,7 +165,8 @@ const fieldNames = {
   'conversationUuid': 'conversationUuid',
   'sessionKey': 'sessionKey',
   'gptPlusFrequency': '增强消耗次数',
-  'openPlusKey': '增强KEY',
+  'openPlusKey': '增强密钥',
+  'openAiPlusUrl':'增强请求链'
 };
 
 export default {
@@ -172,7 +182,8 @@ export default {
         sdTextImageFrequency: undefined,
         gptFrequency: undefined,
         signInFrequency: undefined,
-        openAiUrl: undefined,
+        openAiUrl: '',
+		openAiPlusUrl: '',
         gptTextImageFrequency: undefined,
         newBingCookie: '',
         organizationUuid: '',

@@ -18,6 +18,7 @@ import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,6 +66,7 @@ public class InspiritServiceImpl implements InspiritService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void rewardVideo() {
         final String key = UserConstant.ACCESS_FREQUENCY + UserUtils.getCurrentLoginId();
         final long increment = redisUtils.increment(key, 1);
@@ -83,9 +85,8 @@ public class InspiritServiceImpl implements InspiritService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void useRedemptionCode(final String code) {
-
-
         final List<Exchange> exchanges = exchangeMapper.selectList(new QueryWrapper<Exchange>()
                 .lambda().eq(Exchange::getExchangeCode, code)
                 .select(Exchange::getFrequency, Exchange::getExchangeId)
@@ -106,7 +107,6 @@ public class InspiritServiceImpl implements InspiritService {
             );
             userMapper.updateById(user.setFrequency(user.getFrequency() + exchange.getFrequency()));
             exchangeMapper.deleteById(exchange);
-
         } finally {
             lockHelper.unlock(lockPrefix, lockTime);
         }

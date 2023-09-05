@@ -22,6 +22,16 @@ const routes = [{
         }
     },
     {
+        path: "/personality_view",
+        name: "PersonalityView",
+        component: () => import('../views/PersonalityView.vue'),
+        meta: {
+            title: 'PERSONALITY GPT',
+            isHeadNavigation: true,
+            keepAlive: true
+        }
+    },
+    {
         path: "/create_edit",
         name: "CreateEdit",
         component: () => import('../views/Create/CreateEditView.vue'),
@@ -97,7 +107,7 @@ const routes = [{
         component: () => import('../views/BingView.vue'),
         meta: {
             title: '必应对话',
-            isHeadNavigation: false,
+            isHeadNavigation: true,
             keepAlive: true
         }
     }, {
@@ -106,7 +116,7 @@ const routes = [{
         component: () => import('../views/ClaudeView.vue'),
         meta: {
             title: 'Claude对话',
-            isHeadNavigation: false,
+            isHeadNavigation: true,
             keepAlive: true
         }
     },
@@ -127,16 +137,17 @@ const routes = [{
         component: () => import('../views/LaboratoryView.vue'),
         meta: {
             title: '超级实验室',
-            isHeadNavigation: false,
+            isHeadNavigation: true,
             keepAlive: false
         }
-    }, {
+    }
+    , {
         path: '/admin',
         name: 'Admin',
         component: () => import('@/views/Admin/AdminView.vue'),
         meta: {
             title: '管理控制台',
-            isHeadNavigation: false,
+            isHeadNavigation: true,
             keepAlive: true
         }
     },

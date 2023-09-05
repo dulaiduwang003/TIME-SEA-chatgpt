@@ -161,7 +161,7 @@ export default {
   width: 80%;
   height: 160px;
   background-color: rgb(27, 30, 32);
-  margin-bottom: 15px;
+  margin-bottom: 35px;
   border-radius: 8px;
   font-size: 15px;
   color: #ffffff;

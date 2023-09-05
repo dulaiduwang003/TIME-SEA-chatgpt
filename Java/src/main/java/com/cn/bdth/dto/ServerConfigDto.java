@@ -26,6 +26,12 @@ public class ServerConfigDto {
      */
     @NotBlank(message = "OPEN_AI_URL不能为空")
     private String openAiUrl;
+
+    /**
+     * SD绘图URL
+     */
+    @NotBlank(message = "OPEN_AI_PLUS_URL不能为空")
+    private String openAiPlusUrl;
     /**
      * OpenKey
      */

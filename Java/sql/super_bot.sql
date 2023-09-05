@@ -76,6 +76,27 @@ create index orders_state_index
 create index orders_user_id_index
     on super_bot.orders (user_id);
 
+create table if not exists super_bot.personality
+(
+    personality_id bigint auto_increment comment '主键ID'
+        primary key,
+    user_id        bigint                             not null comment '所属用户',
+    model          varchar(50)                        not null comment '模型名称',
+    top_p          tinyint                            not null,
+    max_tokens     bigint                             not null comment '上传图',
+    temperature    tinyint                            not null comment '生成图',
+    open_key       varchar(255)                       not null comment 'chatgpt密钥',
+    open_ai_url    varchar(255)                       not null comment 'chatgpt请求地址',
+    questions      text                               not null comment '问题',
+    answer         text                               not null comment '回答',
+    speed          bigint                             not null comment '回复速率',
+    created_time   datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time    datetime default CURRENT_TIMESTAMP not null comment '修改时间'
+);
+
+create index personality_user_id_index
+    on super_bot.personality (user_id);
+
 create table if not exists super_bot.product
 (
     product_id    bigint auto_increment

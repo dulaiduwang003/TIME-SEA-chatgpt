@@ -29,6 +29,14 @@
         <div class="question">
           <div>
             <div class="text">{{ item.user }}</div>
+            <div class="operation--model_user" v-if="!item.isError">
+              <div class="op-btn" @click="copyAnswer(item.user)">
+                <el-icon>
+                  <CopyDocument />
+                </el-icon>
+                <text class="op-font">复制</text>
+              </div>
+            </div>
           </div>
           <el-avatar
             class="flexShrink"
@@ -1150,5 +1158,16 @@
   }
   ::v-deep(.vuepress-markdown-body tr:nth-child(2n)) {
     background-color: #1f2224;
+  }
+  :deep(.answer > .el-avatar, .question > .el-avatar) {
+    background-color: rgb(38,42,44);
+  }
+  .operation--model_user {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 5px;
+
   }
 </style>

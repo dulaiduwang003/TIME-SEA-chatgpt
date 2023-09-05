@@ -29,6 +29,14 @@
         <div class="question">
           <div>
             <div class="text">{{ item.user }}</div>
+            <div class="operation--model_user" v-if="!item.isError">
+              <div class="op-btn" @click="copyAnswer(item.user)">
+                <el-icon>
+                  <CopyDocument />
+                </el-icon>
+                <text class="op-font">复制</text>
+              </div>
+            </div>
           </div>
           <el-avatar
             class="flexShrink"
@@ -680,19 +688,7 @@
     background-color: #1d2022;
   }
 
-  .sendIcon {
-    flex-shrink: 0;
-    margin: 0 12px;
-    width: 36px;
-    height: 36px;
-    color: #fff;
-    cursor: pointer;
-    background: #fab602;
-    border-radius: 50%;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+
 
   .questions {
     width: 100%;
@@ -754,6 +750,8 @@
     color: #ffffff;
     background-color: #1f2224;
   }
+
+
 
   .operation--model {
     margin-top: 5px;
@@ -1091,5 +1089,16 @@
   .select_style {
     width: 100px;
     margin-right: -20px;
+  }
+  :deep(.answer > .el-avatar, .question > .el-avatar) {
+     background-color: rgb(38,42,44);
+   }
+  .operation--model_user {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    margin-right: 5px;
+
   }
 </style>

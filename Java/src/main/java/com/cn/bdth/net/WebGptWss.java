@@ -13,7 +13,6 @@ import com.cn.bdth.service.GptService;
 import com.cn.bdth.utils.ChatUtils;
 import com.cn.bdth.utils.SpringContextUtil;
 import com.cn.bdth.utils.UserUtils;
-import com.cn.bdth.utils.WeChatUtils;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
@@ -35,9 +34,7 @@ import java.io.IOException;
 public class WebGptWss {
 
     private Session session;
-
     private static ChatUtils chatUtils;
-    private static WeChatUtils weChatUtils;
     private static GptService gptService;
     private static ChatGptCommon chatGptCommon;
     private static ControlCommon controlCommon;
@@ -60,7 +57,6 @@ public class WebGptWss {
     private void initDependencies() {
         controlCommon = (ControlCommon) SpringContextUtil.getBean("controlCommon");
         chatUtils = (ChatUtils) SpringContextUtil.getBean("chatUtils");
-        weChatUtils = (WeChatUtils) SpringContextUtil.getBean("weChatUtils");
         gptService = (GptService) SpringContextUtil.getBean("gptServiceImpl");
         chatGptCommon = (ChatGptCommon) SpringContextUtil.getBean("chatGptCommon");
     }
@@ -107,7 +103,7 @@ public class WebGptWss {
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
-        } catch (WechatException | FrequencyException | ViolationsException e) {
+        } catch (ViolationsException e) {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
         } catch (Exception e) {

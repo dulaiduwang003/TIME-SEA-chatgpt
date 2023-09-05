@@ -117,8 +117,8 @@ export default defineComponent({
 			title: '问答',
 			to: '/'
 		}, {
-			title: '创作',
-			to: '/create'
+			title: '实验室',
+			to: '/laboratory'
 		},
 		{
 			title: '角色',

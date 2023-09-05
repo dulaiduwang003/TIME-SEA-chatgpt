@@ -71,6 +71,7 @@ public class ServerServiceImpl implements ServerService {
                 new ChatGptCommon.ChatGptStructure()
                         .setGptFrequency(dto.getGptFrequency())
                         .setGptPlusFrequency(dto.getGptPlusFrequency())
+                        .setOpenAiPlusUrl(dto.getOpenAiPlusUrl())
                         .setOpenKey(dto.getOpenKey())
                         .setOpenPlusKey(dto.getOpenPlusKey())
                         .setOpenAiUrl(dto.getOpenAiUrl())
@@ -107,6 +108,7 @@ public class ServerServiceImpl implements ServerService {
 
         dispositionVo.setConversationUuid(claudeModel != null ? claudeModel.getConversation_uuid() : null);
         dispositionVo.setOrganizationUuid(claudeModel != null ? claudeModel.getOrganization_uuid() : null);
+        dispositionVo.setOpenAiPlusUrl(chatGptStructure != null ? chatGptStructure.getOpenAiPlusUrl() : null);
         dispositionVo.setSessionKey(claudeModel != null ? claudeModel.getSessionKey() : null);
         dispositionVo.setSdImage2Frequency(sdStructure != null ? sdStructure.getSdImage2Frequency() : null);
         dispositionVo.setSdUrl(sdStructure != null ? sdStructure.getSdUrl() : null);
@@ -117,7 +119,7 @@ public class ServerServiceImpl implements ServerService {
         dispositionVo.setOpenKey(chatGptStructure != null ? chatGptStructure.getOpenKey() : null);
         dispositionVo.setOpenPlusKey(chatGptStructure != null ? chatGptStructure.getOpenPlusKey() : null);
         dispositionVo.setGptTextImageFrequency(chatGptStructure != null ? chatGptStructure.getGptTextImageFrequency() : null);
-        dispositionVo.setNewBingCookie(newBingCookie);
+        dispositionVo.setNewBingCookie(StringUtils.isNotBlank(newBingCookie) ? newBingCookie : "");
         dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
         dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
         dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);

@@ -1,12 +1,12 @@
 package com.cn.bdth.common;
 
+import com.cn.bdth.config.StableDiffusionDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.utils.RedisUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,15 +22,7 @@ public class StableDiffusionCommon {
 
     private final RedisUtils redisUtils;
 
-    @Value("${config.sdTextImageFrequency}")
-    private Long sdTextImageFrequency;
-
-    @Value("${config.sdImage2Frequency}")
-    private Long sdImage2Frequency;
-
-    @Value("${config.sdUrl}")
-    private String sdUrl;
-
+    private final StableDiffusionDefaultConfig stableDiffusionDefaultConfig;
 
     public StableDiffusionStructure getStableDiffusionStructure() {
         final Object value = redisUtils.getValue(ServerConstant.SD_CONFIG);
@@ -49,16 +41,19 @@ public class StableDiffusionCommon {
     private StableDiffusionStructure getDefault() {
         log.warn("请前往控制台配置ChatGPT参数配置");
         return new StableDiffusionStructure()
-                .setSdUrl(sdUrl)
-                .setSdImage2Frequency(sdImage2Frequency)
-                .setSdTextImageFrequency(sdTextImageFrequency);
+                .setSdUrl(stableDiffusionDefaultConfig.getSdUrl())
+                .setSdImage2Frequency(stableDiffusionDefaultConfig.getSdImage2Frequency())
+                .setSdTextImageFrequency(stableDiffusionDefaultConfig.getSdTextImageFrequency());
     }
 
     @Data
     @Accessors(chain = true)
     public static class StableDiffusionStructure {
+
         private Long sdTextImageFrequency;
+
         private Long sdImage2Frequency;
+
         private String sdUrl;
 
     }

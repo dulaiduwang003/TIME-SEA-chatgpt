@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 雨纷纷旧故里草木深
@@ -34,6 +35,7 @@ public class InitConfig {
 
 
     @PostConstruct
+    @Transactional(rollbackFor = Exception.class)
     public void initAdminData() {
         final User user = userMapper.selectOne(new QueryWrapper<User>()
                 .lambda()
@@ -49,6 +51,11 @@ public class InitConfig {
                             .setPassword(s)
                             .setType(AuthConstant.ADMIN)
             );
-        log.info("初始化管理员完毕");
+        log.info("初始化管理员完毕}");
+        log.info("************************");
+        log.info("账号: {}", rootEmail);
+        log.info("密码: {}", rootPassword);
+        log.info("************************");
+
     }
 }

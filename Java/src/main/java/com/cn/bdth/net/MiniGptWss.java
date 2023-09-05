@@ -133,7 +133,7 @@ public class MiniGptWss {
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
-        } catch (WechatException | FrequencyException | ViolationsException e) {
+        } catch (FrequencyException e) {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
         } catch (Exception e) {
@@ -151,6 +151,7 @@ public class MiniGptWss {
             log.error("关闭 微信 WebSocket 会话失败.", e);
         }
     }
+
     @OnError
     public void onError(Session session, Throwable throwable) {
         log.warn("微信GPT websocket出现异常 原因:{}", throwable.getMessage());

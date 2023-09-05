@@ -32,10 +32,9 @@ public class GlobalInterceptor {
         return Result.error("登录信息失效,请重新登录", 401);
     }
 
-
     @ExceptionHandler(NotRoleException.class)
     public Result handlerException(NotRoleException e) {
-        return Result.error("非法越界",401);
+        return Result.error("非法越界", 401);
     }
 
     @ExceptionHandler(DisableServiceException.class)
@@ -52,8 +51,7 @@ public class GlobalInterceptor {
             final List<ObjectError> allErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
             return Result.error(allErrors.get(0).getDefaultMessage());
         }
-        e.printStackTrace();
-        log.error("异常信息:", e.getMessage());
-        return Result.error("调用错误");
+        log.error("服务出现了未被拦截异常信息: 位置:{}", e.getMessage(), e.getClass());
+        return Result.error(e.getMessage());
     }
 }

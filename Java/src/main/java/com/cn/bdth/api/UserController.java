@@ -1,12 +1,14 @@
 package com.cn.bdth.api;
 
 
+import com.cn.bdth.dto.PersonalityDto;
 import com.cn.bdth.dto.StarDialogueDto;
 import com.cn.bdth.dto.WeChatBindDto;
 import com.cn.bdth.exceptions.UploadException;
 import com.cn.bdth.exceptions.WeChatBindingException;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.DrawingService;
+import com.cn.bdth.service.GptService;
 import com.cn.bdth.service.StarService;
 import com.cn.bdth.service.UserService;
 import jakarta.validation.Valid;
@@ -37,7 +39,28 @@ public class UserController {
 
     private final DrawingService drawingService;
 
+    private final GptService gptService;
 
+    /**
+     * 获取用户个性GPT配置
+     *
+     * @return the result
+     */
+    @GetMapping(value = "/personality/get/config", name = "获取用户个性GPT配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result getPersonalityGptConfig() {
+        return Result.data(gptService.getPersonalityConfig(null));
+    }
+
+    /**
+     * 设置用户个性GPT配置
+     *
+     * @return the result
+     */
+    @PostMapping(value = "/personality/put/config", name = "设置用户个性GPT配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result putPersonalityGptConfig(@RequestBody @Validated PersonalityDto dto) {
+        gptService.putPersonalityConfig(dto);
+        return Result.ok();
+    }
 
 
     /**
@@ -131,7 +154,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/stat/get/data", name = "查看指定收藏", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result getStarDetailById(@RequestParam(required = true) final Long starId) {
+    public Result getStarDetailById(@RequestParam final Long starId) {
 
         return Result.data(starService.getUserStarDetail(starId));
     }

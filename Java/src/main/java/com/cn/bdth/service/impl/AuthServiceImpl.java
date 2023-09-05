@@ -176,7 +176,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public WechatCodeVo getWechatQrCode() {
         final String verifyCode = UUID.randomUUID().toString().substring(0, 13);
-        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, "", 300);
+        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, "", 120);
         return new WechatCodeVo().setQrCode(weChatUtils.getQrCode(verifyCode)).setVerifyCode(verifyCode);
     }
 
@@ -186,7 +186,7 @@ public class AuthServiceImpl implements AuthService {
             throw new WechatException(ExceptionMessages.WECHAT_CODE_ERR);
         }
         final String token = this.wechatAuthorizedLogin(code);
-        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, token, 300);
+        redisUtils.setValueTimeout(WeChatConstant.QC_CODE_SCENE + verifyCode, token, 120);
 
     }
 

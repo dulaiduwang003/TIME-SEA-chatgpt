@@ -2,6 +2,28 @@ import request from '@/utils/BSideRequest'
 
 
 /**
+ *    设置个性参数GPT
+ */
+export function PutPersonalityConfig(data) {
+    return request({
+        url: '/user/personality/put/config',
+        method: 'POST',
+        data
+    })
+}
+
+/**
+ *    设置个性参数GPT
+ */
+export function GetPersonalityConfig() {
+    return request({
+        url: '/user/personality/get/config',
+        method: 'GET'
+    })
+}
+
+
+/**
  *    获取终端数据
  */
 export function GetTerminal() {

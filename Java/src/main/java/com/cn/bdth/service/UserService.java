@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface UserService {
 
+
+
     /**
      * 修改用户头像
      *
@@ -36,7 +38,6 @@ public interface UserService {
      * @return the current user info
      */
     UserInfoVo getCurrentUserInfo();
-
 
 
     /**

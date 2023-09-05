@@ -167,7 +167,7 @@ public class DrawingServiceImpl implements DrawingService {
         final Long currentLoginId = UserUtils.getCurrentLoginId();
         chatUtils.deplete(stableDiffusionCommon.getStableDiffusionStructure().getSdImage2Frequency(), currentLoginId);
         //上传绘图资源
-        final String resource = aliUploadUtils.uploadFile(dto.getImages(), FileEnum.PAINTING.getDec(), null);
+        final String resource = aliUploadUtils.uploadFile(dto.getImages(), FileEnum.PAINTING.getDec(), null, true);
         //检查是否为黄图
         try {
             weChatUtils.filterImage(resource);

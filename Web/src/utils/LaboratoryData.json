@@ -1,9 +1,28 @@
 [
   {
+    "icon": "creation.svg",
+    "title": "CREATION",
+    "introduce": "(原灵感创作) 通过表述 生成代码 诗词歌赋 等",
+    "label": [
+      "智能",
+      "生成"
+    ],
+    "path": "/create"
+  },
+  {
+    "icon": "personality.svg",
+    "title": "PIERS GPT",
+    "introduce": "自定义GPT的输出行为以及各类参数",
+    "label": [
+      "自定义",
+      "个性化"
+    ],
+    "path": "/personality_view"
+  },
+  {
     "icon": "bing.svg",
-    "title": "New Bing",
+    "title": "NEW BING",
     "introduce": "微软基于GPT4模型实现的搜索引擎算法和人工智能技术(可能回复失败)",
-    "botInitialization": "你好! 我是必应, 请问有什么需要帮助的吗?",
     "label": [
       "免费使用",
       "联网"
@@ -13,12 +32,10 @@
 
   {
     "icon": "claude.svg",
-    "title": "Claude",
-    "introduce": "Anthropic开发的大语言Ai模型Claude 2",
-    "botInitialization": "你好! 我是Claude 2, 请问有什么需要帮助的吗?",
+    "title": "CLAUDE",
+    "introduce": "Anthropic开发的大语言Ai模型Claude 2(可能回复失败)",
     "label": [
-      "记忆回溯",
-      "Ai模型",
+      "免费使用",
       "智能"
     ],
     "path": "/claude_view"

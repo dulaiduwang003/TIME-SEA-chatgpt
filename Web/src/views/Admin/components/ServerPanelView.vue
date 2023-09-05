@@ -9,14 +9,21 @@
             v-model="form.sdUrl"
           />
         </el-form-item>
-        <el-form-item label="GPT对话请求链" label-width="200px">
+        <el-form-item label="智能GPT对话请求链" label-width="200px">
           <el-input
             placeholder="请设置GPT请求链"
             clearable
             v-model="form.openAiUrl"
           />
         </el-form-item>
-        <el-form-item label="标准GPT对话密钥" label-width="200px">
+        <el-form-item label="增强GPT对话请求链" label-width="200px">
+          <el-input
+              placeholder="请设置增强GPT请求链"
+              clearable
+              v-model="form.openAiPlusUrl"
+          />
+        </el-form-item>
+        <el-form-item label="智能GPT对话密钥" label-width="200px">
           <el-input placeholder="请设置密钥" clearable v-model="form.openKey" />
         </el-form-item>
         <el-form-item label="增强GPT对话密钥" label-width="200px">
@@ -54,7 +61,7 @@
             v-model="form.sessionKey"
           />
         </el-form-item>
-        <el-form-item label="标准对话消耗次数" label-width="200px">
+        <el-form-item label="智能对话消耗次数" label-width="200px">
           <el-input
             placeholder="请设置消耗次数"
             clearable
@@ -138,6 +145,7 @@ export default {
     const form = ref({
       sdUrl: "",
       openAiUrl: "",
+      openAiPlusUrl: "",
       openKey: "",
       openPlusKey: "",
       gptPlusFrequency: undefined,

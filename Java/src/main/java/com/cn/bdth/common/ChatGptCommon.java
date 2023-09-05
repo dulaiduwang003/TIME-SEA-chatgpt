@@ -1,12 +1,12 @@
 package com.cn.bdth.common;
 
+import com.cn.bdth.config.ChatGptDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.utils.RedisUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,23 +22,7 @@ public class ChatGptCommon {
 
     private final RedisUtils redisUtils;
 
-    @Value("${config.openAiUrl}")
-    private String openAiUrl;
-
-    @Value("${config.openKey}")
-    private String openKey;
-
-    @Value("${config.openPlusKey}")
-    private String openPlusKey;
-
-    @Value("${config.gptTextImageFrequency}")
-    private Long gptTextImageFrequency;
-
-    @Value("${config.gptFrequency}")
-    private Long gptFrequency;
-
-    @Value("${config.gptPlusFrequency}")
-    private Long gptPlusFrequency;
+    private final ChatGptDefaultConfig chatGptDefaultConfig;
 
     public ChatGptStructure getChatGptStructure() {
         final Object value = redisUtils.getValue(ServerConstant.CHAT_GPT_CONFIG);
@@ -57,12 +41,13 @@ public class ChatGptCommon {
     private ChatGptStructure getDefault() {
         log.warn("请前往控制台配置ChatGPT参数配置");
         return new ChatGptStructure()
-                .setGptFrequency(gptFrequency)
-                .setGptPlusFrequency(gptPlusFrequency)
-                .setOpenPlusKey(openPlusKey)
-                .setOpenKey(openKey)
-                .setGptTextImageFrequency(gptTextImageFrequency)
-                .setOpenAiUrl(openAiUrl);
+                .setOpenAiUrl(chatGptDefaultConfig.getOpenAiUrl())
+                .setOpenAiPlusUrl(chatGptDefaultConfig.getOpenAiPlusUrl())
+                .setGptFrequency(chatGptDefaultConfig.getGptFrequency())
+                .setGptTextImageFrequency(chatGptDefaultConfig.getGptTextImageFrequency())
+                .setGptPlusFrequency(chatGptDefaultConfig.getGptPlusFrequency())
+                .setOpenKey(chatGptDefaultConfig.getOpenKey())
+                .setOpenPlusKey(chatGptDefaultConfig.getOpenPlusKey());
     }
 
     @Data
@@ -70,6 +55,8 @@ public class ChatGptCommon {
     public static class ChatGptStructure {
 
         private String openAiUrl;
+
+        private String openAiPlusUrl;
 
         private String openKey;
 

@@ -1,13 +1,13 @@
 server:
   port: 8625
-
 sa-token:
   token-name: token
-  activity-timeout: -1
+  active-timeout: -1
   is-concurrent: true
-  is-share: true
+  is-share: false
   is-log: false
-
+ # token 风格（默认可取值：uuid、simple-uuid、random-32、random-64、random-128、tik）
+  token-style: uuid
 spring:
   codec:
     max-in-memory-size: 1048576
@@ -31,11 +31,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-
   configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-    cache-enabled: true
+    cache-enabled: false
     jdbc-type-for-null: 'null'
-
-

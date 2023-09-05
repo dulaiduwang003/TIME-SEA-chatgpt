@@ -22,14 +22,6 @@ public class UserUtils {
         return Long.parseLong(String.valueOf(StpUtil.getLoginId()));
     }
 
-    public static Long isLoginReturnId() {
-        if (StpUtil.isLogin()) {
-            return getCurrentLoginId();
-        } else {
-            return null;
-        }
-    }
-
 
     public static String getCurrentRole() {
         final SaSession session = StpUtil.getSession();
@@ -42,9 +34,4 @@ public class UserUtils {
         return String.valueOf(session.get(AuthConstant.OPEN_ID));
     }
 
-    public static String getOpenIdByToken(final String token) {
-        final SaSession session = StpUtil.getSessionByLoginId(getLoginIdByToken(token));
-
-        return String.valueOf(session.get(AuthConstant.OPEN_ID));
-    }
 }

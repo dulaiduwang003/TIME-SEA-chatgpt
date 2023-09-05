@@ -40,7 +40,7 @@
         />
         <div class="bottomRight">
           <div class="bottomRightName">TIME SEA PLUS</div>
-          <div class="bottomRightEdition">v1.3.6</div>
+          <div class="bottomRightEdition">v1.3.8</div>
         </div>
       </div>
     </div>
@@ -110,11 +110,6 @@ export default defineComponent({
         title: "智能问答",
         icon: ChatDotSquare,
         to: "/",
-      },
-      {
-        title: "灵感创作",
-        icon: EditPen,
-        to: "/create",
       },
       {
         title: "预设角色",

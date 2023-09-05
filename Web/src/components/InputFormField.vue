@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%">
-    <!-- 
+    <!--
     放到一起好改样式
 
 
@@ -29,8 +29,8 @@
         @change="updateModel"
         style="width: 105px; text-indent: 10px"
       >
-        <el-option value="BASIC" label="标准" />
-        <el-option value="ADVANCED" label="智能" />
+        <el-option value="BASIC" label="智能" />
+        <el-option value="ADVANCED" label="增强" />
       </el-select>
       <el-input
       :style="{marginLeft: needSelect?'0px':'10px' }"
@@ -105,6 +105,7 @@ export default defineComponent({
     );
 
     // 使用watch监听content变量的变化
+    // eslint-disable-next-line no-unused-vars
     watch(inputTextInner, (newVal, oldValue) => {
       // console.log("watch输入内容改变了", newVal);
       emit("update:inputText", newVal);
@@ -165,11 +166,10 @@ export default defineComponent({
 .InputFormFieldWapper {
   display: flex;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
 
   .sendIcon {
     flex-shrink: 0;
-    margin: 0 12px 0px 12px;
     width: 36px;
     height: 36px;
     color: #fff;
@@ -179,6 +179,7 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
     display: flex;
+    margin: 22px 20px 0 0;
   }
 }
 
@@ -186,6 +187,8 @@ export default defineComponent({
   .el-input,
   .el-input {
     .el-input__wrapper {
+      padding-top: 25px;
+      padding-left: 25px;
       box-shadow: none !important;
       background: none !important;
 
@@ -206,17 +209,17 @@ export default defineComponent({
 
 :deep(.InputFormFieldWapper) {
   .el-textarea__inner {
-    background: #272c2f;
+    background: #1d2022;
     box-shadow: none;
     max-height: 400px;
     padding: 20px;
-    margin: 10px 0px;
-    width: 100%;
+    margin: 10px;
+    width: 97%;
 
     color: #eee;
     &:hover {
       box-shadow: none;
-      background: #272c2f;
+      background: #1d2022;
     }
 
     &.el-select--disabled {
@@ -227,8 +230,9 @@ export default defineComponent({
 
 .animation-dot {
   display: flex;
-  padding-right: 10px;
-  margin: 0 12px;
+  padding-right: 5px;
+  margin: 35px 12px 0;
+
 }
 
 @keyframes jumpT {

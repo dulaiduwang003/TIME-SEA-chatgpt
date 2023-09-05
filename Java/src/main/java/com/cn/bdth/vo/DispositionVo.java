@@ -15,6 +15,8 @@ public class DispositionVo implements Serializable {
 
     private String openAiUrl;
 
+    private String openAiPlusUrl;
+
     private String openKey;
 
     private String openPlusKey;

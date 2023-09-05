@@ -1,11 +1,11 @@
 package com.cn.bdth.common;
 
+import com.cn.bdth.config.NewBingDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.utils.RedisUtils;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,20 +22,19 @@ public class NewBingCommon {
 
     private final RedisUtils redisUtils;
 
-    @Value("${config.newBingCookie}")
-    private String newBingCookie;
+    private final NewBingDefaultConfig newBingDefaultConfig;
 
     public String getNewBingCookie() {
         final Object value = redisUtils.getValue(ServerConstant.NEW_BING_CONFIG);
         if (value == null) {
-            return newBingCookie;
+            return newBingDefaultConfig.getNewBingCookie();
         }
         try {
             return String.valueOf(value);
         } catch (Exception e) {
             log.warn("已清除上一个版本的NEW BING配置,请前往控制台重新配置New BING参数配置");
             redisUtils.delKey(ServerConstant.NEW_BING_CONFIG);
-            return newBingCookie;
+            return newBingDefaultConfig.getNewBingCookie();
         }
     }
 

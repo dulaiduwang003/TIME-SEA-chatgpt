@@ -44,11 +44,9 @@ public class AliUploadUtils {
     @Value("${ali-oss.bucketName}")
     private String bucketName;
 
-    public String uploadFile(final MultipartFile file, final String path, final String newFileName) {
-
+    public String uploadFile(final MultipartFile file, final String path, final String newFileName, final boolean isImage) {
         OSS ossClient = new OSSClientBuilder()
                 .build(endpoint, accessKey, secretKey);
-
         try (InputStream inputStream = file.getInputStream()) {
             String originalFileName = file.getOriginalFilename();
 
@@ -57,9 +55,15 @@ public class AliUploadUtils {
             fileName = Objects.requireNonNullElseGet(newFileName, () -> UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf('.')));
 
             String filePath = path + "/" + fileName;
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentType("image/jpg");
-            ossClient.putObject(bucketName, filePath, inputStream, objectMetadata);
+
+            if (isImage) {
+                ObjectMetadata objectMetadata = new ObjectMetadata();
+                objectMetadata.setContentType("image/jpg");
+                ossClient.putObject(bucketName, filePath, inputStream, objectMetadata);
+            } else {
+                ossClient.putObject(bucketName, filePath, inputStream);
+            }
+
             return "/" + filePath;
         } catch (IOException e) {
             log.error("无法将图片上传到阿里云。错误消息： {} 错误类： {}", e.getMessage(), e.getClass());
@@ -73,16 +77,16 @@ public class AliUploadUtils {
         byte[] imageBytes = Base64.getDecoder().decode(base64);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
         // 生成随机的图片文件名
-        final String fileName = UUID.randomUUID().toString() + ".jpg";
+        final String fileName = UUID.randomUUID() + ".jpg";
         MultipartFile multipartFile = new MockMultipartFile(fileName, inputStream);
-        return uploadFile(multipartFile, path, fileName);
+        return uploadFile(multipartFile, path, fileName, true);
     }
 
     public void deleteFile(final String filePath) {
         OSS ossClient = new OSSClientBuilder()
                 .build(endpoint, accessKey, secretKey);
         try {
-//            ossClient.deleteDirectory(bucketName, filePath);
+
             if (filePath.startsWith("/")) {
                 ossClient.deleteObject(bucketName, filePath.substring(1));
             } else {
@@ -107,7 +111,6 @@ public class AliUploadUtils {
             ossClient.putObject(bucketName, filePath, inputStream, objectMetadata);
             return "/" + filePath;
         } catch (IOException e) {
-            e.printStackTrace();
             throw new UploadException();
         } finally {
             ossClient.shutdown();

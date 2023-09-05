@@ -20,8 +20,9 @@ public enum FileEnum {
     //头像
     AVATAR("avatar"),
     //绘图
-    PAINTING("painting");
-
+    PAINTING("painting"),
+    //视频
+    AUDIO("audio");
     String dec;
 
 }
