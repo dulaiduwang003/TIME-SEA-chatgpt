@@ -9,10 +9,11 @@
 #### 迭代记录
 
 ##### v1.3.8 2023/09/5
+
 1. 新增自定义对话(拓展)
 2. 创意功能移动至超级实验室
-3. 新增 GPT-4单独路由 (请求链)
-4. 新增Web端记忆控制参数
+3. 新增 GPT-4 单独路由 (请求链)
+4. 新增 Web 端记忆控制参数
 5. 修复 使用必应或者克劳德时可能出现全局网络走代理的情况
 
 ##### V1.3.7 2023/09/01
@@ -416,6 +417,77 @@ npm install
 
 <img src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/cb81e952-b28a-4688-a9e2-b61290e489bf" style="width:300px;height:300px" />
 
+## 关于请求 429 问题
+
+这是上游的频率控制，触发条件有文本量以及请求次数。
+可以借助 oneAPI 项目统一 token 和请求地址。
+这里附上简单的 docker 容器执行命令
+
+##### 执行命令
+
+```
+docker run --name one-api -d --restart always -e REDIS_CONN_STRING=redis://default:@localhost:6379/8  -e SESSION_SECRET=xiaoye123 -e  SQL_DSN="oneapi:7KF4KccCs@tcp(localhost:3306)/oneapi"  -e NODE_TYPE=master  -e  CHANNEL_UPDATE_FREQUENCY=1440  -e CHANNEL_TEST_FREQUENCY=1440  -e POLLING_INTERVAL=5  -e BATCH_UPDATE_ENABLED=false  -e GLOBAL_API_RATE_LIMIT=180000  -e GLOBAL_WEB_RATE_LIMIT=50000    -e SYNC_FREQUENCY=60  --network="host" -p 3000:3000 -v /www/wwwroot/oneapi:/data ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
+
+```
+
+##### 参数
+
+需要修改的变量：
+
+1. REDIS_CONN_STRING
+2. SQL_DSN
+
+```
+#容器名称
+--name one-api
+
+#redis地址  redis://默认用户:密码@redis数据库IP:redis的端口/redis数据库索引  注意一般没有修改过redis的用户，默认就是default，没有密码就写成“default:”，有密码就写成“default:password”
+-e REDIS_CONN_STRING=redis://default:@localhost:6379/8
+
+#项目密钥 多机部署用
+-e SESSION_SECRET=xiaoye123
+
+#指定数据库地址 数据库用户名：数据库密码@tcp(数据库IP:数据库端口)/数据库名
+-e SQL_DSN="oneapi:7KF4KccCs@tcp(localhost:3306)/oneapi"
+
+#没细看,多机部署是否为主节点
+-e NODE_TYPE=master
+
+#没细看
+-e CHANNEL_UPDATE_FREQUENCY=1440
+
+#没细看
+-e CHANNEL_TEST_FREQUENCY=1440
+
+#没细看
+-e POLLING_INTERVAL=5
+
+#没细看
+-e BATCH_UPDATE_ENABLED=false
+
+#API请求三分钟内的频率限制
+-e GLOBAL_API_RATE_LIMIT=180000
+
+#web请求三分钟内的频率限制
+-e GLOBAL_WEB_RATE_LIMIT=50000
+
+#没细看
+-e SYNC_FREQUENCY=60
+
+#是否使用宿主机的网络， 必须，这样独立服务器才可以用上宿主机的redis和mysql
+--network="host"
+
+#docker 容器 内外端口映射
+-p 3000:3000
+
+#docker 容器 内外路径映射
+-v /www/wwwroot/oneapi:/data
+
+#镜像名称， 这里用的是群友推荐的， 这里的":v0.5.5-alpha.4"理解的朋友可以去掉。
+ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
+
+```
+
 ## web 端 todo
 
 - 完善 B 站喂饭级别教程
@@ -429,4 +501,4 @@ npm install
 - 分享为图片，分享到 ShareGPT 链接
 - 脚本部署，争取做到半自动或者开箱即用
 - 推进服务端部署 LocalAI 项目 llama / gpt4all / rwkv / vicuna / koala / gpt4all-j / cerebras / falcon / dolly 等等，或者使用 api-for-open-llm
-- 看如何搭配 oneAPI 项目一起增强体验
+- [完成] oneAPI 项目，可以提高请求的频率
