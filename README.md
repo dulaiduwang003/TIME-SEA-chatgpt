@@ -8,6 +8,11 @@
 
 #### 迭代记录
 
+##### v1.3.8.1 2023/09/7
+
+1. 新增上下文文的字数控制
+2. 一些数据修复
+
 ##### v1.3.8 2023/09/5
 
 1. 新增自定义对话(拓展)
@@ -423,14 +428,14 @@ npm install
 可以借助 oneAPI 项目统一 token 和请求地址。
 这里附上简单的 docker 容器执行命令
 
-##### 执行命令
+##### docker 命令
 
 ```
 docker run --name one-api -d --restart always -e REDIS_CONN_STRING=redis://default:@localhost:6379/8  -e SESSION_SECRET=xiaoye123 -e  SQL_DSN="oneapi:7KF4KccCs@tcp(localhost:3306)/oneapi"  -e NODE_TYPE=master  -e  CHANNEL_UPDATE_FREQUENCY=1440  -e CHANNEL_TEST_FREQUENCY=1440  -e POLLING_INTERVAL=5  -e BATCH_UPDATE_ENABLED=false  -e GLOBAL_API_RATE_LIMIT=180000  -e GLOBAL_WEB_RATE_LIMIT=50000    -e SYNC_FREQUENCY=60  --network="host" -p 3000:3000 -v /www/wwwroot/oneapi:/data ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
 
 ```
 
-##### 参数
+##### oneAPI docker 部署参数简要说明
 
 需要修改的变量：
 
@@ -438,52 +443,53 @@ docker run --name one-api -d --restart always -e REDIS_CONN_STRING=redis://defau
 2. SQL_DSN
 
 ```
-#容器名称
+# 容器名称
 --name one-api
 
-#redis地址  redis://默认用户:密码@redis数据库IP:redis的端口/redis数据库索引  注意一般没有修改过redis的用户，默认就是default，没有密码就写成“default:”，有密码就写成“default:password”
+# redis地址  redis://默认用户:密码@redis数据库IP:redis的端口/redis数据库索引
+# 注意一般没有修改过redis的用户，默认就是default，没有密码就写成“default:”，有密码password就写成“default:password”
 -e REDIS_CONN_STRING=redis://default:@localhost:6379/8
 
 #项目密钥 多机部署用
 -e SESSION_SECRET=xiaoye123
 
-#指定数据库地址 数据库用户名：数据库密码@tcp(数据库IP:数据库端口)/数据库名
+# 指定数据库地址 数据库用户名：数据库密码@tcp(数据库IP:数据库端口)/数据库名
 -e SQL_DSN="oneapi:7KF4KccCs@tcp(localhost:3306)/oneapi"
 
-#没细看,多机部署是否为主节点
+# 没细看,多机部署是否为主节点
 -e NODE_TYPE=master
 
-#没细看
+# 没细看
 -e CHANNEL_UPDATE_FREQUENCY=1440
 
-#没细看
+# 没细看
 -e CHANNEL_TEST_FREQUENCY=1440
 
-#没细看
+# 没细看
 -e POLLING_INTERVAL=5
 
-#没细看
+# 没细看
 -e BATCH_UPDATE_ENABLED=false
 
-#API请求三分钟内的频率限制
+# API请求三分钟内的频率限制
 -e GLOBAL_API_RATE_LIMIT=180000
 
-#web请求三分钟内的频率限制
+# web请求三分钟内的频率限制
 -e GLOBAL_WEB_RATE_LIMIT=50000
 
-#没细看
+# 没细看
 -e SYNC_FREQUENCY=60
 
-#是否使用宿主机的网络， 必须，这样独立服务器才可以用上宿主机的redis和mysql
+# 是否使用宿主机的网络， 必须，这样独立服务器才可以用上宿主机的redis和mysql
 --network="host"
 
-#docker 容器 内外端口映射
+# docker 容器 内外端口映射
 -p 3000:3000
 
-#docker 容器 内外路径映射
+# docker 容器 内外路径映射
 -v /www/wwwroot/oneapi:/data
 
-#镜像名称， 这里用的是群友推荐的， 这里的":v0.5.5-alpha.4"理解的朋友可以去掉。
+# 镜像名称， 这里用的是群友推荐的， 这里的":v0.5.5-alpha.4"理解的朋友可以去掉。
 ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
 
 ```
@@ -491,14 +497,13 @@ ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
 ## web 端 todo
 
 - 完善 B 站喂饭级别教程
-- 完善 docker 镜像，以及快速部署教程
+- [完成]完善 docker 镜像，以及快速部署教程
 - [完成]密码重置
-- 移动端管理员页面兼容适配
-- 后期接口请求，支持用户上传提示词
-- 为每个对话设置系统 Prompt
-- 允许用户自行编辑内置 Prompt 列表
+- [完成]移动端管理员页面兼容适配
+- [完成]后期接口请求，支持用户上传提示词
+- [完成]为每个对话设置系统 Prompt
+- [完成]允许用户自行编辑内置 Prompt 列表
 - [完成]预制角色：使用预制角色快速定制新对话
-- 分享为图片，分享到 ShareGPT 链接
-- 脚本部署，争取做到半自动或者开箱即用
+- [完成]脚本部署，争取做到半自动或者开箱即用
 - 推进服务端部署 LocalAI 项目 llama / gpt4all / rwkv / vicuna / koala / gpt4all-j / cerebras / falcon / dolly 等等，或者使用 api-for-open-llm
 - [完成] oneAPI 项目，可以提高请求的频率
