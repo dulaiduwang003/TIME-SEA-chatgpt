@@ -1,6 +1,6 @@
 <template>
   <div class="NavigationBar">
-    <div class="leftNavigation">
+    <div class="leftNavigation"  v-if="isLeftMenu">
       <el-avatar
         class="headPortrait"
         :size="70"
@@ -40,7 +40,7 @@
         />
         <div class="bottomRight">
           <div class="bottomRightName">TIME SEA PLUS</div>
-          <div class="bottomRightEdition">v1.3.8</div>
+          <div class="bottomRightEdition">v1.4.0</div>
         </div>
       </div>
     </div>
@@ -73,7 +73,6 @@ import { useRouter } from "vue-router";
 // eslint-disable-next-line no-unused-vars
 import {
   ChatDotSquare,
-  EditPen,
   MessageBox,
   Odometer,
   ScaleToOriginal,
@@ -127,11 +126,13 @@ export default defineComponent({
         to: "/laboratory",
       },
     ]);
+    const isLeftMenu = ref(true)
 
     watch(
       () => router.currentRoute.value,
       (newValue) => {
         isHeadNavigation.value = newValue.meta.isHeadNavigation;
+        isLeftMenu.value = newValue.meta.isLeftMenu
       },
       {
         immediate: true,
@@ -157,6 +158,7 @@ export default defineComponent({
       dialogVisible,
       loginVisible,
       imageUrl,
+      isLeftMenu
     };
   },
 });

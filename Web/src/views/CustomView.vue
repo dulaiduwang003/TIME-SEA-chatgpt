@@ -173,13 +173,15 @@
       let dataIndex = ref(0);
       const imageUrl = ref("");
       const rate = ref(50)
-      const memory = ref(-10)
+      const memory = ref(10)
+      const size = ref(1000)
       onMounted(() => {
         if (store.getters.userinfo) getUser();
         //获取图片域名
         imageUrl.value = process.env.VUE_APP_IMAGE;
         rate.value = parseInt(process.env.VUE_APP_RATE);
         memory.value = parseInt(process.env.VUE_APP_MEMORY);
+        size.value = parseInt(process.env.VUE_APP_MEMORY_SIZE);
         let item = localStorage.getItem("roleData");
 
         data.value = JSON.parse(item);
@@ -219,20 +221,23 @@
           // TODO 上下文
           let messages = [];
           conversationList.value
-            .slice(memory.value)
-            .forEach(({ isError, user, assistant }) => {
-              if (!isError) {
-                messages.push({
-                  role: "user",
-                  content: user,
-                });
-                if (assistant)
+              .slice(-memory.value)
+              .forEach(({isError, user, assistant}) => {
+                if (!isError) {
+                  const truncatedUser = user.length > size.value ? user.slice(0, size.value) + "..." : user;
+                  const truncatedAssistant = assistant && assistant.length > size.value ? assistant.slice(0, size.value) + "..." : assistant;
                   messages.push({
-                    role: "assistant",
-                    content: assistant,
+                    role: "user",
+                    content: truncatedUser,
                   });
-              }
-            });
+                  if (truncatedAssistant) {
+                    messages.push({
+                      role: "assistant",
+                      content: truncatedAssistant,
+                    });
+                  }
+                }
+              });
           dataIndex.value = index;
           webSocket({
             messages: {

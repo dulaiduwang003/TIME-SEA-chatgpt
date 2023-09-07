@@ -8,7 +8,8 @@ const routes = [{
     meta: {
         title: '智能问答', // TODO 浏览器标题
         isHeadNavigation: true, // TODO 是否显示tab
-        keepAlive: true
+        keepAlive: true,
+        isLeftMenu: true
     }
     },
     {
@@ -18,7 +19,8 @@ const routes = [{
         meta: {
             title: '灵感创作',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -28,8 +30,20 @@ const routes = [{
         meta: {
             title: 'PERSONALITY GPT',
             isHeadNavigation: true,
-            keepAlive: true
+            keepAlive: true,
+            isLeftMenu: true
         }
+    },
+    {
+        path: "/drawing_text_view",
+        name: "SD DRAWING",
+        component: () => import('../views/Drawing/DrawingTextView.vue'),
+        meta: {
+            title: 'SD文生图',
+            isHeadNavigation: true,
+            keepAlive: true,
+            isLeftMenu: false
+        },
     },
     {
         path: "/create_edit",
@@ -38,7 +52,8 @@ const routes = [{
         meta: {
             title: '创作编辑',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         },
     },
     {
@@ -48,7 +63,8 @@ const routes = [{
         meta: {
             title: '创作结果',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         },
     },
     {
@@ -58,7 +74,8 @@ const routes = [{
         meta: {
             title: '购买',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -68,7 +85,8 @@ const routes = [{
         meta: {
             title: '打赏记录',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -78,7 +96,8 @@ const routes = [{
         meta: {
             title: '我的收藏',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -88,7 +107,8 @@ const routes = [{
         meta: {
             title: '兑换中心',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -98,7 +118,8 @@ const routes = [{
         meta: {
             title: '自定义对话',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -108,7 +129,8 @@ const routes = [{
         meta: {
             title: '必应对话',
             isHeadNavigation: true,
-            keepAlive: true
+            keepAlive: true,
+            isLeftMenu: true
         }
     }, {
         path: "/claude_view",
@@ -117,7 +139,8 @@ const routes = [{
         meta: {
             title: 'Claude对话',
             isHeadNavigation: true,
-            keepAlive: true
+            keepAlive: true,
+            isLeftMenu: true
         }
     },
 
@@ -128,7 +151,8 @@ const routes = [{
         meta: {
             title: '预设角色',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     },
     {
@@ -138,7 +162,8 @@ const routes = [{
         meta: {
             title: '超级实验室',
             isHeadNavigation: true,
-            keepAlive: false
+            keepAlive: false,
+            isLeftMenu: true
         }
     }
     , {
@@ -148,7 +173,8 @@ const routes = [{
         meta: {
             title: '管理控制台',
             isHeadNavigation: true,
-            keepAlive: true
+            keepAlive: true,
+            isLeftMenu: true
         }
     },
 ]

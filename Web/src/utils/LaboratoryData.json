@@ -1,6 +1,17 @@
 [
+
   {
-    "icon": "creation.svg",
+    "icon": "drawing.svg",
+    "title": "TEXT DRA",
+    "introduce": "根据文字驱动模型生成绚丽多彩的图片绘画",
+    "label": [
+      "次数消耗",
+      "绘图"
+    ],
+    "path": "/drawing_text_view"
+  },
+  {
+    "icon": "task.svg",
     "title": "CREATION",
     "introduce": "(原灵感创作) 通过表述 生成代码 诗词歌赋 等",
     "label": [
@@ -29,7 +40,6 @@
     ],
     "path": "/bing_view"
   },
-
   {
     "icon": "claude.svg",
     "title": "CLAUDE",

@@ -231,8 +231,7 @@ export default defineComponent({
 .animation-dot {
   display: flex;
   padding-right: 5px;
-  margin: 35px 12px 0;
-
+  margin: 35px 12px 0 0;
 }
 
 @keyframes jumpT {

@@ -21,10 +21,10 @@
         <div class="question">
           <div>
             <div class="text">{{ item.user }}</div>
-            <div class="operation--model_user" v-if="!item.isError">
+            <div class="operation--model_user" >
               <div class="op-btn" @click="copyAnswer(item.user)">
                 <el-icon>
-                  <CopyDocument />
+                  <CopyDocument/>
                 </el-icon>
                 <text class="op-font">复制</text>
               </div>
@@ -208,7 +208,7 @@
                     "
                       class="cache-selected-img"
                       @click="clearDialogue(index)"
-                   alt=""/>
+                      alt=""/>
                 </div>
               </div>
             </div>
@@ -245,7 +245,7 @@
           </el-popover>
         </div>
         <div>
-          <el-input style="width: 230px" placeholder="请设置模型名称" maxlength="20"  v-model="form.model"/>
+          <el-input style="width: 230px" placeholder="请设置模型名称" maxlength="20" v-model="form.model"/>
         </div>
       </div>
       <div class="config-row">
@@ -289,7 +289,7 @@
           </el-popover>
         </div>
         <div>
-          <el-input style="width: 230px" v-model="form.openAiUrl" placeholder="请设置请求链接" maxlength="100" />
+          <el-input style="width: 230px" v-model="form.openAiUrl" placeholder="请设置请求链接" maxlength="100"/>
         </div>
       </div>
       <div class="config-row">
@@ -513,8 +513,8 @@ export default {
       answer: '请提供故事主题',
       speed: 50
     })
-    const memory = ref(-10)
-
+    const memory = ref(10)
+    const size = ref(1000)
     onMounted(() => {
       window.addEventListener("resize", handleResize);
       handleResize();
@@ -522,6 +522,7 @@ export default {
       //获取图片域名
       imageUrl.value = process.env.VUE_APP_IMAGE;
       memory.value = parseInt(process.env.VUE_APP_MEMORY);
+      size.value = parseInt(process.env.VUE_APP_MEMORY_SIZE);
       //获取对话缓存数据
       let item = localStorage.getItem("personalityCache");
       if (store.getters.userinfo) {
@@ -570,7 +571,7 @@ export default {
             isError: false,
           })
         }
-      }else {
+      } else {
         conversationList.value[0] = {
           user: "你好",
           assistant: "您好!我是 TIME SEA 助手 , 请问有什么需要帮助的吗?",
@@ -715,7 +716,7 @@ export default {
         time: Date.now(),
         context: [],
       });
-     await getPersonalityConfig();
+      await getPersonalityConfig();
       personalityCache.value.index = 0;
       conversationList.value = [];
       localStorage.setItem(
@@ -755,23 +756,23 @@ export default {
       // TODO 上下文
       let messages = [];
       conversationList.value
-          .slice(memory.value)
+          .slice(-memory.value)
           .forEach(({isError, user, assistant}) => {
             if (!isError) {
+              const truncatedUser = user.length > size.value ? user.slice(0, size.value) + "..." : user;
+              const truncatedAssistant = assistant && assistant.length > size.value ? assistant.slice(0, size.value) + "..." : assistant;
               messages.push({
                 role: "user",
-                content: user,
+                content: truncatedUser,
               });
-              if (assistant)
+              if (truncatedAssistant) {
                 messages.push({
                   role: "assistant",
-                  content: assistant,
+                  content: truncatedAssistant,
                 });
+              }
             }
           });
-      if (messages.length > 10) {
-        messages = messages.slice(-10);
-      }
       webSocket({
         messages: {
           messages: messages,
@@ -1574,6 +1575,7 @@ export default {
     }
   }
 }
+
 .operation--model_user {
   margin-top: 5px;
   display: flex;
