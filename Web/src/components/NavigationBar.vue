@@ -235,7 +235,7 @@ export default defineComponent({
   height: 60px;
   box-sizing: border-box;
   width: 100%;
-  border-bottom: 1px solid #1d2022;
+  border-bottom: 1px solid var(--bordercolor);
   flex-shrink: 0;
   justify-content: space-between;
   align-items: center;
@@ -379,7 +379,7 @@ export default defineComponent({
 .applet {
   width: 120px;
   margin-left: 10px;
-  background-color: var(--themeColor1);
+  background-color: rgb(129, 102, 231);
 }
 
 .applet > .rechargeButtonText {

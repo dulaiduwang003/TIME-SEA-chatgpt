@@ -183,16 +183,15 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   display: flex;
-  border: 1px solid #1d2022;
-  border-radius: 10px;
+  border: 1px solid var(--bordercolor);
   overflow: hidden;
 }
 
 .leftNavigation {
   width: 260px;
   height: 100%;
-  background-color: #1d2022;
-  border-right: 1px solid #1d2022;
+  background-color: var(--bgColor1);
+  border-right: 1px solid var(--bordercolor);
   position: relative;
 }
 
@@ -202,7 +201,7 @@ export default defineComponent({
   bottom: 0;
   width: 100%;
   height: 70px;
-  border-top: 1px solid #1d2022;
+  border-top: 1px solid var(--bordercolor);
   display: flex;
   align-items: center;
   box-sizing: border-box;
@@ -294,7 +293,7 @@ export default defineComponent({
   text-decoration: none;
   color: #666666;
   font-size: 14px;
-  background-color: #1d2022;
+  background-color: var(--bgColor1);
 }
 
 .switch-item-title {
