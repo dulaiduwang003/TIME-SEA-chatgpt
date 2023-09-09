@@ -146,7 +146,7 @@ input:focus {
   overflow: auto;
   overflow-y: scroll;
   height: 100%;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 .logo {
@@ -159,7 +159,7 @@ input:focus {
   font-size: 24px;
   font-weight: 550;
   padding-top: 20px;
-  color: white;
+  color: var(--textColor1);
 }
 
 .input {

@@ -114,7 +114,7 @@ export default {
 .pay-succeed-title {
   font-size: 30px;
   padding-left: 15px;
-  color: white;
+  color: var(--textColor1);
 }
 
 .pay-succeed-no {
@@ -186,7 +186,7 @@ export default {
   padding-right: 100px;
   text-align: left;
   font-size: 14px;
-  color: #ffffff;
+  color: var(--textColor1);
 }
 
 .cash-o-data {
@@ -220,7 +220,7 @@ export default {
 }
 
 .cash-info {
-  background: rgb(27, 30, 32);
+  background: var(--bgColor1);
   width: 1100px;
   height: 500px;
 }
@@ -251,8 +251,8 @@ export default {
 }
 
 .cash-title-introduce {
-  color: white;
-  background: rgb(27, 30, 32);
+  color: var(--textColor1);
+  background: var(--bgColor1);
   width: 1100px;
   height: 70px;
   margin-top: 70px;
@@ -312,7 +312,7 @@ export default {
 
   .pay-succeed-title {
     font-size: 20px;
-    color: #ffffff;
+    color: var(--textColor1);
     padding-left: 10px;
   }
 

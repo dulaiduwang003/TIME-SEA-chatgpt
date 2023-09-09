@@ -74,7 +74,7 @@
         v-model="payVisible"
         width="340px"
         v-if="productFrequency"
-        style="background-color: rgb(27, 30, 32)"
+        style="background-color: var(--bgColor1)"
       >
         <div class="pay-title">
           选择支付方式后点击“跳转至收银台”打开支付页面支付
@@ -322,7 +322,7 @@ export default {
   overflow: auto;
   overflow-y: scroll;
   height: 100%;
-  background-color: #23282a;
+  background-color: var(--bgColor2);
 }
 
 .alipay-img {
@@ -340,9 +340,9 @@ export default {
 }
 
 .wrapper-title {
-  background-color: #7d80ff;
+  background-color: var(--themeColor1);
   border-radius: 10px 10px 0 0;
-  color: white;
+  color: var(--themeTextColor);
   padding-top: 20px;
   padding-bottom: 20px;
   font-size: 15px;
@@ -364,7 +364,7 @@ export default {
   margin: 0;
   font-size: 26px;
   font-weight: 600;
-  color: #e9e9e9;
+  color: var(--textColor1);
 }
 
 .wrapper {
@@ -376,13 +376,13 @@ export default {
 
 .item {
   text-align: center;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   cursor: pointer;
   width: 100%;
   height: 400px;
   border-radius: 8px;
   font-size: 15px;
-  color: #ffffff;
+  color: var(--textColor1);
   margin-bottom: 20px;
 }
 
@@ -408,7 +408,7 @@ export default {
 
 .quantity {
   padding-top: 50px;
-  color: white;
+  color: var(--textColor1);
   font-size: 38px;
   font-weight: 500;
 }

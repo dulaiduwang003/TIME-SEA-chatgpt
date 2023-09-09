@@ -252,7 +252,7 @@ export default {
 }
 
 ::v-deep(.el-table-fixed-column--right) {
-  background: rgb(27, 30, 32) !important;
+  background: var(--bgColor1) !important;
 }
 
 ::v-deep(

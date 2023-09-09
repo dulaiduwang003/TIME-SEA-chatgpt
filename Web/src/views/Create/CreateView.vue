@@ -73,7 +73,7 @@ export default {
   padding: 0 20px 120px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 @keyframes explainAnimation {
@@ -103,7 +103,7 @@ export default {
 }
 
 .title {
-  color: white;
+  color: var(--textColor1);
   font-size: 20px;
   font-weight: 500;
 }
@@ -114,7 +114,7 @@ export default {
 }
 
 .item {
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   width: 100%;
   height: 80px;
   border-radius: 8px;
@@ -122,7 +122,7 @@ export default {
   justify-content: center;
   align-items: center;
   font-size: 15px;
-  color: #ffffff;
+  color: var(--textColor1);
   margin-bottom: 20px;
 }
 

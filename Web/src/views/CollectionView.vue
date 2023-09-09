@@ -168,7 +168,7 @@ export default {
   padding: 30px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 @keyframes explainAnimation {
@@ -204,7 +204,7 @@ export default {
   flex: 1;
   width: 100%;
   box-sizing: border-box;
-  background: #1f2224;
+  background: var(--bgColor1);
   border-radius: 8px;
   padding: 20px;
 }
@@ -221,7 +221,7 @@ export default {
 
 .item {
   box-sizing: border-box;
-  background: rgb(27, 30, 32);
+  background: var(--bgColor1);
   border-radius: 8px;
   flex-direction: column;
   margin-top: 26px;
@@ -272,7 +272,7 @@ export default {
 
 .operationItemSelected {
   background-color: #7d80ff;
-  color: white;
+  color: var(--textColor1);
 }
 
 .operationExplain {
@@ -281,7 +281,7 @@ export default {
 
 ::v-deep(.vuepress-markdown-body) {
   padding: 0 0 0 16px;
-  color: #ffffff;
-  background-color: #1f2224;
+  color: var(--textColor1);
+  background-color: var(--bgColor1);
 }
 </style>

@@ -642,7 +642,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 :deep(.el-dialog) {
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
 }
 
 .animation {
@@ -690,7 +690,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  color: white;
+  color: var(--textColor1);
 }
 
 .login-box > .head > img {
@@ -724,7 +724,7 @@ export default defineComponent({
   letter-spacing: 2px;
   font-weight: 300;
   margin-top: 15px;
-  --el-button-bg-color: rgb(129, 102, 231);
+  --el-button-bg-color: var(--themeColor1);
   border: none;
 }
 
@@ -822,7 +822,7 @@ export default defineComponent({
 }
 
 .login-selected {
-  color: white;
+  color: var(--textColor1);
   font-weight: 550;
 }
 

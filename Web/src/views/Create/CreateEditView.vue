@@ -138,7 +138,7 @@ export default {
   padding: 0 20px 100px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 @keyframes explainAnimation {
@@ -163,7 +163,7 @@ export default {
   font-size: 18px;
   font-weight: bold;
   line-height: 1.4;
-  color: #ffffff;
+  color: var(--textColor1);
   margin-bottom: 15px;
   display: block;
 }
@@ -180,7 +180,7 @@ export default {
 .illustrate {
   display: block;
   margin: 10px 0;
-  color: #ffffff;
+  color: var(--textColor1);
   font-size: 13px;
 }
 
@@ -189,8 +189,8 @@ export default {
   width: 100%;
   height: 40px;
   border-radius: 8px;
-  background-color: rgb(27, 30, 32);
-  color: white;
+  background-color: var(--bgColor1);
+  color: var(--textColor1);
   font-size: 15px;
   box-sizing: border-box;
   padding: 0 15px;
@@ -201,8 +201,8 @@ export default {
 >>> .textareaBox > .el-textarea__inner {
   width: 100%;
   border-radius: 7.5px;
-  background-color: rgb(27, 30, 32);
-  color: #ffffff;
+  background-color: var(--bgColor1);
+  color: var(--textColor1);
   font-size: 15px;
   outline: none;
   margin-bottom: 20px;
@@ -233,7 +233,7 @@ export default {
 .determineTheBuildBack {
   font-size: 15px;
   background-color: #000000;
-  color: #ffffff;
+  color: var(--textColor1);
   border-radius: 100px;
   height: 40px;
   width: 300px;

@@ -477,7 +477,7 @@ export default {
   padding: 0 20px 120px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 .footer {
@@ -485,7 +485,7 @@ export default {
   box-sizing: border-box;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(rgba(246, 246, 246, 0), #282c2e 25%);
+  background: linear-gradient(rgba(246, 246, 246, 0), var(--bgColor2) 25%);
   flex-shrink: 0;
   padding: 30px 20px;
   display: flex;
@@ -589,7 +589,7 @@ export default {
 
 .questions > .item {
   box-sizing: border-box;
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
   /*border: 1px solid #ececec;*/
   border-radius: 8px;
   flex-direction: column;
@@ -624,12 +624,12 @@ export default {
   font-size: 16px;
   line-height: 28px;
   position: relative;
-  color: white;
+  color: var(--textColor1);
 }
 ::v-deep(.vuepress-markdown-body) {
   padding: 0 0 0 16px;
-  color: #ffffff;
-  background-color: #1f2224;
+  color: var(--textColor1);
+  background-color: var(--bgColor1);
 }
 
 .explain {
@@ -638,7 +638,7 @@ export default {
   flex-direction: column;
   align-items: center;
   animation: explainAnimation 0.3s;
-  color: white;
+  color: var(--textColor1);
 }
 
 @keyframes explainAnimation {
@@ -750,12 +750,12 @@ export default {
   background-color: #000000;
   border-radius: 100px;
   font-size: 13px;
-  color: white;
+  color: var(--textColor1);
 }
 
 .operationItemSelected {
   background-color: #7d80ff;
-  color: white;
+  color: var(--textColor1);
 }
 
 .operationExplain {
@@ -828,13 +828,13 @@ export default {
   border-radius: 5px;
   padding: 3px 10px;
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
-  color: #c8c8c8;
+  color: var(--textColor4);
   background-color: var(--bgColor1);
 }
 ::v-deep(.scrollbar__wrap) {
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
 }
 ::v-deep(.vuepress-markdown-body tr:nth-child(2n)) {
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
 }
 </style>

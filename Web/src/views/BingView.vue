@@ -139,7 +139,7 @@
     title=""
     width="430px"
     center
-    style="background-color: rgb(27, 30, 32)"
+    style="background-color: var(--bgColor1)"
   >
     <div>
       <div class="cache-flex-center">
@@ -569,7 +569,7 @@ export default {
   padding: 0 20px 120px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 .footer {
@@ -577,7 +577,7 @@ export default {
   box-sizing: border-box;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(rgba(246, 246, 246, 0), #282c2e 25%);
+  background: linear-gradient(rgba(246, 246, 246, 0), var(--bgColor2) 25%);
   flex-shrink: 0;
   padding: 30px 20px;
   display: flex;
@@ -714,15 +714,15 @@ export default {
   position: relative;
   background-color: #fab602;
   box-shadow: 0 5px 7px rgba(49, 79, 88, 0.15);
-  color: white;
+  color: var(--textColor1);
   margin-right: 10px;
   margin-top: 2px;
 }
 
 ::v-deep(.vuepress-markdown-body) {
   padding: 0 0 0 16px;
-  color: #ffffff;
-  background-color: #1f2224;
+  color: var(--textColor1);
+  background-color: var(--bgColor1);
 }
 
 .operation--model {
@@ -734,7 +734,7 @@ export default {
 
 .op-btn {
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
-  color: #c8c8c8;
+  color: var(--textColor4);
   background-color: var(--bgColor1);
   margin-right: 5px;
   padding: 3px 10px;
@@ -754,7 +754,7 @@ export default {
   flex-direction: column;
   align-items: center;
   animation: explainAnimation 0.3s;
-  color: white;
+  color: var(--textColor1);
 }
 
 @keyframes explainAnimation {
@@ -788,7 +788,7 @@ export default {
   border-radius: 5px;
   margin-top: 2px;
   overflow-x: hidden;
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
   padding: 10px 10px 10px 5px;
   min-width: 50px;
 }
@@ -911,7 +911,7 @@ export default {
   border-radius: 5px;
   padding: 3px 10px;
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
-  color: #c8c8c8;
+  color: var(--textColor4);
   background-color: var(--bgColor1);
 }
 
@@ -922,7 +922,7 @@ export default {
   top: 0;
   z-index: 1;
   font-size: 8px;
-  color: #c8c8c8;
+  color: var(--textColor4);
   background-color: var(--bgColor1);
   border-radius: 5px;
   padding: 3px 10px;
@@ -940,7 +940,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
 }
 
 .cache-img {
@@ -949,7 +949,7 @@ export default {
 }
 
 .cache-text {
-  color: white;
+  color: var(--textColor1);
   text-align: center;
   font-size: 15px;
   font-weight: 550;
@@ -961,7 +961,7 @@ export default {
 }
 
 .cache-btn {
-  color: white;
+  color: var(--textColor1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1054,11 +1054,11 @@ export default {
 }
 
 ::v-deep(.scrollbar__wrap) {
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
 }
 
 ::v-deep(.vuepress-markdown-body tr:nth-child(2n)) {
-  background-color: #1f2224;
+  background-color: var(--bgColor1);
 }
 
 .select_style {
@@ -1067,7 +1067,7 @@ export default {
 }
 
 :deep(.answer > .el-avatar, .question > .el-avatar) {
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 .operation--model_user {

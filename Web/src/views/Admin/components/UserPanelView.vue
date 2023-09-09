@@ -13,7 +13,7 @@
         background: ' rgb(27,30,32)',
         borderColor: '#202020',
       }"
-      style="background-color: rgb(27, 30, 32)"
+      style="background-color: var(--bgColor1)"
       :row-style="{
         height: '100%',
         background: ' rgb(27,30,32)',
@@ -61,7 +61,7 @@
     v-model="dialogFormVisible"
     width="400px"
     x
-    style="background-color: rgb(27, 30, 32); padding-top: 20px"
+    style="background-color: var(--bgColor1); padding-top: 20px"
   >
     <el-form>
       <el-form-item label="用户昵称" label-width="100px">
@@ -279,7 +279,7 @@ export default {
 }
 
 ::v-deep(.el-table-fixed-column--right) {
-  background: rgb(27, 30, 32) !important;
+  background: var(--bgColor1) !important;
 }
 
 ::v-deep(
@@ -301,12 +301,12 @@ export default {
   margin-bottom: 20px;
   align-items: center;
   border-radius: 3px;
-  box-shadow: 0 2px 6px rgb(27, 30, 32);
+  box-shadow: 0 2px 6px var(--bgColor1);
 }
 
 .head_model_style {
   padding-left: 40px;
-  color: white;
+  color: var(--textColor1);
 }
 
 .number_people {

@@ -20,7 +20,7 @@
                   style="
                     font-weight: 700;
                     font-size: 16px;
-                    color: #ffffff;
+                    color: var(--textColor1);
                     padding-top: 10px;
                   "
                 >
@@ -94,7 +94,7 @@ export default {
   padding: 0 20px 120px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 @keyframes explainAnimation {
@@ -136,17 +136,17 @@ export default {
 .item {
   width: 80%;
   height: 160px;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   margin-bottom: 15px;
   border-radius: 8px;
   font-size: 15px;
-  color: #303030;
+  color: var(--bgColor2);
   padding: 20px;
   box-shadow: 0 5px 7px rgba(35, 35, 35, 0.06);
 }
 
 .item:hover {
-  background-color: rgb(62, 61, 61);
+  background-color: var(--bgColor1);
   cursor: pointer;
   transition: background-color 0.2s;
 }

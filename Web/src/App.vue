@@ -13,7 +13,7 @@
         center
         align-center
         width="380px"
-        style="background-color: rgb(27, 30, 32)"
+        style="background-color: var(--bgColor1)"
       >
         <span style="text-align: center">{{ context }}</span>
         <template #footer>
@@ -201,21 +201,21 @@ body {
   --textColor1: #eee;
   --textColor2: #ccc;
   --textColor3: #999;
-  --textColor4: #666;
+  --textColor4: #777;
   --bordercolor: #333;
 }
 // 日间模式配色
 .lightMode {
   --bgColor1: #fff;
-  --bgColor2: #f6f6f6;
-  --bgColor3: #e6e6e6;
+  --bgColor2: #eee;
+  --bgColor3: #ddd;
   --themeColor1: #8166e7;
   --themeColor2: #686efe;
   --themeTextColor: #eee;
   --textColor1: #222;
   --textColor2: #444;
   --textColor3: #666;
-  --textColor4: #999;
+  --textColor4: #888;
   --bordercolor: #eee;
 }
 

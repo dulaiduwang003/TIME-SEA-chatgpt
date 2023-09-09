@@ -85,7 +85,7 @@ export default defineComponent({
 
 <style scoped>
 .ViewState {
-  background-color: #23282a;
+  background-color: var(--bgColor2);
   user-select: none;
   width: 100%;
   /*height: 500 rpx;*/
@@ -122,7 +122,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   background-color: #444548;
-  color: #ffffff;
+  color: var(--textColor1);
   cursor: pointer;
 }
 

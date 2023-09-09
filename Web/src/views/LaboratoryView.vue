@@ -118,7 +118,7 @@ export default {
   display: flex;
   overflow: auto;
 
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 @keyframes explainAnimation {
@@ -160,11 +160,11 @@ export default {
 .item {
   width: 80%;
   height: 160px;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   margin-bottom: 35px;
   border-radius: 8px;
   font-size: 15px;
-  color: #ffffff;
+  color: var(--textColor1);
   padding: 20px;
   box-shadow: 0 5px 7px rgba(35, 35, 35, 0.06);
 }

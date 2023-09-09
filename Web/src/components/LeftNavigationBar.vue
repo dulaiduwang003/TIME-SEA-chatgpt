@@ -183,7 +183,6 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   display: flex;
-  border: 1px solid var(--bordercolor);
   overflow: hidden;
 }
 
@@ -235,11 +234,11 @@ export default defineComponent({
 .surplus {
   box-sizing: border-box;
   padding: 5px 10px;
-  background-color: #8065e5;
+  background-color: var(--themeColor1);
   display: table;
   margin: 20px auto 0;
   font-size: 13px;
-  color: white;
+  color: var(--themeTextColor);
   border-radius: 5px;
 }
 
@@ -269,7 +268,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--textColor1);
   font-size: 14px;
   cursor: pointer;
 }
@@ -301,8 +300,8 @@ export default defineComponent({
 }
 
 .switch-active {
-  background-color: #262a2c;
-  color: white;
+  background-color: var(--bgColor2);
+  color: var(--textColor1);
   border-radius: 8px;
 }
 
@@ -317,9 +316,4 @@ export default defineComponent({
     display: none;
   }
 }
-
-/*.NavigationBar {*/
-/*  border: none;*/
-/*  border-radius: 0;*/
-/*}*/
 </style>

@@ -151,7 +151,7 @@ export default {
 }
 
 :deep(.el-tabs__nav-wrap::after) {
-  background: rgb(27, 30, 32);
+  background: var(--bgColor1);
 }
 
 .container {
@@ -162,7 +162,7 @@ export default {
   padding: 10px 20px 20px;
   margin: 30px 0px;
   height: 90%;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   border-radius: 8px;
 }
 
@@ -177,11 +177,11 @@ export default {
   padding: 0 20px 0px;
   display: flex;
   overflow: auto;
-  background-color: rgb(38, 42, 44);
+  background-color: var(--bgColor2);
 }
 
 ::v-deep(.el-tabs__item.is-active) {
-  color: #ffffff;
+  color: var(--textColor1);
 }
 
 ::v-deep(.el-tabs__item:hover) {

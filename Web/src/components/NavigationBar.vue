@@ -6,7 +6,7 @@
         class="rechargeButton hidden-xs-only applet"
       >
         <img class="appletIcon" :src="require('../assets/applet.svg')" />
-        <div class="rechargeButtonText">微信小程序</div>
+        <div class="rechargeButtonText themeColorText">微信小程序</div>
       </div>
     </div>
     <div v-if="isHeadNavigation" class="header-center">
@@ -259,10 +259,10 @@ export default defineComponent({
 }
 
 .switch-button {
-  color: white;
+  color: var(--textColor1);
   box-sizing: border-box;
   height: 34px;
-  background: #35393c;
+  background: var(--bgColor3);
   border-radius: 7px;
   align-items: center;
   padding: 0 2px;
@@ -324,22 +324,8 @@ export default defineComponent({
   margin-right: 12px;
   padding: 0;
   font-size: 14px;
-  background-color: var(--el-text-color-primary);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.header-user-button {
-  width: 50px;
-  height: 34px;
-  border-radius: 6px;
-  padding: 0;
-  font-size: 14px;
-  background-color: #686efe;
-  color: white;
+  background-color: var(--bgColor2);
+  color: var(--textColor2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -348,6 +334,9 @@ export default defineComponent({
 
 .rechargeButtonText {
   margin-left: 10px;
+}
+.themeColorText {
+  color: var(--themeTextColor);
 }
 
 @keyframes headerRightAnimation {
@@ -379,7 +368,7 @@ export default defineComponent({
 .applet {
   width: 120px;
   margin-left: 10px;
-  background-color: rgb(129, 102, 231);
+  background-color: var(--themeColor1);
 }
 
 .applet > .rechargeButtonText {
@@ -407,7 +396,7 @@ export default defineComponent({
 .login {
   width: 72px;
   height: 34px;
-  background: rgb(129, 102, 231);
+  background: var(--themeColor1);
   border-radius: 6px;
   padding: 0;
   font-size: 14px;
@@ -415,7 +404,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--textColor1);
 }
 .header-user-btn {
   height: 36px;
@@ -433,9 +422,9 @@ export default defineComponent({
   margin-left: 8px;
   font-size: 15px;
   overflow: hidden;
-  color: #c5c5c5;
+  color: var(--textColor2);
 }
 .header-user-btn:hover {
-  background: rgb(48, 49, 51);
+  background: var(--bgColor2);
 }
 </style>

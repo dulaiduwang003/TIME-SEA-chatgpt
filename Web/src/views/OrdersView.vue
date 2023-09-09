@@ -35,7 +35,7 @@
             margin-bottom: 40px;
             align-items: center;
             border-radius: 3px;
-            box-shadow: 0 2px 6px rgb(27, 30, 32);
+            box-shadow: 0 2px 6px var(--bgColor1);
           "
         >
           <div style="padding-left: 40px; color: white">
@@ -49,7 +49,7 @@
           :data="dataTables"
           height="350px"
           :header-cell-style="{ background: ' rgb(27,30,32)' }"
-          style="background-color: rgb(27, 30, 32)"
+          style="background-color: var(--bgColor1)"
           :row-style="{ height: '100%', background: ' rgb(27,30,32)' }"
         >
           <el-table-column prop="ordersId" label="订单号" />
@@ -183,7 +183,7 @@ export default {
   box-sizing: border-box;
   padding: 10px 20px 100px;
   margin-top: 30px;
-  background-color: rgb(27, 30, 32);
+  background-color: var(--bgColor1);
   border-radius: 8px;
 }
 
@@ -198,7 +198,7 @@ export default {
   padding: 0 20px 120px;
   display: flex;
   overflow: auto;
-  background-color: #23282a;
+  background-color: var(--bgColor2);
 }
 
 ::v-deep(
