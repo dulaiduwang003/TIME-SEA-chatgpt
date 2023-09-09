@@ -304,7 +304,7 @@ export default {
 
 .head_model {
   display: flex;
-  background-color: #7d80ff;
+  background-color: var(--themeColor1);
   height: 130px;
   margin-bottom: 20px;
   align-items: center;

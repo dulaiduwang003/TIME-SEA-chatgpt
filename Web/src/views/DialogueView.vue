@@ -854,9 +854,9 @@ export default {
   word-break: break-all;
   line-height: 28px;
   position: relative;
-  background-color: rgb(104, 110, 254);
+  background-color: var(--themeColor2);
   box-shadow: 0 5px 7px rgba(49, 79, 88, 0.15);
-  color: var(--textColor1);
+  color: var(--themeTextColor);
   margin-right: 10px;
   margin-top: 2px;
 }

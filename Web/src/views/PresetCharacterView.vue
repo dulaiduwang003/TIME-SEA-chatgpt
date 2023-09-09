@@ -30,7 +30,7 @@
                   style="
                     padding-top: 20px;
                     font-size: 7px;
-                    color: #878787;
+                    color: var(--textColor4);
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;

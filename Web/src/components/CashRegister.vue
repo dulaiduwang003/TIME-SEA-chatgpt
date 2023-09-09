@@ -49,7 +49,7 @@
         </div>
         <div class="pay-succeed" v-show="showSucceed">
           <div>
-            <el-icon color="#7d80ff" size="50px">
+            <el-icon color="var(--themeColor1)" size="50px">
               <CircleCheckFilled />
             </el-icon>
           </div>
@@ -247,7 +247,7 @@ export default {
 
 .cash-title {
   height: 70px;
-  background-color: #7d80ff;
+  background-color: var(--themeColor1);
 }
 
 .cash-title-introduce {

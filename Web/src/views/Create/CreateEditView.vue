@@ -232,7 +232,7 @@ export default {
 
 .determineTheBuildBack {
   font-size: 15px;
-  background-color: #000000;
+  background-color: var(--bgColor2);
   color: var(--textColor1);
   border-radius: 100px;
   height: 40px;

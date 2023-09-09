@@ -58,7 +58,7 @@
                   v-for="(item2, index2) in introduce"
                   :key="index2"
                 >
-                  <el-icon color="#7d80ff" size="20px">
+                  <el-icon color="var(--themeColor1)" size="20px">
                     <CircleCheckFilled />
                   </el-icon>
                   <div style="padding-left: 10px; color: #a7a7a7">

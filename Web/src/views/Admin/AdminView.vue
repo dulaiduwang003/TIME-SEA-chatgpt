@@ -102,7 +102,7 @@ export default {
 
 :deep(.container) {
   .el-table__cell {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--bordercolor);
   }
 
   .hover-row {

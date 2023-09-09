@@ -45,7 +45,18 @@
                 align-items: center;
               "
             >
-              <div style="padding-bottom: 3px">{{ data.icon }}</div>
+              <div
+                style="
+                  width: 28px;
+                  height: 28px;
+                  text-align: center;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                "
+              >
+                {{ data.icon }}
+              </div>
             </div>
           </div>
           <div v-if="item.assistant" style="flex: 1">
@@ -610,7 +621,7 @@ export default {
 }
 
 .answer {
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--bordercolor);
   position: relative;
 }
 
@@ -747,15 +758,15 @@ export default {
   margin-right: 5px;
   display: flex;
   align-items: center;
-  background-color: #000000;
+  background-color: var(--bgColor2);
   border-radius: 100px;
   font-size: 13px;
   color: var(--textColor1);
 }
 
 .operationItemSelected {
-  background-color: #7d80ff;
-  color: var(--textColor1);
+  background-color: var(--themeColor1);
+  color: var(--themeTextColor);
 }
 
 .operationExplain {

@@ -30,7 +30,7 @@
         <div
           style="
             display: flex;
-            background-color: #7d80ff;
+            background-color: var(--themeColor1);
             height: 140px;
             margin-bottom: 40px;
             align-items: center;

@@ -268,7 +268,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--textColor1);
+  color: var(--themeTextColor);
   font-size: 14px;
   cursor: pointer;
 }

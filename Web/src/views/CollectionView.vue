@@ -271,8 +271,8 @@ export default {
 }
 
 .operationItemSelected {
-  background-color: #7d80ff;
-  color: var(--textColor1);
+  background-color: var(--themeColor1);
+  color: var(--themeTextColor);
 }
 
 .operationExplain {
