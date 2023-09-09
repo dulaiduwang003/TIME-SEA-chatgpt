@@ -1,39 +1,41 @@
 <template>
-  <img
-    src="../assets/ball.svg"
-    class="floating-ball"
-    ref="ball"
-    @mousedown="handleMouseDown"
-    @click="dialogVisible = true"
-  />
-  <el-dialog
-    v-model="dialogVisible"
-    class="el-dialog"
-    style="background-color: var(--bgColor1)"
-    align-center="true"
-    width="800px"
-  >
-    <div class="logo">
-      <img src="../assets/logoHead.svg" />
-    </div>
-    <div class="title">常见问题</div>
-    <el-scrollbar height="380px" class="el-scrollbar">
-      <div class="row" v-for="(item, index) in data" :key="index">
-        <div class="line">
-          <div style="width: 30px">Q:</div>
-          <div style="width: 620px">
-            {{ item.q }}
-          </div>
-        </div>
-        <div class="line">
-          <div style="width: 30px">A:</div>
-          <div style="width: 620px">
-            {{ item.a }}
-          </div>
-        </div>
+  <div>
+    <img
+      src="../assets/ball.svg"
+      class="floating-ball"
+      ref="ball"
+      @mousedown="handleMouseDown"
+      @click="dialogVisible = true"
+    />
+    <el-dialog
+      v-model="dialogVisible"
+      class="el-dialog"
+      style="background-color: var(--bgColor1)"
+      align-center="true"
+      width="800px"
+    >
+      <div class="logo">
+        <img src="../assets/logoHead.svg" />
       </div>
-    </el-scrollbar>
-  </el-dialog>
+      <div class="title">常见问题</div>
+      <el-scrollbar height="380px" class="el-scrollbar">
+        <div class="row" v-for="(item, index) in data" :key="index">
+          <div class="line">
+            <div style="width: 30px">Q:</div>
+            <div style="width: 620px">
+              {{ item.q }}
+            </div>
+          </div>
+          <div class="line">
+            <div style="width: 30px">A:</div>
+            <div style="width: 620px">
+              {{ item.a }}
+            </div>
+          </div>
+        </div>
+      </el-scrollbar>
+    </el-dialog>
+  </div>
 </template>
 
 <script>

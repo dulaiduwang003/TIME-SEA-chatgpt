@@ -12,7 +12,7 @@
 
       <LeftNavigationBar />
 
-      <levitation-ball />
+      <levitation-ball class="hidden-xs-only" />
 
       <el-dialog
         class="announcement"

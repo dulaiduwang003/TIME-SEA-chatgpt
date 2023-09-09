@@ -27,7 +27,6 @@
         class="selectWrapper"
         placeholder="Ai模型"
         @change="updateModel"
-        style="width: 105px"
       >
         <el-option value="BASIC" label="智能" />
         <el-option value="ADVANCED" label="增强" />
@@ -186,7 +185,7 @@ export default defineComponent({
 }
 
 :deep(.selectWrapper) {
-  .el-input,
+  width: 100px;
   .el-input {
     .el-input__wrapper {
       box-shadow: none !important;
@@ -235,7 +234,7 @@ export default defineComponent({
 .animation-dot {
   display: flex;
   padding-right: 5px;
-  margin: 35px 12px 0 0;
+  margin: 0px 10px;
 }
 
 @keyframes jumpT {
@@ -288,5 +287,19 @@ export default defineComponent({
 
 .dot3 {
   animation: jumpT 1.3s linear infinite;
+}
+
+@media screen and (max-width: 756px) {
+  :deep(.selectWrapper) {
+    width: 80px;
+    min-width: 80px;
+    .el-input {
+      .el-input__wrapper {
+        .el-input__inner {
+          text-indent: 0px;
+        }
+      }
+    }
+  }
 }
 </style>
