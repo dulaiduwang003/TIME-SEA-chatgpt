@@ -1318,11 +1318,11 @@ export default {
   margin-top: 15px;
   display: flex;
   align-items: center;
-  box-shadow: 0 5px 7px rgba(29, 32, 34, 0.29);
-  background-color: rgb(29, 32, 34);
+  box-shadow: 0 5px 7px var(--bgboxShadowColor1);
+  background-color: var(--bgColor1);
   padding: 5px 20px;
   font-size: 13px;
-  color: #d8d8d8;
+  color: var(--textColor1);
   border-radius: 5px;
 }
 
@@ -1478,7 +1478,7 @@ export default {
 .cache-scrollbar {
   background-color: rgb(16, 18, 19);
   border-radius: 10px;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 
 .cache-padding {
@@ -1593,7 +1593,7 @@ export default {
 :deep(.el-input__inner) {
   background: rgb(20, 21, 21);
   font-weight: 400;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 
 :deep(.el-input__wrapper) {

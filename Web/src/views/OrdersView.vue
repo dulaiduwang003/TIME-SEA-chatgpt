@@ -48,9 +48,9 @@
         <el-table
           :data="dataTables"
           height="350px"
-          :header-cell-style="{ background: ' rgb(27,30,32)' }"
+          :header-cell-style="{ background: ' var(--bgColor1)' }"
           style="background-color: var(--bgColor1)"
-          :row-style="{ height: '100%', background: ' rgb(27,30,32)' }"
+          :row-style="{ height: '100%', background: ' var(--bgColor1)' }"
         >
           <el-table-column prop="ordersId" label="订单号" />
           <el-table-column prop="productName" label="商品名称" />
@@ -164,7 +164,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @keyframes explainAnimation {
   from {
     transform: scale(0);
@@ -202,14 +202,151 @@ export default {
 }
 
 ::v-deep(
-    .el-pagination.is-background .el-pager li:not(.is-disabled).is-active
-  ) {
-  background-color: rgb(125, 128, 255) !important;
-}
-
-::v-deep(
     .el-table--enable-row-hover .el-table__body tr:hover td.el-table__cell
   ) {
   background: none;
+}
+
+:deep(.container) {
+  .el-table__cell {
+    border-bottom: 1px solid var(--borderColor);
+  }
+  .hover-row {
+    .el-table__cell {
+      background-color: var(--borderColor);
+      color: #ccc;
+    }
+  }
+
+  .el-table__inner-wrapper::before {
+    background-color: var(--borderColor);
+  }
+
+  .el-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .el-tabs__content {
+      height: 100%;
+
+      .el-tab-pane {
+        height: 100%;
+        .u_container {
+          height: 100%;
+
+          .el-table {
+            > .el-table__inner-wrapper {
+              height: 100% !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes explainAnimation {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+:deep(.el-tabs__nav-wrap::after) {
+  background: var(--bgColor1);
+}
+
+.container {
+  animation: explainAnimation 0.3s;
+  max-width: 1100px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px 20px;
+  margin: 30px 0px;
+  height: 90%;
+  background-color: var(--bgColor1);
+  border-radius: 8px;
+}
+
+.body {
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  flex: 1;
+  align-items: center;
+  padding: 0 20px 0px;
+  display: flex;
+  overflow: auto;
+  background-color: var(--bgColor2);
+}
+
+::v-deep(.el-tabs__item.is-active) {
+  color: var(--textColor1);
+}
+
+::v-deep(.el-tabs__item:hover) {
+  color: #959595;
+}
+
+::v-deep(.el-tabs__active-bar) {
+  background-color: var(--themeColor1);
+}
+
+::v-deep(.el-tabs__item) {
+  color: #626262;
+}
+.no_data {
+  height: 540px;
+  margin-top: 10px;
+}
+
+:deep(.container) {
+  .el-table__cell {
+    border-bottom: 1px solid var(--borderColor);
+  }
+
+  .el-table td.el-table__cell,
+  .el-table th.el-table__cell.is-leaf {
+    border-bottom: 1px solid var(--borderColor);
+  }
+  .hover-row {
+    .el-table__cell {
+      background-color: var(--borderColor);
+      color: #ccc;
+    }
+  }
+
+  .el-table__inner-wrapper::before {
+    background-color: var(--borderColor);
+  }
+
+  .el-tabs {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .el-tabs__content {
+      height: 100%;
+
+      .el-tab-pane {
+        height: 100%;
+        .u_container {
+          height: 100%;
+
+          .el-table {
+            > .el-table__inner-wrapper {
+              height: 100% !important;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>

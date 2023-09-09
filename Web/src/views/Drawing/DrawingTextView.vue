@@ -294,7 +294,7 @@ export default {
 :deep(.el-input__inner) {
   background: rgb(20, 21, 21);
   font-weight: 400;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 
 :deep(.el-input__wrapper) {
@@ -316,7 +316,7 @@ export default {
   border: 1px solid #4b535a;
   height: 97%;
   width: 25%;
-  background-color: rgb(29, 32, 34);
+  background-color: var(--bgColor1);
   margin: 10px;
   border-radius: 10px;
   color: rgb(229, 234, 243);

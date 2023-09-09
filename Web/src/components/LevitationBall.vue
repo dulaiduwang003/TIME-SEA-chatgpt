@@ -9,7 +9,7 @@
   <el-dialog
     v-model="dialogVisible"
     class="el-dialog"
-    style="background-color: rgb(29, 32, 34)"
+    style="background-color: var(--bgColor1)"
     align-center="true"
     width="800px"
   >

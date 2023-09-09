@@ -102,18 +102,17 @@ export default {
 
 :deep(.container) {
   .el-table__cell {
-    border-bottom: 1px solid var(--bordercolor);
+    border-bottom: 1px solid var(--borderColor);
   }
-
   .hover-row {
     .el-table__cell {
-      background-color: #333;
+      background-color: var(--borderColor);
       color: #ccc;
     }
   }
 
   .el-table__inner-wrapper::before {
-    background-color: #333;
+    background-color: var(--borderColor);
   }
 
   .el-tabs {
@@ -189,7 +188,7 @@ export default {
 }
 
 ::v-deep(.el-tabs__active-bar) {
-  background-color: #d593ff;
+  background-color: var(--themeColor1);
 }
 
 ::v-deep(.el-tabs__item) {

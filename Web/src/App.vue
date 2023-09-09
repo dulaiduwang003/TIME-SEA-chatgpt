@@ -1,6 +1,13 @@
 <template>
   <div class="appWrapper">
-    <div class="appInner" :class="store.getters.themeInfo.className">
+    <div
+      class="appInner"
+      :class="
+        store && store.getters && store.getters.themeInfo.className
+          ? store.getters.themeInfo.className
+          : null
+      "
+    >
       <NavigationBar />
 
       <LeftNavigationBar />
@@ -46,6 +53,14 @@ export default {
   setup() {
     let store = useStore();
     store.commit("initState");
+
+    //这里直接获取本地缓存的值，如果有值，就直接commit 修改组件状态
+    let themeSwitchIndex = JSON.parse(localStorage.getItem("themeSwitchIndex"));
+    console.log("获取缓存变量", themeSwitchIndex);
+    if (themeSwitchIndex && themeSwitchIndex.id) {
+      store.commit("setThemeSwitchIndex", themeSwitchIndex.id);
+    }
+
     const dialogVisible = ref(false);
     const context = ref("");
     onMounted(() => {
@@ -169,7 +184,11 @@ body {
 }
 
 .el-switch__core {
-  background: #393939 !important;
+  background: var(--bgColor3) !important;
+}
+
+.el-switch.is-checked .el-switch__core {
+  border-color: var(--themeColor2) !important;
 }
 .el-input-group__append {
   box-shadow: none !important;
@@ -180,12 +199,16 @@ body {
 
 .el-pagination .btn-prev,
 .el-pagination .btn-next {
-  background-color: rgb(35, 40, 42) !important;
+  background-color: var(--bgColor2) !important;
 }
 
-.el-pagination .el-pager li:not(.active) {
-  background-color: rgb(35, 40, 42) !important;
-  color: darkgray !important;
+.el-pagination .el-pager li {
+  background-color: var(--bgColor2) !important;
+  color: var(--textColor3) !important;
+
+  &.is-active {
+    color: var(--themeTextColor) !important;
+  }
 }
 </style>
 
@@ -193,7 +216,9 @@ body {
 // 夜间模式配色
 .darkMode {
   --bgColor1: #222;
+  --bgboxShadowColor1: #11111144;
   --bgColor2: #333;
+  --bgboxShadowColor2: #44444444;
   --bgColor3: #444;
   --themeColor1: #8166e7;
   --themeColor2: #686efe;
@@ -202,12 +227,14 @@ body {
   --textColor2: #ccc;
   --textColor3: #999;
   --textColor4: #777;
-  --bordercolor: #333;
+  --borderColor: #333;
 }
 // 日间模式配色
 .lightMode {
-  --bgColor1: #fff;
+  --bgColor1: #f5f5f5;
+  --bgboxShadowColor1: #cccccc44;
   --bgColor2: #eee;
+  --bgboxShadowColor2: #dddddd44;
   --bgColor3: #ddd;
   --themeColor1: #8166e7;
   --themeColor2: #686efe;
@@ -216,7 +243,7 @@ body {
   --textColor2: #444;
   --textColor3: #666;
   --textColor4: #888;
-  --bordercolor: #eee;
+  --borderColor: #eee;
 }
 
 // 样式选择器， 后续所有的模式 都可以写在这里，  数量多的时候再抽离
@@ -244,5 +271,10 @@ backgroundColor
   3、将所有颜色类名都找出来，替换为使用变量;
   4、
   */
+
+  .el-pagination.is-background .el-pager li:not(.is-disabled).is-active {
+    background-color: var(--themeColor1) !important;
+    color: var(--themeTextColor);
+  }
 }
 </style>

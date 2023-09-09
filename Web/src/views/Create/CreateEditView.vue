@@ -171,7 +171,7 @@ export default {
 .dividingLine {
   width: 100%;
   height: 1px;
-  background-color: #333;
+  background-color: var(--borderColor);
   margin-top: 10px;
   margin-bottom: 20px;
   display: block;

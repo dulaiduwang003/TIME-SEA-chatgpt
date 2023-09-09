@@ -10,13 +10,13 @@
       :data="dataTables"
       height="70%"
       :header-cell-style="{
-        background: ' rgb(27,30,32)',
-        borderColor: '#202020',
+        background: ' var(--bgColor1)',
+        borderColor: 'var(--borderColor)',
       }"
       style="background-color: var(--bgColor1)"
       :row-style="{
         height: '100%',
-        background: ' rgb(27,30,32)',
+        background: ' var(--bgColor1)',
         border: 'none',
       }"
     >
@@ -283,12 +283,6 @@ export default {
 }
 
 ::v-deep(
-    .el-pagination.is-background .el-pager li:not(.is-disabled).is-active
-  ) {
-  background-color: rgb(125, 128, 255) !important;
-}
-
-::v-deep(
     .el-table--enable-row-hover .el-table__body tr:hover td.el-table__cell
   ) {
   background: none;
@@ -306,7 +300,7 @@ export default {
 
 .head_model_style {
   padding-left: 40px;
-  color: var(--textColor1);
+  color: var(--themeTextColor);
 }
 
 .number_people {
@@ -320,13 +314,13 @@ export default {
   padding-left: 5px;
 }
 /deep/.el-input__inner {
-  background: rgb(39, 41, 42);
+  background: var(--bgColor2);
 
   font-weight: 400;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 /deep/.el-input__wrapper {
-  background: rgb(39, 41, 42);
+  background: var(--bgColor2);
   box-shadow: none;
 }
 </style>

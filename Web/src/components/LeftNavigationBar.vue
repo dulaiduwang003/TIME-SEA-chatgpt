@@ -190,7 +190,7 @@ export default defineComponent({
   width: 260px;
   height: 100%;
   background-color: var(--bgColor1);
-  border-right: 1px solid var(--bordercolor);
+  border-right: 1px solid var(--borderColor);
   position: relative;
 }
 
@@ -200,7 +200,7 @@ export default defineComponent({
   bottom: 0;
   width: 100%;
   height: 70px;
-  border-top: 1px solid var(--bordercolor);
+  border-top: 1px solid var(--borderColor);
   display: flex;
   align-items: center;
   box-sizing: border-box;

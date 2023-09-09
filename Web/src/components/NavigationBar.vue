@@ -235,7 +235,7 @@ export default defineComponent({
   height: 60px;
   box-sizing: border-box;
   width: 100%;
-  border-bottom: 1px solid var(--bordercolor);
+  border-bottom: 1px solid var(--borderColor);
   flex-shrink: 0;
   justify-content: space-between;
   align-items: center;
@@ -404,7 +404,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--textColor1);
+  color: var(--themeTextColor);
 }
 .header-user-btn {
   height: 36px;

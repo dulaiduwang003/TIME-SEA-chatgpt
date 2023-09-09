@@ -242,13 +242,13 @@ export default {
 .name {
   font-size: 16px;
   line-height: 28px;
-  color: #c7c7c7;
+  color: var(--textColor1);
 }
 
 .time {
   margin-top: 5px;
   font-size: 12px;
-  color: #7c7c7c;
+  color: var(--textColor4);
 }
 
 .operation {
@@ -264,10 +264,10 @@ export default {
   margin-right: 5px;
   display: flex;
   align-items: center;
-  background-color: rgb(35, 40, 42);
+  background-color: var(--bgColor2);
   border-radius: 100px;
   font-size: 13px;
-  color: whitesmoke;
+  color: var(--textColor1);
 }
 
 .operationItemSelected {

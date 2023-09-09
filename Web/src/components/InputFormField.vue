@@ -27,7 +27,7 @@
         class="selectWrapper"
         placeholder="Ai模型"
         @change="updateModel"
-        style="width: 105px; text-indent: 10px"
+        style="width: 105px"
       >
         <el-option value="BASIC" label="智能" />
         <el-option value="ADVANCED" label="增强" />
@@ -40,7 +40,9 @@
         @input="updateInputText"
         ref="inputRefInner"
         type="textarea"
-        :placeholder="aiLoading ? '思考中..' : '输入你想问的...'"
+        :placeholder="
+          aiLoading ? '思考中..' : '输入你想问的...  ctrl+enter发送'
+        "
         :disabled="aiLoading"
       >
       </el-input>
@@ -166,20 +168,20 @@ export default defineComponent({
 .InputFormFieldWapper {
   display: flex;
   width: 100%;
-  align-items: flex-start;
+  align-items: center;
 
   .sendIcon {
     flex-shrink: 0;
     width: 36px;
     height: 36px;
-    color: #fff;
+    color: var(--themeTextColor);
     cursor: pointer;
-    background: #686efe;
+    background: var(--themeColor2);
     border-radius: 50%;
     justify-content: center;
     align-items: center;
     display: flex;
-    margin: 22px 20px 0 0;
+    margin: 10px;
   }
 }
 
@@ -187,10 +189,11 @@ export default defineComponent({
   .el-input,
   .el-input {
     .el-input__wrapper {
-      padding-top: 25px;
-      padding-left: 25px;
       box-shadow: none !important;
       background: none !important;
+      .el-input__inner {
+        text-indent: 10px;
+      }
 
       &:hover {
         box-shadow: none;
@@ -213,10 +216,11 @@ export default defineComponent({
     box-shadow: none;
     max-height: 400px;
     padding: 20px;
-    margin: 10px;
-    width: 97%;
+    margin: 10px 0px;
+    width: 100%;
+    resize: none;
 
-    color: #eee;
+    color: var(--textColor3);
     &:hover {
       box-shadow: none;
       background: var(--bgColor1);

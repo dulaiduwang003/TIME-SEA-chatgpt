@@ -23,7 +23,7 @@
                   style="
                     font-weight: 700;
                     font-size: 16px;
-                    color: #a5a5a5;
+                    color: var(--textColor1);
                     padding-top: 10px;
                   "
                 >
@@ -33,7 +33,7 @@
                   style="
                     padding-top: 20px;
                     font-size: 7px;
-                    color: #878787;
+                    color: var(--textColor4);
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;
@@ -48,13 +48,13 @@
                 style="
                   display: flex;
                   font-size: 10px;
-                  color: #d1d1d1;
+                  color: var(--textColor3);
                   padding-top: 14px;
                 "
               >
                 <div
                   style="
-                    background-color: rgb(72, 78, 81);
+                    background-color: var(--bgColor3);
                     padding: 2px 5px;
                     border-radius: 3px;
                     margin-right: 5px;

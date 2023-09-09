@@ -203,14 +203,14 @@ export default {
 }
 
 /deep/ .el-input__inner {
-  background: rgb(39, 41, 42);
+  background: var(--bgColor2);
 
   font-weight: 400;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 
 /deep/ .el-input__wrapper {
-  background: rgb(39, 41, 42);
+  background: var(--bgColor2);
   box-shadow: none;
 }
 </style>

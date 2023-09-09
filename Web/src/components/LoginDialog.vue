@@ -38,7 +38,12 @@
             </div>
             <div class="content" v-if="qrCode">
               <div style="position: relative; border-radius: 5px">
-                <img :src="qrCode" class="qc_code dark" alt="二维码" />
+                <img
+                  :src="qrCode"
+                  class="qc_code"
+                  :class="store.getters.themeInfo.className"
+                  alt="二维码"
+                />
                 <div class="cover-div" v-if="isFailure">二维码已失效</div>
               </div>
             </div>
@@ -70,10 +75,7 @@
                 autocomplete="“off”"
               >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <UserFilled />
                   </el-icon>
                 </template>
@@ -88,10 +90,7 @@
                 autocomplete="“off”"
               >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <Platform />
                   </el-icon>
                 </template>
@@ -125,10 +124,7 @@
               >
                 >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <Connection />
                   </el-icon>
                 </template>
@@ -209,10 +205,7 @@
                 autocomplete="“off”"
               >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <UserFilled />
                   </el-icon>
                 </template>
@@ -227,10 +220,7 @@
                 autocomplete="“off”"
               >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <Platform />
                   </el-icon>
                 </template>
@@ -249,10 +239,7 @@
               >
                 >
                 <template #prefix>
-                  <el-icon
-                    :size="16"
-                    color="var(&#45;&#45;el-input-icon-color)"
-                  >
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
                     <Connection />
                   </el-icon>
                 </template>
@@ -299,6 +286,8 @@
 <script>
 import { defineComponent, ref, watch } from "vue";
 
+import { useStore } from "vuex";
+
 import {
   EmailEnroll,
   EmailLogin,
@@ -322,6 +311,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
+    let store = useStore();
     const buttonText = ref("获取验证码");
     let loginType = ref(0);
     let qrCode = ref("");
@@ -635,6 +625,7 @@ export default defineComponent({
       switchLoginType,
       emailForm,
       disabled,
+      store,
     };
   },
 });
@@ -673,7 +664,7 @@ export default defineComponent({
   overflow: hidden;
   width: 100%;
   padding: 0;
-  background-color: rgb(29, 32, 34);
+  background-color: var(--bgColor1);
 }
 
 .cover-div {
@@ -704,14 +695,13 @@ export default defineComponent({
 .head_img {
   background-image: linear-gradient(
       to top,
-      rgb(29, 32, 34) 30%,
+      var(--bgColor1) 30%,
       transparent 100%
     ),
     url("../assets/login-header.png");
   background-size: cover;
   background-position: center;
   height: 100px;
-  box-shadow: 0px -10px 20px rgba(27, 30, 32, 0.2);
 }
 
 .form {
@@ -836,9 +826,9 @@ export default defineComponent({
   padding: 10px;
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0px 0px 50px rgba(183, 156, 156, 0.9);
+  box-shadow: 0px 5px 30px var(--bgboxShadowColor2);
 
-  &.dark {
+  &.darkMode {
     background-color: #eee;
   }
 }
@@ -857,14 +847,14 @@ export default defineComponent({
 }
 
 :deep(.el-input__inner) {
-  background: #0d0f10;
+  background: var(--bgColor2);
 
   font-weight: 400;
-  color: #b7b7b7;
+  color: var(--textColor2);
 }
 
 :deep(.el-input__wrapper) {
-  background: #0d0f10;
+  background: var(--bgColor2);
   box-shadow: none;
 }
 
@@ -875,8 +865,8 @@ export default defineComponent({
 :deep(.login-dialog) {
   input:-internal-autofill-previewed,
   input:-internal-autofill-selected {
-    -webkit-text-fill-color: #a8abb2;
-    box-shadow: inset 0 0 0 1000px #0d0f10 !important; // 改变了背景色
+    -webkit-text-fill-color: var(--textColor2);
+    box-shadow: inset 0 0 0 1000px var(--bgColor2) !important; // 改变了背景色
   }
 }
 </style>
