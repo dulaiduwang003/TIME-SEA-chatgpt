@@ -22,69 +22,96 @@
       </div>
     </div>
 
-    <div v-if="store.getters.userinfo" class="header-side header-right">
-      <div
-        @click="
-          router().push({
-            path: '/purchase',
-          })
-        "
-        class="rechargeButton hidden-xs-only"
-      >
-        <el-icon size="16">
-          <Goods />
-        </el-icon>
-        <div class="rechargeButtonText">打赏</div>
+    <div
+      class="header-side header-right"
+      style="display: flex; align-items: center"
+    >
+      <div @click="switchTheme">
+        <el-button text class="switchThemeIcon">
+          <template v-slot:icon>
+            <el-icon
+              v-if="store.getters.themeInfo.className === 'lightMode'"
+              size="16"
+              ><Sunny
+            /></el-icon>
+            <el-icon v-else size="16"><Moon /></el-icon>
+          </template>
+        </el-button>
       </div>
-      <div class="header-right">
-        <div class="header-user-wrapper">
-          <el-dropdown ref="dropdown1" trigger="contextmenu">
-            <div @click="showClick" class="header-user-btn">
-              <el-avatar
-                :size="28"
-                :icon="UserFilled"
-                :src="
-                  store.getters.userinfo.avatar
-                    ? imageUrl + store.getters.userinfo.avatar
-                    : require('../assets/logoHead.svg')
-                "
-              />
-              <div class="header-user-name">
-                {{
-                  store.getters.userinfo.userName
-                    ? store.getters.userinfo.userName
-                    : "用户"
-                }}
-              </div>
-            </div>
-            <template #dropdown>
-              <el-dropdown-menu class="dropdown-menu">
-                <el-dropdown-item
-                  @click="router().push({ path: '/Admin' })"
-                  v-if="store.getters.userinfo.type === 'ADMIN'"
-                  >控制台</el-dropdown-item
-                >
-                <el-dropdown-item @click="router().push({ path: '/Orders' })"
-                  >打赏记录</el-dropdown-item
-                >
-                <el-dropdown-item @click="router().push({ path: '/Exchange' })"
-                  >兑换中心</el-dropdown-item
-                >
-                <el-dropdown-item @click="switchTheme"
-                  >切换到{{
-                    store.getters.themeInfo.switchText
-                  }}</el-dropdown-item
-                >
-                <el-dropdown-item divided @click="logout"
-                  >退出登录</el-dropdown-item
-                >
-              </el-dropdown-menu>
+
+      <div
+        v-if="store.getters.userinfo"
+        style="display: flex; align-items: center"
+      >
+        <div
+          @click="
+            router().push({
+              path: '/purchase',
+            })
+          "
+          class="hidden-xs-only"
+        >
+          <el-button text
+            >打赏
+
+            <template v-slot:icon>
+              <el-icon size="16">
+                <Goods />
+              </el-icon>
             </template>
-          </el-dropdown>
+          </el-button>
+        </div>
+        <div class="header-right">
+          <div class="header-user-wrapper">
+            <el-dropdown ref="dropdown1" trigger="contextmenu">
+              <div @click="showClick" class="header-user-btn">
+                <el-avatar
+                  :size="28"
+                  :icon="UserFilled"
+                  :src="
+                    store.getters.userinfo.avatar
+                      ? imageUrl + store.getters.userinfo.avatar
+                      : require('../assets/logoHead.svg')
+                  "
+                />
+                <div class="header-user-name">
+                  {{
+                    store.getters.userinfo.userName
+                      ? store.getters.userinfo.userName
+                      : "用户"
+                  }}
+                </div>
+              </div>
+              <template #dropdown>
+                <el-dropdown-menu class="dropdown-menu">
+                  <el-dropdown-item
+                    @click="router().push({ path: '/Admin' })"
+                    v-if="store.getters.userinfo.type === 'ADMIN'"
+                    >控制台</el-dropdown-item
+                  >
+                  <el-dropdown-item @click="router().push({ path: '/Orders' })"
+                    >打赏记录</el-dropdown-item
+                  >
+                  <el-dropdown-item
+                    @click="router().push({ path: '/Exchange' })"
+                    >兑换中心</el-dropdown-item
+                  >
+                  <el-dropdown-item @click="switchTheme"
+                    >切换到{{
+                      store.getters.themeInfo.switchText
+                    }}</el-dropdown-item
+                  >
+                  <el-dropdown-item divided @click="logout"
+                    >退出登录</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </div>
         </div>
       </div>
+      <div v-else @click="dialogVisible = true" class="login">登录</div>
     </div>
-    <div v-else @click="dialogVisible = true" class="login">登录</div>
   </nav>
 
   <el-dialog
@@ -102,11 +129,10 @@
 
   <LoginDialog :show="dialogVisible" @close="dialogVisible = false" />
 </template>
-
 <script>
 import { defineComponent, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { UserFilled } from "@element-plus/icons-vue";
+import { UserFilled, Goods, Sunny, Moon } from "@element-plus/icons-vue";
 import router from "@/router";
 import store from "../store";
 import LoginDialog from "@/components/LoginDialog.vue";
@@ -312,9 +338,28 @@ export default defineComponent({
     transform: translateX(0);
   }
 }
-
-.header-right {
+:deep(.header-right) {
   animation: headerRightAnimation 0.3s;
+
+  .el-button {
+    background: var(--bgColor1);
+    margin-right: 10px;
+
+    &.switchThemeIcon {
+      padding: 8px;
+      border-radius: 100%;
+    }
+
+    transition: all 0.2s;
+  }
+
+  .el-button.is-text:not(.is-disabled):focus {
+    background: var(--bgColor1);
+  }
+  .el-button.is-text:not(.is-disabled):hover {
+    background: var(--bgColor2);
+    /* opacity: 0.8; */
+  }
 }
 
 .rechargeButton {

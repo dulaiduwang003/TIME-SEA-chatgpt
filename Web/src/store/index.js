@@ -41,10 +41,7 @@ export default createStore({
     },
     initState(state) {
       let token = localStorage.getItem("token");
-      //   let themeSwitchIndex = localStorage.getItem("themeSwitchIndex");
-      //   if (themeSwitchIndex) {
-      //     state.themeSwitchIndex = themeSwitchIndex.id;
-      //   }
+
       if (token) {
         let user = localStorage.getItem("user");
         state.userinfo = JSON.parse(user);

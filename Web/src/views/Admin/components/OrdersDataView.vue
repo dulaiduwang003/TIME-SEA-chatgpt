@@ -1,54 +1,52 @@
 <template>
-  <div>
-    <div class="u_container">
-      <div class="head_model">
-        <div class="head_model_style">
-          <div class="number_people">￥ {{ amount }}</div>
-          <div class="text_people">收到赞助金额</div>
-        </div>
+  <div class="u_container">
+    <div class="head_model">
+      <div class="head_model_style">
+        <div class="number_people">￥ {{ amount }}</div>
+        <div class="text_people">收到赞助金额</div>
       </div>
-      <el-table
-        :data="dataTables"
-        height="70%"
-        :header-cell-style="{
-          background: ' var(--bgColor1)',
-          borderColor: 'var(--borderColor)',
-        }"
-        style="background-color: var(--bgColor1)"
-        :row-style="{
-          height: '100%',
-          background: ' var(--bgColor1)',
-          border: 'none',
-        }"
-      >
-        <el-table-column prop="ordersId" label="订单号" />
-        <el-table-column prop="productName" label="商品名称" />
-        <el-table-column prop="frequency" label="Ai币" />
-        <el-table-column prop="payTime" label="支付时间" />
-        <el-table-column prop="productPrice" label="商品价格" />
-        <el-table-column prop="state" label="支付状态" />
-        <el-table-column prop="reasonFailure" label="原因" />
-        <el-table-column fixed="right" label="操作">
-          <template #header>
-            <el-input
-              style="width: 180px"
-              v-model="prompt"
-              size="small"
-              placeholder="模糊搜索"
-              @change="search"
-            />
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="display: flex; justify-content: right; padding-top: 10px">
-        <el-pagination
-          layout="prev, pager, next"
-          :total="total"
-          :page-size="15"
-          background
-          @current-change="handleCurrentChange"
-        />
-      </div>
+    </div>
+    <el-table
+      :data="dataTables"
+      height="70%"
+      :header-cell-style="{
+        background: ' var(--bgColor1)',
+        borderColor: 'var(--borderColor)',
+      }"
+      style="background-color: var(--bgColor1)"
+      :row-style="{
+        height: '100%',
+        background: ' var(--bgColor1)',
+        border: 'none',
+      }"
+    >
+      <el-table-column prop="ordersId" label="订单号" />
+      <el-table-column prop="productName" label="商品名称" />
+      <el-table-column prop="frequency" label="Ai币" />
+      <el-table-column prop="payTime" label="支付时间" />
+      <el-table-column prop="productPrice" label="商品价格" />
+      <el-table-column prop="state" label="支付状态" />
+      <el-table-column prop="reasonFailure" label="原因" />
+      <el-table-column fixed="right" label="操作">
+        <template #header>
+          <el-input
+            style="width: 180px"
+            v-model="prompt"
+            size="small"
+            placeholder="模糊搜索"
+            @change="search"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+    <div style="display: flex; justify-content: right; padding-top: 10px">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="15"
+        background
+        @current-change="handleCurrentChange"
+      />
     </div>
   </div>
 </template>
@@ -213,11 +211,5 @@ export default {
 :deep(.el-input__wrapper) {
   background: var(--bgColor2);
   box-shadow: none;
-}
-</style>
-
-<style lang="scss" scoped>
-:deep(.el-table__cell) {
-  border-bottom: 1px solid #333;
 }
 </style>
