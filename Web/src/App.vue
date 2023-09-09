@@ -195,7 +195,8 @@ body {
   --bgColor1: #222;
   --bgColor2: #333;
   --bgColor3: #444;
-  --themeColor: #686efe;
+  --themeColor1: #8166e7;
+  --themeColor2: #686efe;
   --themeTextColor: #eee;
   --textColor1: #eee;
   --textColor2: #ccc;
@@ -208,7 +209,8 @@ body {
   --bgColor1: #fff;
   --bgColor2: #f6f6f6;
   --bgColor3: #e6e6e6;
-  --themeColor: #686efe;
+  --themeColor1: #8166e7;
+  --themeColor2: #686efe;
   --themeTextColor: #eee;
   --textColor1: #222;
   --textColor2: #444;
