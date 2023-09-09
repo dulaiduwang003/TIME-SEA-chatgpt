@@ -107,7 +107,7 @@ export default {
   .hover-row {
     .el-table__cell {
       background-color: var(--borderColor);
-      color: #ccc;
+      color: var(--textColor2);
     }
   }
 

@@ -100,13 +100,10 @@
         </div>
         <template #footer>
           <span>
-            <el-button @click="payVisible = false" color="#000000"
+            <el-button class="buttonTheme" @click="payVisible = false"
               >不了, 谢谢</el-button
             >
-            <el-button
-              @click="alipayPay"
-              color="rgb(125,128,255)"
-              style="color: white"
+            <el-button class="buttonTheme themeColor" @click="alipayPay"
               >跳转至收银台</el-button
             >
           </span>
@@ -417,6 +414,21 @@ export default {
   .wrapper {
     padding-left: 20px;
     padding-right: 20px;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+:deep(.buttonTheme) {
+  background: var(--bgColor3);
+  color: var(--textColor1);
+  &.themeColor {
+    background: var(--themeColor1);
+    color: var(--themeTextColor);
+  }
+
+  &:hover {
+    opacity: 0.9;
   }
 }
 </style>
