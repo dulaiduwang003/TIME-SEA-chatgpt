@@ -4,14 +4,21 @@
       <div class="flex-container">
         <div class="box">
           <div style="height: 100%">
-            <div style=" height: 90%; overflow-y: auto;">
+            <div style="height: 90%; overflow-y: auto">
               <div class="header">
                 <div class="title">
                   <span>正向提示词</span>
-                  <el-popover placement="bottom" effect="dark" title="牛逼" :width="300" trigger="hover" content="666">
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="牛逼"
+                    :width="300"
+                    trigger="hover"
+                    content="666"
+                  >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -21,112 +28,161 @@
                 </div>
               </div>
               <div class="input">
-                <el-input placeholder="描述你要画的图(英文更加准确)" type="textarea" rows="5"></el-input>
+                <el-input
+                  placeholder="描述你要画的图(英文更加准确)"
+                  type="textarea"
+                  rows="5"
+                ></el-input>
               </div>
               <div class="header">
                 <div class="title">
                   <span>反向提示词(可选)</span>
-                  <el-popover placement="bottom" effect="dark" title="牛逼" :width="300" trigger="hover" content="666">
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="牛逼"
+                    :width="300"
+                    trigger="hover"
+                    content="666"
+                  >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
                 </div>
               </div>
               <div class="input">
-                <el-input placeholder="描述你要画的图(英文更加准确)" type="textarea" rows="5"></el-input>
+                <el-input
+                  placeholder="描述你要画的图(英文更加准确)"
+                  type="textarea"
+                  rows="5"
+                ></el-input>
               </div>
               <div class="header">
                 <div class="title">
                   <span>绘画风格</span>
-                  <el-popover placement="bottom" effect="dark" title="牛逼" :width="300" trigger="hover" content="666">
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="牛逼"
+                    :width="300"
+                    trigger="hover"
+                    content="666"
+                  >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
                 </div>
               </div>
               <div style="padding: 15px">
-                <el-select v-model="form.modelName" class="m-2" placeholder="Select" size="large" style="width: 100%">
+                <el-select
+                  v-model="form.modelName"
+                  class="m-2"
+                  placeholder="Select"
+                  size="large"
+                  style="width: 100%"
+                >
                   <el-option
-                      v-for="item in modelList"
-                      :key="item.modelName"
-                      :label="item.modelText"
-                      :value="item.modelName"
+                    v-for="item in modelList"
+                    :key="item.modelName"
+                    :label="item.modelText"
+                    :value="item.modelName"
                   />
                 </el-select>
               </div>
               <div class="header">
                 <div class="title">
                   <span>参考图(可选)</span>
-                  <el-popover placement="bottom" effect="dark" title="牛逼" :width="300" trigger="hover" content="666">
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="牛逼"
+                    :width="300"
+                    trigger="hover"
+                    content="666"
+                  >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
                 </div>
               </div>
-             <div style="padding: 15px">
-               <el-upload
-                   style="background-color: rgb(20,21,21);width: 100px;height: 100px;display: flex;justify-content: center;align-items: center"
-                   action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                   :show-file-list="false"
-               >
-                 <img v-if="form.file" :src="form.file" class="avatar" />
-                 <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-               </el-upload>
-             </div>
+              <div style="padding: 15px">
+                <el-upload
+                  style="
+                    background-color: rgb(20, 21, 21);
+                    width: 100px;
+                    height: 100px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                  "
+                  action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                  :show-file-list="false"
+                >
+                  <img v-if="form.file" :src="form.file" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon"
+                    ><Plus
+                  /></el-icon>
+                </el-upload>
+              </div>
             </div>
-            <div style="border-top: 1px solid #565656;display: flex;align-items: center;justify-content: right;height: 10%;padding-right: 15px">
+            <div
+              style="
+                border-top: 1px solid #565656;
+                display: flex;
+                align-items: center;
+                justify-content: right;
+                height: 10%;
+                padding-right: 15px;
+              "
+            >
               <el-button round color="#626aef">立即生成</el-button>
             </div>
           </div>
         </div>
-        <div class="content">
-          a
-        </div>
+        <div class="content">a</div>
       </div>
     </div>
   </div>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {ref} from "vue";
+import { ref } from "vue";
 
 import LoginDialog from "@/components/LoginDialog.vue";
-import {InfoFilled, Plus} from "@element-plus/icons-vue";
+import { InfoFilled, Plus } from "@element-plus/icons-vue";
 
 export default {
   name: "PresetCharacterView",
-  components: {Plus, InfoFilled, LoginDialog},
+  components: { Plus, InfoFilled, LoginDialog },
   setup() {
     const modelList = ref([
       {
-        modelName: '动漫',
-        modelText: '水彩',
-
-      }
-    ])
+        modelName: "动漫",
+        modelText: "水彩",
+      },
+    ]);
 
     const form = ref({
-      modelName: '',
-      file:''
-    })
+      modelName: "",
+      file: "",
+    });
 
     let loginVisible = ref(false);
-
 
     return {
       modelList,
       loginVisible,
-      form
+      form,
     };
   },
 };
@@ -146,11 +202,9 @@ export default {
     box-shadow: none;
     background: rgb(20, 21, 21);
   }
-
 }
 
 .body {
-
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -242,7 +296,6 @@ export default {
   font-weight: 400;
   color: #b7b7b7;
 }
-
 
 :deep(.el-input__wrapper) {
   background: rgb(20, 21, 21);

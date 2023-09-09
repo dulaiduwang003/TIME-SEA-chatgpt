@@ -1,6 +1,6 @@
 <template>
   <div class="NavigationBar">
-    <div class="leftNavigation"  v-if="isLeftMenu">
+    <div class="leftNavigation" v-if="isLeftMenu">
       <el-avatar
         class="headPortrait"
         :size="70"
@@ -126,13 +126,13 @@ export default defineComponent({
         to: "/laboratory",
       },
     ]);
-    const isLeftMenu = ref(true)
+    const isLeftMenu = ref(true);
 
     watch(
       () => router.currentRoute.value,
       (newValue) => {
         isHeadNavigation.value = newValue.meta.isHeadNavigation;
-        isLeftMenu.value = newValue.meta.isLeftMenu
+        isLeftMenu.value = newValue.meta.isLeftMenu;
       },
       {
         immediate: true,
@@ -158,7 +158,7 @@ export default defineComponent({
       dialogVisible,
       loginVisible,
       imageUrl,
-      isLeftMenu
+      isLeftMenu,
     };
   },
 });

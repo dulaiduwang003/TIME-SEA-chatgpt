@@ -1,7 +1,13 @@
 <template>
   <ViewState v-if="load" LoadText="正在生成，请稍后..." />
-  <ViewState v-else-if="error" @ClickTheButton="back" Type="error" ErrorText="AI服务调用失败，正在紧急处理，请稍后使用。" IsShowBottom
-    ButtonText="返回" />
+  <ViewState
+    v-else-if="error"
+    @ClickTheButton="back"
+    Type="error"
+    ErrorText="AI服务调用失败，正在紧急处理，请稍后使用。"
+    IsShowBottom
+    ButtonText="返回"
+  />
   <div v-else class="body" ref="scrollRef">
     <div class="container">
       <div class="title">{{ item }}</div>
@@ -10,88 +16,101 @@
           <v-md-editor :model-value="content" mode="preview"></v-md-editor>
         </div>
       </div>
-      <button @click="back" class="determineTheBuild" type="primary">返回上一页</button>
+      <button @click="back" class="determineTheBuild" type="primary">
+        返回上一页
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
 import ViewState from "@/components/ViewState.vue";
 import router from "@/router";
 import { GetUserInfo } from "../../../api/BSideApi";
 import store from "@/store";
-import {ElNotification} from "element-plus";
-
+import { ElNotification } from "element-plus";
 
 export default {
   name: "CreateDetailView",
   methods: {
     router() {
-      return router
-    }
+      return router;
+    },
   },
   components: { ViewState },
   setup() {
-    let router = useRouter()
+    let router = useRouter();
     let query = router.currentRoute.value.query;
-    let role = ref(query.role ? JSON.parse(decodeURIComponent(query.role)) : false)
+    let role = ref(
+      query.role ? JSON.parse(decodeURIComponent(query.role)) : false
+    );
     let item = ref(JSON.parse(decodeURIComponent(query.item)));
-    let load = ref(false)
-    let error = ref(false)
-    let content = ref('')
-    let socket = ref(null)
-    let scrollRef = ref(null)
-    let messages = ref([])
+    let load = ref(false);
+    let error = ref(false);
+    let content = ref("");
+    let socket = ref(null);
+    let scrollRef = ref(null);
+    let messages = ref([]);
 
     // TODO 系统角色
-    if (role.value) messages.value.push({
-      role: 'system',
-      content: role.value
-    })
+    if (role.value)
+      messages.value.push({
+        role: "system",
+        content: role.value,
+      });
 
     // TODO 我
     messages.value.push({
-      role: 'user',
-      content: item.value
-    })
+      role: "user",
+      content: item.value,
+    });
 
     onMounted(() => {
-      webSocket()
-
+      webSocket();
     });
 
     // TODO 滚动到底部
     function scrollToTheBottom() {
-      setTimeout(() => scrollRef.value.scrollTop = scrollRef.value.scrollHeight, 20);
+      setTimeout(
+        () => (scrollRef.value.scrollTop = scrollRef.value.scrollHeight),
+        20
+      );
     }
 
     function webSocket() {
-      if (typeof (WebSocket) == "undefined") {
+      if (typeof WebSocket == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
-        load.value = true
+        load.value = true;
         if (socket.value != null) {
           socket.value.close();
           socket.value = null;
         }
-        socket.value = new WebSocket(process.env.VUE_APP_WSS + "/gpt-web/api/" + localStorage.getItem('token') + '/gpt-3.5-turbo');
+        socket.value = new WebSocket(
+          process.env.VUE_APP_WSS +
+            "/gpt-web/api/" +
+            localStorage.getItem("token") +
+            "/gpt-3.5-turbo"
+        );
         // TODO 建立连接
         socket.value.onopen = function () {
-          socket.value.send(JSON.stringify({
-            messages: messages.value
-          }))
+          socket.value.send(
+            JSON.stringify({
+              messages: messages.value,
+            })
+          );
         };
         // TODO 接收消息
         socket.value.onmessage = function (msg) {
-          load.value = false
+          load.value = false;
           if (content.value) {
-            content.value += msg.data
+            content.value += msg.data;
           } else {
-            content.value = msg.data
+            content.value = msg.data;
           }
-          scrollToTheBottom()
+          scrollToTheBottom();
         };
         // TODO 关闭连接
         socket.value.onclose = function () {
@@ -101,24 +120,24 @@ export default {
         // TODO 处理错误
         socket.value.onerror = function () {
           ElNotification({
-            title: '信息过期',
-            message: '登录信息已过期,请重新登录',
-            type: 'error',
-          })
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+            title: "信息过期",
+            message: "登录信息已过期,请重新登录",
+            type: "error",
+          });
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
           location.reload();
-        }
+        };
       }
     }
 
     async function getUser() {
       try {
-        let res = await GetUserInfo()
+        let res = await GetUserInfo();
 
         store.commit("setUserinfo", res);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
 
@@ -128,15 +147,20 @@ export default {
     }
 
     function back() {
-      closeSocket()
+      closeSocket();
       router.go(-1);
     }
 
     return {
-      load, error, content, item, back, scrollRef
-    }
-  }
-}
+      load,
+      error,
+      content,
+      item,
+      back,
+      scrollRef,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -172,8 +196,6 @@ export default {
   animation: explainAnimation 0.3s;
 }
 
-
-
 .title {
   color: white;
   font-size: 20px;
@@ -182,12 +204,11 @@ export default {
   margin-bottom: 30px;
 }
 
-::v-deep( .vuepress-markdown-body) {
+::v-deep(.vuepress-markdown-body) {
   padding: 0 0 0 16px;
   color: #ffffff;
   background-color: #1f2224;
 }
-
 
 .result {
   min-height: 60px;
@@ -213,10 +234,10 @@ export default {
   position: relative;
 }
 
->>>.mdPreview>.vuepress-markdown-body {
+>>> .mdPreview > .vuepress-markdown-body {
   padding: 0;
   color: #ffffff;
-  background-color: rgb(27,30,32);
+  background-color: rgb(27, 30, 32);
 }
 
 @media only screen and (max-width: 767px) {

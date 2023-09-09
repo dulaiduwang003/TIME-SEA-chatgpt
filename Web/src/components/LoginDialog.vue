@@ -2,180 +2,164 @@
   <div>
     <!--    登录或注册-->
     <el-dialog
-        v-model="dialogVisible"
-        width="420px"
-        class="login-dialog"
-        :show-close="false"
-        align-center
-        @close="close"
-        style="border-radius: 10px; overflow-x: hidden">
+      v-model="dialogVisible"
+      width="420px"
+      class="login-dialog"
+      :show-close="false"
+      align-center
+      @close="close"
+      style="border-radius: 10px; overflow-x: hidden"
+    >
       <div class="login-box">
         <div class="head">
           <div class="head_img"></div>
         </div>
         <div class="login-title">
           <div
-              :class="loginType === 0 ? 'login-selected' : ''"
-              @click="switchLoginType(0)">
+            :class="loginType === 0 ? 'login-selected' : ''"
+            @click="switchLoginType(0)"
+          >
             微信登录
           </div>
           <div
-              :class="loginType === 1 ? 'login-selected' : ''"
-              @click="switchLoginType(1)">
+            :class="loginType === 1 ? 'login-selected' : ''"
+            @click="switchLoginType(1)"
+          >
             {{ isLogin ? "邮箱登录" : "注册账号" }}
           </div>
         </div>
         <!--微信扫码登录-->
         <div v-if="loginType === 0">
           <div class="form">
-            <div
-                class="animation"
-                v-if="!qrCodeLoaded">
+            <div class="animation" v-if="!qrCodeLoaded">
               <view class="loading-model">
                 <view class="loader"></view>
               </view>
             </div>
-            <div
-                class="content"
-                v-if="qrCode">
+            <div class="content" v-if="qrCode">
               <div style="position: relative; border-radius: 5px">
-                <img
-                    :src="qrCode"
-                    class="qc_code dark"
-                    alt="二维码"/>
-                <div
-                    class="cover-div"
-                    v-if="isFailure">
-                  二维码已失效
-                </div>
+                <img :src="qrCode" class="qc_code dark" alt="二维码" />
+                <div class="cover-div" v-if="isFailure">二维码已失效</div>
               </div>
             </div>
           </div>
-          <div
-              class="btn-generate"
-              v-if="isFailure">
-            <el-button
-                type="primary"
-                color="#626aef"
-                @click="getLoginQRCode()"
-            >重新生成
+          <div class="btn-generate" v-if="isFailure">
+            <el-button type="primary" color="#626aef" @click="getLoginQRCode()"
+              >重新生成
             </el-button>
           </div>
-          <div
-              class="h5 prompt-style"
-              v-if="!loginAnimation">
+          <div class="h5 prompt-style" v-if="!loginAnimation">
             正在加载中...
           </div>
-          <div
-              class="h5 prompt-style"
-              v-if="!promptAnimation">
+          <div class="h5 prompt-style" v-if="!promptAnimation">
             使用微信扫一扫快速登录后使用
           </div>
         </div>
         <!--登录-->
         <div
-            v-if="loginType === 1"
-            style="margin-top: 40px; padding: 0 60px 50px">
-          <el-form
-              @keyup.enter="onSubmit"
-              ref="formRef"
-              size="large">
+          v-if="loginType === 1"
+          style="margin-top: 40px; padding: 0 60px 50px"
+        >
+          <el-form @keyup.enter="onSubmit" ref="formRef" size="large">
             <el-form-item prop="username">
               <el-input
-                  type="text"
-                  clearable
-                  v-model="emailForm.email"
-                  placeholder="请输入邮箱"
-                  autocomplete="“off”">
+                type="text"
+                clearable
+                v-model="emailForm.email"
+                placeholder="请输入邮箱"
+                autocomplete="“off”"
+              >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <UserFilled/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <UserFilled />
                   </el-icon>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
-                  v-model="emailForm.password"
-                  type="password"
-                  placeholder="请输入密码"
-                  show-password
-                  autocomplete="“off”">
+                v-model="emailForm.password"
+                type="password"
+                placeholder="请输入密码"
+                show-password
+                autocomplete="“off”"
+              >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <Platform/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <Platform />
                   </el-icon>
                 </template>
               </el-input>
               <div
-                  style="
+                style="
                   text-align: right;
                   color: #929292;
                   font-size: 10px;
                   display: flex;
                 "
-                  @click="isLogin = !isLogin"
-                  v-if="isLogin">
+                @click="isLogin = !isLogin"
+                v-if="isLogin"
+              >
                 <div>前往注册</div>
-                <div
-                    style="padding-left: 10px"
-                    @click="passwordDialog">
+                <div style="padding-left: 10px" @click="passwordDialog">
                   找回密码
                 </div>
               </div>
             </el-form-item>
-            <el-form-item
-                prop="code"
-                v-show="isLogin === false">
+            <el-form-item prop="code" v-show="isLogin === false">
               <el-input
-                  maxlength="6"
-                  minlength="6"
-                  ref="codeRef"
-                  type="text"
-                  clearable
-                  v-model="emailForm.code"
-                  placeholder="请输入验证码"
-                  autocomplete="“off”">
+                maxlength="6"
+                minlength="6"
+                ref="codeRef"
+                type="text"
+                clearable
+                v-model="emailForm.code"
+                placeholder="请输入验证码"
+                autocomplete="“off”"
+              >
                 >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <Connection/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <Connection />
                   </el-icon>
                 </template>
                 <template #append>
                   <div style="padding-left: 10px; background: none">
                     <el-button
-                        :disabled="disabled"
-                        @click="startCountdown"
-                        v-text="buttonText"
-                        style="
-                        background-color: rgb(129, 102, 231);
-                        color: white;
-                      "></el-button>
+                      :disabled="disabled"
+                      @click="startCountdown"
+                      v-text="buttonText"
+                      style="background-color: rgb(129, 102, 231); color: white"
+                    ></el-button>
                   </div>
                 </template>
               </el-input>
               <div
-                  style="text-align: right; color: #929292; font-size: 10px"
-                  @click="isLogin = !isLogin"
-                  v-if="!isLogin">
+                style="text-align: right; color: #929292; font-size: 10px"
+                @click="isLogin = !isLogin"
+                v-if="!isLogin"
+              >
                 前往登录
               </div>
             </el-form-item>
             <el-form-item>
               <el-button
-                  :loading="loginLoading"
-                  class="submit-button"
-                  round
-                  type="primary"
-                  size="large"
-                  @click="onSubmit">
+                :loading="loginLoading"
+                class="submit-button"
+                round
+                type="primary"
+                size="large"
+                @click="onSubmit"
+              >
                 {{ isLogin ? "验证身份" : "快速注册" }}
               </el-button>
             </el-form-item>
@@ -185,111 +169,117 @@
     </el-dialog>
     <!--找回密码-->
     <el-dialog
-        v-model="isPassword"
-        width="420px"
-        class="login-dialog"
-        :show-close="false"
-        align-center
-        @close="close"
-        style="border-radius: 10px; overflow-x: hidden">
+      v-model="isPassword"
+      width="420px"
+      class="login-dialog"
+      :show-close="false"
+      align-center
+      @close="close"
+      style="border-radius: 10px; overflow-x: hidden"
+    >
       <div class="login-box">
         <div
-            style="
+          style="
             display: flex;
             justify-content: center;
             align-items: center;
             padding-top: 40px;
-          ">
+          "
+        >
           <img
-              src="../assets/logoHead.svg"
-              style="width: 60px; height: 60px"
-              alt=""/>
+            src="../assets/logoHead.svg"
+            style="width: 60px; height: 60px"
+            alt=""
+          />
         </div>
         <div style="padding: 20px 40px 30px">
           <div class="login-title">
             <div class="login-selected">TIME SEA PLUS</div>
           </div>
-          <el-form
-              @keyup.enter="retrievePassword"
-              ref="formRef"
-              size="large">
+          <el-form @keyup.enter="retrievePassword" ref="formRef" size="large">
             <el-form-item prop="username">
               <el-input
-                  type="text"
-                  clearable
-                  v-model="emailForm.email"
-                  placeholder="请输入邮箱"
-                  autocomplete="“off”">
+                type="text"
+                clearable
+                v-model="emailForm.email"
+                placeholder="请输入邮箱"
+                autocomplete="“off”"
+              >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <UserFilled/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <UserFilled />
                   </el-icon>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item prop="password">
               <el-input
-                  v-model="emailForm.password"
-                  type="password"
-                  placeholder="重新设置密码"
-                  show-password
-                  autocomplete="“off”">
+                v-model="emailForm.password"
+                type="password"
+                placeholder="重新设置密码"
+                show-password
+                autocomplete="“off”"
+              >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <Platform/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <Platform />
                   </el-icon>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item prop="code">
               <el-input
-                  maxlength="6"
-                  minlength="6"
-                  ref="codeRef"
-                  type="text"
-                  clearable
-                  v-model="emailForm.code"
-                  placeholder="请输入验证码"
-                  autocomplete="“off”">
+                maxlength="6"
+                minlength="6"
+                ref="codeRef"
+                type="text"
+                clearable
+                v-model="emailForm.code"
+                placeholder="请输入验证码"
+                autocomplete="“off”"
+              >
                 >
                 <template #prefix>
                   <el-icon
-                      :size="16"
-                      color="var(&#45;&#45;el-input-icon-color)">
-                    <Connection/>
+                    :size="16"
+                    color="var(&#45;&#45;el-input-icon-color)"
+                  >
+                    <Connection />
                   </el-icon>
                 </template>
                 <template #append>
                   <div style="padding-left: 10px; background: none">
                     <el-button
-                        :disabled="disabled"
-                        @click="startCountdown"
-                        v-text="buttonText"
-                        style="
-                        background-color: rgb(129, 102, 231);
-                        color: white;
-                      "></el-button>
+                      :disabled="disabled"
+                      @click="startCountdown"
+                      v-text="buttonText"
+                      style="background-color: rgb(129, 102, 231); color: white"
+                    ></el-button>
                   </div>
                 </template>
               </el-input>
               <div
-                  style="text-align: right; color: #929292; font-size: 10px"
-                  @click="backLoginPanel">
+                style="text-align: right; color: #929292; font-size: 10px"
+                @click="backLoginPanel"
+              >
                 返回登录
               </div>
             </el-form-item>
             <el-form-item>
               <el-button
-                  :loading="passwordLoading"
-                  class="submit-button"
-                  round
-                  type="primary"
-                  size="large"
-                  @click="retrievePassword">
+                :loading="passwordLoading"
+                class="submit-button"
+                round
+                type="primary"
+                size="large"
+                @click="retrievePassword"
+              >
                 找回密码
               </el-button>
             </el-form-item>
@@ -301,7 +291,7 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
+import { defineComponent, ref, watch } from "vue";
 
 import {
   EmailEnroll,
@@ -312,20 +302,20 @@ import {
   isQrCodeLoginSucceed,
   RetrieveEmailPassword,
 } from "../../api/BSideApi";
-import {ElMessage, ElNotification} from "element-plus";
+import { ElMessage, ElNotification } from "element-plus";
 import store from "@/store";
-import {Connection, Platform, UserFilled} from "@element-plus/icons-vue";
+import { Connection, Platform, UserFilled } from "@element-plus/icons-vue";
 
 export default defineComponent({
   name: "LoginDialog",
-  components: {Connection, Platform, UserFilled},
+  components: { Connection, Platform, UserFilled },
   props: {
     show: {
       type: Boolean,
       default: false,
     },
   },
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const buttonText = ref("获取验证码");
     let loginType = ref(0);
     let qrCode = ref("");
@@ -351,16 +341,16 @@ export default defineComponent({
       code: "",
     });
     watch(
-        () => props.show,
-        (newValue) => {
-          if (newValue) {
-            getLoginQRCode();
-            dialogVisible.value = true;
-          }
-        },
-        {
-          immediate: true,
+      () => props.show,
+      (newValue) => {
+        if (newValue) {
+          getLoginQRCode();
+          dialogVisible.value = true;
         }
+      },
+      {
+        immediate: true,
+      }
     );
 
     function passwordDialog() {
@@ -707,11 +697,11 @@ export default defineComponent({
 
 .head_img {
   background-image: linear-gradient(
-          to top,
-          rgb(29, 32, 34) 30%,
-          transparent 100%
-  ),
-  url("../assets/login-header.png");
+      to top,
+      rgb(29, 32, 34) 30%,
+      transparent 100%
+    ),
+    url("../assets/login-header.png");
   background-size: cover;
   background-position: center;
   height: 100px;
@@ -875,7 +865,6 @@ export default defineComponent({
 :deep(.el-input-group__append, .el-input-group__prepend) {
   border: none !important;
 }
-
 
 :deep(.login-dialog) {
   input:-internal-autofill-previewed,

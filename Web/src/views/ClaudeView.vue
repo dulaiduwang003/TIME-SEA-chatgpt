@@ -1,94 +1,83 @@
 <template>
-  <div
-      class="body"
-      ref="scrollRef">
-    <div
-        v-if="!conversationList.length"
-        class="explain">
-      <img
-          class="logo"
-          alt="Vue logo"
-          src="../assets/claude.svg"/>
+  <div class="body" ref="scrollRef">
+    <div v-if="!conversationList.length" class="explain">
+      <img class="logo" alt="Vue logo" src="../assets/claude.svg" />
       <div class="expositoryCase">欢迎使用 Claude PLUS</div>
       <div class="consume">
         <el-icon>
-          <Goods/>
+          <Goods />
         </el-icon>
         <div class="consumeText">超级实验室功能</div>
       </div>
       <div class="beCareful">请注意不支持违法、违规等不当信息内容</div>
     </div>
-    <div
-        v-else
-        class="questions"
-        style="margin: 20px 0">
+    <div v-else class="questions" style="margin: 20px 0">
       <div
-          v-for="(item, index) in conversationList"
-          :key="index"
-          class="item slide-animation">
+        v-for="(item, index) in conversationList"
+        :key="index"
+        class="item slide-animation"
+      >
         <div class="question">
           <div>
             <div class="text">{{ item.user }}</div>
             <div class="operation--model_user">
               <div class="op-btn" @click="copyAnswer(item.user)">
                 <el-icon>
-                  <CopyDocument/>
+                  <CopyDocument />
                 </el-icon>
                 <text class="op-font">复制</text>
               </div>
             </div>
           </div>
           <el-avatar
-              class="flexShrink"
-              :size="35"
-              :icon="UserFilled"
-              :src="
+            class="flexShrink"
+            :size="35"
+            :icon="UserFilled"
+            :src="
               store.getters.userinfo.avatar
                 ? imageUrl + store.getters.userinfo.avatar
                 : require('../assets/my.png')
-            "/>
+            "
+          />
         </div>
         <div class="answer">
           <el-avatar
-              class="flexShrink"
-              :size="35"
-              :icon="UserFilled"
-              :src="require('../assets/claude.svg')"/>
+            class="flexShrink"
+            :size="35"
+            :icon="UserFilled"
+            :src="require('../assets/claude.svg')"
+          />
           <div v-if="item.assistant">
             <div
-                class="answer-data"
-                :style="{ width: calculateWidth(item.assistant) }">
+              class="answer-data"
+              :style="{ width: calculateWidth(item.assistant) }"
+            >
               <v-md-editor
-                  :model-value="item.assistant"
-                  mode="preview"
-                  @copy-code-success="handleCopyCodeSuccess"/>
+                :model-value="item.assistant"
+                mode="preview"
+                @copy-code-success="handleCopyCodeSuccess"
+              />
             </div>
-            <div
-                class="operation--model"
-                v-if="!item.isError">
-              <div
-                  class="op-btn"
-                  @click="copyAnswer(item.assistant)">
+            <div class="operation--model" v-if="!item.isError">
+              <div class="op-btn" @click="copyAnswer(item.assistant)">
                 <el-icon>
-                  <CopyDocument/>
+                  <CopyDocument />
                 </el-icon>
                 <text class="op-font">复制</text>
               </div>
               <div
-                  class="op-btn"
-                  @click="onCollection(item, index)"
-                  v-if="!item.isCollection">
+                class="op-btn"
+                @click="onCollection(item, index)"
+                v-if="!item.isCollection"
+              >
                 <el-icon color="rgb(255,236,160)">
-                  <StarFilled/>
+                  <StarFilled />
                 </el-icon>
                 <text class="op-font">收藏</text>
               </div>
             </div>
           </div>
-          <div
-              class="answer-data"
-              v-else
-              style="width: 100px">
+          <div class="answer-data" v-else style="width: 100px">
             <div style="display: flex; padding: 5px 9px">
               <div class="dot_0"></div>
               <div class="dot_1"></div>
@@ -100,74 +89,66 @@
         </div>
       </div>
     </div>
-    <div
-        class="suspend"
-        v-show="aiLoading"
-        @click="closeSocket">
+    <div class="suspend" v-show="aiLoading" @click="closeSocket">
       <el-icon :size="16">
-        <VideoPause/>
+        <VideoPause />
       </el-icon>
       <div>暂停输出</div>
     </div>
     <div class="footer">
       <div class="footer-bar">
         <div
-            class="clear"
-            @click="clear"
-            v-show="store.getters.userinfo && !aiLoading">
+          class="clear"
+          @click="clear"
+          v-show="store.getters.userinfo && !aiLoading"
+        >
           <div style="padding-top: 4px">
-            <el-icon
-                size="13px"
-                style="padding-right: 3px">
-              <Clock/>
+            <el-icon size="13px" style="padding-right: 3px">
+              <Clock />
             </el-icon>
           </div>
           <div>清除聊天</div>
         </div>
         <div
-            class="clear2"
-            v-show="store.getters.userinfo && !aiLoading"
-            @click="dialogueDisplay = true">
+          class="clear2"
+          v-show="store.getters.userinfo && !aiLoading"
+          @click="dialogueDisplay = true"
+        >
           <div style="padding-top: 4px">
-            <el-icon
-                size="13px"
-                style="padding-right: 3px">
-              <ChatDotRound/>
+            <el-icon size="13px" style="padding-right: 3px">
+              <ChatDotRound />
             </el-icon>
           </div>
           <div>记忆回溯</div>
         </div>
         <InputFormField
-            ref="inputRef"
-            :needSelect="false"
-            :aiLoading="aiLoading"
-            :inputText="input"
-            @update:inputText="input = $event"
-            @update:model="model = $event"
-            @onSubmit="onSubmit"/>
+          ref="inputRef"
+          :needSelect="false"
+          :aiLoading="aiLoading"
+          :inputText="input"
+          @update:inputText="input = $event"
+          @update:model="model = $event"
+          @onSubmit="onSubmit"
+        />
       </div>
     </div>
   </div>
   <el-dialog
-      v-model="dialogueDisplay"
-      title=""
-      width="430px"
-      center
-      style="background-color: rgb(27, 30, 32)">
+    v-model="dialogueDisplay"
+    title=""
+    width="430px"
+    center
+    style="background-color: rgb(27, 30, 32)"
+  >
     <div>
       <div class="cache-flex-center">
-        <img
-            alt="Vue logo"
-            src="../assets/claude.svg"
-            class="cache-img"/>
+        <img alt="Vue logo" src="../assets/claude.svg" class="cache-img" />
       </div>
       <div class="cache-text">Claude PLUS</div>
       <div class="cache-flex-center cache-padding-top">
-        <div
-            class="cache-btn"
-            @click="createdNewChat">
+        <div class="cache-btn" @click="createdNewChat">
           <el-icon size="16px">
-            <ChatLineSquare/>
+            <ChatLineSquare />
           </el-icon>
           <div class="cache-btn-text">创建新的聊天</div>
         </div>
@@ -176,13 +157,12 @@
         <div class="cache-scrollbar">
           <el-scrollbar height="250px">
             <div
-                class="cache-padding"
-                v-for="(item, index) in claudeCache.array"
-                :key="index">
+              class="cache-padding"
+              v-for="(item, index) in claudeCache.array"
+              :key="index"
+            >
               <div class="cache-flex-space-between cache-margin">
-                <div
-                    class="cache-message"
-                    @click="switchChat(index)">
+                <div class="cache-message" @click="switchChat(index)">
                   <div class="cache-message-text">
                     {{ item.title }}
                   </div>
@@ -192,13 +172,14 @@
                 </div>
                 <div class="cache-selected">
                   <img
-                      :src="
+                    :src="
                       claudeCache.index === index
                         ? require('../assets/selected03.svg')
                         : require('../assets/close.svg')
                     "
-                      class="cache-selected-img"
-                      @click="clearDialogue(index)"/>
+                    class="cache-selected-img"
+                    @click="clearDialogue(index)"
+                  />
                 </div>
               </div>
             </div>
@@ -207,13 +188,11 @@
       </div>
     </div>
   </el-dialog>
-  <LoginDialog
-      :show="loginVisible"
-      @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {nextTick, onMounted, ref} from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import {
   ChatDotRound,
   ChatLineSquare,
@@ -224,17 +203,17 @@ import {
   UserFilled,
   VideoPause,
 } from "@element-plus/icons-vue";
-import {ElNotification} from "element-plus";
-import {FavoritesAdd, GetUserInfo} from "../../api/BSideApi";
-import {useStore} from "vuex";
+import { ElNotification } from "element-plus";
+import { FavoritesAdd, GetUserInfo } from "../../api/BSideApi";
+import { useStore } from "vuex";
 import LoginDialog from "@/components/LoginDialog.vue";
 import InputFormField from "@/components/InputFormField.vue";
 import store from "@/store";
-import {conversionTime} from "../utils/date";
+import { conversionTime } from "../utils/date";
 
 export default {
   name: "dialogueView",
-  methods: {conversionTime},
+  methods: { conversionTime },
   components: {
     InputFormField,
     StarFilled,
@@ -269,8 +248,8 @@ export default {
     let dialogueDisplay = ref(false);
     const claudeCache = ref({});
     const dialogueWidth = ref("30%");
-    const rate = ref(50)
-    const size = ref(1000)
+    const rate = ref(50);
+    const size = ref(1000);
     onMounted(() => {
       window.addEventListener("resize", handleResize);
       handleResize();
@@ -301,8 +280,8 @@ export default {
             ],
           };
           localStorage.setItem(
-              "claudeCache",
-              JSON.stringify(claudeCache.value)
+            "claudeCache",
+            JSON.stringify(claudeCache.value)
           );
         }
       }
@@ -364,11 +343,9 @@ export default {
       let value = claudeCache.value;
       claudeCache.value.array[value.index].time = Date.now();
       if (item.length > 0) {
-        claudeCache.value.array[value.index].title = item[
-        item.length - 1
-            ].user
-            .trim()
-            .slice(0, 25);
+        claudeCache.value.array[value.index].title = item[item.length - 1].user
+          .trim()
+          .slice(0, 25);
       }
       claudeCache.value.array[value.index].context = item;
       localStorage.setItem("claudeCache", JSON.stringify(claudeCache.value));
@@ -399,17 +376,16 @@ export default {
         user: content,
       });
       aiLoading.value = true;
-      content.slice(0,size.value)
+      content.slice(0, size.value);
       webSocket({
         messages: {
           messages: content,
         },
         index: index,
       });
-
     }
 
-    function webSocket({messages, index}) {
+    function webSocket({ messages, index }) {
       if (typeof WebSocket == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
@@ -418,7 +394,7 @@ export default {
           socket.value = null;
         }
         socket.value = new WebSocket(
-            process.env.VUE_APP_WSS +
+          process.env.VUE_APP_WSS +
             "/claude/api/" +
             localStorage.getItem("token")
         );
@@ -431,13 +407,13 @@ export default {
         socket.value.onmessage = function (news) {
           messageQueue.push({
             msg: news.data,
-            index: index
+            index: index,
           }); // 将接收到的消息存储到队列中
           displayMessages(); // 显示消息
         };
         // TODO 关闭连接
         socket.value.onclose = function () {
-          waitUntilMessageQueueClear(index)
+          waitUntilMessageQueueClear(index);
         };
         // TODO 处理错误
         socket.value.onerror = function () {
@@ -452,7 +428,6 @@ export default {
         };
       }
     }
-
 
     const messageQueue = []; // 消息队列
     let isDisplaying = false; // 是否正在显示消息
@@ -476,7 +451,7 @@ export default {
             } else {
               conversationList.value[index].assistant = character;
             }
-            scrollToTheBottom()
+            scrollToTheBottom();
             setTimeout(displayNextCharacter, rate.value);
           } else {
             isDisplaying = false;
@@ -547,14 +522,14 @@ export default {
 
     function closeSocket() {
       if (socket.value) {
-        messageQueue.length = 0
+        messageQueue.length = 0;
         socket.value.close();
         socket.value = null;
       }
     }
 
     function clear() {
-      closeSocket()
+      closeSocket();
       conversationList.value = [];
       writeDialogue();
     }
@@ -695,7 +670,7 @@ export default {
   animation: slideEase 0.5s ease-in-out forwards;
 }
 
-> > > .footer-bar > .el-input > .el-input__wrapper {
+> .footer-bar > .el-input > .el-input__wrapper {
   box-shadow: none;
   font-size: 16px;
   box-sizing: border-box;
@@ -711,7 +686,7 @@ export default {
   line-height: 28px;
 }
 
-> > > .footer-bar > .el-input > .el-input-group__prepend {
+> .footer-bar > .el-input > .el-input-group__prepend {
   box-shadow: none;
   font-size: 16px;
   box-sizing: border-box;
@@ -725,17 +700,17 @@ export default {
   line-height: 28px;
 }
 
-> > > .footer-bar > .el-input > .el-input-group__prepend > .el-select {
+> .footer-bar > .el-input > .el-input-group__prepend > .el-select {
   margin: 0 !important;
 }
 
-> > > .footer-bar
-> .el-input
-> .el-input-group__prepend
-> .el-select
-> .select-trigger
-> .el-input
-> .el-input__wrapper {
+> .footer-bar
+  > .el-input
+  > .el-input-group__prepend
+  > .el-select
+  > .select-trigger
+  > .el-input
+  > .el-input__wrapper {
   box-shadow: none !important;
   font-size: 15px;
   height: 62px;
@@ -933,8 +908,8 @@ export default {
   line-height: 1.6;
 }
 
-> > > .answer > .el-avatar,
-> > > .question > .el-avatar {
+> .answer > .el-avatar,
+> .question > .el-avatar {
   background-color: white;
 }
 
@@ -1170,6 +1145,5 @@ export default {
   align-items: center;
   justify-content: right;
   margin-right: 5px;
-
 }
 </style>

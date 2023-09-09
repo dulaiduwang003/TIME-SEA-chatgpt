@@ -18,9 +18,9 @@
         </el-form-item>
         <el-form-item label="增强GPT对话请求链" label-width="200px">
           <el-input
-              placeholder="请设置增强GPT请求链"
-              clearable
-              v-model="form.openAiPlusUrl"
+            placeholder="请设置增强GPT请求链"
+            clearable
+            v-model="form.openAiPlusUrl"
           />
         </el-form-item>
         <el-form-item label="智能GPT对话密钥" label-width="200px">

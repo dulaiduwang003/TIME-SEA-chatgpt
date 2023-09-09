@@ -151,7 +151,7 @@ export default {
     box-sizing: border-box;
   }
 
-  .title{
+  .title {
     text-indent: 20px;
   }
 }

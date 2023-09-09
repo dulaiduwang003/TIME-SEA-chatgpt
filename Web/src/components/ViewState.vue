@@ -5,9 +5,19 @@
       <div class="loadText">{{ LoadText }}</div>
     </div>
     <div v-else-if="Type === 'empty' || Type === 'error'" class="errCen">
-      <el-empty class="ViewStateCover" :description="Type === 'empty' ? EmptyText : ErrorText"></el-empty>
-      <div v-if="IsShowBottom" @click="clickTheButton" hover-class="empty-but-hover" hover-start-time="0"
-        hover-stay-time="0" class="ViewStateBottom">{{ ButtonText }}
+      <el-empty
+        class="ViewStateCover"
+        :description="Type === 'empty' ? EmptyText : ErrorText"
+      ></el-empty>
+      <div
+        v-if="IsShowBottom"
+        @click="clickTheButton"
+        hover-class="empty-but-hover"
+        hover-start-time="0"
+        hover-stay-time="0"
+        class="ViewStateBottom"
+      >
+        {{ ButtonText }}
       </div>
     </div>
   </div>
@@ -22,61 +32,60 @@ export default defineComponent({
     // TODO 组件类型
     Type: {
       type: String,
-      default: 'load'
+      default: "load",
     },
     // TODO 加载文案
     LoadText: {
       type: String,
-      default: '加载中...'
+      default: "加载中...",
     },
     // TODO 数据为空文案
     EmptyText: {
       type: String,
-      default: '数据为空'
+      default: "数据为空",
     },
     // TODO 错误文案
     ErrorText: {
       type: String,
-      default: '加载错误'
+      default: "加载错误",
     },
     // TODO 按钮文字
     ButtonText: {
       type: String,
-      default: '重新加载'
+      default: "重新加载",
     },
     // TODO 错误图片
     ErrorCover: {
       type: String,
-      default: '@/assets/error.svg'
+      default: "@/assets/error.svg",
     },
     // TODO 为空图片
     EmptyCover: {
       type: String,
-      default: '@/assets/empty.svg'
+      default: "@/assets/empty.svg",
     },
     // TODO 是否显示按钮
     IsShowBottom: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup(props, { emit }) {
-
     // TODO 返回给父级点击事件
     function clickTheButton() {
-      emit('ClickTheButton')
+      emit("ClickTheButton");
     }
 
     return {
-      clickTheButton
-    }
-  }
+      clickTheButton,
+    };
+  },
 });
 </script>
 
 <style scoped>
 .ViewState {
-  background-color: #23282A;
+  background-color: #23282a;
   user-select: none;
   width: 100%;
   /*height: 500 rpx;*/
@@ -103,7 +112,6 @@ export default defineComponent({
   height: 200px;
 }
 
-
 .ViewStateBottom {
   margin-top: 25px;
   width: 150px;
@@ -114,7 +122,7 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   background-color: #444548;
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -133,7 +141,7 @@ export default defineComponent({
   width: 20px;
   height: 20px;
   border-radius: 20px;
-  content: '';
+  content: "";
   position: absolute;
   background: #444548;
   animation: loadAnimationBefore 1.5s infinite ease-in-out;
@@ -143,7 +151,7 @@ export default defineComponent({
   width: 20px;
   height: 20px;
   border-radius: 20px;
-  content: '';
+  content: "";
   position: absolute;
   background: #000000;
   left: 22px;
@@ -152,7 +160,7 @@ export default defineComponent({
 
 @keyframes loadAnimationBefore {
   0% {
-    transform: translateX(0px) rotate(0deg)
+    transform: translateX(0px) rotate(0deg);
   }
 
   50% {
@@ -162,13 +170,13 @@ export default defineComponent({
   }
 
   100% {
-    transform: translateX(0px) rotate(0deg)
+    transform: translateX(0px) rotate(0deg);
   }
 }
 
 @keyframes loadAnimationAfter {
   0% {
-    transform: translateX(0px)
+    transform: translateX(0px);
   }
 
   50% {
@@ -178,7 +186,7 @@ export default defineComponent({
   }
 
   100% {
-    transform: translateX(0px)
+    transform: translateX(0px);
   }
 }
 
@@ -186,4 +194,5 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-}</style>
+}
+</style>

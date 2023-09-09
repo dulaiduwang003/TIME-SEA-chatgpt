@@ -33,7 +33,7 @@
         <el-option value="ADVANCED" label="增强" />
       </el-select>
       <el-input
-      :style="{marginLeft: needSelect?'0px':'10px' }"
+        :style="{ marginLeft: needSelect ? '0px' : '10px' }"
         @keydown="handleKeyDown"
         v-model="inputTextInner"
         autosize
@@ -285,7 +285,4 @@ export default defineComponent({
 .dot3 {
   animation: jumpT 1.3s linear infinite;
 }
-
-
-
 </style>
