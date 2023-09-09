@@ -27,14 +27,24 @@
       style="display: flex; align-items: center"
     >
       <div @click="switchTheme">
-        <el-button text class="switchThemeIcon">
+        <el-button text class="switchThemeIconWrapper">
           <template v-slot:icon>
             <el-icon
-              v-if="store.getters.themeInfo.className === 'lightMode'"
+              class="IconInner Sunny"
+              :class="{
+                show: store.getters.themeInfo.className === 'lightMode',
+              }"
               size="16"
               ><Sunny
             /></el-icon>
-            <el-icon v-else size="16"><Moon /></el-icon>
+            <el-icon
+              class="IconInner Moon"
+              :class="{
+                show: store.getters.themeInfo.className !== 'lightMode',
+              }"
+              size="16"
+              ><Moon
+            /></el-icon>
           </template>
         </el-button>
       </div>
@@ -255,7 +265,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   user-select: none;
   height: 60px;
@@ -345,9 +355,39 @@ export default defineComponent({
     background: var(--bgColor1);
     margin-right: 10px;
 
-    &.switchThemeIcon {
+    &.switchThemeIconWrapper {
       padding: 8px;
       border-radius: 100%;
+      width: 18px;
+      height: 18px;
+      position: relative;
+      user-select: none;
+      box-sizing: content-box;
+
+      &:hover {
+        box-shadow: 0px 0px 16px -2px var(--bgColor3);
+        color: var(--themeColor1);
+      }
+
+      .IconInner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -50%;
+        margin-top: -50%;
+        opacity: 0;
+        &.Sunny {
+          transform: translateX(-50px);
+        }
+        &.Moon {
+          transform: translateX(50px);
+        }
+
+        &.show {
+          opacity: 1;
+          transform: translateX(0px);
+        }
+      }
     }
 
     transition: all 0.2s;
@@ -357,7 +397,7 @@ export default defineComponent({
     background: var(--bgColor1);
   }
   .el-button.is-text:not(.is-disabled):hover {
-    background: var(--bgColor2);
+    background: var(--bgColor1);
     /* opacity: 0.8; */
   }
 }
