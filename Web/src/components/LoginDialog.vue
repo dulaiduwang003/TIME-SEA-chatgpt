@@ -49,7 +49,10 @@
             </div>
           </div>
           <div class="btn-generate" v-if="isFailure">
-            <el-button type="primary" color="#626aef" @click="getLoginQRCode()"
+            <el-button
+              type="primary"
+              color="var(--themeColor2)"
+              @click="getLoginQRCode()"
               >重新生成
             </el-button>
           </div>

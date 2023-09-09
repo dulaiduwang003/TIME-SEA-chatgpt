@@ -213,8 +213,8 @@ export default {
 
 .determineTheBuild {
   font-size: 15px;
-  background-color: rgb(48, 53, 57);
-  color: #fff;
+  background-color: var(--themeColor1);
+  color: var(--themeTextColor);
   border-radius: 100px;
   height: 40px;
   width: 300px;
@@ -224,15 +224,17 @@ export default {
   display: table;
   margin: 50px auto 0 auto;
   cursor: pointer;
+  opacity: 1;
 }
 
 .determineTheBuild:hover {
-  background-color: #56575a;
+  background-color: var(--themeColor1);
+  opacity: 0.8;
 }
 
 .determineTheBuildBack {
   font-size: 15px;
-  background-color: var(--bgColor2);
+  background-color: var(--bgColor3);
   color: var(--textColor1);
   border-radius: 100px;
   height: 40px;
@@ -243,10 +245,12 @@ export default {
   display: table;
   margin: 30px auto 30px auto;
   cursor: pointer;
+  opacity: 1;
 }
 
 .determineTheBuildBack:hover {
-  background: #535353;
+  background-color: var(--bgColor3);
+  opacity: 0.8;
 }
 
 @media only screen and (max-width: 767px) {

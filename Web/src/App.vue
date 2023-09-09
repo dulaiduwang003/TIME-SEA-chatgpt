@@ -28,7 +28,7 @@
             <el-button
               type="primary"
               @click="dialogVisible = false"
-              color="#626aef"
+              color="var(--themeColor2)"
             >
               朕已阅
             </el-button>

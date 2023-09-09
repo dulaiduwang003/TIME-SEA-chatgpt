@@ -264,23 +264,4 @@ export default {
 .determineTheBuild:hover {
   background-color: #56575a;
 }
-
-.determineTheBuild {
-  font-size: 15px;
-  background-color: var(--el-text-color-primary);
-  color: #fff;
-  border-radius: 100px;
-  height: 40px;
-  width: 300px;
-  max-width: 100%;
-  line-height: 40px;
-  border: 0;
-  display: table;
-  margin: 50px auto 0 auto;
-  cursor: pointer;
-}
-
-.determineTheBuild:hover {
-  background-color: #56575a;
-}
 </style>

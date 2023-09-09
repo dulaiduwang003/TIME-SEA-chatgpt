@@ -24,7 +24,9 @@
                   </el-popover>
                 </div>
                 <div class="button">
-                  <el-button size="small" color="#626aef">优化提示词</el-button>
+                  <el-button size="small" color="var(--themeColor2)"
+                    >优化提示词</el-button
+                  >
                 </div>
               </div>
               <div class="input">
@@ -117,7 +119,7 @@
               <div style="padding: 15px">
                 <el-upload
                   style="
-                    background-color: rgb(20, 21, 21);
+                    background-color: var(--bgColor2);
                     width: 100px;
                     height: 100px;
                     display: flex;
@@ -136,7 +138,7 @@
             </div>
             <div
               style="
-                border-top: 1px solid #565656;
+                border-top: 1px solid var(--borderColor);
                 display: flex;
                 align-items: center;
                 justify-content: right;
@@ -144,7 +146,7 @@
                 padding-right: 15px;
               "
             >
-              <el-button round color="#626aef">立即生成</el-button>
+              <el-button round color="var(--themeColor2)">立即生成</el-button>
             </div>
           </div>
         </div>
@@ -188,19 +190,29 @@ export default {
 };
 </script>
 
-<style scoped>
-:deep(.el-textarea__inner) {
-  background: rgb(20, 21, 21);
-  box-shadow: none;
-  max-height: 400px;
-
-  padding: 10px;
-  font-size: 10px;
-  color: #646464;
-
-  &:hover {
+<style lang="scss" scoped>
+:deep(.el-textarea) {
+  .el-textarea__inner {
+    background: var(--bgColor2);
     box-shadow: none;
-    background: rgb(20, 21, 21);
+    max-height: 400px;
+    padding: 10px;
+    font-size: 10px;
+    color: var(--textColor2);
+
+    &:hover {
+      box-shadow: none;
+      background: var(--bgColor2);
+    }
+  }
+
+  ::placeholder {
+    color: var(--textColor4); /* 将颜色值修改为您想要的占位符文字颜色 */
+  }
+
+  /* 兼容性处理 */
+  :-ms-input-placeholder {
+    color: var(--textColor4); /* 将颜色值修改为您想要的占位符文字颜色 */
   }
 }
 
@@ -292,13 +304,13 @@ export default {
 }
 
 :deep(.el-input__inner) {
-  background: rgb(20, 21, 21);
+  background: var(--bgColor2);
   font-weight: 400;
   color: var(--textColor2);
 }
 
 :deep(.el-input__wrapper) {
-  background: rgb(20, 21, 21);
+  background: var(--bgColor2);
   box-shadow: none;
 }
 
@@ -313,13 +325,13 @@ export default {
 }
 
 .box {
-  border: 1px solid #4b535a;
+  border: 1px solid var(--borderColor);
   height: 97%;
   width: 25%;
   background-color: var(--bgColor1);
   margin: 10px;
   border-radius: 10px;
-  color: rgb(229, 234, 243);
+  color: var(--textColor1);
   font-size: 14px;
   font-weight: 550;
 }

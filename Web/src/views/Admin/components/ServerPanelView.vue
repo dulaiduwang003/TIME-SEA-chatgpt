@@ -120,7 +120,10 @@
       </el-form>
 
       <div class="btn-container">
-        <el-button color="#626aef" style="width: 200px" @click="onSubmit"
+        <el-button
+          color="var(--themeColor2)"
+          style="width: 200px"
+          @click="onSubmit"
           >重载数据</el-button
         >
       </div>
@@ -253,12 +256,6 @@ export default {
 
 ::v-deep(.el-table-fixed-column--right) {
   background: var(--bgColor1) !important;
-}
-
-::v-deep(
-    .el-pagination.is-background .el-pager li:not(.is-disabled).is-active
-  ) {
-  background-color: rgb(125, 128, 255) !important;
 }
 
 ::v-deep(

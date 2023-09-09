@@ -83,7 +83,7 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="default" color="#626aef" @click="onUpdate">
+        <el-button type="default" color="var(--themeColor2)" @click="onUpdate">
           修改
         </el-button>
       </span>

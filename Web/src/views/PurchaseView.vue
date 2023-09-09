@@ -422,6 +422,7 @@ export default {
 :deep(.buttonTheme) {
   background: var(--bgColor3);
   color: var(--textColor1);
+  border: none;
   &.themeColor {
     background: var(--themeColor1);
     color: var(--themeTextColor);

@@ -170,7 +170,7 @@ export default {
 }
 
 .item:hover {
-  background-color: #312e2e;
+  background-color: var(--bgColor3);
   cursor: pointer;
   transition: background-color 0.2s;
 }

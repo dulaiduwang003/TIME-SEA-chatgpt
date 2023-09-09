@@ -903,7 +903,7 @@ export default {
 
 .beCareful {
   padding: 40px 6px 12px;
-  color: rgb(185, 175, 149);
+  color: var(--themeColor2);
   font-size: 15px;
   line-height: 1.6;
 }

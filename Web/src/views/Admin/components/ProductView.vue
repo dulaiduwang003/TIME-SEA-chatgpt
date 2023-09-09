@@ -2,7 +2,7 @@
   <div class="u_container">
     <div style="margin-bottom: 30px; margin-top: 30px">
       <el-button
-        color="#626aef"
+        color="var(--themeColor2)"
         style="width: 100px"
         @click="dialogFormVisible = true"
         >新增商品</el-button
@@ -93,7 +93,11 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="default" color="#626aef" @click="handleAddProduct">
+        <el-button
+          type="default"
+          color="var(--themeColor2)"
+          @click="handleAddProduct"
+        >
           创建
         </el-button>
       </span>

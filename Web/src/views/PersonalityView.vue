@@ -223,7 +223,7 @@
     direction="ltr"
     size="400px"
     title="模型配置"
-    style="background-color: rgb(32, 33, 33)"
+    style="background-color: var(--bgColor1)"
   >
     <div>
       <div class="config-row">
@@ -475,7 +475,7 @@
       </div>
       <div style="text-align: right; margin-top: 20px">
         <el-button
-          color="#626aef"
+          color="var(--themeColor2)"
           style="width: 100px"
           @click="submitPersonalityConfig"
           :loading="loading"
@@ -1368,7 +1368,7 @@ export default {
 
 .beCareful {
   padding: 40px 6px 12px;
-  color: rgb(185, 175, 149);
+  color: var(--themeColor2);
   font-size: 15px;
   line-height: 1.6;
 }
@@ -1591,13 +1591,13 @@ export default {
 }
 
 :deep(.el-input__inner) {
-  background: rgb(20, 21, 21);
+  background: var(--bgColor2);
   font-weight: 400;
   color: var(--textColor2);
 }
 
 :deep(.el-input__wrapper) {
-  background: rgb(20, 21, 21);
+  background: var(--bgColor2);
   box-shadow: none;
 }
 
@@ -1615,7 +1615,7 @@ export default {
   display: flex;
   align-items: center;
   width: 60px;
-  color: #a9a9a9;
+  color: var(--textColor2);
 }
 
 .config-title text {
@@ -1625,16 +1625,16 @@ export default {
 
 :deep(.config-row) {
   .el-textarea__inner {
-    background: rgb(20, 21, 21);
+    background: var(--bgColor2);
     box-shadow: none;
     max-height: 400px;
     padding: 20px;
 
-    color: #eee;
+    color: var(--textColor2);
 
     &:hover {
       box-shadow: none;
-      background: rgb(20, 21, 21);
+      background: var(--bgColor2);
     }
 
     &.el-select--disabled {
