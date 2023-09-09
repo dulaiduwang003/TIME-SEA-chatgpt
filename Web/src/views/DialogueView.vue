@@ -733,7 +733,7 @@ export default {
   max-width: 800px;
   width: 100%;
   pointer-events: auto;
-  background: #1d2022;
+  background: var(--bgColor1);
   border-radius: 8px;
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
   display: flex;
@@ -763,7 +763,7 @@ export default {
   min-height: 60px;
   resize: none;
   -webkit-appearance: none;
-  background: #1d2022 0 0;
+  background: var(--bgColor1) 0 0;
   border: 0;
   flex: 1;
   margin: 0;
@@ -803,7 +803,7 @@ export default {
   height: 62px;
   padding: 0 20px;
 
-  background-color: #1d2022;
+  background-color: var(--bgColor1);
 }
 
 .questions {
@@ -893,7 +893,7 @@ export default {
 .op-btn {
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
   color: #c8c8c8;
-  background-color: #1d2022;
+  background-color: var(--bgColor1);
   margin-right: 5px;
   padding: 3px 10px;
   display: flex;
@@ -1002,7 +1002,7 @@ export default {
   padding: 3px 10px;
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
   color: #c8c8c8;
-  background-color: #1d2022;
+  background-color: var(--bgColor1);
 }
 
 .clear2 {
@@ -1013,7 +1013,7 @@ export default {
   z-index: 1;
   font-size: 8px;
   color: #c8c8c8;
-  background-color: #1d2022;
+  background-color: var(--bgColor1);
   border-radius: 5px;
   padding: 3px 10px;
   margin-left: 92px;

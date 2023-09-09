@@ -285,7 +285,7 @@ export default defineComponent({
 }
 
 .switch-active {
-  background: #1d2022;
+  background: var(--bgColor1);
 }
 
 .header-side {
@@ -379,7 +379,7 @@ export default defineComponent({
 .applet {
   width: 120px;
   margin-left: 10px;
-  background-color: rgb(129, 102, 231);
+  background-color: var(--themeColor1);
 }
 
 .applet > .rechargeButtonText {

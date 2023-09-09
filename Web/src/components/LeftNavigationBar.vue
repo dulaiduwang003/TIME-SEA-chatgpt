@@ -264,7 +264,7 @@ export default defineComponent({
 .loginBut {
   width: 80px;
   height: 40px;
-  background-color: rgb(129, 102, 231);
+  background-color: var(--themeColor1);
   border-radius: 8px;
   margin: 20px auto 0;
   display: flex;

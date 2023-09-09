@@ -209,7 +209,7 @@ export default defineComponent({
 
 :deep(.InputFormFieldWapper) {
   .el-textarea__inner {
-    background: #1d2022;
+    background: var(--bgColor1);
     box-shadow: none;
     max-height: 400px;
     padding: 20px;
@@ -219,7 +219,7 @@ export default defineComponent({
     color: #eee;
     &:hover {
       box-shadow: none;
-      background: #1d2022;
+      background: var(--bgColor1);
     }
 
     &.el-select--disabled {

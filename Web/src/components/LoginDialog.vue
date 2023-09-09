@@ -138,7 +138,10 @@
                       :disabled="disabled"
                       @click="startCountdown"
                       v-text="buttonText"
-                      style="background-color: rgb(129, 102, 231); color: white"
+                      style="
+                        background-color: var(--themeColor1);
+                        color: var(--themeTextColor);
+                      "
                     ></el-button>
                   </div>
                 </template>
@@ -259,7 +262,10 @@
                       :disabled="disabled"
                       @click="startCountdown"
                       v-text="buttonText"
-                      style="background-color: rgb(129, 102, 231); color: white"
+                      style="
+                        background-color: var(--themeColor1);
+                        color: var(--themeTextColor);
+                      "
                     ></el-button>
                   </div>
                 </template>

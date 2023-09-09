@@ -20,7 +20,7 @@
         placeholder="请输入兑换码"
         v-model="inputValue"
         maxlength="8"
-        style="background-color: #1d2022; color: whitesmoke"
+        style="background-color: var(--bgColor1); color: whitesmoke"
       />
       <el-button
         type="primary"
