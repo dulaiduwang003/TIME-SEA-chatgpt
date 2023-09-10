@@ -1051,11 +1051,11 @@ export default {
 }
 
 .cache-btn {
-  color: var(--textColor1);
+  color: var(--themeTextColor);
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #7171ffff;
+  background-color: var(--themeColor1);
   padding: 10px 30px;
   border-radius: 5px;
 }
@@ -1075,9 +1075,9 @@ export default {
 }
 
 .cache-scrollbar {
-  background-color: rgb(16, 18, 19);
+  background-color: var(--bgColor3);
   border-radius: 10px;
-  color: var(--textColor2);
+  color: var(--textColor3);
 }
 
 .cache-padding {
@@ -1100,7 +1100,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 13px;
-  color: #f5f5f5;
+  color: var(--textColor1);
   width: 310px;
 }
 

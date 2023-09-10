@@ -1480,9 +1480,9 @@ export default {
 }
 
 .cache-scrollbar {
-  background-color: rgb(16, 18, 19);
+  background-color: var(--bgColor3);
   border-radius: 10px;
-  color: var(--textColor2);
+  color: var(--textColor3);
 }
 
 .cache-padding {
@@ -1505,7 +1505,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 13px;
-  color: #f5f5f5;
+  color: var(--textColor1);
   width: 310px;
 }
 
