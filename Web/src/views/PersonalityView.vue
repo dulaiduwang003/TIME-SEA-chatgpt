@@ -482,8 +482,12 @@
           >应用
         </el-button>
         <el-button
-          color="var(--bgColor2)"
-          style="width: 100px"
+          color="var(--bgColor3)"
+          style="
+            width: 100px;
+            background: var(--bgColor3);
+            color: var(--textColor2);
+          "
           @click="resetPersonalityConfig"
           >重置</el-button
         >

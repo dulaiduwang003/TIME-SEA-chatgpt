@@ -454,6 +454,7 @@ export default defineComponent({
   width: 120px;
   margin-left: 10px;
   background-color: var(--themeColor1);
+  color: var(--themeTextColor);
 }
 
 .applet > .rechargeButtonText {
