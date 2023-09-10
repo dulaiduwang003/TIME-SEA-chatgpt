@@ -26,7 +26,7 @@
       class="header-side header-right"
       style="display: flex; align-items: center"
     >
-      <div @click="switchTheme">
+      <div @click="switchTheme" class="hidden-xs-only">
         <el-button text class="switchThemeIconWrapper">
           <template v-slot:icon>
             <el-icon
