@@ -96,13 +96,6 @@
             v-model="form.signInFrequency"
           />
         </el-form-item>
-        <el-form-item label="文生图(SD)消耗次数" label-width="200px">
-          <el-input
-            placeholder="请设置消耗次数"
-            clearable
-            v-model="form.sdTextImageFrequency"
-          />
-        </el-form-item>
         <el-form-item label="文生图(GPT)消耗次数" label-width="200px">
           <el-input
             placeholder="请设置消耗次数"
@@ -110,11 +103,11 @@
             v-model="form.gptTextImageFrequency"
           />
         </el-form-item>
-        <el-form-item label="图生图(SD)消耗次数" label-width="200px">
+        <el-form-item label="(SD)消耗次数" label-width="200px">
           <el-input
             placeholder="请设置消耗次数"
             clearable
-            v-model="form.sdImage2Frequency"
+            v-model="form.sdImageFrequency"
           />
         </el-form-item>
       </el-form>
@@ -156,8 +149,7 @@ export default {
       incentiveFrequency: undefined,
       videoFrequency: undefined,
       signInFrequency: undefined,
-      sdImage2Frequency: undefined,
-      sdTextImageFrequency: undefined,
+      sdImageFrequency: undefined,
       gptFrequency: undefined,
       gptTextImageFrequency: undefined,
       organizationUuid: "",

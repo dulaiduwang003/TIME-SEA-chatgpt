@@ -1,19 +1,16 @@
 // 引用网络请求中间件
 import request from './../utils/request';
 
-/**
- *    发布绘图任务（文生图）
- */
-export function addSdDrawingTextTaskQueue(data) {
+
+export function getSdModelList() {
     return request({
-        url: '/drawing/sd/text',
-        method: 'POST',
-        data
+        url: '/drawing/sd/get/model',
+        method: 'GET'
     })
 }
 
 /**
- *    发布绘图任务（文生图）
+ *    发布绘图任务
  */
 export function addGptDrawingTextTaskQueue(data) {
     return request({
@@ -23,6 +20,13 @@ export function addGptDrawingTextTaskQueue(data) {
     })
 }
 
+export function addSdtDrawingTask(data) {
+    return request({
+        url: '/drawing/sd/wechat/image',
+        method: 'POST',
+        data
+    })
+}
 
 /**
  *    检查SD绘图是否成功
@@ -37,22 +41,13 @@ export function isDrawingSucceed(data) {
 /**
  *    检查SD服务是否处于运行状态
  */
-export function sdConnectivity(data) {
+export function sdConnectivity() {
     return request({
-        url: '/drawing/sd/connectivity/' + data,
+        url: '/drawing/sd/connectivity',
         method: 'GET'
     })
 }
 
-/**
- *    检查SD服务是否处于运行状态
- */
-export function mjConnectivity(data) {
-    return request({
-        url: '/drawing/mj/connectivity/' + data,
-        method: 'GET'
-    })
-}
 
 /**
  *    获取指定绘图结果

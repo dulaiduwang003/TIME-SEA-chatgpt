@@ -1,16 +1,19 @@
 create table if not exists super_bot.drawing
 (
-    drawing_id      bigint auto_increment comment '绘图ID'
+    drawing_id   bigint auto_increment comment '绘图ID'
         primary key,
-    user_id         bigint                             not null comment '所属用户',
-    prompt          text                               not null comment '提示词',
-    negative_prompt text                               null comment '反向提示词',
-    original_url    varchar(200)                       null comment '上传图',
-    generate_url    varchar(200)                       null comment '生成图',
-    is_public       tinyint  default 0                 not null comment '是否公开',
-    created_time    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    update_time     datetime default CURRENT_TIMESTAMP not null comment '修改时间'
+    user_id      bigint                             not null comment '所属用户',
+    prompt       text                               not null comment '提示词',
+    original_url varchar(200)                       null comment '上传图',
+    generate_url varchar(200)                       null comment '生成图',
+    is_public    tinyint  default 0                 not null comment '是否公开',
+    created_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time  datetime default CURRENT_TIMESTAMP not null comment '修改时间',
+    env          tinyint  default 0                 not null
 );
+
+create index drawing_env_index
+    on super_bot.drawing (env);
 
 create index drawing_generate_url_index
     on super_bot.drawing (generate_url);
@@ -110,6 +113,19 @@ create table if not exists super_bot.product
 
 create index product_product_name_index
     on super_bot.product (product_name);
+
+create table if not exists super_bot.sd_model
+(
+    sd_model_id  bigint auto_increment
+        primary key,
+    model_name   varchar(100)                       not null,
+    text_name    varchar(200)                       not null,
+    created_time datetime default CURRENT_TIMESTAMP not null,
+    update_time  datetime default CURRENT_TIMESTAMP not null
+);
+
+create index sd_model_model_name_text_name_index
+    on super_bot.sd_model (model_name, text_name);
 
 create table if not exists super_bot.star
 (

@@ -121,7 +121,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #444548;
+  background-color: var(--bgboxShadowColor1);
   color: var(--textColor1);
   cursor: pointer;
 }
@@ -143,7 +143,7 @@ export default defineComponent({
   border-radius: 20px;
   content: "";
   position: absolute;
-  background: #444548;
+  background: #a86dbc;
   animation: loadAnimationBefore 1.5s infinite ease-in-out;
 }
 
@@ -153,7 +153,7 @@ export default defineComponent({
   border-radius: 20px;
   content: "";
   position: absolute;
-  background: #000000;
+  background: #ae4b5d;
   left: 22px;
   animation: loadAnimationAfter 1.5s infinite ease-in-out;
 }
@@ -165,7 +165,7 @@ export default defineComponent({
 
   50% {
     transform: translateX(50px) scale(1.2) rotate(260deg);
-    background: #000000;
+    background: #6798e6;
     border-radius: 0;
   }
 
@@ -181,7 +181,7 @@ export default defineComponent({
 
   50% {
     transform: translateX(-50px) scale(1.2) rotate(-260deg);
-    background: #444548;
+    background: #6969c1;
     border-radius: 0;
   }
 

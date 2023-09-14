@@ -44,8 +44,7 @@ public class WebGptWss {
         try {
             assert session.getId() != null;
             assert StpUtil.getLoginIdByToken(token) != null;
-        } catch (NullPointerException e) {
-            log.warn("无法获取到建立连接数据,已拒绝连接");
+        } catch (Exception e) {
             return;
         }
         this.session = session;
@@ -99,16 +98,16 @@ public class WebGptWss {
                         //为 Close异常时 过滤
                         if (!(throwable instanceof CloseException)) {
                             chatUtils.compensate(frequency, userId);
-                            log.error("调用GPT时出现异常 异常信息:{} 异常类:{}", throwable.getMessage(), throwable.getClass());
+                            log.error("调用GPT时出现异常 异常信息:{} ", throwable.getMessage());
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
-        } catch (ViolationsException e) {
+        } catch (FrequencyException e) {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
         } catch (Exception e) {
             log.error(" 与 OPEN Ai建立连接失败 原因:{}", e.getMessage());
-            appointSendingSystem(ExceptionMessages.GPT_FREQUENT);
+            appointSendingSystem(ExceptionMessages.GPT_ERR);
             handleWebSocketCompletion();
         }
     }

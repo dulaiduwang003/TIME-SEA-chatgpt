@@ -1,11 +1,11 @@
 <template>
   <div class="body" ref="scrollRef">
     <div v-if="!conversationList.length" class="explain">
-      <img class="logo" alt="Vue logo" src="../assets/logo02.svg" />
+      <img class="logo" alt="Vue logo" src="../assets/logo02.svg"/>
       <div class="expositoryCase">欢迎使用TIME SEA PLUS</div>
       <div class="consume">
         <el-icon>
-          <Goods />
+          <Goods/>
         </el-icon>
         <div class="consumeText">每次提问消耗1个SUPER币</div>
       </div>
@@ -13,9 +13,9 @@
     </div>
     <div v-else class="questions" style="margin: 20px 0">
       <div
-        v-for="(item, index) in conversationList"
-        :key="index"
-        class="item slide-animation"
+          v-for="(item, index) in conversationList"
+          :key="index"
+          class="item slide-animation"
       >
         <div class="question">
           <div>
@@ -23,17 +23,17 @@
             <div class="operation--model_user">
               <div class="op-btn" @click="copyAnswer(item.user)">
                 <el-icon>
-                  <CopyDocument />
+                  <CopyDocument/>
                 </el-icon>
                 <text class="op-font">复制</text>
               </div>
             </div>
           </div>
           <el-avatar
-            class="flexShrink"
-            :size="35"
-            :icon="UserFilled"
-            :src="
+              class="flexShrink"
+              :size="35"
+              :icon="UserFilled"
+              :src="
               store.getters.userinfo.avatar
                 ? imageUrl + store.getters.userinfo.avatar
                 : require('../assets/my.png')
@@ -43,38 +43,38 @@
 
         <div class="answer">
           <el-avatar
-            class="flexShrink"
-            :size="35"
-            :icon="UserFilled"
-            :src="require('../assets/logoHead.svg')"
+              class="flexShrink"
+              :size="35"
+              :icon="UserFilled"
+              :src="require('../assets/logoHead.svg')"
           />
           <template v-if="item.assistant">
             <div style="width: 100%">
               <div
-                class="answer-data"
-                :style="{ maxWidth: calculateWidth(item.assistant) }"
+                  class="answer-data"
+                  :style="{ maxWidth: calculateWidth(item.assistant.length) }"
               >
                 <v-md-editor
-                  :model-value="item.assistant"
-                  mode="preview"
-                  @copy-code-success="handleCopyCodeSuccess"
+                    :model-value="item.assistant"
+                    mode="preview"
+                    @copy-code-success="handleCopyCodeSuccess"
                 />
               </div>
 
               <div class="operation--model" v-if="!item.isError">
                 <div class="op-btn" @click="copyAnswer(item.assistant)">
                   <el-icon>
-                    <CopyDocument />
+                    <CopyDocument/>
                   </el-icon>
                   <text class="op-font">复制</text>
                 </div>
                 <div
-                  class="op-btn"
-                  @click="onCollection(item, index)"
-                  v-if="!item.isCollection"
+                    class="op-btn"
+                    @click="onCollection(item, index)"
+                    v-if="!item.isCollection"
                 >
                   <el-icon color="rgb(255,236,160)">
-                    <StarFilled />
+                    <StarFilled/>
                   </el-icon>
                   <text class="op-font">收藏</text>
                 </div>
@@ -97,32 +97,32 @@
     </div>
     <div class="suspend" v-show="aiLoading" @click="closeSocket">
       <el-icon :size="16">
-        <VideoPause />
+        <VideoPause/>
       </el-icon>
       <div>暂停输出</div>
     </div>
     <div class="footer">
       <div class="footer-bar">
         <div
-          class="clear"
-          @click="clear"
-          v-show="store.getters.userinfo && !aiLoading"
+            class="clear"
+            @click="clear"
+            v-show="store.getters.userinfo && !aiLoading"
         >
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <Clock />
+              <Clock/>
             </el-icon>
           </div>
           <div>清除聊天</div>
         </div>
         <div
-          class="clear2"
-          v-show="store.getters.userinfo && !aiLoading"
-          @click="dialogueDisplay = true"
+            class="clear2"
+            v-show="store.getters.userinfo && !aiLoading"
+            @click="dialogueDisplay = true"
         >
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <ChatDotRound />
+              <ChatDotRound/>
             </el-icon>
           </div>
           <div>记忆回溯</div>
@@ -140,32 +140,32 @@
         -->
 
         <InputFormField
-          ref="inputRef"
-          :aiLoading="aiLoading"
-          :inputText="input"
-          @update:inputText="input = $event"
-          @update:model="model = $event"
-          @onSubmit="onSubmit"
+            ref="inputRef"
+            :aiLoading="aiLoading"
+            :inputText="input"
+            @update:inputText="input = $event"
+            @update:model="model = $event"
+            @onSubmit="onSubmit"
         />
       </div>
     </div>
   </div>
   <el-dialog
-    v-model="dialogueDisplay"
-    title=""
-    width="430px"
-    center
-    style="background-color: var(--bgColor1)"
+      v-model="dialogueDisplay"
+      title=""
+      width="430px"
+      center
+      style="background-color: var(--bgColor1)"
   >
     <div>
       <div class="cache-flex-center">
-        <img alt="Vue logo" src="../assets/logo02.svg" class="cache-img" />
+        <img alt="Vue logo" src="../assets/logo02.svg" class="cache-img"/>
       </div>
       <div class="cache-text">TIME SEA PLUS</div>
       <div class="cache-flex-center cache-padding-top">
         <div class="cache-btn" @click="createdNewChat">
           <el-icon size="16px">
-            <ChatLineSquare />
+            <ChatLineSquare/>
           </el-icon>
           <div class="cache-btn-text">创建新的聊天</div>
         </div>
@@ -174,11 +174,11 @@
         <div class="cache-scrollbar">
           <el-scrollbar height="250px">
             <div
-              class="cache-padding"
-              v-for="(item, index) in dialogueCache.array"
-              :key="index"
+                class="cache-padding"
+                v-for="(item, index) in dialogueCache.array"
+                :key="index"
             >
-              <div class="cache-flex-space-between cache-margin">
+              <div class="cache-flex-space-between">
                 <div class="cache-message" @click="switchChat(index)">
                   <div class="cache-message-text">
                     {{ item.title }}
@@ -189,13 +189,13 @@
                 </div>
                 <div class="cache-selected">
                   <img
-                    :src="
+                      :src="
                       dialogueCache.index === index
                         ? require('../assets/selected.svg')
                         : require('../assets/close.svg')
                     "
-                    class="cache-selected-img"
-                    @click="clearDialogue(index)"
+                      class="cache-selected-img"
+                      @click="clearDialogue(index)"
                   />
                 </div>
               </div>
@@ -205,11 +205,11 @@
       </div>
     </div>
   </el-dialog>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
+  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
 </template>
 
 <script>
-import { nextTick, onMounted, ref } from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {
   ChatDotRound,
   ChatLineSquare,
@@ -220,17 +220,17 @@ import {
   UserFilled,
   VideoPause,
 } from "@element-plus/icons-vue";
-import { ElNotification } from "element-plus";
-import { FavoritesAdd, GetUserInfo } from "../../api/BSideApi";
-import { useStore } from "vuex";
+import {ElNotification} from "element-plus";
+import {FavoritesAdd, GetUserInfo} from "../../api/BSideApi";
+import {useStore} from "vuex";
 import LoginDialog from "@/components/LoginDialog.vue";
 import InputFormField from "@/components/InputFormField.vue";
 import store from "@/store";
-import { conversionTime } from "../utils/date";
+import {conversionTime} from "../utils/date";
 
 export default {
   name: "dialogueView",
-  methods: { conversionTime },
+  methods: {conversionTime},
   components: {
     StarFilled,
     CopyDocument,
@@ -252,7 +252,7 @@ export default {
     },
   },
   setup() {
-    let initialWidth = ref(50);
+    let initialWidth = ref(100);
     let maxWidth = ref(740);
     let inputRef = ref(null);
     let store = useStore();
@@ -301,8 +301,8 @@ export default {
             ],
           };
           localStorage.setItem(
-            "dialogueCache",
-            JSON.stringify(dialogueCache.value)
+              "dialogueCache",
+              JSON.stringify(dialogueCache.value)
           );
         }
       }
@@ -333,15 +333,13 @@ export default {
       dialogueCache.value.index = index;
       conversationList.value = dialogueCache.value.array[index].context;
       localStorage.setItem(
-        "dialogueCache",
-        JSON.stringify(dialogueCache.value)
+          "dialogueCache",
+          JSON.stringify(dialogueCache.value)
       );
       dialogueDisplay.value = false;
     }
 
-    function calculateWidth(text) {
-      const textLength = text.length;
-
+    function calculateWidth(textLength) {
       let width = initialWidth.value + textLength * 16;
       if (width >= maxWidth.value) {
         width = maxWidth.value;
@@ -359,8 +357,8 @@ export default {
         dialogueCache.value.array.splice(index, 1);
       }
       localStorage.setItem(
-        "dialogueCache",
-        JSON.stringify(dialogueCache.value)
+          "dialogueCache",
+          JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -371,15 +369,15 @@ export default {
       dialogueCache.value.array[value.index].time = Date.now();
       if (item.length > 0) {
         dialogueCache.value.array[value.index].title = item[
-          item.length - 1
-        ].user
-          .trim()
-          .slice(0, 25);
+        item.length - 1
+            ].user
+            .trim()
+            .slice(0, 25);
       }
       dialogueCache.value.array[value.index].context = item;
       localStorage.setItem(
-        "dialogueCache",
-        JSON.stringify(dialogueCache.value)
+          "dialogueCache",
+          JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -393,8 +391,8 @@ export default {
       dialogueCache.value.index = 0;
       conversationList.value = [];
       localStorage.setItem(
-        "dialogueCache",
-        JSON.stringify(dialogueCache.value)
+          "dialogueCache",
+          JSON.stringify(dialogueCache.value)
       );
     }
 
@@ -429,29 +427,29 @@ export default {
       // TODO 上下文
       let messages = [];
       conversationList.value
-        .slice(-memory.value)
-        .forEach(({ isError, user, assistant }) => {
-          if (!isError) {
-            const truncatedUser =
-              user.length > size.value
-                ? user.slice(0, size.value) + "..."
-                : user;
-            const truncatedAssistant =
-              assistant && assistant.length > size.value
-                ? assistant.slice(0, size.value) + "..."
-                : assistant;
-            messages.push({
-              role: "user",
-              content: truncatedUser,
-            });
-            if (truncatedAssistant) {
+          .slice(-memory.value)
+          .forEach(({isError, user, assistant}) => {
+            if (!isError) {
+              const truncatedUser =
+                  user.length > size.value
+                      ? user.slice(0, size.value) + "..."
+                      : user;
+              const truncatedAssistant =
+                  assistant && assistant.length > size.value
+                      ? assistant.slice(0, size.value) + "..."
+                      : assistant;
               messages.push({
-                role: "assistant",
-                content: truncatedAssistant,
+                role: "user",
+                content: truncatedUser,
               });
+              if (truncatedAssistant) {
+                messages.push({
+                  role: "assistant",
+                  content: truncatedAssistant,
+                });
+              }
             }
-          }
-        });
+          });
       webSocket({
         messages: {
           messages: messages,
@@ -460,7 +458,7 @@ export default {
       });
     }
 
-    function webSocket({ messages, index }) {
+    function webSocket({messages, index}) {
       if (typeof WebSocket == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
@@ -474,7 +472,7 @@ export default {
         console.log("发起websocket", model.value);
 
         socket.value = new WebSocket(
-          process.env.VUE_APP_WSS +
+            process.env.VUE_APP_WSS +
             "/gpt-web/api/" +
             localStorage.getItem("token") +
             "/" +
@@ -982,7 +980,7 @@ export default {
 
 .beCareful {
   padding: 40px 6px 12px;
-  color: var(--themeColor2);
+  color: var(--textColor2);
   font-size: 15px;
   line-height: 1.6;
 }
@@ -1075,7 +1073,7 @@ export default {
 }
 
 .cache-scrollbar {
-  background-color: var(--bgColor3);
+  background-color: var(--bgboxShadowColor1);
   border-radius: 10px;
   color: var(--textColor3);
 }

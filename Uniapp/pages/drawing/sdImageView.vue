@@ -6,7 +6,7 @@
       <!--  上传文件框框-->
       <view class="title">
         <view>
-          上传原图(必填)
+          上传参考图
         </view>
         <view class="uploader_container">
           <view v-if="!form.images">
@@ -49,7 +49,7 @@
       </view>
       <!--  描述词-->
       <view class="title">
-        <view>反向提示词(可选)</view>
+        <view>反向提示词</view>
         <textarea :show-confirm-bar="false" :auto-height="true" maxlength="2000" confirm-type="done"
                   v-model="form.negative_prompt"
                   placeholder-class="placeholder-class" placeholder="请输入绘画描述词汇">
@@ -59,11 +59,18 @@
       <!--  参数配置-->
       <view class="title">
         <view>图片大小</view>
-        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
-          <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in size"
-                :key="index"
+        <view class="size-container">
+          <view :class="item.isSelected?'size-model-selected':'size-model'" v-for="(item,index) in size" :key="index"
                 @click="handleSize(index)">
-            {{ item.text }}
+            <div>
+              <div class="size-logo">
+                <image :src="'/static/assets/'+item.image" alt=""/>
+              </div>
+              <div class="size-proportion">
+                {{ item.proportion }}
+              </div>
+              <div class="size-text">{{ item.text }}</div>
+            </div>
           </view>
         </view>
       </view>
@@ -72,9 +79,30 @@
         <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
           <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in model"
                 :key="index" @click="handleModel(index)">
-            {{ item.text }}
+            {{ item.textName }}
           </view>
         </view>
+      </view>
+      <view class="title">
+        <view>迭代次数</view>
+        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
+          <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in steps"
+                :key="index" @click="handleSteps(index)">
+            {{ item.value }}
+          </view>
+        </view>
+      </view>
+      <view class="title">
+        <view>采样方法</view>
+        <scroll-view scroll-x>
+          <view style="display: flex;padding-top: 30rpx">
+            <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in sampler"
+                  :key="index" @click="handleSampler(index)">
+              {{ item.value }}
+            </view>
+          </view>
+        </scroll-view>
+
       </view>
     </scroll-view>
     <view class="levitation">
@@ -86,7 +114,7 @@
 <script>
 import GenerateLoadingComponent from "@/pages/drawing/components/generateLoadingComponent.vue";
 import LoadingComponent from "@/wxcomponents/components/loadingComponent.vue";
-import {isDrawingSucceed, sdConnectivity} from "@/api/drawing";
+import {addSdtDrawingTask, getSdModelList, isDrawingSucceed, sdConnectivity} from "@/api/drawing";
 import env from "@/utils/env";
 import {getToken} from "@/utils/utils";
 
@@ -99,39 +127,140 @@ export default {
         prompt: '',
         width: 512,
         height: 512,
-        seed: 0,
-        restore_faces: 0,
+        steps: 20,
         modelName: '',
-        location: 0,
-        negative_prompt: ''
+        sampler_index: "Euler a",
+        negative_prompt: '',
       },
       msg: '正在检查绘图服务运行状态',
-      //图片大小
       size: [
         {
-          width: 512,
-          height: 512,
+          proportion: '1:1',
+          text: '头像',
+          image: 'size-1-1.f9b344b9.svg',
           isSelected: true,
-          text: "标准分辨率"
+          width: 512,
+          height: 512
         },
         {
-          width: 1024,
-          height: 1024,
+          proportion: '1:2',
+          text: '手机壁纸',
+          image: 'size-1-2.62c2da58.svg',
           isSelected: false,
-          text: "高分辨率"
+          width: 1080,
+          height: 2160
+        },
+        {
+          proportion: '3:4',
+          text: '文案图',
+          image: 'size-3-4.ba364264.svg',
+          isSelected: false,
+          width: 384,
+          height: 512
+        },
+        {
+          proportion: '4:3',
+          text: '小红书',
+          image: 'size-4-3.a0ec2a1c.svg',
+          isSelected: false,
+          width: 512,
+          height: 384
+        },
+        {
+          proportion: '9:16',
+          text: '海报',
+          image: 'size-9-16.498b0472.svg',
+          isSelected: false,
+          width: 768,
+          height: 1365
+        },
+        {
+          proportion: '16:9',
+          text: '电脑壁纸',
+          image: 'size-4-3.a0ec2a1c.svg',
+          isSelected: false,
+          width: 1980,
+          height: 1080
         }
       ],
-      //模型
-      model: []
+      model: [],
+      sampler: [
+        {
+          value: "Euler a",
+          isSelected: true
+        }, {
+          value: "Euler",
+          isSelected: false
+        }, {
+          value: "LMS",
+          isSelected: false
+        }, {
+          value: "Heun",
+          isSelected: false
+        }, {
+          value: "DPM2",
+          isSelected: false
+        }, {
+          value: "DPM2 a",
+          isSelected: false
+        }, {
+          value: "DPM++ 2S a",
+          isSelected: false
+        }, {
+          value: "DPM++ 2M",
+          isSelected: false
+        }, {
+          value: "DPM++ SDE",
+          isSelected: false
+        }, {
+          value: "DPM fast",
+          isSelected: false
+        }, {
+          value: "DPM adaptive",
+          isSelected: false
+        }, {
+          value: "LMS Karras",
+          isSelected: false
+        }, {
+          value: "DPM2 Karras",
+          isSelected: false
+        }, {
+          value: "DPM2 a Karras",
+          isSelected: false
+        }, {
+          value: "DPM++ 2S a Karras",
+          isSelected: false
+        }, {
+          value: "DPM++ 2M Karras",
+          isSelected: false
+        }, {
+          value: "DPM++ SDE Karras",
+          isSelected: false
+        }, {
+          value: "DDIM",
+          isSelected: false
+        },
+      ],
+      location: 0,
+      steps: [
+        {
+          value: 20,
+          isSelected: true
+        }, {
+          value: 40,
+          isSelected: false
+        }, {
+          value: 60,
+          isSelected: false
+        }, {
+          value: 80,
+          isSelected: false
+        }, {
+          value: 100,
+          isSelected: false
+        }
+      ],
     };
-  },
-  created() {
-    this.model = env.sdModels
-    this.model.forEach(m => {
-      if (m.isSelected) {
-        this.form.modelName = m.modelName
-      }
-    })
   },
   methods: {
     /**
@@ -166,6 +295,28 @@ export default {
       uni.navigateBack()
     },
     /**
+     * 获取模型列表
+     */
+    getModelList: async function () {
+      try {
+        const sdModelList = await getSdModelList();
+        if (sdModelList.length > 0) {
+          sdModelList.forEach((a) => {
+            this.model.push({
+              modelName: a.modelName,
+              textName: a.textName,
+              isSelected: false
+            })
+          })
+          this.model[0].isSelected = true
+          this.form.modelName = this.model[0].modelName
+        }
+      } catch (e) {
+        console.log(e)
+      }
+
+    },
+    /**
      * 遥测SD状态
      * @returns
      */
@@ -173,7 +324,7 @@ export default {
       let loadingRef = this.$refs.loadingRef;
       try {
         loadingRef.openShow()
-        let res = await sdConnectivity(1);
+        let res = await sdConnectivity();
         if (!res) {
           this.msg = '请联系小程序管理员开启绘图服务'
           setTimeout(() => {
@@ -183,6 +334,7 @@ export default {
         }
         loadingRef.closeShow()
       } catch (e) {
+        console.log(e)
         this.msg = e
         setTimeout(() => {
           uni.navigateBack();
@@ -236,15 +388,7 @@ export default {
      * 提交
      */
     submit: async function () {
-      const {images, prompt} = this.form;
-      if (!images) {
-        uni.showToast({
-          title: '请上传参考图',
-          icon: 'none',
-          duration: 4000
-        })
-        return
-      }
+      const {prompt} = this.form;
       if (!prompt) {
         uni.showToast({
           title: '请填写描述',
@@ -259,57 +403,83 @@ export default {
       uni.requestSubscribeMessage({
         tmplIds: tmplIds,
         success: async function (res) {
-          let s = baseUrl + '/drawing/sd/image2image';
           if (res[tmplIds[0]] === 'accept') {
             let generateLoadingRef = _this.$refs.generateLoadingRef;
             uni.showLoading({
               title: '正在加入队列~',
               mask: true
             });
-            wx.uploadFile({
-              url: s,
-              filePath: _this.form.images,
-              name: 'images',
-              header: {
-                'token': getToken()
-              },
-              formData: {
-                'width': _this.form.width,
-                'prompt': _this.form.prompt,
-                'height': _this.form.height,
-                'seed': _this.form.seed,
-                'restore_faces': _this.form.restore_faces,
-                "modelName": _this.form.modelName,
-                "negative_prompt": _this.form.negative_prompt
-              },
-              async success(res) {
-                let parse = JSON.parse(res.data);
-                if (parse.code === 200) {
-                  let data = parse.data;
-                  this.location = data.location
+
+            const requestData = {
+              'width': _this.form.width,
+              'prompt': _this.form.prompt,
+              'height': _this.form.height,
+              'steps': _this.form.steps,
+              'sampler_index': _this.form.sampler_index,
+              "modelName": _this.form.modelName,
+              "negative_prompt": _this.form.negative_prompt,
+              "env": 1
+            };
+            if (_this.form.images) {
+              wx.uploadFile({
+                url: baseUrl + '/drawing/sd/drawing/image',
+                filePath: _this.form.images,
+                name: 'images',
+                header: {
+                  'token': getToken()
+                },
+                formData: requestData,
+                async success(res) {
+                  let parse = JSON.parse(res.data);
+                  if (parse.code === 200) {
+                    let data = parse.data;
+                    this.location = data.location
+                    uni.showToast({
+                      title: '操作成功',
+                      icon: 'none',
+                      duration: 2000
+                    })
+                    generateLoadingRef.openShow()
+                    _this.timer = setInterval(() => {
+                      _this.isDrawingSucceed(data.drawingId)
+                    }, 5000);
+                  } else {
+                    _this.stopTimer()
+                    uni.showToast({
+                      title: parse.msg,
+                      icon: 'none',
+                      duration: 2000
+                    })
+                    uni.hideLoading()
+                  }
+
+                },
+                fail(res) {
                   uni.showToast({
-                    title: '操作成功',
+                    title: '服务貌似被关闭了',
                     icon: 'none',
-                    duration: 2000
-                  })
-                  generateLoadingRef.openShow()
-                  _this.timer = setInterval(() => {
-                    _this.isDrawingSucceed(data.drawingId)
-                  }, 5000);
-                } else {
-                  _this.stopTimer()
-                  uni.showToast({
-                    title: parse.msg,
-                    icon: 'none',
-                    duration: 2000
+                    duration: 1000
                   })
                   uni.hideLoading()
+                  setTimeout(() => {
+                    uni.navigateBack();
+                  }, 2000)
                 }
-
-              },
-              fail(res) {
-                console.log(res)
-                console.log('错误')
+              })
+            } else {
+              try {
+                let newVar = await addSdtDrawingTask(requestData);
+                this.location = newVar.location
+                uni.showToast({
+                  title: '操作成功',
+                  icon: 'none',
+                  duration: 2000
+                })
+                generateLoadingRef.openShow()
+                _this.timer = setInterval(() => {
+                  _this.isDrawingSucceed(newVar.drawingId)
+                }, 5000);
+              } catch (e) {
                 uni.showToast({
                   title: '服务貌似被关闭了',
                   icon: 'none',
@@ -320,7 +490,8 @@ export default {
                   uni.navigateBack();
                 }, 2000)
               }
-            })
+
+            }
 
           }
         }
@@ -335,11 +506,27 @@ export default {
     handleSize: function (index) {
       this.size.forEach(s => s.isSelected = false)
       this.size[index].isSelected = true
-      this.form.height = this.size[index].height
       this.form.width = this.size[index].width
-    }
-    ,
-
+      this.form.height = this.size[index].height
+    },
+    /**
+     * 处理采样率
+     * @param index
+     */
+    handleSampler: function (index) {
+      this.sampler.forEach(s => s.isSelected = false)
+      this.sampler[index].isSelected = true
+      this.form.sampler_index = this.sampler[index].value
+    },
+    /**
+     * 处理迭代次数
+     * @param index
+     */
+    handleSteps: function (index) {
+      this.steps.forEach(s => s.isSelected = false)
+      this.steps[index].isSelected = true
+      this.form.steps = this.steps[index].value
+    },
     /**
      * 解析用户选择的图片
      * @param e
@@ -363,8 +550,8 @@ export default {
     clearInterval(this.timer);
   },
   onLoad() {
-
     this.examineServer()
+    this.getModelList()
   },
   //刷新次数
   onUnload() {
@@ -506,5 +693,56 @@ textarea {
   border-radius: 20rpx
 }
 
+.size-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 20rpx
+}
+
+.size-model {
+  border-radius: 15rpx;
+  margin: 10rpx auto;
+  width: 210rpx;
+  height: 200rpx;
+  background-color: #2a2a2a;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1rpx solid #2a2a2a;
+}
+
+.size-model-selected {
+  border-radius: 15rpx;
+  margin: 10rpx auto;
+  width: 210rpx;
+  height: 200rpx;
+  background-color: #271f31;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1rpx solid #8166E7FF;
+}
+
+.size-logo {
+  padding-bottom: 15rpx
+}
+
+.size-logo image {
+  width: 70rpx;
+  height: 70rpx
+}
+
+.size-proportion {
+  padding-bottom: 10rpx
+}
+
+.size-text {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #636363
+}
 
 </style>

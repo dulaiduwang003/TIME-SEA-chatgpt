@@ -161,6 +161,7 @@ public class GptServiceImpl implements GptService {
                 .bodyToFlux(String.class);
     }
 
+
     @Override
     public Flux<String> concatenationNewBing(final String messages) {
         final ControlStructure control = controlCommon.getControl();

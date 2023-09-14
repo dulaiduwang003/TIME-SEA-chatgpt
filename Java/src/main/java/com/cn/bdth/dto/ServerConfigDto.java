@@ -15,75 +15,39 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ServerConfigDto {
 
-    /**
-     * SD绘图URL
-     */
     @NotBlank(message = "SD_URL不能为空")
     private String sdUrl;
 
-    /**
-     * SD绘图URL
-     */
     @NotBlank(message = "OPEN_AI_URL不能为空")
     private String openAiUrl;
 
-    /**
-     * SD绘图URL
-     */
     @NotBlank(message = "OPEN_AI_PLUS_URL不能为空")
     private String openAiPlusUrl;
-    /**
-     * OpenKey
-     */
+
     @NotBlank(message = "OPEN_KEY不能为空")
     private String openKey;
-
 
     @NotBlank(message = "OPEN_PLUS_KEY不能为空")
     private String openPlusKey;
 
-
     @NotNull(message = "GPT_PLUS消耗次数不能为空")
     private Long gptPlusFrequency;
-
 
     @NotBlank(message = "必应Cookie不能为空")
     private String newBingCookie;
 
-    /**
-     * 用户第一次登录奖励次数
-     */
     @NotNull(message = "第一次登录奖励次数不能为空")
     private Long incentiveFrequency;
 
-    /**
-     * 用户观看视频奖励次数
-     */
     @NotNull(message = "用户观看视频奖励不能为空")
     private Long videoFrequency;
 
-    /**
-     * 签到赠送次数
-     */
     @NotNull(message = "签到赠送次数不能为空")
     private Long signInFrequency;
 
-    /**
-     * 签到赠送次数
-     */
     @NotNull(message = "图生图消耗次数不能为空")
-    private Long sdImage2Frequency;
+    private Long sdImageFrequency;
 
-    /**
-     * 签到赠送次数
-     */
-    @NotNull(message = "文生图消耗次数不能为空")
-    private Long sdTextImageFrequency;
-
-
-    /**
-     * 签到赠送次数
-     */
     @NotNull(message = "GPT消耗次数不能为空")
     private Long gptFrequency;
 

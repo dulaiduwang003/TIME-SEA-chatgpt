@@ -30,11 +30,11 @@ public class NetUtils {
                 .map(ResponseEntity::getStatusCode);
         try {
             final HttpStatusCode status = response.timeout(Duration.ofSeconds(5)).block();
-
             return status != null && status.is2xxSuccessful();
-        } catch (WebClientResponseException ex) {
-            return ex.getStatusCode().is4xxClientError() || ex.getStatusCode().is5xxServerError();
-        } catch (Exception e) {
+        }catch (WebClientResponseException ex){
+            return !(ex.getStatusCode().is4xxClientError()||ex.getStatusCode().is5xxServerError());
+        }
+        catch (Exception e) {
             return false;
         }
     }

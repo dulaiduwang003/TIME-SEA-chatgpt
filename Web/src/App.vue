@@ -12,7 +12,7 @@
 
       <LeftNavigationBar />
 
-      <levitation-ball class="hidden-xs-only" />
+<!--      <levitation-ball class="hidden-xs-only" />-->
 
       <el-dialog
         class="announcement"
@@ -42,13 +42,12 @@
 <script>
 import { useStore } from "vuex";
 import LeftNavigationBar from "@/components/LeftNavigationBar.vue";
-import LevitationBall from "@/components/LevitationBall.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import { getAnnouncement } from "../api/BSideApi";
 import { onMounted, ref } from "vue";
 
 export default {
-  components: { LeftNavigationBar, NavigationBar, LevitationBall },
+  components: { LeftNavigationBar, NavigationBar },
 
   setup() {
     let store = useStore();
@@ -108,10 +107,10 @@ export default {
 .appWrapper {
   width: 100%;
   height: 100%;
-
-  * {
-    transition: all 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
-  }
+  //
+  //* {
+  //  transition: all 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
+  //}
 }
 
 .appInner {
@@ -217,16 +216,19 @@ body {
 .darkMode {
   --bgColor1: #222;
   --bgboxShadowColor1: #11111144;
-  --bgColor2: #333;
+  --bgColor2: #2a2a2a;
   --bgboxShadowColor2: #44444444;
   --bgColor3: #444;
   --themeColor1: #8166e7;
-  --themeColor2: #686efe;
+  --themeColor2: #8166e7;
   --themeTextColor: #eee;
   --textColor1: #eee;
   --textColor2: #ccc;
   --textColor3: #999;
   --textColor4: #777;
+  --textColor5: #353535;
+  --dColor1: #2A2A2A;
+  --dColor2: #302e37;
   --borderColor: #333;
 }
 // 日间模式配色
@@ -237,12 +239,15 @@ body {
   --bgboxShadowColor2: #dddddd44;
   --bgColor3: #ddd;
   --themeColor1: #8166e7;
-  --themeColor2: #686efe;
+  --themeColor2: #8166e7;
   --themeTextColor: #eee;
   --textColor1: #222;
   --textColor2: #444;
   --textColor3: #666;
   --textColor4: #888;
+  --textColor5: #d5d5d5;
+  --dColor1: #EEEEEEFF;
+  --dColor2: #e0d8f8;
   --borderColor: #eee;
 }
 

@@ -1,6 +1,6 @@
 package com.cn.bdth.dto;
 
-import com.cn.bdth.model.PictureSdDrawingModel;
+import com.cn.bdth.model.SdDrawingModel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -35,16 +35,16 @@ public class DrawingSdImage2TaskDto {
 
     private String negative_prompt;
 
-    public static PictureSdDrawingModel convertToPictureImgModel(DrawingSdImage2TaskDto item) {
+    public static SdDrawingModel convertToPictureImgModel(DrawingSdImage2TaskDto item) {
         if (item == null) {
             return null;
         }
-        PictureSdDrawingModel result = new PictureSdDrawingModel();
+        SdDrawingModel result = new SdDrawingModel();
         result.setPrompt(item.getPrompt());
         result.setWidth(item.getWidth());
         result.setNegative_prompt(item.negative_prompt);
         result.setHeight(item.getHeight());
-        result.setOverride_settings(new PictureSdDrawingModel.Override().setSd_model_checkpoint(item.modelName));
+        result.setOverride_settings(new SdDrawingModel.Override().setSd_model_checkpoint(item.modelName));
         return result;
     }
 

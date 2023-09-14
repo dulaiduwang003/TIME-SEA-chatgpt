@@ -61,8 +61,7 @@ public class ServerServiceImpl implements ServerService {
         redisUtils.setValue(ServerConstant.SD_CONFIG,
                 new StableDiffusionCommon.StableDiffusionStructure()
                         .setSdUrl(dto.getSdUrl())
-                        .setSdImage2Frequency(dto.getSdImage2Frequency())
-                        .setSdTextImageFrequency(dto.getSdTextImageFrequency())
+                        .setSdImageFrequency(dto.getSdImageFrequency())
         );
         //Bing
         redisUtils.setValue(ServerConstant.NEW_BING_CONFIG, dto.getNewBingCookie());
@@ -110,9 +109,8 @@ public class ServerServiceImpl implements ServerService {
         dispositionVo.setOrganizationUuid(claudeModel != null ? claudeModel.getOrganization_uuid() : null);
         dispositionVo.setOpenAiPlusUrl(chatGptStructure != null ? chatGptStructure.getOpenAiPlusUrl() : null);
         dispositionVo.setSessionKey(claudeModel != null ? claudeModel.getSessionKey() : null);
-        dispositionVo.setSdImage2Frequency(sdStructure != null ? sdStructure.getSdImage2Frequency() : null);
         dispositionVo.setSdUrl(sdStructure != null ? sdStructure.getSdUrl() : null);
-        dispositionVo.setSdTextImageFrequency(sdStructure != null ? sdStructure.getSdTextImageFrequency() : null);
+        dispositionVo.setSdImageFrequency(sdStructure != null ? sdStructure.getSdImageFrequency() : null);
         dispositionVo.setGptFrequency(chatGptStructure != null ? chatGptStructure.getGptFrequency() : null);
         dispositionVo.setGptPlusFrequency(chatGptStructure != null ? chatGptStructure.getGptPlusFrequency() : null);
         dispositionVo.setOpenAiUrl(chatGptStructure != null ? chatGptStructure.getOpenAiUrl() : null);

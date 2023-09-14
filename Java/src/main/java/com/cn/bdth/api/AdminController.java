@@ -1,9 +1,6 @@
 package com.cn.bdth.api;
 
-import com.cn.bdth.dto.PutExchangeDto;
-import com.cn.bdth.dto.ServerConfigDto;
-import com.cn.bdth.dto.ShelvesProductDto;
-import com.cn.bdth.dto.TerminalConfigDto;
+import com.cn.bdth.dto.*;
 import com.cn.bdth.dto.admin.AnnouncementDto;
 import com.cn.bdth.dto.admin.UserPutDto;
 import com.cn.bdth.msg.Result;
@@ -36,6 +33,44 @@ public class AdminController {
     private final DrawingService drawingService;
 
     private final PayService payService;
+
+
+    /**
+     * 分页获取用户信息
+     *
+     * @param pageNum the page num
+     * @param prompt  the prompt
+     * @return the bot configuration
+     */
+    @GetMapping(value = "/sd/page/model", name = "分页获取SD模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result getSdModelPages(@RequestParam(defaultValue = "1") final int pageNum, final String prompt) {
+        return Result.data(
+                drawingService.getDrawingModelPage(pageNum, prompt)
+        );
+    }
+
+    /**
+     * 添加SD模型
+     *
+     * @param dto the dto
+     * @return the bot configuration
+     */
+    @PostMapping(value = "/sd/put/data", name = "添加SD模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result putSdModel(@RequestBody @Validated final DrawingSdDto dto) {
+        drawingService.addSdModel(dto);
+        return Result.ok();
+    }
+
+    /**
+     * 添加SD模型
+     *
+     * @return the bot configuration
+     */
+    @PostMapping(value = "/sd/delete/{id}", name = "删除指定模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result deleteDrawingById(@PathVariable Long id) {
+        drawingService.deletedSdModel(id);
+        return Result.ok();
+    }
 
 
     /**

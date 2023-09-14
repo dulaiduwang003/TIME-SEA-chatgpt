@@ -1,14 +1,11 @@
 package com.cn.bdth.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.cn.bdth.dto.DrawingGptTextDto;
-import com.cn.bdth.dto.DrawingSdImage2TaskDto;
-import com.cn.bdth.dto.DrawingSdTextDto;
-import com.cn.bdth.vo.DrawingDetailVo;
-import com.cn.bdth.vo.DrawingOpsVo;
-import com.cn.bdth.vo.DrawingTaskVo;
-import com.cn.bdth.vo.UserDrawingVo;
+import com.cn.bdth.dto.*;
+import com.cn.bdth.vo.*;
 import com.cn.bdth.vo.admin.DrawingVo;
+
+import java.util.List;
 
 /**
  * 雨纷纷旧故里草木深
@@ -18,6 +15,35 @@ import com.cn.bdth.vo.admin.DrawingVo;
  */
 public interface DrawingService {
 
+
+    IPage<SdModelPageVo> getDrawingModelPage(final int pageNum, final String prompt);
+
+
+    List<String> getRandomPublishesOps();
+
+    /**
+     * 新增模型
+     */
+    void addSdModel(final DrawingSdDto dto);
+
+
+    void deletedSdModel(final long id);
+
+    /**
+     * 获取模型列表
+     */
+    List<SdModelListVo> getSdModelList();
+
+
+    /**
+     * 发布SD绘图任务
+     *
+     * @param dto the dto
+     * @return the drawing task vo
+     */
+    DrawingTaskVo publishSdTask(final DrawingSdTaskDto dto);
+
+
     /**
      * 发布文生图任务
      *
@@ -26,29 +52,14 @@ public interface DrawingService {
      */
     DrawingTaskVo publishGptDrawingTextTask(final DrawingGptTextDto dto);
 
-    /**
-     * 发布文生图任务
-     *
-     * @param dto the dto
-     * @return the long
-     */
-    DrawingTaskVo publishSdDrawingTextTask(final DrawingSdTextDto dto);
 
-    /**
-     * 发布图生图任务
-     *
-     * @param dto the dto
-     * @return the long
-     */
-    DrawingTaskVo publishSdDrawingImage2Task(final DrawingSdImage2TaskDto dto);
 
     /**
      * 检查SD连通性以及次数检查
      *
-     * @param isType the is type
      * @return the boolean
      */
-    boolean isSdServerStateAndFrequency(final Long isType);
+    boolean isSdServerStateAndFrequency();
 
 
     /**

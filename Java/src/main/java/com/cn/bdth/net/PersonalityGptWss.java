@@ -40,8 +40,8 @@ public class PersonalityGptWss {
         try {
             assert session.getId() != null;
             assert StpUtil.getLoginIdByToken(token) != null;
-        } catch (NullPointerException e) {
-            log.warn("无法获取到建立连接数据,已拒绝连接");
+        } catch (Exception e) {
+
             return;
         }
         this.session = session;
@@ -106,7 +106,6 @@ public class PersonalityGptWss {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        log.warn("GPT websocket出现异常 原因:{}", throwable.getMessage());
         //打印堆栈
         //      throwable.printStackTrace();
     }

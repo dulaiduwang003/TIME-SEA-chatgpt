@@ -1,5 +1,69 @@
 import request from '@/utils/BSideRequest'
 
+/**
+ *    分页获取模型数据
+ */
+export function GetSdModelPage(a, b) {
+    return request({
+        url: '/admin/sd/page/model?pageNum=' + a + '&prompt=' + b,
+        method: 'GET'
+    })
+}
+
+/**
+ *    新增模型
+ */
+export function PutSdModel(data) {
+    return request({
+        url: '/admin/sd/put/data',
+        method: 'POST',
+        data
+    })
+}
+
+/**
+ *    删除模型
+ */
+export function DeleteSdModel(data) {
+    return request({
+        url: '/admin/sd/delete/'+data,
+        method: 'POST'
+    })
+}
+
+
+export function SdConnectivity() {
+    return request({
+        url: '/drawing/sd/connectivity',
+        method: 'GET'
+    })
+}
+
+
+export function GetDrawingDataResult(data) {
+    return request({
+        url: '/drawing/image/data/'+data,
+        method: 'GET'
+    })
+}
+
+export function GetDrawingResult(data) {
+    return request({
+        url: '/drawing/status/'+data,
+        method: 'GET'
+    })
+}
+
+export function DrawingSdTask(data) {
+    return request({
+        url: '/drawing/sd/drawing/image',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        data
+    })
+}
 
 /**
  *    设置个性参数GPT
@@ -53,6 +117,22 @@ export function GetUserPage(a, b) {
         method: 'GET'
     })
 }
+
+
+export function GetPublicRandomOps() {
+    return request({
+        url: '/drawing/random/get/ops',
+        method: 'GET'
+    })
+}
+
+export function GetSdModelList() {
+    return request({
+        url: '/drawing/sd/get/model',
+        method: 'GET'
+    })
+}
+
 
 /**
  *    获取订单分页数据

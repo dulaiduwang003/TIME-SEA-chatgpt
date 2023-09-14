@@ -4,7 +4,7 @@ package com.cn.bdth.exceptions;
 import lombok.Data;
 
 /**
- * 兑换异常
+ * 绘图异常
  *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0

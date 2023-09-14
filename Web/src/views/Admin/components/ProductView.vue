@@ -226,6 +226,7 @@ export default {
         ElLoading.service().close();
         prompt.value = "";
         current.value = 1;
+        dataTables.value=[]
         await handleCurrentChange(1);
         ElNotification({
           message: "删除成功",

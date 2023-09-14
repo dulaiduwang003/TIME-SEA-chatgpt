@@ -190,8 +190,8 @@ export default defineComponent({
         to: "/laboratory",
       },
       {
-        title: "角色",
-        to: "/preset_character",
+        title: "绘图",
+        to: "/drawing_text_view",
       },
     ]);
 

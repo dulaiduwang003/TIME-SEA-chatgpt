@@ -39,8 +39,7 @@ public class ClaudeWss {
         try {
             assert session.getId() != null;
             assert StpUtil.getLoginIdByToken(token) != null;
-        } catch (NullPointerException e) {
-            log.warn("无法获取到建立连接数据,已拒绝连接");
+        } catch (Exception e) {
             return;
         }
         this.session = session;
@@ -77,7 +76,7 @@ public class ClaudeWss {
                             final JSONObject jsonObject = JSONObject.parseObject(data);
                             if (jsonObject.containsKey("completion")) {
                                 try {
-                                    this.session.getBasicRemote().sendText( jsonObject.getString("completion"));
+                                    this.session.getBasicRemote().sendText(jsonObject.getString("completion"));
                                 } catch (Exception e) {
                                     //用户可能手动端口连接
                                     throw new CloseException();
@@ -86,14 +85,14 @@ public class ClaudeWss {
                         }
                     }, throwable -> {
                         if (!(throwable instanceof CloseException)) {
-                            log.error("调用Claude时出现异常 异常信息:{} 异常类:{}", throwable.getMessage(), throwable.getClass());
+                            log.error("调用Claude时出现异常 异常信息:{}", throwable.getMessage());
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
 
         } catch (Exception e) {
-            log.error(" 与克劳德建立连接失败 原因:{}", e.getMessage());
-            appointSendingSystem(ExceptionMessages.GPT_FREQUENT);
+            log.error("与Claude建立连接失败 原因:{}", e.getMessage());
+            appointSendingSystem(ExceptionMessages.GPT_ERR);
             handleWebSocketCompletion();
         }
     }
@@ -109,9 +108,7 @@ public class ClaudeWss {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        log.warn("克劳德 websocket出现异常 原因:{}", throwable.getMessage());
-        //打印堆栈
-        //      throwable.printStackTrace();
+        log.info("Claude websocket出现异常信息:{}", throwable.getMessage());
     }
 
     public void appointSendingSystem(final String message) {

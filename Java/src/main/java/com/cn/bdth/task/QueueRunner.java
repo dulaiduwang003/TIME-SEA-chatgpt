@@ -1,5 +1,5 @@
 
-package com.cn.bdth.queue;
+package com.cn.bdth.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cn.bdth.entity.Orders;

@@ -1,6 +1,7 @@
 package com.cn.bdth.task;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.WxSubscribe;
@@ -12,7 +13,7 @@ import com.cn.bdth.enums.FileEnum;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.mapper.DrawingMapper;
 import com.cn.bdth.mapper.UserMapper;
-import com.cn.bdth.model.PictureSdDrawingModel;
+import com.cn.bdth.model.SdDrawingModel;
 import com.cn.bdth.structure.DrawingSdQueueStructure;
 import com.cn.bdth.utils.AliUploadUtils;
 import com.cn.bdth.utils.BaiduTranslationUtil;
@@ -78,14 +79,14 @@ public class DrawingTaskListener {
                     // 尝试获取信号量许可
                     drawingSdQueueStructure = (DrawingSdQueueStructure) redisTemplate.opsForList().rightPop(ServerConstant.DRAWING_SD_TASK_QUEUE, 2, TimeUnit.SECONDS);
                     if (drawingSdQueueStructure != null) {
-                        final PictureSdDrawingModel model = drawingSdQueueStructure.getPictureSdDrawingModel();
+                        final SdDrawingModel model = drawingSdQueueStructure.getSdDrawingModel();
                         //尝试翻译
                         try {
                             model.setPrompt(baiduTranslationUtil.englishTranslation(model.getPrompt()));
                         } catch (Exception e) {
                             log.warn("绘图时调用百度翻译翻译失败 本次绘图将采用原文提示词");
                         }
-                        invokeSdDrawingApi(model, drawingSdQueueStructure.getIsType() == ServerConstant.DRAWING_IMAGE_TYPE ? ServerConstant.SD_DRAWING_IMAGE : ServerConstant.SD_DRAWING_TEXT, drawingSdQueueStructure.getIsType());
+                        invokeSdDrawingApi(drawingSdQueueStructure);
                     }
                 } catch (InterruptedException e) {
                     log.error("信号量异常 原因:{} 位置:{}", e.getMessage(), e.getClass());
@@ -99,53 +100,67 @@ public class DrawingTaskListener {
 
     /**
      * 调用 SD绘图API
-     *
-     * @param model the model
      */
-    public void invokeSdDrawingApi(final PictureSdDrawingModel model, final String uri, final int isType) {
+    public void invokeSdDrawingApi(final DrawingSdQueueStructure structure) {
         String imageUri = null;
-
         try {
             final String block = webClientBuilder.build()
                     .post()
-                    .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + uri)
-                    .body(BodyInserters.fromValue(model))
+                    .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + (structure.getIsType() == 0 ? ServerConstant.SD_DRAWING_TEXT : ServerConstant.SD_DRAWING_IMAGE))
+                    .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
-            final String dec = FileEnum.PAINTING.getDec();
             //下载图片
-            imageUri = aliUploadUtils.uploadBase64(Objects.requireNonNull(JSONObject.parseObject(block)).getJSONArray("images").getString(0), dec);
-            weChatUtils.filterImage(imageUri);
+            imageUri = aliUploadUtils.uploadBase64(Objects.requireNonNull(JSONObject.parseObject(block)).getJSONArray("images").getString(0), FileEnum.PAINTING.getDec());
+            if (structure.getEnv() == ServerConstant.DRAWING_WECHAT) {
+                //查看 具体为小程序端绘图还是web端绘图 如web端则不做持久化处理 且不做敏感图绘制
+                weChatUtils.filterImage(imageUri);
+                //把制作结果发给用户
+                final JSONObject jsonObject = wxSubscribeTemplate.drawingOutcomeNotice(structure.getOpenId(), true, ExceptionMessages.DRAWING_SUCCEED, LocalDateTime.now());
+                wxSubscribe.wxSubscribeMessages(jsonObject);
+            }
             //回调至用户数据
             drawingMapper.updateById(
                     new Drawing()
-                            .setDrawingId(model.getDrawingId())
+                            .setDrawingId(structure.getDrawingId())
                             .setGenerateUrl(imageUri)
             );
-            //把制作结果发给用户
-            final JSONObject jsonObject = wxSubscribeTemplate.drawingOutcomeNotice(model.getOpenId(), true, ExceptionMessages.DRAWING_SUCCEED, LocalDateTime.now());
-            wxSubscribe.wxSubscribeMessages(jsonObject);
+
         } catch (Exception e) {
-            if (imageUri != null) {
-                //删除线上资源
-                aliUploadUtils.deleteFile(imageUri);
-            }
-            //删除图片
-            drawingMapper.deleteById(model.getDrawingId());
-            final StableDiffusionCommon.StableDiffusionStructure structure = stableDiffusionCommon.getStableDiffusionStructure();
-            Long frequency = isType == ServerConstant.DRAWING_IMAGE_TYPE ? structure.getSdImage2Frequency() : structure.getSdTextImageFrequency();
-            final String openId = model.getOpenId();
-            userMapper.update(null, new UpdateWrapper<User>()
-                    .lambda()
-                    .eq(User::getOpenId, openId)
-                    .setSql("frequency = frequency +" + frequency)
-            );
-            final JSONObject jsonObject = wxSubscribeTemplate.drawingOutcomeNotice(openId, false, ExceptionMessages.DRAWING_MISTAKE, LocalDateTime.now());
-            wxSubscribe.wxSubscribeMessages(jsonObject);
+            //处理错误
+            anErrorOccurred(imageUri, structure);
         }
 
     }
 
+
+    private void anErrorOccurred(final String imageUri, final DrawingSdQueueStructure sdQueueStructure) {
+        if (imageUri != null) {
+            //删除线上资源
+            aliUploadUtils.deleteFile(imageUri);
+        }
+        final Drawing drawing = drawingMapper.selectOne(new QueryWrapper<Drawing>()
+                .lambda()
+                .eq(Drawing::getDrawingId, sdQueueStructure.getDrawingId())
+                .select(Drawing::getOriginalUrl)
+        );
+        if (drawing != null && drawing.getOriginalUrl() != null) {
+            aliUploadUtils.deleteFile(drawing.getOriginalUrl());
+        }
+        //删除图片
+        drawingMapper.deleteById(sdQueueStructure.getDrawingId());
+        final StableDiffusionCommon.StableDiffusionStructure structure = stableDiffusionCommon.getStableDiffusionStructure();
+        final String openId = sdQueueStructure.getOpenId();
+        userMapper.update(null, new UpdateWrapper<User>()
+                .lambda()
+                .eq(User::getOpenId, openId)
+                .setSql("frequency = frequency +" + structure.getSdImageFrequency())
+        );
+        if (sdQueueStructure.getEnv() == ServerConstant.DRAWING_WECHAT) {
+            final JSONObject jsonObject = wxSubscribeTemplate.drawingOutcomeNotice(openId, false, ExceptionMessages.DRAWING_MISTAKE, LocalDateTime.now());
+            wxSubscribe.wxSubscribeMessages(jsonObject);
+        }
+    }
 
 }

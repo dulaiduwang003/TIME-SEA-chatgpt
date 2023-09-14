@@ -20,7 +20,10 @@
         <el-tab-pane label="订单数据" name="fifth">
           <orders-data-view />
         </el-tab-pane>
-        <el-tab-pane label="终端控制" name="sixth">
+        <el-tab-pane label="模型管理" name="sixth">
+          <sd-model-view/>
+        </el-tab-pane>
+        <el-tab-pane label="终端控制" name="seventh">
           <control-panel-view />
         </el-tab-pane>
       </el-tabs>
@@ -36,6 +39,7 @@ import { ref } from "vue";
 import store from "@/store";
 import UserPanelView from "@/views/Admin/components/UserPanelView.vue";
 import ServerPanelView from "@/views/Admin/components/ServerPanelView.vue";
+import SdModelView from "@/views/Admin/components/SdModelView.vue";
 import RedemptionCodeView from "@/views/Admin/components/RedemptionCodeView.vue";
 import ProductView from "@/views/Admin/components/ProductView.vue";
 import OrdersDataView from "@/views/Admin/components/OrdersDataView.vue";
@@ -52,6 +56,7 @@ export default {
     RedemptionCodeView,
     ServerPanelView,
     UserPanelView,
+    SdModelView
   },
   computed: {
     store() {

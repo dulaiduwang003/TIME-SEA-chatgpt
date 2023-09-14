@@ -1,7 +1,7 @@
 <template>
-  <div class="panel-container">
-    <div class="body" v-if="mainPageVisible">
-      <div class="article" v-if="store.getters.userinfo">我要赞助站点运行</div>
+          <div class="panel-container">
+            <div class="body" v-if="mainPageVisible">
+              <div class="article" v-if="store.getters.userinfo">我要赞助站点运行</div>
       <div class="introduce" v-if="store.getters.userinfo">
         赞赏作者也可获得相应Ai币
       </div>

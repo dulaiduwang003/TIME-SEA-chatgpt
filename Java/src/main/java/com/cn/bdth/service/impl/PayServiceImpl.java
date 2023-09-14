@@ -23,9 +23,9 @@ import com.cn.bdth.exceptions.OrdersException;
 import com.cn.bdth.mapper.OrdersMapper;
 import com.cn.bdth.mapper.ProductMapper;
 import com.cn.bdth.mapper.UserMapper;
-import com.cn.bdth.queue.UnpaidOrderQueue;
 import com.cn.bdth.service.PayService;
 import com.cn.bdth.structure.AlipayCacheStructure;
+import com.cn.bdth.task.UnpaidOrderQueue;
 import com.cn.bdth.utils.*;
 import com.cn.bdth.vo.AlipayPayCodeVo;
 import com.cn.bdth.vo.OrderPageVo;
@@ -338,7 +338,7 @@ public class PayServiceImpl implements PayService {
         try {
             signVerified = AlipaySignature.rsaCheckV1(params, alipayPublicKey, "UTF8", "RSA2");
         } catch (AlipayApiException e) {
-            e.printStackTrace();
+
             throw new RuntimeException(e);
         }
         // 验证成功

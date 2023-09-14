@@ -167,7 +167,7 @@ export default defineComponent({
 .InputFormFieldWapper {
   display: flex;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
 
   .sendIcon {
     flex-shrink: 0;
@@ -180,14 +180,16 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
     display: flex;
-    margin: 10px;
+    margin: 22px 20px 0 0;
   }
 }
 
 :deep(.selectWrapper) {
-  width: 100px;
+  width: 150px;
   .el-input {
     .el-input__wrapper {
+      padding-top: 25px;
+      padding-left: 25px;
       box-shadow: none !important;
       background: none !important;
       .el-input__inner {
@@ -234,7 +236,7 @@ export default defineComponent({
 .animation-dot {
   display: flex;
   padding-right: 5px;
-  margin: 0px 10px;
+  margin: 35px 12px 0 0;
 }
 
 @keyframes jumpT {

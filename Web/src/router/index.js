@@ -39,7 +39,7 @@ const routes = [{
         name: "SD DRAWING",
         component: () => import('../views/Drawing/DrawingTextView.vue'),
         meta: {
-            title: 'SD文生图',
+            title: '绘图',
             isHeadNavigation: true,
             keepAlive: true,
             isLeftMenu: false

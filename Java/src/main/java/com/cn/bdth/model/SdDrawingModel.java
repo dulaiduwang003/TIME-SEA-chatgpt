@@ -15,7 +15,8 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @SuppressWarnings("all")
-public class PictureSdDrawingModel implements Serializable {
+public class SdDrawingModel implements Serializable {
+
 
     private List<String> init_images;
 
@@ -25,14 +26,13 @@ public class PictureSdDrawingModel implements Serializable {
 
     private Long height;
 
+    private String sampler_index;
+
+    private Integer steps;
+
     private String negative_prompt;
 
-    private Long drawingId;
-
-    private String openId;
-
     private Override override_settings;
-
 
     @Data
     public static class Override implements Serializable {

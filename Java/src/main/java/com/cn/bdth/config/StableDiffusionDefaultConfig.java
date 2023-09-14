@@ -15,11 +15,9 @@ import org.springframework.stereotype.Component;
 public class StableDiffusionDefaultConfig {
 
 
-    @Value("${config.sdTextImageFrequency}")
-    private Long sdTextImageFrequency;
+    @Value("${config.sdImageFrequency}")
+    private Long sdImageFrequency;
 
-    @Value("${config.sdImage2Frequency}")
-    private Long sdImage2Frequency;
 
     @Value("${config.sdUrl}")
     private String sdUrl;

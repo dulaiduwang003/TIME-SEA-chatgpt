@@ -1,28 +1,20 @@
 "use strict";
 
 export default {
-    //懒加载 渲染
-    lazyLoading: true,
-    // 管理员狗牌
-    adminLabel: '超级BOSS',
-    // 用户狗牌
-    userLabel: '偶像练习生',
     // 默认用户名
     user: '练习生',
-    // 默认作者名
-    author: '时间海',
     // HTTP请求 基类
-    baseUrl: 'https://后端服务器域名:8625',
+    baseUrl: 'http://test:8625',
     // 长连接请求 基类
-    baseWs: 'wss://后端服务器域名:8625',
+    baseWs: 'ws://test:8625',
     // 图片服务器域名
     imageBaseUrl: 'https://图片服务器域名',
     // 过滤用户输入关键词 (英文则大写) (初步校验 后端也会做校验)
     filtration: ["GPT", "OPENAI", "引擎"],
     // BOT最大记忆
-    memory: 10,
+    memory: 4,
     // 每条历史词汇最大长度,
-    contextLength: 5000,
+    contextLength: 1000,
     //BOT 初始化词汇 每次打开将随机抽取一条作为显示信息
     botInitialization: [
         "你有什么问题或者困惑需要我帮助解答吗？",
@@ -37,29 +29,6 @@ export default {
     tmplIds: ['1I4cl8Qk9JlOys-H7rAMMoavLS-xu9t1QuT5Irezvaw'],
     //广告ID
     motivationalAdvertisingId: "adunit-ef9b2df38231106c",
-    //SD模型
-    sdModels: [
-        {
-            modelName: 'lofi_V2.safetensors',
-            text: '真实',
-            isSelected: true //默认选中
-        },
-        {
-            modelName: 'deliberate_v2.safetensors',
-            text: '写实',
-            isSelected: false
-        },
-        {
-            modelName: 'revAnimated_v121.safetensors',
-            text: '动漫',
-            isSelected: false
-        },
-        {
-            modelName: '首发推荐｜SHMILY梦幻水彩_v1.0.safetensors',
-            text: '水彩',
-            isSelected: false
-        }
-    ],
     //多维对话功能 （预设值）
     multidimensional: [
         {

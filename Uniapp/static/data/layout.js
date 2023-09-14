@@ -15,13 +15,20 @@ export default {
             path: '/pages/layout/view/codePanelView',
             type: 'ADMIN',
             introduce: '生成 删除兑换码'
-        },{
+        }, {
             icon: '🖥️',
             title: '服务器配置',
             path: '/pages/layout/view/serverPanelView',
             type: 'ADMIN',
             introduce: '管理我的服务器'
-        },{
+        },
+        {
+            icon: '🎑',
+            title: 'SD模型管理',
+            path: '/pages/layout/view/sdModelView',
+            type: 'ADMIN',
+            introduce: 'SD模型管理页面'
+        }, {
             icon: '🏞️️',
             title: '我的作品',
             path: '/pages/layout/view/userDrawingView',

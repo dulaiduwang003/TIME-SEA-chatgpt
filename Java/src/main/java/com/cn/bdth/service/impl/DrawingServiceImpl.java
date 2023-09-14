@@ -11,26 +11,23 @@ import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.constants.user.AuthConstant;
-import com.cn.bdth.dto.DrawingGptTextDto;
-import com.cn.bdth.dto.DrawingSdImage2TaskDto;
-import com.cn.bdth.dto.DrawingSdTextDto;
+import com.cn.bdth.dto.*;
 import com.cn.bdth.entity.Drawing;
+import com.cn.bdth.entity.SdModelEntity;
 import com.cn.bdth.entity.User;
 import com.cn.bdth.enums.FileEnum;
 import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.mapper.DrawingMapper;
+import com.cn.bdth.mapper.SdModelEntityMapper;
 import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.model.GptImageModel;
-import com.cn.bdth.model.PictureSdDrawingModel;
+import com.cn.bdth.model.SdDrawingModel;
 import com.cn.bdth.service.DrawingService;
 import com.cn.bdth.structure.DrawingSdQueueStructure;
 import com.cn.bdth.utils.*;
-import com.cn.bdth.vo.DrawingDetailVo;
-import com.cn.bdth.vo.DrawingOpsVo;
-import com.cn.bdth.vo.DrawingTaskVo;
-import com.cn.bdth.vo.UserDrawingVo;
+import com.cn.bdth.vo.*;
 import com.cn.bdth.vo.admin.DrawingVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +42,6 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -85,8 +81,61 @@ public class DrawingServiceImpl implements DrawingService {
 
     private final StableDiffusionCommon stableDiffusionCommon;
 
+    private final SdModelEntityMapper sdModelEntityMapper;
+
+
+    @Override
+    public IPage<SdModelPageVo> getDrawingModelPage(final int pageNum, final String prompt) {
+        return sdModelEntityMapper.selectPage(new Page<>(pageNum, 15), new QueryWrapper<SdModelEntity>()
+                .lambda()
+                .like(StringUtils.notEmpty(prompt), SdModelEntity::getTextName, prompt)
+                .or()
+                .like(StringUtils.notEmpty(prompt), SdModelEntity::getModelName, prompt)
+                .orderByDesc(SdModelEntity::getCreatedTime)
+        ).convert(d -> new SdModelPageVo()
+                .setSdModelId(d.getSdModelId())
+                .setModelName(d.getModelName())
+                .setTextName(d.getTextName())
+                .setCreatedTime(d.getCreatedTime()));
+    }
+
+    @Override
+    public List<String> getRandomPublishesOps() {
+        return drawingMapper.selectList(new QueryWrapper<Drawing>()
+                .lambda()
+                .eq(Drawing::getIsPublic, 1)
+                .last("ORDER BY RAND() LIMIT 6")
+                .select(Drawing::getGenerateUrl)
+        ).stream().map(Drawing::getGenerateUrl).toList();
+    }
+
+    @Override
+    public void addSdModel(final DrawingSdDto dto) {
+        sdModelEntityMapper.insert(new SdModelEntity().setModelName(dto.getModelName()).setTextName(dto.getTextName()));
+    }
+
+    @Override
+    public void deletedSdModel(long id) {
+        sdModelEntityMapper.delete(new QueryWrapper<SdModelEntity>()
+                .lambda().eq(SdModelEntity::getSdModelId, id)
+        );
+    }
+
+    @Override
+    public List<SdModelListVo> getSdModelList() {
+        final List<SdModelEntity> sdModelEntities = sdModelEntityMapper.selectList(new QueryWrapper<SdModelEntity>()
+                .lambda()
+                .select(SdModelEntity::getModelName, SdModelEntity::getTextName)
+        );
+        if (sdModelEntities != null && !sdModelEntities.isEmpty()) {
+            return BeanUtils.copyArrayProperTies(sdModelEntities, SdModelListVo.class);
+        }
+        return null;
+    }
+
     @Async
-    public void buildAsyncGptImage(final GptImageModel gptImageModel, final Long drawingId, final String openId, final String openUrl, final String openKey) {
+    public void buildAsyncGptImage(final GptImageModel gptImageModel, final Long drawingId, final String openId,
+                                   final String openUrl, final String openKey) {
         try {
             gptImageModel.setPrompt(translationUtil.englishTranslation(gptImageModel.getPrompt()));
         } catch (Exception e) {
@@ -121,12 +170,11 @@ public class DrawingServiceImpl implements DrawingService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public DrawingTaskVo publishGptDrawingTextTask(final DrawingGptTextDto dto) {
-        // 微信文字识别能力 防止用户发送色情 政治信息
-//        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
         final ChatGptCommon.ChatGptStructure chatGptStructure = chatGptCommon.getChatGptStructure();
         chatUtils.deplete(chatGptStructure.getGptTextImageFrequency(), UserUtils.getCurrentLoginId());
         final Drawing drawing = new Drawing()
                 .setPrompt(dto.getPrompt())
+                .setEnv(ServerConstant.DRAWING_WECHAT)
                 .setUserId(UserUtils.getCurrentLoginId());
         drawingMapper.insert(drawing);
         buildAsyncGptImage(DrawingGptTextDto.conversionModels(dto), drawing.getDrawingId(), UserUtils.getCurrentOpenId(), chatGptStructure.getOpenAiUrl(), chatGptStructure.getOpenKey());
@@ -134,60 +182,49 @@ public class DrawingServiceImpl implements DrawingService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public DrawingTaskVo publishSdDrawingTextTask(final DrawingSdTextDto dto) {
-        // 微信文字识别能力 防止用户发送色情 政治信息
-        //   weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
+    public DrawingTaskVo publishSdTask(final DrawingSdTaskDto dto) {
+        final Long sdImageFrequency = stableDiffusionCommon.getStableDiffusionStructure().getSdImageFrequency();
+        chatUtils.deplete(sdImageFrequency, UserUtils.getCurrentLoginId());
+        int isType = 0;
         //获取登录人ID
         final Long currentLoginId = UserUtils.getCurrentLoginId();
+        if (dto.getEnv() != 0) {
+            // 微信文字识别能力 防止用户发送色情 政治信息
+            weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
+        }
 
-        chatUtils.deplete(stableDiffusionCommon.getStableDiffusionStructure().getSdTextImageFrequency(), currentLoginId);
         //发布绘图任务
         final Drawing drawing = new Drawing()
                 .setPrompt(dto.getPrompt())
-                .setUserId(UserUtils.getCurrentLoginId())
-                .setNegativePrompt(dto.getNegative_prompt());
-        drawingMapper.insert(drawing);
-        final PictureSdDrawingModel model =
-                BeanUtils.copyClassProperTies(dto, PictureSdDrawingModel.class)
-                        .setOpenId(UserUtils.getCurrentOpenId()).setDrawingId(drawing.getDrawingId())
-                        .setOverride_settings(new PictureSdDrawingModel.Override().setSd_model_checkpoint(dto.getModelName()));
-        //提交任务到队列中
-        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdQueueStructure().setIsType(ServerConstant.DRAWING_TEXT_TYPE.intValue()).setPictureSdDrawingModel(model));
-        //返回任务VO
-        return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(redisTemplate.opsForList().size(ServerConstant.DRAWING_SD_TASK_QUEUE));
-    }
-
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public DrawingTaskVo publishSdDrawingImage2Task(final DrawingSdImage2TaskDto dto) {
-        // 微信文字识别能力 防止用户发送色情 政治信息
-//        weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
-        final Long currentLoginId = UserUtils.getCurrentLoginId();
-        chatUtils.deplete(stableDiffusionCommon.getStableDiffusionStructure().getSdImage2Frequency(), currentLoginId);
-        //上传绘图资源
-        final String resource = aliUploadUtils.uploadFile(dto.getImages(), FileEnum.PAINTING.getDec(), null, true);
-        //检查是否为黄图
-        try {
-            weChatUtils.filterImage(resource);
-        } catch (Exception e) {
-            //删除黄图
-            aliUploadUtils.deleteFile(resource);
-            throw new DrawingException(ExceptionMessages.DRAWING_VIOLATIONS);
+                .setUserId(currentLoginId)
+                .setEnv(dto.getEnv());
+        final SdDrawingModel model = DrawingSdTaskDto.convertToPictureImgModel(dto);
+        if (dto.getImages() != null) {
+            final String imageUrl = aliUploadUtils.uploadFile(dto.getImages(), FileEnum.PAINTING.getDec(), null, true);
+            //检查是否为黄图
+            try {
+                weChatUtils.filterImage(imageUrl);
+            } catch (Exception e) {
+                //删除黄图
+                aliUploadUtils.deleteFile(imageUrl);
+                throw new DrawingException(ExceptionMessages.DRAWING_VIOLATIONS);
+            }
+            drawing.setOriginalUrl(imageUrl);
+            model.setInit_images(List.of(imageUtils.convertImageToBase64(imageUrl)));
+            isType = 1;
         }
-        final Drawing drawing = new Drawing()
-                .setPrompt(dto.getPrompt())
-                .setNegativePrompt(dto.getNegative_prompt())
-                .setOriginalUrl(resource)
-                .setUserId(UserUtils.getCurrentLoginId());
         drawingMapper.insert(drawing);
-
-        final PictureSdDrawingModel model = DrawingSdImage2TaskDto.convertToPictureImgModel(dto)
-                .setInit_images(List.of(imageUtils.convertImageToBase64(resource)))
-                .setOpenId(UserUtils.getCurrentOpenId()).setDrawingId(drawing.getDrawingId());
         //提交任务到队列中
-        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE, new DrawingSdQueueStructure().setIsType(ServerConstant.DRAWING_IMAGE_TYPE.intValue()).setPictureSdDrawingModel(model));
+        redisTemplate.opsForList().leftPush(ServerConstant.DRAWING_SD_TASK_QUEUE,
+                new DrawingSdQueueStructure().setSdDrawingModel(model)
+                        .setDrawingId(drawing.getDrawingId())
+                        //WEB环境绘图
+                        .setEnv(dto.getEnv())
+                        //绘图类型
+                        .setIsType(isType)
+                        .setDrawingId(drawing.getDrawingId())
+        );
+
         return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(redisTemplate.opsForList().size(ServerConstant.DRAWING_SD_TASK_QUEUE));
 
 
@@ -212,19 +249,16 @@ public class DrawingServiceImpl implements DrawingService {
 
 
     @Override
-    public boolean isSdServerStateAndFrequency(final Long isType) {
-
+    public boolean isSdServerStateAndFrequency() {
         final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
-        final Long frequency = Objects.equals(isType, ServerConstant.DRAWING_IMAGE_TYPE) ? stableDiffusionStructure.getSdImage2Frequency() : stableDiffusionStructure.getSdTextImageFrequency();
 
         if (!(userMapper.selectCount(new QueryWrapper<User>()
                 .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
-                .ge(User::getFrequency, frequency)
+                .ge(User::getFrequency, stableDiffusionStructure.getSdImageFrequency())
         ) >= 1)) {
             throw new FrequencyException();
         }
-
-        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl() + ServerConstant.SD_DRAWING_TEXT);
+        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl());
     }
 
     @Override
@@ -259,6 +293,7 @@ public class DrawingServiceImpl implements DrawingService {
                 .lambda()
                 .eq((isPublic == ServerConstant.IS_PUBLIC), Drawing::getIsPublic, isPublic)
                 .eq(isPublic != ServerConstant.IS_PUBLIC, Drawing::getUserId, UserUtils.getCurrentLoginId())
+                .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)
                 .isNotNull(Drawing::getGenerateUrl)
                 .select(Drawing::getPrompt, Drawing::getGenerateUrl, Drawing::getDrawingId, Drawing::getCreatedTime);
 
@@ -276,6 +311,7 @@ public class DrawingServiceImpl implements DrawingService {
     public IPage<DrawingVo> getDrawingPage(final int pageNum) {
         return drawingMapper.selectPage(new Page<>(pageNum, 15), new QueryWrapper<Drawing>()
                 .lambda()
+                .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)
                 .select(Drawing::getDrawingId, Drawing::getGenerateUrl, Drawing::getIsPublic)
                 .orderByDesc(Drawing::getCreatedTime)
         ).convert(c -> new DrawingVo().setDrawingId(c.getDrawingId()).setGenerateUrl(c.getGenerateUrl()).setIsPublic(c.getIsPublic()));
@@ -312,6 +348,7 @@ public class DrawingServiceImpl implements DrawingService {
                 .lambda()
                 .isNotNull(Drawing::getGenerateUrl)
                 .eq(Drawing::getUserId, UserUtils.getCurrentLoginId())
+                .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)
                 .select(Drawing::getDrawingId, Drawing::getGenerateUrl)
                 .orderByDesc(Drawing::getCreatedTime)
         ).convert(c -> new UserDrawingVo().setDrawingId(c.getDrawingId()).setGenerateUrl(c.getGenerateUrl()));

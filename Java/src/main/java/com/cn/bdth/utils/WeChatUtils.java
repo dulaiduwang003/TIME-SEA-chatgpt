@@ -44,6 +44,7 @@ public class WeChatUtils {
     private final ControlCommon controlCommon;
     private static final WebClient WEB_CLIENT = WebClient.builder().build();
 
+    private final AliUploadUtils aliUploadUtils;
 
     public String getOpenId(final String code) {
         try {
@@ -124,6 +125,8 @@ public class WeChatUtils {
 
             final Integer errcode = JSONObject.parseObject(json).getInteger("errcode");
             if (errcode != 0) {
+                //删除图片
+                aliUploadUtils.deleteFile(image);
                 throw new RuntimeException();
             }
         } catch (Exception e) {

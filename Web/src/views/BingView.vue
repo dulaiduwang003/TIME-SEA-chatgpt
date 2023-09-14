@@ -714,7 +714,7 @@ export default {
   position: relative;
   background-color: #fab602;
   box-shadow: 0 5px 7px rgba(49, 79, 88, 0.15);
-  color: var(--textColor1);
+  color: white;
   margin-right: 10px;
   margin-top: 2px;
 }
@@ -823,7 +823,7 @@ export default {
 
 .beCareful {
   padding: 40px 6px 12px;
-  color: var(--themeColor2);
+  color: var(--textColor2);
   font-size: 15px;
   line-height: 1.6;
 }
@@ -996,7 +996,7 @@ export default {
 }
 
 .cache-scrollbar {
-  background-color: var(--bgColor3);
+  background-color: var(--bgboxShadowColor1);
   border-radius: 10px;
   color: var(--textColor3);
 }

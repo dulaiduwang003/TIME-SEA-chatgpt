@@ -8,14 +8,14 @@
         <input type="text" placeholder="请设置open ai请求链" v-model="form.openAiUrl" maxlength="-1"/>
       </view>
     </view>
-	<view class="row">
-	  <view class="key">
-	    OPEN增强请求链
-	  </view>
-	  <view>
-	    <input type="text" placeholder="请设置open ai请求链" v-model="form.openAiPlusUrl" maxlength="-1"/>
-	  </view>
-	</view>
+    <view class="row">
+      <view class="key">
+        OPEN增强请求链
+      </view>
+      <view>
+        <input type="text" placeholder="请设置open ai请求链" v-model="form.openAiPlusUrl" maxlength="-1"/>
+      </view>
+    </view>
     <view class="row">
       <view class="key">
         SD绘图请求链
@@ -99,18 +99,10 @@
     </view>
     <view class="row">
       <view class="key">
-        SD图生图消耗次数
+        SD消耗次数
       </view>
       <view>
-        <input type="number" placeholder="请设置图生图消耗次数" v-model="form.sdImage2Frequency" maxlength="-1"/>
-      </view>
-    </view>
-    <view class="row">
-      <view class="key">
-        SD文生图消耗次数
-      </view>
-      <view>
-        <input type="number" placeholder="请设置文生图消耗次数" v-model="form.sdTextImageFrequency" maxlength="-1"/>
+        <input type="number" placeholder="请设置SD消耗次数" v-model="form.sdImageFrequency" maxlength="-1"/>
       </view>
     </view>
     <view class="row">
@@ -148,15 +140,14 @@
 import {getServerConfig, putServerConfig} from "@/api/admin";
 import LoadingComponent from "@/wxcomponents/components/loadingComponent.vue";
 
-const requiredFields = ['openAiPlusUrl','openAiUrl','sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImage2Frequency', 'sdTextImageFrequency', 'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey'];
+const requiredFields = ['openAiPlusUrl', 'openAiUrl', 'sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImageFrequency',  'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey'];
 const fieldNames = {
   'sdUrl': 'SD—API',
   'openKey': '标准密钥',
-  'openAiUrl':'标准请求链',
+  'openAiUrl': '标准请求链',
   'incentiveFrequency': '第一次注册赠送次数',
   'videoFrequency': '视频奖励',
-  'sdImage2Frequency': 'SD图生图消耗次数',
-  'sdTextImageFrequency': 'SD文生图消耗次数',
+  'sdImageFrequency': 'SD消耗次数',
   'gptFrequency': '标准消耗次数',
   'signInFrequency': '签到赠送次数',
   'gptTextImageFrequency': '标准文生图消耗次数',
@@ -166,7 +157,7 @@ const fieldNames = {
   'sessionKey': 'sessionKey',
   'gptPlusFrequency': '增强消耗次数',
   'openPlusKey': '增强密钥',
-  'openAiPlusUrl':'增强请求链'
+  'openAiPlusUrl': '增强请求链'
 };
 
 export default {
@@ -178,12 +169,11 @@ export default {
         openKey: '',
         incentiveFrequency: undefined,
         videoFrequency: undefined,
-        sdImage2Frequency: undefined,
-        sdTextImageFrequency: undefined,
+        sdImageFrequency: undefined,
         gptFrequency: undefined,
         signInFrequency: undefined,
         openAiUrl: '',
-		openAiPlusUrl: '',
+        openAiPlusUrl: '',
         gptTextImageFrequency: undefined,
         newBingCookie: '',
         organizationUuid: '',

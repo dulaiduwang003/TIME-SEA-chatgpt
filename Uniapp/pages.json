@@ -15,6 +15,23 @@
       }
     },
     {
+      "path": "pages/drawing/sdImageView",
+      "style": {
+        "navigationBarTitleText": "SD Visualize",
+        "mp-weixin": {
+          "navigationBarBackgroundColor": "#101010",
+          "backgroundColorTop": "#101010",
+          "backgroundColorBottom": "#101010",
+          "navigationBarTextStyle": "white"
+        },
+        "usingComponents": {
+          "van-button": "/wxcomponents/vant/button/index",
+          "van-uploader": "/wxcomponents/vant/uploader/index",
+          "van-icon": "/wxcomponents/vant/icon/index"
+        }
+      }
+    },
+    {
       "path": "pages/dialogue/gptDialogueView",
       "style": {
         "navigationBarTitleText": "",
@@ -205,21 +222,6 @@
       }
     },
     {
-      "path": "pages/drawing/sdTextImageView",
-      "style": {
-        "navigationBarTitleText": "SD Drawing",
-        "mp-weixin": {
-          "navigationBarBackgroundColor": "#101010",
-          "backgroundColorTop": "#101010",
-          "backgroundColorBottom": "#101010",
-          "navigationBarTextStyle": "white"
-        },
-        "usingComponents": {
-          "van-button": "/wxcomponents/vant/button/index"
-        }
-      }
-    },
-    {
       "path": "pages/drawing/dallTextImageView",
       "style": {
         "navigationBarTitleText": "DALL Drawing",
@@ -231,23 +233,6 @@
         },
         "usingComponents": {
           "van-button": "/wxcomponents/vant/button/index"
-        }
-      }
-    },
-    {
-      "path": "pages/drawing/sdImage2imageView",
-      "style": {
-        "navigationBarTitleText": "SD Visualize",
-        "mp-weixin": {
-          "navigationBarBackgroundColor": "#101010",
-          "backgroundColorTop": "#101010",
-          "backgroundColorBottom": "#101010",
-          "navigationBarTextStyle": "white"
-        },
-        "usingComponents": {
-          "van-button": "/wxcomponents/vant/button/index",
-          "van-uploader": "/wxcomponents/vant/uploader/index",
-          "van-icon": "/wxcomponents/vant/icon/index"
         }
       }
     },
@@ -388,6 +373,24 @@
         },
         "usingComponents": {
           "van-button": "/wxcomponents/vant/button/index"
+        }
+      }
+    },
+    {
+      "path": "pages/layout/view/sdModelView",
+      "style": {
+        "navigationBarTitleText": "模型管理",
+        "navigationBarBackgroundColor": "#000000",
+        "navigationBarTextStyle": "white",
+        "mp-weixin": {
+          "backgroundColorTop": "#000000",
+          "backgroundColorBottom": "#000000"
+        },
+        "usingComponents": {
+          "van-popup": "/wxcomponents/vant/popup/index",
+          "van-icon": "/wxcomponents/vant/icon/index",
+          "van-button": "/wxcomponents/vant/button/index",
+          "van-picker": "/wxcomponents/vant/picker/index"
         }
       }
     }

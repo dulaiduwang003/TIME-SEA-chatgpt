@@ -7,6 +7,9 @@ package com.cn.bdth.constants;
  * @version 1.0
  */
 public interface ServerConstant {
+
+
+
     String INSPIRIT_CONFIG ="INSPIRIT_CONFIG";
     String SD_CONFIG ="SD_CONFIG";
     String NEW_BING_CONFIG ="NEW_BING_CONFIG";
@@ -21,7 +24,11 @@ public interface ServerConstant {
     String GPT_DIALOGUE = "/chat/completions";
     String GPT_DRAWING = "/images/generations";
 
-    Long DRAWING_IMAGE_TYPE = 1L;
-    Long DRAWING_TEXT_TYPE = 0L;
+    int DRAWING_IMAGE_TYPE = 1;
+    int DRAWING_TEXT_TYPE = 0;
     int IS_PUBLIC = 1;
+
+    int DRAWING_WEB = 0;
+
+    int DRAWING_WECHAT = 1;
 }

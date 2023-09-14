@@ -1,6 +1,37 @@
 // 引用网络请求中间件
 import request from './../utils/request';
 
+
+/**
+ *    分页获取模型数据
+ */
+export function getSdModelPage(a, b) {
+    return request({
+        url: '/admin/sd/page/model?pageNum=' + a + '&prompt=' + b,
+        method: 'GET'
+    })
+}
+
+/**
+ *    新增模型
+ */
+export function putSdModel(data) {
+    return request({
+        url: '/admin/sd/put/data',
+        method: 'POST',
+        data
+    })
+}
+
+/**
+ *    删除模型
+ */
+export function deleteSdModel(data) {
+    return request({
+        url: '/admin/sd/delete/'+data,
+        method: 'POST'
+    })
+}
 /**
  * 获取所有分页列表
  * @returns {Promise<unknown>}

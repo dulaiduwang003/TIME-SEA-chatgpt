@@ -1,5 +1,5 @@
 
-package com.cn.bdth.queue;
+package com.cn.bdth.task;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

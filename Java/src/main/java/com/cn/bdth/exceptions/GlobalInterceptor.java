@@ -51,7 +51,8 @@ public class GlobalInterceptor {
             final List<ObjectError> allErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
             return Result.error(allErrors.get(0).getDefaultMessage());
         }
-        log.error("服务出现了未被拦截异常信息: 位置:{}", e.getMessage(), e.getClass());
+        log.warn("服务出现了未被拦截异常信息 信息:{} 位置:{}", e.getMessage(), e.getClass());
+        e.printStackTrace();
         return Result.error(e.getMessage());
     }
 }

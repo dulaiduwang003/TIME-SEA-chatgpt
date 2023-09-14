@@ -32,7 +32,7 @@ public class Drawing {
 
     private Long isPublic;
 
-    private String negativePrompt;
+    private Integer env;
 
     private LocalDateTime createdTime;
 

@@ -2,8 +2,7 @@ package com.cn.bdth.api;
 
 import com.cn.bdth.annotations.note.UserLastOperationTime;
 import com.cn.bdth.dto.DrawingGptTextDto;
-import com.cn.bdth.dto.DrawingSdImage2TaskDto;
-import com.cn.bdth.dto.DrawingSdTextDto;
+import com.cn.bdth.dto.DrawingSdTaskDto;
 import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.exceptions.ViolationsException;
@@ -33,6 +32,66 @@ public class DrawingController {
 
 
     /**
+     * 添加图生图任务
+     * Add task.
+     *
+     * @param dto the dto
+     * @return the result
+     */
+    @PostMapping(value = "/sd/drawing/image", name = "(SD)绘图接口", consumes = "multipart/form-data")
+    @UserLastOperationTime
+    public Result addSdDrawingTask(@Valid DrawingSdTaskDto dto) {
+        try {
+            return Result.data(drawingService.publishSdTask(dto));
+        } catch (FrequencyException | DrawingException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 添加图生图任务
+     * Add task.
+     *
+     * @param dto the dto
+     * @return the result
+     */
+    @PostMapping(value = "/sd/wechat/image", name = "(SD)绘图接口 小程序", produces = MediaType.APPLICATION_JSON_VALUE)
+    @UserLastOperationTime
+    public Result addSdWechatDrawingTask(@RequestBody @Validated DrawingSdTaskDto dto) {
+        try {
+            return Result.data(drawingService.publishSdTask(dto));
+        } catch (FrequencyException | ViolationsException | DrawingException e) {
+            return Result.error(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取公开(随机)
+     * Add task.
+     *
+     * @return the result
+     */
+    @GetMapping(value = "/random/get/ops", name = "获取公开(随机)", produces = MediaType.APPLICATION_JSON_VALUE)
+    @UserLastOperationTime
+    public Result getPublicRandomOps() {
+        return Result.data(drawingService.getRandomPublishesOps());
+    }
+
+
+    /**
+     * 添加文字生图任务
+     * Add task.
+     *
+     * @return the result
+     */
+    @GetMapping(value = "/sd/get/model", name = "获取SD模型列表", produces = MediaType.APPLICATION_JSON_VALUE)
+    @UserLastOperationTime
+    public Result getSdModelList() {
+        return Result.data(drawingService.getSdModelList());
+    }
+
+
+    /**
      * 添加文字生图任务
      * Add task.
      *
@@ -51,51 +110,14 @@ public class DrawingController {
 
 
     /**
-     * 添加文字生图任务
-     * Add task.
-     *
-     * @param dto the dto
-     * @return the result
-     */
-    @PostMapping(value = "/sd/text", name = "根据用户描述来进行绘画传作(SD)", produces = MediaType.APPLICATION_JSON_VALUE)
-    @UserLastOperationTime
-    public Result addSdDrawingTextTaskQueue(@Validated @RequestBody final DrawingSdTextDto dto) {
-        try {
-            return Result.data(drawingService.publishSdDrawingTextTask(dto));
-        } catch (FrequencyException | DrawingException | ViolationsException e) {
-            return Result.error(e.getMessage());
-        }
-    }
-
-
-    /**
-     * 添加图生图任务
-     * Add task.
-     *
-     * @param dto the dto
-     * @return the result
-     */
-    @PostMapping(value = "/sd/image2image", name = "根据用户上传的图片来进行二次创作(SD)", consumes = "multipart/form-data")
-    @UserLastOperationTime
-    public Result addSdDrawingImageTaskQueue(@Valid DrawingSdImage2TaskDto dto) {
-        try {
-            return Result.data(drawingService.publishSdDrawingImage2Task(dto));
-        } catch (FrequencyException | DrawingException | ViolationsException e) {
-            return Result.error(e.getMessage());
-        }
-
-    }
-
-
-    /**
      * 检查SD 网络连通性
      *
      * @return the result
      */
-    @GetMapping(value = "/sd/connectivity/{isType}", name = "检查SD网络连通性以及用户次数校验(SD)", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result sdConnectivity(@PathVariable final Long isType) {
+    @GetMapping(value = "/sd/connectivity", name = "检查SD网络连通性以及用户次数校验(SD)", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result sdConnectivity() {
         try {
-            return Result.data(drawingService.isSdServerStateAndFrequency(isType));
+            return Result.data(drawingService.isSdServerStateAndFrequency());
         } catch (FrequencyException | ViolationsException e) {
             return Result.error(e.getMessage());
         }

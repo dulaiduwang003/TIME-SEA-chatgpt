@@ -11,14 +11,14 @@ export default {
         },
         {
             icon: '/static/assets/code.svg',
-            title: 'SD Visualize',
-            path: '/pages/drawing/sdImage2imageView',
-            introduce: '抽象艺术到写实插图,SD图生图满足各种创作需求'
+            title: 'Dall Drawing',
+            path: '/pages/drawing/dallTextImageView',
+            introduce: '抽象艺术到写实插图,文生图满足各种创作需求'
         },
         {
             icon: '/static/assets/drawing.svg',
             title: 'SD Drawing',
-            path: '/pages/drawing/sdTextImageView',
+            path: '/pages/drawing/sdImageView',
             introduce: '根据提示词让SD绘制丰富多彩的插画'
         },
         {

@@ -51,7 +51,7 @@ public class MiniGptWss {
         try {
             assert session.getId() != null;
             assert StpUtil.getLoginIdByToken(token) != null;
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
             log.warn("无法获取到建立连接数据,已拒绝连接");
             return;
         }
@@ -99,7 +99,6 @@ public class MiniGptWss {
             gptService.concatenationGpt(chatUtils.conversionStructure(gptMiniDto), isAdvancedModel, chatGptStructure)
                     .doFinally(signal -> handleWebSocketCompletion())
                     .subscribe(data -> {
-
                         if (JSON.isValid(data)) {
                             JSONObject jsonObject = JSONObject.parseObject(data);
                             JSONArray choices = jsonObject.getJSONArray("choices");
@@ -129,7 +128,7 @@ public class MiniGptWss {
                         //为 Close异常时 过滤
                         if (!(throwable instanceof CloseException)) {
                             chatUtils.compensate(frequency, userId);
-                            log.error("调用GPT时出现异常 异常信息:{} 异常类:{}", throwable.getMessage(), throwable.getClass());
+                            log.error("调用GPT时出现异常 异常信息:{}", throwable.getMessage());
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
@@ -138,7 +137,7 @@ public class MiniGptWss {
             handleWebSocketCompletion();
         } catch (Exception e) {
             log.error("与 OPEN Ai建立连接失败 原因:{}", e.getMessage());
-            appointSendingSystem(ExceptionMessages.GPT_FREQUENT);
+            appointSendingSystem(ExceptionMessages.GPT_ERR);
             handleWebSocketCompletion();
         }
     }

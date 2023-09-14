@@ -711,7 +711,7 @@ export default {
 
 .beCareful {
   padding: 40px 6px 12px;
-  color: var(--themeColor2);
+  color: var(--textColor2);
   font-size: 15px;
   line-height: 1.6;
 }

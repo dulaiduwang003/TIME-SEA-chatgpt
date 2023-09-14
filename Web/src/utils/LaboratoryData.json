@@ -2,8 +2,8 @@
 
   {
     "icon": "drawing.svg",
-    "title": "TEXT DRA",
-    "introduce": "根据文字驱动模型生成绚丽多彩的图片绘画",
+    "title": "DRAWING DRA",
+    "introduce": "根据提示驱动模型生成绚丽多彩的图片绘画",
     "label": [
       "次数消耗",
       "绘图"

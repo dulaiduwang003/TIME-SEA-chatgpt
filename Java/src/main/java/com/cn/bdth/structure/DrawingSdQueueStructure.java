@@ -1,6 +1,6 @@
 package com.cn.bdth.structure;
 
-import com.cn.bdth.model.PictureSdDrawingModel;
+import com.cn.bdth.model.SdDrawingModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,8 +14,14 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class DrawingSdQueueStructure {
 
+    private Long drawingId;
+
+    private String openId;
+
     private int isType;
 
-    private PictureSdDrawingModel pictureSdDrawingModel;
+    private int env;
+
+    private SdDrawingModel sdDrawingModel;
 
 }
