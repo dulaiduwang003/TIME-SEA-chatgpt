@@ -28,6 +28,7 @@ https://anchwngb.cn/
 - Web 主要 GPT 对话形式更改为 与小程序相同
 - 小程序对话记忆(历史对话记录)
 - Web 对话记忆(历史对话记录)
+- 超级实验室功能 (含绘图功能 NewBing claude 免费GPT)
 - Web 拓展
 - 对话暂停(双端支持)
 - 支付宝支付(仅 Web)
