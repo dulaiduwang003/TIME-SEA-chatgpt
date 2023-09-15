@@ -1,0 +1,138 @@
+#
+# FilePath: docker-compose.yml
+# Author: yun.huang <1594909346@qq.com>
+# Date: 2023-09-6 11:47:28
+# LastEditors: yun.huang <1594909346@qq.com>
+# LastEditTime: 2023-09-6 11:47:28
+# Version: 1.0.1
+# Copyright: 2023 YunYou Innovation Technology Co., Ltd. All Rights Reserved.
+# Descripttion: 愿你开心每一天~
+#
+version: "3"
+services:
+  super-mysql:
+    image: mysql:8.0.34
+    restart: always
+    container_name: super-mysql
+    hostname: super-mysql
+    environment:
+      # 数据库密码
+      MYSQL_ROOT_PASSWORD: SoulmateMysql110.
+      MYSQL_DATABASE: super_bot
+      TZ: Asia/Shanghai
+    ports:
+      - 3306:3306
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    volumes:
+      - /data/mysql/data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+      - ./Java/sql/:/docker-entrypoint-initdb.d/
+    command: --max_connections=1000 --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    networks:
+      super:
+        ipv4_address: 192.168.1.10
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent 192.168.1.10:3306 >/dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+  super-redis:
+    image: redis:6.0.16-bullseye
+    depends_on:
+      - super-mysql
+    restart: always
+    container_name: super-redis
+    hostname: super-redis
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "6379:6379"
+    sysctls:
+      - net.core.somaxconn=1024
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    volumes:
+      - /data/redis/data:/data
+      - ./redis.conf:/etc/redis/redis.conf
+    command: /bin/sh -c "echo 'vm.overcommit_memory = 1' >> /etc/sysctl.conf && redis-server /etc/redis/redis.conf --appendonly yes"
+    privileged: true
+    networks:
+      super:
+        ipv4_address: 192.168.1.11
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent 192.168.1.11:6379 >/dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+  super-java:
+    build:
+      context: ./Java
+    image: super-java:1.0.1
+    depends_on:
+      - super-redis
+    restart: always
+    container_name: super-java
+    hostname: super-java
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "8625:8625"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    command: /bin/sh -c "java -jar /app/BDTH-SUPER-0.0.1-SNAPSHOT.jar"
+    networks:
+      super:
+        ipv4_address: 192.168.1.12
+  super-web:
+    build:
+      context: ./Web
+    image: super-web:1.0.1
+    depends_on:
+      - super-java
+    restart: always
+    container_name: super-web
+    hostname: super-web
+    environment:
+      TZ: Asia/Shanghai
+    ports:
+      - "80:80"
+      - "443:443"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    command: /bin/sh -c "nginx -g 'daemon off;'"
+    networks:
+      super:
+        ipv4_address: 192.168.1.13
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent 192.168.1.13:443 >/dev/null || exit 1"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+networks:
+  super:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.1.0/24"

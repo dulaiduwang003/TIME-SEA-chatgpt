@@ -1,0 +1,142 @@
+server:
+  #   SSL证书
+  ssl:
+    key-store: classpath:anchwngb.cn.pfx
+    key-store-password: v5my46148ph3t
+    key-store-type: PKCS12
+
+spring:
+  data:
+    # redis配置
+    redis:
+      database: 1
+      host: super-redis
+      port: 6379
+      password: 'eBI6YnFIEQ5'
+  # mysql配置
+  datasource:
+    url: jdbc:mysql://super-mysql:3306/super_bot?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
+    username: super_bot
+    password: 'hthWC78MHFZ7KACK'
+  # 邮箱
+  mail:
+    host: smtp.qq.com
+    username: QQ邮箱
+    password: 'QQ邮箱授权码'
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+    port: 587
+
+# 微信
+we-chat:
+  # APPID
+  appId: '微信APPID'
+  # 密钥
+  secret: '微信密钥'
+  # 通知模板
+  template: '微信审核通知模板'
+
+
+# 超级管理员账号密码
+root:
+  # 邮箱
+  email: 管理员邮箱
+  # 密码
+  password: '管理员密码'
+
+# 百度翻译
+baidu-translation:
+  # 百度翻译Appid
+  appid: '百度翻译APPID'
+  # 百度翻译密码要
+  secret: '百度翻译密钥'
+
+# 阿里OSS
+ali-oss:
+  endpoint: 'oss-cn-shanghai.aliyuncs.com'
+  accessKey: '阿里云OSSKey'
+  secretKey: '阿里云OSS密钥'
+  bucketName: 'sea-time'
+  domain: '阿里云图片服务器域名'
+
+# GPT 对话助手配置
+gpt:
+  # 开发者名称
+  author: '时间海'
+  # BOT 中文名
+  botNameChinese: '时间海'
+  # BOT 英文名
+  botNameEnglish: 'TIME SEA'
+
+
+
+# 支付宝配置
+ali-pay:
+  # 支付宝应用ID
+  appId: '支付宝当面付Appid'
+  # 支付宝公钥
+  alipayPublicKey: '支付宝公钥'
+  # 私钥
+  privateKey: '支付宝私钥'
+  # 域名
+  domain: '后端服务器域名:8625'
+
+# 默认服务器配置 以下非必填
+
+config:
+  #基本openAiUrl 基本和增强的URL可以一致
+  openAiUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
+  #增强openAiUrl
+  openAiPlusUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
+  # SD API
+  sdUrl: 'SD绘图API 到7860端口即可'
+  # 配置
+  openKey: 'GPT 密钥 3.5'
+  # GPT-4
+  openPlusKey: 'GPT 密钥 4.0'
+  # 用户第一次登录奖励次数
+  incentiveFrequency: 10
+  # 观看视频奖励次数
+  videoFrequency: 1
+  # SD消耗次数
+  sdImageFrequency: 5
+  # GPT文生图消耗次数
+  gptTextImageFrequency: 5
+  #GPT消耗次数
+  gptFrequency: 1
+  #GPT消耗次数
+  gptPlusFrequency: 20
+  # 观看视频奖励次数
+  signInFrequency: 1
+  # claude
+  organizationUuid: '3eead2bb-e6b8-49c1-aad4-2bec4e62c709'
+  # 连ID
+  conversationUuid: '082e1205-2081-456a-a0ae-9ea06cc6dc59'
+  # sessionKey
+  sessionKey: '克劳德 密钥'
+  # 必应Cookie
+  newBingCookie: '必应Cookie'
+
+# 默认终端配置
+control:
+  # 代理ip 只支持 clash
+  proxyIp: 127.0.0.1
+  # 代理端口
+  proxyPort: 7890
+  # 小程序环境 (develop开发板 trial体验版 release正式版)
+  wechatAppEnv: release
+  # 敏感词
+  sensitiveWords: "(CHAT|GPT|OPEN|OPENAI)"
+  # 是否开启敏感词过滤
+  enableSensitive: true
+  # 是否开启GPT-4 不开启则 所有流量指向GPT-3模型
+  enableGptPlus: false
+  # 是否隐藏小程序主页面
+  enableWechatAppMain: true
+  # 是否开启代理了
+  enableProxy: false
+

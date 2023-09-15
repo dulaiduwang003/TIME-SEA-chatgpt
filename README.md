@@ -15,6 +15,24 @@
 4.移除env模型配置
 5.后端API接口调整 绘图类API重覆写
 
+## 一键部署
+`一定一定先把各端配置文件修改完成`
+- java项目 修改src/resources/application-docker.yml文件
+- java项目 src/resources/目录放置pfx证书文件
+- web项目 修改.env.production配置文件
+- web项目 替换crt文件夹中的证书密钥
+- web项目 修改super_web.conf里的域名
+- 项目根目录 修改docker-compose.yml文件第20行数据库密码
+- 项目根目录 修改redis.conf文件第790行redis密码
+```
+# 第一步，初始化环境
+sh init.sh # 根据系统选择1或者是2
+# 第二步，部署
+sh init.sh # 选择3
+# 备注
+如果之前有数据数据的，执行脚本选择4，然后将备份文件(在/root根目录中)存在本地，可卸载mysql和redis或者直接重装系统，等部署完后再导入
+```
+
 
 #### 快速体验
 
