@@ -1,12 +1,11 @@
 # TIME-SEA-PLUS
 
-基于 SpringBoot3 开发的 Ai 多功能绘图微信流量主小程序 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
-两个端 可自行选择性部署 也可两个都部署
+基于 SpringBoot3 开发的 Ai 多功能项目,支持(H5,Web,微信小程序) 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
+两个端 可自行选择性部署 也可两个都部署(推荐做法)
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-#### 迭代记录
 
 ##### v1.4.1 2323/09/14
 1.Web新增绘图功能
@@ -40,11 +39,12 @@ sh init.sh # 选择3
 
 <img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
 
-##### web 演示
+` web 演示`
 
 https://anchwngb.cn/
 
-## 主要功能以及特性
+
+### 主要功能以及特性
 
 ` Web 和 小程序 共用一个后端 数据全一致 ps 如果需要网页的微信扫一扫登录则必须部署小程序应用 小程序和web都有控制台配置`
 
@@ -56,6 +56,7 @@ https://anchwngb.cn/
 - Web 主要 GPT 对话形式更改为 与小程序相同
 - 小程序对话记忆(历史对话记录)
 - Web 对话记忆(历史对话记录)
+- 超级实验室功能 (含绘图功能 NewBing claude 免费GPT)
 - Web 拓展
 - 对话暂停(双端支持)
 - 支付宝支付(仅 Web)
@@ -196,6 +197,10 @@ docker run --name one-api -d --restart always -e REDIS_CONN_STRING=redis://defau
 ghcr.io/songquanpeng/one-api:v0.5.5-alpha.4
 
 ```
+
+` 后端部署参考笔记 https://note.youdao.com/s/MZgdKiEl`
+` 小程序部署参考笔记 https://note.youdao.com/s/W2Et1NXD`
+` web部分太简单了 npm install 之后修改env配置打包上传即可 `
 
 ## web 端 todo
 
