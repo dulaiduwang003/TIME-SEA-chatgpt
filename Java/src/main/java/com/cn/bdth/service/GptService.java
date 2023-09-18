@@ -25,6 +25,14 @@ public interface GptService {
     Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure);
 
     /**
+     * 通过GPT绘制图片
+     *
+     * @param promptWords 提此次
+     * @return string 流数据
+     */
+    String drawAccordingGpt(final String promptWords, final ChatGptCommon.ChatGptStructure chatGptStructure);
+
+    /**
      * 建立GPT 流式连接 个性
      *
      * @param messages 请求数据

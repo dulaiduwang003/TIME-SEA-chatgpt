@@ -60,6 +60,17 @@ public class ChatUtils {
         return matcher.find();
     }
 
+    public String drawingCueWord(final List<GptModel.Messages> list) {
+        final String prefix = "/image";
+        final String content = list.get(list.size() - 1).getContent();
+        if (content.startsWith(prefix)) {
+            if (content.length() > 6) {
+                return content.substring(prefix.length());
+            }
+        }
+        return null;
+    }
+
     public GptModel conversionStructure(final GptWebDto dto) {
         return new GptModel().setMessages(presetWords(dto.getMessages()));
     }

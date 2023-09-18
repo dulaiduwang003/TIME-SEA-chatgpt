@@ -9,7 +9,11 @@ import com.cn.bdth.common.ControlCommon;
 import com.cn.bdth.constants.AiTypeConstant;
 import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.dto.GptMiniDto;
-import com.cn.bdth.exceptions.*;
+import com.cn.bdth.exceptions.CloseException;
+import com.cn.bdth.exceptions.DrawingException;
+import com.cn.bdth.exceptions.ExceptionMessages;
+import com.cn.bdth.exceptions.FrequencyException;
+import com.cn.bdth.model.GptModel;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.utils.ChatUtils;
@@ -86,52 +90,74 @@ public class MiniGptWss {
 
             final ChatGptCommon.ChatGptStructure chatGptStructure = chatGptCommon.getChatGptStructure();
 
-            final ControlStructure control = controlCommon.getControl();
+            final GptModel gptModel = chatUtils.conversionStructure(gptMiniDto);
 
-            final boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
+            final String s = chatUtils.drawingCueWord(gptModel.getMessages());
+            if (s == null) {
 
-            final Long frequency = control.getEnableGptPlus() ? (isAdvancedModel ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency()) : chatGptStructure.getGptFrequency();
+                final ControlStructure control = controlCommon.getControl();
 
-            chatUtils.deplete(frequency, userId);
+                final boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
 
-            final StringBuilder builder = new StringBuilder(500);
+                final Long frequency = control.getEnableGptPlus() ? (isAdvancedModel ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency()) : chatGptStructure.getGptFrequency();
 
-            gptService.concatenationGpt(chatUtils.conversionStructure(gptMiniDto), isAdvancedModel, chatGptStructure)
-                    .doFinally(signal -> handleWebSocketCompletion())
-                    .subscribe(data -> {
-                        if (JSON.isValid(data)) {
-                            JSONObject jsonObject = JSONObject.parseObject(data);
-                            JSONArray choices = jsonObject.getJSONArray("choices");
-                            if (choices != null && !choices.isEmpty()) {
-                                JSONObject delta = choices.getJSONObject(0).getJSONObject("delta");
-                                if (delta.containsKey("content")) {
-                                    // 可能会抛出关闭异常
-                                    try {
-                                        final String content = delta.getString("content");
-                                        // 是否开启自定义校验
-                                        builder.append(content.trim().toUpperCase());
-                                        if (control.getEnableSensitive() && chatUtils.isSusceptible(builder.toString(), control.getSensitiveWords())) {
-                                            appointSendingSystem(WeChatConstant.RC_MODE);
-                                            builder.setLength(0);
-                                        }
-                                        this.session.getBasicRemote().sendText(content);
-                                    } catch (Exception e) {
-                                        if (!(e instanceof RuntimeException)) {
-                                            //用户可能手动端口连接
-                                            throw new CloseException();
+                chatUtils.deplete(frequency, userId);
+
+                final StringBuilder builder = new StringBuilder(500);
+
+                gptService.concatenationGpt(gptModel, isAdvancedModel, chatGptStructure)
+                        .doFinally(signal -> handleWebSocketCompletion())
+                        .subscribe(data -> {
+                            if (JSON.isValid(data)) {
+                                JSONObject jsonObject = JSONObject.parseObject(data);
+                                JSONArray choices = jsonObject.getJSONArray("choices");
+                                if (choices != null && !choices.isEmpty()) {
+                                    JSONObject delta = choices.getJSONObject(0).getJSONObject("delta");
+                                    if (delta.containsKey("content")) {
+                                        // 可能会抛出关闭异常
+                                        try {
+                                            final String content = delta.getString("content");
+                                            // 是否开启自定义校验
+                                            builder.append(content.trim().toUpperCase());
+                                            if (control.getEnableSensitive() && chatUtils.isSusceptible(builder.toString(), control.getSensitiveWords())) {
+                                                appointSendingSystem(WeChatConstant.RC_MODE);
+                                                builder.setLength(0);
+                                            }
+                                            this.session.getBasicRemote().sendText(content);
+                                        } catch (Exception e) {
+                                            if (!(e instanceof RuntimeException)) {
+                                                //用户可能手动端口连接
+                                                throw new CloseException();
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    }, throwable -> {
-                        //为 Close异常时 过滤
-                        if (!(throwable instanceof CloseException)) {
-                            chatUtils.compensate(frequency, userId);
-                            log.error("调用GPT时出现异常 异常信息:{}", throwable.getMessage());
-                            appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
-                        }
-                    });
+                        }, throwable -> {
+                            //为 Close异常时 过滤
+                            if (!(throwable instanceof CloseException)) {
+                                chatUtils.compensate(frequency, userId);
+                                log.error("调用GPT时出现异常 异常信息:{}", throwable.getMessage());
+                                appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
+                            }
+                        });
+            } else {
+
+                Long frequency = null;
+
+                try {
+                    frequency = chatGptStructure.getGptTextImageFrequency();
+                    chatUtils.deplete(frequency, userId);
+                    final String context = gptService.drawAccordingGpt(s, chatGptStructure);
+                    this.session.getBasicRemote().sendText(context);
+                } catch (DrawingException e) {
+                    chatUtils.compensate(frequency, userId);
+                    appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
+                } finally {
+                    handleWebSocketCompletion();
+                }
+            }
+
         } catch (FrequencyException e) {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
