@@ -32,6 +32,19 @@ sh init.sh # 选择3
 如果之前有数据数据的，执行脚本选择4，然后将备份文件(在/root根目录中)存在本地，可卸载mysql和redis或者直接重装系统，等部署完后再导入
 ```
 
+## 如果你不喜欢一键部署方式 请按照以下视频部署(喂饭级)
+视频地址:  https://www.bilibili.com/video/BV1E8411v7fr/
+
+视频所用的笔记:
+https://note.youdao.com/s/QY9qWQv
+
+后端部署图文(可以看看)
+https://note.youdao.com/s/MZgdKiEl 
+
+小程序部署图文(可以看看)
+https://note.youdao.com/s/W2Et1NXD
+
+web部署太简单了 跟着视频来就行
 
 #### 快速体验
 
