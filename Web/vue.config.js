@@ -30,7 +30,7 @@ module.exports = defineConfig({
                         },
                         mangle: true, // 开启代码混淆
                         output: {
-                            comments: false // 删除注释
+                            comments: true // 删除注释
                         }
                     }
                 })
