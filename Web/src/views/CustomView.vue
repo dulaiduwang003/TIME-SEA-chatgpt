@@ -218,29 +218,34 @@ export default {
         // TODO 上下文
         let messages = [];
         conversationList.value
-          .slice(-memory.value)
-          .forEach(({ isError, user, assistant }) => {
-            if (!isError) {
-              const truncatedUser =
-                user.length > size.value
-                  ? user.slice(0, size.value) + "..."
-                  : user;
-              const truncatedAssistant =
-                assistant && assistant.length > size.value
-                  ? assistant.slice(0, size.value) + "..."
-                  : assistant;
-              messages.push({
-                role: "user",
-                content: truncatedUser,
-              });
-              if (truncatedAssistant) {
+            .slice(-memory.value)
+            .forEach(({isError, user, assistant}, index, arr) => {
+              if (!isError) {
+                let truncatedUser = user
+                let truncatedAssistant = assistant
+                if (arr.length > 2) {
+                  if (index !== arr.length - 1 && index !== arr.length - 2) {
+                    truncatedUser =
+                        user.length > size.value ? user.slice(0, size.value) + "..." : user;
+                    truncatedAssistant =
+                        assistant && assistant.length > size.value
+                            ? assistant.slice(0, size.value) + "..."
+                            : assistant;
+                  }
+                }
                 messages.push({
-                  role: "assistant",
-                  content: truncatedAssistant,
+                  role: "user",
+                  content: truncatedUser,
                 });
+                if (truncatedAssistant) {
+                  messages.push({
+                    role: "assistant",
+                    content: truncatedAssistant,
+                  });
+                }
               }
-            }
-          });
+
+            });
         dataIndex.value = index;
         webSocket({
           messages: {
