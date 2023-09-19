@@ -2,6 +2,7 @@ package com.cn.bdth.service.impl;
 
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cn.bdth.common.UserInspiritCommon;
 import com.cn.bdth.constants.WeChatConstant;
@@ -102,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void getEmailEnrollCode(final String email) {
-        final String code = RandomStringUtils.random(6, true, true).toUpperCase();
+        final String code = RandomUtil.randomNumbers(6);
         Context context = new Context();
         context.setVariable("code", code);
         String process = templateEngine.process("emailCode.html", context);

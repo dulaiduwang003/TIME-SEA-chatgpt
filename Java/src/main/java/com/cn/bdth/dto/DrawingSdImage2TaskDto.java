@@ -35,6 +35,11 @@ public class DrawingSdImage2TaskDto {
 
     private String negative_prompt;
 
+    /**
+     * 0:人物1; 1:人物2； 2:二维码
+     */
+    private Integer controlNetType;
+
     public static SdDrawingModel convertToPictureImgModel(DrawingSdImage2TaskDto item) {
         if (item == null) {
             return null;

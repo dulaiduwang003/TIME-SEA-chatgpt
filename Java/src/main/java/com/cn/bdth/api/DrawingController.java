@@ -1,5 +1,6 @@
 package com.cn.bdth.api;
 
+import com.cn.bdth.annotations.note.AutoLog;
 import com.cn.bdth.annotations.note.UserLastOperationTime;
 import com.cn.bdth.dto.DrawingGptTextDto;
 import com.cn.bdth.dto.DrawingSdTaskDto;
@@ -115,6 +116,7 @@ public class DrawingController {
      * @return the result
      */
     @GetMapping(value = "/sd/connectivity", name = "检查SD网络连通性以及用户次数校验(SD)", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "检查SD网络")
     public Result sdConnectivity() {
         try {
             return Result.data(drawingService.isSdServerStateAndFrequency());
@@ -166,6 +168,7 @@ public class DrawingController {
      */
     @PostMapping(value = "/image/delete/{id}", name = "删除作品", produces = MediaType.APPLICATION_JSON_VALUE)
     @UserLastOperationTime
+    @AutoLog(value = "删除作品")
     public Result deleteImageById(@PathVariable final Long id) {
         drawingService.deleteDrawingById(id);
         return Result.ok();

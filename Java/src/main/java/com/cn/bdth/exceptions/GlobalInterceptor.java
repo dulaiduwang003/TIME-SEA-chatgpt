@@ -6,6 +6,7 @@ import cn.dev33.satoken.exception.NotLoginException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.cn.bdth.msg.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,7 +52,7 @@ public class GlobalInterceptor {
             final List<ObjectError> allErrors = ((MethodArgumentNotValidException) e).getBindingResult().getAllErrors();
             return Result.error(allErrors.get(0).getDefaultMessage());
         }
-        log.warn("服务出现了未被拦截异常信息 信息:{} 位置:{}", e.getMessage(), e.getClass());
+        log.warn("服务出现了未被拦截异常信息 信息:{} 位置:{}", ExceptionUtils.getStackTrace(e), e.getClass());
         e.printStackTrace();
         return Result.error(e.getMessage());
     }

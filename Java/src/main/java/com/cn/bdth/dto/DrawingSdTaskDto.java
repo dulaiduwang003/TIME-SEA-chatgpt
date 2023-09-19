@@ -43,6 +43,16 @@ public class DrawingSdTaskDto {
 
     private String negative_prompt;
 
+    /**
+     * 输入的文字
+     */
+    private String entryText;
+
+    /**
+     * 0:人物1; 1:人物2； 2:二维码
+     */
+    private Integer controlNetType;
+
     public static SdDrawingModel convertToPictureImgModel(DrawingSdTaskDto item) {
         if (item == null) {
             return null;

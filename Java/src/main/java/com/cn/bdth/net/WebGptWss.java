@@ -17,6 +17,7 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -98,7 +99,7 @@ public class WebGptWss {
                         //为 Close异常时 过滤
                         if (!(throwable instanceof CloseException)) {
                             chatUtils.compensate(frequency, userId);
-                            log.error("调用GPT时出现异常 异常信息:{} ", throwable.getMessage());
+                            log.error("调用GPT时出现异常 异常信息:{} ", ExceptionUtils.getStackTrace(throwable));
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });
@@ -106,7 +107,7 @@ public class WebGptWss {
             appointSendingSystem(e.getMessage());
             handleWebSocketCompletion();
         } catch (Exception e) {
-            log.error(" 与 OPEN Ai建立连接失败 原因:{}", e.getMessage());
+            log.error(" 与 OPEN Ai建立连接失败 原因:{}", ExceptionUtils.getStackTrace(e));
             appointSendingSystem(ExceptionMessages.GPT_ERR);
             handleWebSocketCompletion();
         }
@@ -123,7 +124,7 @@ public class WebGptWss {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        log.warn("GPT websocket出现异常 原因:{}", throwable.getMessage());
+        log.warn("GPT websocket出现异常 原因:{}", ExceptionUtils.getStackTrace(throwable));
         //打印堆栈
         //      throwable.printStackTrace();
     }

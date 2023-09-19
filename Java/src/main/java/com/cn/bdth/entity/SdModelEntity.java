@@ -19,6 +19,23 @@ public class SdModelEntity {
 
   private String textName;
 
+  private String samplerIndex;
+
+  private Boolean isSelected;
+
+  private Integer type;
+
+  private Integer sort;
+
+  private String negativePrompt;
+
+  private String prompt;
+
+  @TableLogic
+  private Integer delFlag;
+
+
+
   @TableField(fill = FieldFill.INSERT)
   private LocalDateTime createdTime;
 

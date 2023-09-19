@@ -2,6 +2,7 @@ package com.cn.bdth.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -38,5 +39,6 @@ public class Drawing {
 
     private LocalDateTime updateTime;
 
-
+    @TableLogic
+    private Integer delFlag;
 }

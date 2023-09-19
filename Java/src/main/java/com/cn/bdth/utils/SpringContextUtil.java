@@ -1,10 +1,13 @@
 package com.cn.bdth.utils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 获取实例BEAN
@@ -28,5 +31,13 @@ public class SpringContextUtil implements ApplicationContextAware {
 
     public static Object getBean(String beanId) throws BeansException {
         return applicationContext.getBean(beanId);
+    }
+
+    /**
+     * 获取 HttpServletRequest
+     *
+     */
+    public static HttpServletRequest getHttpServletRequest() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 }

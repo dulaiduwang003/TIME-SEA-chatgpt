@@ -1,5 +1,6 @@
 package com.cn.bdth.api;
 
+import com.cn.bdth.annotations.note.AutoLog;
 import com.cn.bdth.exceptions.ExchangeException;
 import com.cn.bdth.exceptions.RewardException;
 import com.cn.bdth.exceptions.SignInException;
@@ -35,6 +36,7 @@ public class InspiritController {
      * @return the result
      */
     @PostMapping(value = "/reward/signIn", name = "用户签到", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "用户签到")
     public Result userSignInReward() {
         try {
             inspiritService.rewardSignIn();
@@ -50,6 +52,7 @@ public class InspiritController {
      * @return the result
      */
     @PostMapping(value = "/reward/video", name = "视频激励", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "视频激励")
     public Result useVideoReward() {
         try {
             inspiritService.rewardVideo();
@@ -66,6 +69,7 @@ public class InspiritController {
      * @return the result
      */
     @PostMapping(value = "/exchange/{code}", name = "使用兑换码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "使用兑换码")
     public Result useExchangeCode(@PathVariable final String code) {
         try {
             inspiritService.useRedemptionCode(code);

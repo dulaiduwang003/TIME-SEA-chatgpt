@@ -34,6 +34,11 @@ public class SdDrawingModel implements Serializable {
 
     private Override override_settings;
 
+    /**
+     * controlNet
+     */
+    private AlwaysonScripts alwayson_scripts;
+
     @Data
     public static class Override implements Serializable {
         private String sd_model_checkpoint;

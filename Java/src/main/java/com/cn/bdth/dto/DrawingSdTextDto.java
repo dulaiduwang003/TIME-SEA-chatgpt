@@ -29,4 +29,9 @@ public class DrawingSdTextDto {
     private String modelName;
 
     private String negative_prompt;
+
+    /**
+     * 输入的文字
+     */
+    private String entryText;
 }

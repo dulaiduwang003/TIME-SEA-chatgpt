@@ -13,6 +13,7 @@ import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.dto.*;
 import com.cn.bdth.entity.Drawing;
+import com.cn.bdth.entity.SdControlNet;
 import com.cn.bdth.entity.SdModelEntity;
 import com.cn.bdth.entity.User;
 import com.cn.bdth.enums.FileEnum;
@@ -20,8 +21,12 @@ import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.FrequencyException;
 import com.cn.bdth.mapper.DrawingMapper;
+import com.cn.bdth.mapper.SdControlNetMapper;
 import com.cn.bdth.mapper.SdModelEntityMapper;
 import com.cn.bdth.mapper.UserMapper;
+import com.cn.bdth.model.AlwaysonScripts;
+import com.cn.bdth.model.Args;
+import com.cn.bdth.model.ControlNet;
 import com.cn.bdth.model.GptImageModel;
 import com.cn.bdth.model.SdDrawingModel;
 import com.cn.bdth.service.DrawingService;
@@ -31,6 +36,7 @@ import com.cn.bdth.vo.*;
 import com.cn.bdth.vo.admin.DrawingVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
@@ -41,6 +47,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -82,6 +89,11 @@ public class DrawingServiceImpl implements DrawingService {
     private final StableDiffusionCommon stableDiffusionCommon;
 
     private final SdModelEntityMapper sdModelEntityMapper;
+
+    private final SdControlNetMapper sdControlNetMapper;
+
+    @Value("${ali-oss.domain}")
+    private String domain;
 
 
     @Override
@@ -193,6 +205,21 @@ public class DrawingServiceImpl implements DrawingService {
             weChatUtils.filterText(dto.getPrompt(), UserUtils.getCurrentOpenId());
         }
 
+        //加上默认提示词
+        SdModelEntity sdModel = sdModelEntityMapper.selectOne(new QueryWrapper<SdModelEntity>()
+                .lambda()
+                .eq(SdModelEntity::getModelName, dto.getModelName())
+                .eq(SdModelEntity::getDelFlag, 0)
+                .last(" limit 1"));
+        if (null != sdModel) {
+            if (StringUtils.isNotBlank(sdModel.getNegativePrompt())) {
+                dto.setNegative_prompt(sdModel.getNegativePrompt() + "," + dto.getNegative_prompt());
+            }
+            if (StringUtils.isNotBlank(sdModel.getPrompt())) {
+                dto.setPrompt(sdModel.getPrompt() + "," + dto.getPrompt());
+            }
+        }
+
         //发布绘图任务
         final Drawing drawing = new Drawing()
                 .setPrompt(dto.getPrompt())
@@ -212,6 +239,84 @@ public class DrawingServiceImpl implements DrawingService {
             drawing.setOriginalUrl(imageUrl);
             model.setInit_images(List.of(imageUtils.convertImageToBase64(imageUrl)));
             isType = 1;
+
+            //默认时人物
+            if (null == dto.getControlNetType()) {
+                dto.setControlNetType(0);
+            }
+
+            //如果是二维码图需要修改二维码的数据
+            String qrCodeBase64New = "";
+            if(2 == dto.getControlNetType()) {
+                //二维码默认大都是512*512；否则出不了图
+                dto.setHeight(512L);
+                dto.setWidth(512L);
+
+                //1、二维码解码
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("qr_image", domain + imageUrl);
+                String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,"4206|Mx53Ue5tMuzQUAKVSkbZ3fdKdatGhyuRFYBNXY4G");
+
+                //2、解码后的二维码重新优化
+                if(StringUtils.isNotBlank(qrCodeUrl)) {
+                    qrCodeBase64New = QRCodeUtil.qrCodeOptimize(qrCodeUrl);
+                }
+                model.setInit_images(List.of(qrCodeBase64New));
+            }
+
+            List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
+                    .lambda()
+                    .eq(SdControlNet::getType, dto.getControlNetType())
+                    .eq(SdControlNet::getDelFlag, 0)
+                    .orderByAsc(SdControlNet::getSort));
+
+            List<Args> argList = new ArrayList<>();
+            for (SdControlNet sdControlNet : sdControlNetList) {
+                Args args = Args.builder()
+                        .enabled(true)
+                        .control_mode(0)
+                        .pixel_perfect(true)
+                        .resize_mode(1)
+                        .model(sdControlNet.getModel())
+                        .module(sdControlNet.getModule())
+                        .weight(sdControlNet.getWeight())
+                        .guidance_start(sdControlNet.getGuidanceStart())
+                        .guidance_end(sdControlNet.getGuidanceEnd())
+                        .build();
+                argList.add(args);
+            }
+            model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
+                    .args(argList).build()).build());
+        }
+        else {
+            // 图片中加文字
+            List<Args> argList = new ArrayList<>();
+            if (StringUtils.isNotBlank(dto.getEntryText())) {
+                List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
+                        .lambda()
+                        .eq(SdControlNet::getType, -1)
+                        .eq(SdControlNet::getDelFlag, 0));
+
+                String base64Image = imageUtils.getImageBase64ByText(dto.getEntryText(), 2*dto.getHeight().intValue(), 2*dto.getWidth().intValue());
+
+                for (SdControlNet sdControlNet : sdControlNetList) {
+                    Args args = Args.builder()
+                            .input_image(base64Image)
+                            .enabled(true)
+                            .control_mode(0)
+                            .pixel_perfect(true)
+                            .resize_mode(1)
+                            .model(sdControlNet.getModel())
+                            .module(sdControlNet.getModule())
+                            .weight(sdControlNet.getWeight())
+                            .guidance_start(sdControlNet.getGuidanceStart())
+                            .guidance_end(sdControlNet.getGuidanceEnd())
+                            .build();
+                    argList.add(args);
+                }
+                model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
+                        .args(argList).build()).build());
+            }
         }
         drawingMapper.insert(drawing);
         //提交任务到队列中
@@ -235,11 +340,13 @@ public class DrawingServiceImpl implements DrawingService {
         final boolean isDrawing = drawingMapper.selectCount(new QueryWrapper<Drawing>()
                 .lambda()
                 .eq(Drawing::getDrawingId, id)
+                .eq(Drawing::getDelFlag, 0)
         ) > 0;
         if (isDrawing) {
             return drawingMapper.selectCount(new QueryWrapper<Drawing>()
                     .lambda()
                     .eq(Drawing::getDrawingId, id)
+                    .eq(Drawing::getDelFlag, 0)
                     .isNotNull(Drawing::getGenerateUrl)
             ) > 0;
         } else {
@@ -266,6 +373,8 @@ public class DrawingServiceImpl implements DrawingService {
         final Drawing drawing = drawingMapper.selectOne(new QueryWrapper<Drawing>()
                 .lambda().eq(Drawing::getDrawingId, id)
                 .isNotNull(Drawing::getGenerateUrl)
+                .eq(Drawing::getDelFlag, 0)
+                .orderByDesc(Drawing::getCreatedTime)
                 .select(Drawing::getPrompt, Drawing::getGenerateUrl, Drawing::getOriginalUrl, Drawing::getCreatedTime, Drawing::getUserId)
         );
         if (drawing == null) {
@@ -293,8 +402,10 @@ public class DrawingServiceImpl implements DrawingService {
                 .lambda()
                 .eq((isPublic == ServerConstant.IS_PUBLIC), Drawing::getIsPublic, isPublic)
                 .eq(isPublic != ServerConstant.IS_PUBLIC, Drawing::getUserId, UserUtils.getCurrentLoginId())
+                .eq(Drawing::getDelFlag, 0)
                 .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)
                 .isNotNull(Drawing::getGenerateUrl)
+                .orderByDesc(Drawing::getCreatedTime)
                 .select(Drawing::getPrompt, Drawing::getGenerateUrl, Drawing::getDrawingId, Drawing::getCreatedTime);
 
         return drawingMapper.selectPage(new Page<>(pageNum, 15), lambdaQueryWrapper).convert(c -> new DrawingOpsVo()
@@ -311,6 +422,7 @@ public class DrawingServiceImpl implements DrawingService {
     public IPage<DrawingVo> getDrawingPage(final int pageNum) {
         return drawingMapper.selectPage(new Page<>(pageNum, 15), new QueryWrapper<Drawing>()
                 .lambda()
+                .eq(Drawing::getDelFlag, 0)
                 .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)
                 .select(Drawing::getDrawingId, Drawing::getGenerateUrl, Drawing::getIsPublic)
                 .orderByDesc(Drawing::getCreatedTime)
@@ -321,6 +433,7 @@ public class DrawingServiceImpl implements DrawingService {
     public void putPublicDrawingOps(final Long drawingId) {
         final Drawing drawing = drawingMapper.selectOne(new QueryWrapper<Drawing>()
                 .lambda()
+                .eq(Drawing::getDelFlag, 0)
                 .eq(Drawing::getDrawingId, drawingId)
                 .select(Drawing::getIsPublic, Drawing::getDrawingId)
                 .orderByDesc(Drawing::getCreatedTime)
@@ -330,6 +443,8 @@ public class DrawingServiceImpl implements DrawingService {
 
     @Override
     public void deleteDrawingById(final Long drawingId) {
+        Drawing drawing = drawingMapper.selectById(drawingId);
+
         //如果操作人是管理员则忽略
         if (UserUtils.getCurrentRole().equals(AuthConstant.ADMIN)) {
             drawingMapper.deleteById(drawingId);
@@ -339,6 +454,13 @@ public class DrawingServiceImpl implements DrawingService {
                     .eq(Drawing::getUserId, UserUtils.getCurrentLoginId())
             );
         }
+        // 删除oss的数据
+        if (StringUtils.isNotBlank(drawing.getGenerateUrl())) {
+            aliUploadUtils.deleteFile(drawing.getGenerateUrl());
+        }
+        if (StringUtils.isNotBlank(drawing.getOriginalUrl())) {
+            aliUploadUtils.deleteFile(drawing.getOriginalUrl());
+        }
 
     }
 
@@ -346,6 +468,7 @@ public class DrawingServiceImpl implements DrawingService {
     public IPage<UserDrawingVo> getUserDrawingOpsPage(final int pageNum) {
         return drawingMapper.selectPage(new Page<>(pageNum, 15), new QueryWrapper<Drawing>()
                 .lambda()
+                .eq(Drawing::getDelFlag, 0)
                 .isNotNull(Drawing::getGenerateUrl)
                 .eq(Drawing::getUserId, UserUtils.getCurrentLoginId())
                 .eq(Drawing::getEnv, ServerConstant.DRAWING_WECHAT)

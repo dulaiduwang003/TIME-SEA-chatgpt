@@ -2,6 +2,7 @@ package com.cn.bdth.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cn.bdth.common.ControlCommon;
+import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.ViolationsException;
 import com.cn.bdth.exceptions.WechatException;
@@ -10,12 +11,14 @@ import com.cn.bdth.model.WeChatMsgCheckModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Base64;
+import java.util.Set;
 
 /**
  * 微信工具类
@@ -45,6 +48,8 @@ public class WeChatUtils {
     private static final WebClient WEB_CLIENT = WebClient.builder().build();
 
     private final AliUploadUtils aliUploadUtils;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     public String getOpenId(final String code) {
         try {
@@ -80,6 +85,14 @@ public class WeChatUtils {
     }
 
     public void filterText(String content, final String openId) {
+        Set<String> forbidPromptSet = stringRedisTemplate.opsForSet().members(ServerConstant.FORBID_PROMPT_LIST);
+
+        for(String forbidPrompt : forbidPromptSet) {
+            if(content.toLowerCase().contains(forbidPrompt.toLowerCase())) {
+                log.error("敏感词过滤: {} - {}", content, forbidPrompt);
+                throw new ViolationsException(ExceptionMessages.DRAWING_DELETE);
+            }
+        }
         try {
             content = translationUtil.chineseTranslation(content);
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.cn.bdth.api;
 
 
+import com.cn.bdth.annotations.note.AutoLog;
 import com.cn.bdth.dto.PersonalityDto;
 import com.cn.bdth.dto.StarDialogueDto;
 import com.cn.bdth.dto.WeChatBindDto;
@@ -47,6 +48,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/personality/get/config", name = "获取用户个性GPT配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "获取用户个性GPT配置")
     public Result getPersonalityGptConfig() {
         return Result.data(gptService.getPersonalityConfig(null));
     }
@@ -57,6 +59,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/personality/put/config", name = "设置用户个性GPT配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "设置用户个性GPT配置")
     public Result putPersonalityGptConfig(@RequestBody @Validated PersonalityDto dto) {
         gptService.putPersonalityConfig(dto);
         return Result.ok();
@@ -69,6 +72,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/wechat/bind", name = "微信绑定邮箱", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "微信绑定邮箱")
     public Result wechatBindEmail(@RequestBody @Validated WeChatBindDto dto) {
         try {
             userService.wechatBindEmail(dto.getEmail(), dto.getPassword());
@@ -99,6 +103,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/upload/avatar", name = "用户更新头像", consumes = "multipart/form-data")
+    @AutoLog(value = "用户更新头像")
     public Result userUploadAvatar(@Valid @NotNull(message = "用户头像不能为空") final MultipartFile avatar) {
         try {
             userService.editUserAvatar(avatar);
@@ -116,6 +121,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/upload/username", name = "用户更新用户名", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "用户更新用户名")
     public Result userUpdateName(@Validated @NotBlank(message = "用户昵称不能为空") @RequestParam final String userName) {
         userService.editUserName(userName);
         return Result.ok();
@@ -129,6 +135,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/star/page", name = "分页获取收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "分页获取收藏")
     public Result getStarPage(@RequestParam(defaultValue = "1") final int pageNum) {
         return Result.data(starService.getUserStarVoPage(pageNum));
     }
@@ -141,6 +148,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/star/delete/{id}", name = "删除指定收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "删除指定收藏")
     public Result deleteStarById(@PathVariable final Long id) {
         starService.deleteById(id);
         return Result.ok();
@@ -154,6 +162,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/stat/get/data", name = "查看指定收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "查看指定收藏")
     public Result getStarDetailById(@RequestParam final Long starId) {
 
         return Result.data(starService.getUserStarDetail(starId));
@@ -167,6 +176,7 @@ public class UserController {
      * @return the result
      */
     @PostMapping(value = "/stat/put/data", name = "添加收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "添加收藏")
     public Result putStarDialogue(@RequestBody @Validated final StarDialogueDto dto) {
         return Result.data(starService.starDialogue(dto));
     }
@@ -179,6 +189,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/drawing/page", name = "获取我的作品", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "获取我的作品")
     public Result getUserOpsPage(@RequestParam(defaultValue = "1") final int pageNum) {
         return Result.data(drawingService.getUserDrawingOpsPage(pageNum));
     }
@@ -189,6 +200,7 @@ public class UserController {
      * @return the result
      */
     @GetMapping(value = "/star/get/web", name = "获取我的收藏", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AutoLog(value = "获取我的收藏")
     public Result getUserStarWeb() {
         return Result.data(starService.getUserStarWeb());
     }

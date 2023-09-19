@@ -19,6 +19,7 @@ import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -128,7 +129,7 @@ public class MiniGptWss {
                         //为 Close异常时 过滤
                         if (!(throwable instanceof CloseException)) {
                             chatUtils.compensate(frequency, userId);
-                            log.error("调用GPT时出现异常 异常信息:{}", throwable.getMessage());
+                            log.error("调用GPT时出现异常 异常信息:{}", ExceptionUtils.getStackTrace(throwable));
                             appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                         }
                     });

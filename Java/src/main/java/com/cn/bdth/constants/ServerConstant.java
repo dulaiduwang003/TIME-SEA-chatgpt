@@ -31,4 +31,6 @@ public interface ServerConstant {
     int DRAWING_WEB = 0;
 
     int DRAWING_WECHAT = 1;
+
+    String FORBID_PROMPT_LIST = "FORBID_PROMPT_LIST";
 }
