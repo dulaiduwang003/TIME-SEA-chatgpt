@@ -1,11 +1,11 @@
 <template>
   <div class="body" ref="scrollRef">
     <div v-if="conversationList.length <= 1" class="explain">
-      <img class="logo" alt="Vue logo" src="../assets/personality.svg" />
+      <img class="logo" alt="Vue logo" src="../assets/personality.svg"/>
       <div class="expositoryCase">欢迎使用PERSONALITY GPT</div>
       <div class="consume">
         <el-icon>
-          <Goods />
+          <Goods/>
         </el-icon>
         <div class="consumeText">超级实验室功能</div>
       </div>
@@ -13,10 +13,10 @@
     </div>
     <div v-else class="questions" style="margin: 20px 0">
       <div
-        v-for="(item, index) in conversationList"
-        :key="index"
-        v-show="index !== 0"
-        class="item slide-animation"
+          v-for="(item, index) in conversationList"
+          :key="index"
+          v-show="index !== 0"
+          class="item slide-animation"
       >
         <div class="question">
           <div>
@@ -24,17 +24,17 @@
             <div class="operation--model_user">
               <div class="op-btn" @click="copyAnswer(item.user)">
                 <el-icon>
-                  <CopyDocument />
+                  <CopyDocument/>
                 </el-icon>
                 <text class="op-font">复制</text>
               </div>
             </div>
           </div>
           <el-avatar
-            class="flexShrink"
-            :size="35"
-            :icon="UserFilled"
-            :src="
+              class="flexShrink"
+              :size="35"
+              :icon="UserFilled"
+              :src="
               store.getters.userinfo.avatar
                 ? imageUrl + store.getters.userinfo.avatar
                 : require('../assets/my.png')
@@ -44,38 +44,38 @@
 
         <div class="answer">
           <el-avatar
-            class="flexShrink"
-            :size="35"
-            :icon="UserFilled"
-            :src="require('../assets/personality.svg')"
+              class="flexShrink"
+              :size="35"
+              :icon="UserFilled"
+              :src="require('../assets/personality.svg')"
           />
           <template v-if="item.assistant">
             <div style="width: 100%">
               <div
-                class="answer-data"
-                :style="{ maxWidth: calculateWidth(item.assistant) }"
+                  class="answer-data"
+                  :style="{ maxWidth: calculateWidth(item.assistant) }"
               >
                 <v-md-editor
-                  :model-value="item.assistant"
-                  mode="preview"
-                  @copy-code-success="handleCopyCodeSuccess"
+                    :model-value="item.assistant"
+                    mode="preview"
+                    @copy-code-success="handleCopyCodeSuccess"
                 />
               </div>
 
               <div class="operation--model" v-if="!item.isError">
                 <div class="op-btn" @click="copyAnswer(item.assistant)">
                   <el-icon>
-                    <CopyDocument />
+                    <CopyDocument/>
                   </el-icon>
                   <text class="op-font">复制</text>
                 </div>
                 <div
-                  class="op-btn"
-                  @click="onCollection(item, index)"
-                  v-if="!item.isCollection"
+                    class="op-btn"
+                    @click="onCollection(item, index)"
+                    v-if="!item.isCollection"
                 >
                   <el-icon color="rgb(255,236,160)">
-                    <StarFilled />
+                    <StarFilled/>
                   </el-icon>
                   <text class="op-font">收藏</text>
                 </div>
@@ -98,44 +98,44 @@
     </div>
     <div class="suspend" v-show="aiLoading" @click="closeSocket">
       <el-icon :size="16">
-        <VideoPause />
+        <VideoPause/>
       </el-icon>
       <div>暂停输出</div>
     </div>
     <div class="footer">
       <div class="footer-bar">
         <div
-          class="clear"
-          @click="clear"
-          v-show="store.getters.userinfo && !aiLoading"
+            class="clear"
+            @click="clear"
+            v-show="store.getters.userinfo && !aiLoading"
         >
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <Clock />
+              <Clock/>
             </el-icon>
           </div>
           <div>清除聊天</div>
         </div>
         <div
-          class="clear2"
-          v-show="store.getters.userinfo && !aiLoading"
-          @click="dialogueDisplay = true"
+            class="clear2"
+            v-show="store.getters.userinfo && !aiLoading"
+            @click="dialogueDisplay = true"
         >
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <ChatDotRound />
+              <ChatDotRound/>
             </el-icon>
           </div>
           <div>记忆回溯</div>
         </div>
         <div
-          class="clear3"
-          v-show="store.getters.userinfo && !aiLoading"
-          @click="configDisplay = true"
+            class="clear3"
+            v-show="store.getters.userinfo && !aiLoading"
+            @click="configDisplay = true"
         >
           <div style="padding-top: 4px">
             <el-icon size="13px" style="padding-right: 3px">
-              <Tools />
+              <Tools/>
             </el-icon>
           </div>
           <div>Ai配置</div>
@@ -152,32 +152,32 @@
         -->
 
         <InputFormField
-          ref="inputRef"
-          :needSelect="false"
-          :aiLoading="aiLoading"
-          :inputText="input"
-          @update:inputText="input = $event"
-          @update:model="model = $event"
-          @onSubmit="onSubmit"
+            ref="inputRef"
+            :needSelect="false"
+            :aiLoading="aiLoading"
+            :inputText="input"
+            @update:inputText="input = $event"
+            @update:model="model = $event"
+            @onSubmit="onSubmit"
         />
       </div>
     </div>
   </div>
   <el-dialog
-    v-model="dialogueDisplay"
-    width="430px"
-    center
-    style="background-color: var(--bgColor1)"
+      v-model="dialogueDisplay"
+      width="430px"
+      center
+      style="background-color: var(--bgColor1)"
   >
     <div>
       <div class="cache-flex-center">
-        <img alt="Vue logo" src="../assets/personality.svg" class="cache-img" />
+        <img alt="Vue logo" src="../assets/personality.svg" class="cache-img"/>
       </div>
       <div class="cache-text">PERSONALITY GPT PLUS</div>
       <div class="cache-flex-center cache-padding-top">
         <div class="cache-btn" @click="createdNewChat">
           <el-icon size="16px">
-            <ChatLineSquare />
+            <ChatLineSquare/>
           </el-icon>
           <div class="cache-btn-text">创建新的聊天</div>
         </div>
@@ -186,9 +186,9 @@
         <div class="cache-scrollbar">
           <el-scrollbar height="250px">
             <div
-              class="cache-padding"
-              v-for="(item, index) in personalityCache.array"
-              :key="index"
+                class="cache-padding"
+                v-for="(item, index) in personalityCache.array"
+                :key="index"
             >
               <div class="cache-flex-space-between cache-margin">
                 <div class="cache-message" @click="switchChat(index)">
@@ -201,14 +201,14 @@
                 </div>
                 <div class="cache-selected">
                   <img
-                    :src="
+                      :src="
                       personalityCache.index === index
                         ? require('../assets/selected05.svg')
                         : require('../assets/close.svg')
                     "
-                    class="cache-selected-img"
-                    @click="clearDialogue(index)"
-                    alt=""
+                      class="cache-selected-img"
+                      @click="clearDialogue(index)"
+                      alt=""
                   />
                 </div>
               </div>
@@ -219,37 +219,37 @@
     </div>
   </el-dialog>
   <el-drawer
-    v-model="configDisplay"
-    direction="ltr"
-    size="400px"
-    title="模型配置"
-    style="background-color: var(--bgColor1)"
+      v-model="configDisplay"
+      direction="ltr"
+      size="400px"
+      title="模型配置"
+      style="background-color: var(--bgColor1)"
   >
     <div>
       <div class="config-row">
         <div class="config-title">
           <text>model_type</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="模型名称"
-            :width="300"
-            trigger="hover"
-            content="gpt-3.5-turbo gpt-3.5-turbo-16k-0613 gpt-4-0314 ...可根据提供的密钥来选择"
+              placement="bottom"
+              effect="dark"
+              title="模型名称"
+              :width="300"
+              trigger="hover"
+              content="gpt-3.5-turbo gpt-3.5-turbo-16k-0613 gpt-4-0314 ...可根据提供的密钥来选择"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            placeholder="请设置模型名称"
-            maxlength="20"
-            v-model="form.model"
+              style="width: 230px"
+              placeholder="请设置模型名称"
+              maxlength="20"
+              v-model="form.model"
           />
         </div>
       </div>
@@ -257,26 +257,26 @@
         <div class="config-title">
           <text>open_key</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="密钥"
-            :width="300"
-            trigger="hover"
-            content="填写用于建立对话连接的GPT TOKEN身份令牌 如: sk-P3xGzxJ5POkJ55SibZb..."
+              placement="bottom"
+              effect="dark"
+              title="密钥"
+              :width="300"
+              trigger="hover"
+              content="填写用于建立对话连接的GPT TOKEN身份令牌 如: sk-P3xGzxJ5POkJ55SibZb..."
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.openKey"
-            maxlength="200"
-            placeholder="请设置请求密钥"
+              style="width: 230px"
+              v-model="form.openKey"
+              maxlength="200"
+              placeholder="请设置请求密钥"
           />
         </div>
       </div>
@@ -284,26 +284,26 @@
         <div class="config-title">
           <text>open_ai_url</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="GPT请求地址"
-            :width="300"
-            trigger="hover"
-            content="格式为 https://chatgpt1.nextweb.fun/api/proxy/v1"
+              placement="bottom"
+              effect="dark"
+              title="GPT请求地址"
+              :width="300"
+              trigger="hover"
+              content="格式为 https://chatgpt1.nextweb.fun/api/proxy/v1"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.openAiUrl"
-            placeholder="请设置请求链接"
-            maxlength="100"
+              style="width: 230px"
+              v-model="form.openAiUrl"
+              placeholder="请设置请求链接"
+              maxlength="100"
           />
         </div>
       </div>
@@ -311,26 +311,26 @@
         <div class="config-title">
           <text>top_p</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="对话多样性"
-            :width="300"
-            trigger="hover"
-            content="值越大对话越多样 范围(0 - 2)之间 推荐值: 1"
+              placement="bottom"
+              effect="dark"
+              title="对话多样性"
+              :width="300"
+              trigger="hover"
+              content="值越大对话越多样 范围(0 - 2)之间 推荐值: 1"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.top_p"
-            maxlength="1"
-            placeholder="请设置对话多样性"
+              style="width: 230px"
+              v-model="form.top_p"
+              maxlength="1"
+              placeholder="请设置对话多样性"
           />
         </div>
       </div>
@@ -338,26 +338,26 @@
         <div class="config-title">
           <text>max_tokens</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="最大文本输出限制"
-            :width="300"
-            trigger="hover"
-            content="用于控制GPT最大回复字符长度(依据TOKENS计算) 推荐值: 2048"
+              placement="bottom"
+              effect="dark"
+              title="最大文本输出限制"
+              :width="300"
+              trigger="hover"
+              content="用于控制GPT最大回复字符长度(依据TOKENS计算) 推荐值: 2048"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.max_tokens"
-            placeholder="请设置最大文本输出限制"
-            maxlength="4"
+              style="width: 230px"
+              v-model="form.max_tokens"
+              placeholder="请设置最大文本输出限制"
+              maxlength="4"
           />
         </div>
       </div>
@@ -365,26 +365,26 @@
         <div class="config-title">
           <text>temperature</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="温度控制"
-            :width="300"
-            trigger="hover"
-            content="值越大回复内容越随机 范围(0 - 2)之间 推荐值: 1"
+              placement="bottom"
+              effect="dark"
+              title="温度控制"
+              :width="300"
+              trigger="hover"
+              content="值越大回复内容越随机 范围(0 - 2)之间 推荐值: 1"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.temperature"
-            placeholder="请设置温度控制"
-            maxlength="1"
+              style="width: 230px"
+              v-model="form.temperature"
+              placeholder="请设置温度控制"
+              maxlength="1"
           />
         </div>
       </div>
@@ -392,26 +392,26 @@
         <div class="config-title">
           <text>speed</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="回复速率"
-            :width="300"
-            trigger="hover"
-            content="用于控制GPT文字输出速度 范围(0 - 99) 越小打字流效果输出越快 推荐值 20"
+              placement="bottom"
+              effect="dark"
+              title="回复速率"
+              :width="300"
+              trigger="hover"
+              content="用于控制GPT文字输出速度 范围(0 - 99) 越小打字流效果输出越快 推荐值 20"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            v-model="form.speed"
-            placeholder="请设置回复速率"
-            maxlength="2"
+              style="width: 230px"
+              v-model="form.speed"
+              placeholder="请设置回复速率"
+              maxlength="2"
           />
         </div>
       </div>
@@ -419,28 +419,28 @@
         <div class="config-title" style="align-items: flex-start">
           <text>questions</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="提问预设词"
-            :width="300"
-            trigger="hover"
-            content="例如: 我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题"
+              placement="bottom"
+              effect="dark"
+              title="提问预设词"
+              :width="300"
+              trigger="hover"
+              content="例如: 我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            type="textarea"
-            :row="4"
-            v-model="form.questions"
-            placeholder="请设置提问预设词"
-            maxlength="1000"
+              style="width: 230px"
+              type="textarea"
+              :row="4"
+              v-model="form.questions"
+              placeholder="请设置提问预设词"
+              maxlength="1000"
           />
         </div>
       </div>
@@ -448,57 +448,58 @@
         <div class="config-title" style="align-items: flex-start">
           <text>answer</text>
           <el-popover
-            placement="bottom"
-            effect="dark"
-            title="回答预设词"
-            :width="300"
-            trigger="hover"
-            content="例如对应上面的操作: 请提供故事主题 , questions 和 answer相当于设置 第一次对话 用于主动引导GPT对话走向"
+              placement="bottom"
+              effect="dark"
+              title="回答预设词"
+              :width="300"
+              trigger="hover"
+              content="例如对应上面的操作: 请提供故事主题 , questions 和 answer相当于设置 第一次对话 用于主动引导GPT对话走向"
           >
             <template #reference>
               <el-icon>
-                <info-filled />
+                <info-filled/>
               </el-icon>
             </template>
           </el-popover>
         </div>
         <div>
           <el-input
-            style="width: 230px"
-            type="textarea"
-            :row="4"
-            v-model="form.answer"
-            placeholder="请设置回答预设词"
-            maxlength="1000"
+              style="width: 230px"
+              type="textarea"
+              :row="4"
+              v-model="form.answer"
+              placeholder="请设置回答预设词"
+              maxlength="1000"
           />
         </div>
       </div>
       <div style="text-align: right; margin-top: 20px">
         <el-button
-          color="var(--themeColor2)"
-          style="width: 100px"
-          @click="submitPersonalityConfig"
-          :loading="loading"
-          >应用
+            color="var(--themeColor2)"
+            style="width: 100px"
+            @click="submitPersonalityConfig"
+            :loading="loading"
+        >应用
         </el-button>
         <el-button
-          color="var(--bgColor3)"
-          style="
+            color="var(--bgColor3)"
+            style="
             width: 100px;
             background: var(--bgColor3);
             color: var(--textColor2);
           "
-          @click="resetPersonalityConfig"
-          >重置</el-button
+            @click="resetPersonalityConfig"
+        >重置
+        </el-button
         >
       </div>
     </div>
   </el-drawer>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
+  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
 </template>
 
 <script>
-import { nextTick, onMounted, ref } from "vue";
+import {nextTick, onMounted, ref} from "vue";
 import {
   ChatDotRound,
   ChatLineSquare,
@@ -511,22 +512,22 @@ import {
   UserFilled,
   VideoPause,
 } from "@element-plus/icons-vue";
-import { ElNotification } from "element-plus";
+import {ElNotification} from "element-plus";
 import {
   FavoritesAdd,
   GetPersonalityConfig,
   GetUserInfo,
   PutPersonalityConfig,
 } from "../../api/BSideApi";
-import { useStore } from "vuex";
+import {useStore} from "vuex";
 import LoginDialog from "@/components/LoginDialog.vue";
 import InputFormField from "@/components/InputFormField.vue";
 import store from "@/store";
-import { conversionTime } from "../utils/date";
+import {conversionTime} from "../utils/date";
 
 export default {
   name: "dialogueView",
-  methods: { conversionTime },
+  methods: {conversionTime},
   components: {
     InfoFilled,
     Tools,
@@ -576,7 +577,7 @@ export default {
       openKey: "",
       openAiUrl: "https://chatgpt1.nextweb.fun/api/proxy/v1",
       questions:
-        "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
+          "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
       answer: "请提供故事主题",
       speed: 50,
     });
@@ -612,8 +613,8 @@ export default {
             ],
           };
           localStorage.setItem(
-            "personalityCache",
-            JSON.stringify(personalityCache.value)
+              "personalityCache",
+              JSON.stringify(personalityCache.value)
           );
         }
         //获取个人配置
@@ -690,7 +691,7 @@ export default {
           openKey: "",
           openAiUrl: "https://chatgpt1.nextweb.fun/api/proxy/v1",
           questions:
-            "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
+              "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
           answer: "请提供故事主题",
           speed: 50,
         };
@@ -725,8 +726,8 @@ export default {
       personalityCache.value.index = index;
       conversationList.value = personalityCache.value.array[index].context;
       localStorage.setItem(
-        "personalityCache",
-        JSON.stringify(personalityCache.value)
+          "personalityCache",
+          JSON.stringify(personalityCache.value)
       );
       dialogueDisplay.value = false;
     }
@@ -751,8 +752,8 @@ export default {
         personalityCache.value.array.splice(index, 1);
       }
       localStorage.setItem(
-        "personalityCache",
-        JSON.stringify(personalityCache.value)
+          "personalityCache",
+          JSON.stringify(personalityCache.value)
       );
     }
 
@@ -763,15 +764,15 @@ export default {
       personalityCache.value.array[value.index].time = Date.now();
       if (item.length > 0) {
         personalityCache.value.array[value.index].title = item[
-          item.length - 1
-        ].user
-          .trim()
-          .slice(0, 25);
+        item.length - 1
+            ].user
+            .trim()
+            .slice(0, 25);
       }
       personalityCache.value.array[value.index].context = item;
       localStorage.setItem(
-        "personalityCache",
-        JSON.stringify(personalityCache.value)
+          "personalityCache",
+          JSON.stringify(personalityCache.value)
       );
     }
 
@@ -786,8 +787,8 @@ export default {
       personalityCache.value.index = 0;
       conversationList.value = [];
       localStorage.setItem(
-        "personalityCache",
-        JSON.stringify(personalityCache.value)
+          "personalityCache",
+          JSON.stringify(personalityCache.value)
       );
     }
 
@@ -822,29 +823,34 @@ export default {
       // TODO 上下文
       let messages = [];
       conversationList.value
-        .slice(-memory.value)
-        .forEach(({ isError, user, assistant }) => {
-          if (!isError) {
-            const truncatedUser =
-              user.length > size.value
-                ? user.slice(0, size.value) + "..."
-                : user;
-            const truncatedAssistant =
-              assistant && assistant.length > size.value
-                ? assistant.slice(0, size.value) + "..."
-                : assistant;
-            messages.push({
-              role: "user",
-              content: truncatedUser,
-            });
-            if (truncatedAssistant) {
+          .slice(-memory.value)
+          .forEach(({isError, user, assistant}, index, arr) => {
+            if (!isError) {
+              let truncatedUser = user
+              let truncatedAssistant = assistant
+              if (arr.length > 2) {
+                if (index !== arr.length - 1 && index !== arr.length - 2) {
+                  truncatedUser =
+                      user.length > size.value ? user.slice(0, size.value) + "..." : user;
+                  truncatedAssistant =
+                      assistant && assistant.length > size.value
+                          ? assistant.slice(0, size.value) + "..."
+                          : assistant;
+                }
+              }
               messages.push({
-                role: "assistant",
-                content: truncatedAssistant,
+                role: "user",
+                content: truncatedUser,
               });
+              if (truncatedAssistant) {
+                messages.push({
+                  role: "assistant",
+                  content: truncatedAssistant,
+                });
+              }
             }
-          }
-        });
+
+          });
       webSocket({
         messages: {
           messages: messages,
@@ -853,7 +859,7 @@ export default {
       });
     }
 
-    function webSocket({ messages, index }) {
+    function webSocket({messages, index}) {
       if (typeof WebSocket == "undefined") {
         console.log("您的浏览器不支持WebSocket");
       } else {
@@ -867,7 +873,7 @@ export default {
         console.log("发起websocket", model.value);
 
         socket.value = new WebSocket(
-          process.env.VUE_APP_WSS +
+            process.env.VUE_APP_WSS +
             "/personality/api/" +
             localStorage.getItem("token")
         );
