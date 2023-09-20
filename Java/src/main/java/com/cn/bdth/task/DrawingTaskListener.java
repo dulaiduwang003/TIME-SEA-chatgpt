@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -107,7 +108,9 @@ public class DrawingTaskListener {
             final String block = webClientBuilder.build()
                     .post()
                     .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + (structure.getIsType() == 0 ? ServerConstant.SD_DRAWING_TEXT : ServerConstant.SD_DRAWING_IMAGE))
-                    .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
+//                    .header(HttpHeaders.AUTHORIZATION,"Basic xxxx")
+                    .body(BodyInserters.fromValue(JSONObject.toJSON(structure.getSdDrawingModel())))
+//                    .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();

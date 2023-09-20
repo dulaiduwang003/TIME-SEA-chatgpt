@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+	<appender name="LOGHUB" class="com.aliyun.openservices.log.logback.LoghubAppender">
+		<!--必选项-->
+		<!-- 账号及网络配置 -->
+		<endpoint>xxxxx</endpoint>
+		<accessKeyId>xxxxx</accessKeyId>
+		<accessKeySecret>xxxxx</accessKeySecret>
+
+		<!-- sls 项目配置 -->
+		<project>xxxxi</project>
+		<logStore>xxxxx</logStore>
+		<!--必选项 (end)-->
+
+		<!-- 可选项 -->
+		<topic>topic1</topic>
+		<source>source1</source>
+
+		<!-- 可选项 详见 '参数说明'-->
+		<totalSizeInBytes>104857600</totalSizeInBytes>
+		<maxBlockMs>60000</maxBlockMs>
+		<ioThreadCount>8</ioThreadCount>
+		<batchSizeThresholdInBytes>524288</batchSizeThresholdInBytes>
+		<batchCountThreshold>4096</batchCountThreshold>
+		<lingerMs>2000</lingerMs>
+		<retries>10</retries>
+		<baseRetryBackoffMs>100</baseRetryBackoffMs>
+		<maxRetryBackoffMs>100</maxRetryBackoffMs>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 打印WARN,ERROR级别的日志 -->
+			<level>INFO</level>
+		</filter>
+
+		<mdcFields>THREAD_ID,MDC_KEY</mdcFields>
+	</appender>
+
+	<!--myibatis log configure -->
+	<logger name="com.apache.ibatis" level="TRACE" />
+	<logger name="java.sql.Connection" level="DEBUG" />
+	<logger name="java.sql.Statement" level="DEBUG" />
+	<logger name="java.sql.PreparedStatement" level="DEBUG" />
+
+	<!-- 日志输出级别 -->
+	<root level="INFO">
+<!--		<appender-ref ref="STDOUT" />-->
+<!--		<appender-ref ref="FILE" />-->
+<!--		<appender-ref ref="HTML" />-->
+<!--		<appender-ref ref="FILE_HTML" />-->
+		<appender-ref ref="LOGHUB" />
+	</root>
+
+</configuration>
