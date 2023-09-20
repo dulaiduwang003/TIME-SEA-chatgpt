@@ -114,7 +114,7 @@ config:
   sessionKey: '克劳德 密钥'
   # 必应Cookie
   newBingCookie: '必应Cookie'
-  #qrcode-toolkit-node api
+  #qrcode-toolkit-node api (需要自己本地部署，获取借用其他人部署的也可以)
   qrcodeToolkitApiUrl: 'http://127.0.0.1:3000/qrcode?url='
   #qrcode 二维码解码 密钥  (去这里注册申请一个： https://www.2weima.com)
   qrDecodeAuthorization: 'xxxx'
