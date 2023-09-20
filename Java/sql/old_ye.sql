@@ -23,7 +23,7 @@ create table if not exists t_sd_control_net
     guidance_start decimal(3, 2)                       not null comment '开始介入',
     guidance_end   decimal(3, 2)                       not null comment '结束介入',
     text           varchar(64)                         not null comment '描述',
-    type           int                                 not null comment '0:人物/风景； 1:二维码',
+    type           int                                 not null comment '-1:隐藏文字；0:人物/风景； 1:二维码',
     sort           int                                 null,
     is_selected    tinyint   default 0                 null comment '是否默认选中',
     del_flag       tinyint   default 0                 not null comment '0:未删除；1:已删除',
@@ -36,15 +36,13 @@ create table if not exists sys_log
 (
     id            bigint auto_increment
         primary key,
-    log_content   varchar(1000) null comment '日志内容',
-    user_id       bigint        not null comment '操作用户账号',
-    user_name     varchar(100)  null comment '操作用户名称',
-    ip            varchar(100)  null comment 'IP',
-    method        varchar(500)  null comment '请求java方法',
-    request_url   varchar(255)  null comment '请求路径',
-    request_param longtext      null comment '请求参数',
-    request_type  varchar(10)   null comment '请求类型',
-    cost_time     bigint        null comment '耗时',
-    create_time   datetime      null comment '创建时间'
+    log_content   varchar(1000)                      null comment '日志内容',
+    user_id       bigint                             not null comment '操作用户账号',
+    user_name     varchar(100)                       null comment '操作用户名称',
+    ip            varchar(100)                       null comment 'IP',
+    method        varchar(500)                       null comment '请求java方法',
+    request_param longtext                           null comment '请求参数',
+    cost_time     bigint                             null comment '耗时',
+    create_time   datetime default CURRENT_TIMESTAMP not null comment '创建时间'
 )
-    comment '系统日志表';
+    comment '系统日志表'
