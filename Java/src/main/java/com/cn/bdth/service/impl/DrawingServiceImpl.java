@@ -255,7 +255,7 @@ public class DrawingServiceImpl implements DrawingService {
                 //1、二维码解码
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("qr_image", domain + imageUrl);
-                String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,"4206|Mx53Ue5tMuzQUAKVSkbZ3fdKdatGhyuRFYBNXY4G");
+                String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,"xxxxxx");
 
                 //2、解码后的二维码重新优化
                 if(StringUtils.isNotBlank(qrCodeUrl)) {
