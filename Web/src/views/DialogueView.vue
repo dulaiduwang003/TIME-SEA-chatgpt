@@ -417,7 +417,7 @@ export default {
       // 清空内容
       // input.value = "";
       inputRef.value.resetInputValue();
-      // 将对话内容push进整个绘画
+      // 将对话内容push进整个会话
       conversationList.value.push({
         user: content,
       });
@@ -428,16 +428,20 @@ export default {
       let messages = [];
       conversationList.value
           .slice(-memory.value)
-          .forEach(({isError, user, assistant}) => {
+          .forEach(({isError, user, assistant}, index, arr) => {
             if (!isError) {
-              const truncatedUser =
-                  user.length > size.value
-                      ? user.slice(0, size.value) + "..."
-                      : user;
-              const truncatedAssistant =
-                  assistant && assistant.length > size.value
-                      ? assistant.slice(0, size.value) + "..."
-                      : assistant;
+              let truncatedUser = user
+              let truncatedAssistant = assistant
+              if (arr.length > 2) {
+                if (index !== arr.length - 1 && index !== arr.length - 2) {
+                  truncatedUser =
+                      user.length > size.value ? user.slice(0, size.value) + "..." : user;
+                  truncatedAssistant =
+                      assistant && assistant.length > size.value
+                          ? assistant.slice(0, size.value) + "..."
+                          : assistant;
+                }
+              }
               messages.push({
                 role: "user",
                 content: truncatedUser,
@@ -449,6 +453,7 @@ export default {
                 });
               }
             }
+
           });
       webSocket({
         messages: {

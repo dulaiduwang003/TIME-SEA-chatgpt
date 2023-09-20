@@ -11,22 +11,27 @@ import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.constants.user.PersonalityConstant;
 import com.cn.bdth.dto.PersonalityDto;
 import com.cn.bdth.entity.Personality;
+import com.cn.bdth.enums.FileEnum;
 import com.cn.bdth.exceptions.BingException;
+import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.PersonalityConfigNullException;
 import com.cn.bdth.handler.Chat;
 import com.cn.bdth.interfaces.Callback;
 import com.cn.bdth.mapper.PersonalityMapper;
 import com.cn.bdth.model.ClaudeModel;
+import com.cn.bdth.model.GptImageModel;
 import com.cn.bdth.model.GptModel;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.structure.PersonalityConfigStructure;
+import com.cn.bdth.utils.AliUploadUtils;
 import com.cn.bdth.utils.BeanUtils;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
@@ -39,6 +44,7 @@ import reactor.netty.transport.ProxyProvider;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 雨纷纷旧故里草木深
@@ -62,6 +68,11 @@ public class GptServiceImpl implements GptService {
     private final RedisUtils redisUtils;
 
     private final PersonalityMapper personalityMapper;
+
+    private final AliUploadUtils aliUploadUtils;
+
+    @Value("${ali-oss.domain}")
+    private String domain;
 
     @Override
     public PersonalityConfigStructure getPersonalityConfig(Long currentLoginId) {
@@ -136,6 +147,30 @@ public class GptServiceImpl implements GptService {
                 .body(BodyInserters.fromValue(model))
                 .retrieve()
                 .bodyToFlux(String.class);
+    }
+
+    @Override
+    public String drawAccordingGpt(final String promptWords, final ChatGptCommon.ChatGptStructure str) {
+        try {
+            final String block = webClient.baseUrl(str.getOpenAiUrl())
+                    .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + str.getOpenKey())
+                    .build()
+                    .post()
+                    .uri(ServerConstant.GPT_DRAWING)
+                    .body(BodyInserters.fromValue(new GptImageModel()
+                            .setPrompt(promptWords)
+                    ))
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            final JSONObject jsonObject = JSONObject.parseObject(block);
+            assert jsonObject != null;
+            final String imageUrl = jsonObject.getJSONArray("data").getJSONObject(0).getString("url");
+
+            return "![DRAWING](" + domain + aliUploadUtils.uploadImageFromUrl(imageUrl, FileEnum.PAINTING.getDec(), UUID.randomUUID() + ".jpg") + ")";
+        } catch (Exception e) {
+            throw new DrawingException();
+        }
     }
 
     @Override

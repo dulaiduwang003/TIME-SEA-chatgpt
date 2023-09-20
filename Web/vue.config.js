@@ -27,6 +27,10 @@ module.exports = defineConfig({
                     terserOptions: {
                         compress: {
                             drop_console: true
+                        },
+                        mangle: true, // 开启代码混淆
+                        output: {
+                            comments: true // 删除注释
                         }
                     }
                 })
