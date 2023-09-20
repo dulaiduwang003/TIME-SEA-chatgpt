@@ -1,6 +1,7 @@
 package com.cn.bdth.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cn.bdth.config.StableDiffusionDefaultConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -58,7 +59,7 @@ public class QRCodeUtil {
                 .build();
         final String block = webClient
                 .get()
-                .uri("http://127.0.0.1:3000/qrcode?url="+qrCodeUrl)
+                .uri(qrCodeUrl)
                 .header("Content-Type", "application/json")
                 .retrieve()
                 .bodyToMono(String.class)

@@ -9,6 +9,7 @@ import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
+import com.cn.bdth.config.StableDiffusionDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.dto.*;
@@ -91,6 +92,8 @@ public class DrawingServiceImpl implements DrawingService {
     private final SdModelEntityMapper sdModelEntityMapper;
 
     private final SdControlNetMapper sdControlNetMapper;
+
+    private final StableDiffusionDefaultConfig stableDiffusionDefaultConfig;
 
     @Value("${ali-oss.domain}")
     private String domain;
@@ -240,83 +243,12 @@ public class DrawingServiceImpl implements DrawingService {
             model.setInit_images(List.of(imageUtils.convertImageToBase64(imageUrl)));
             isType = 1;
 
-            //默认时人物
-            if (null == dto.getControlNetType()) {
-                dto.setControlNetType(0);
-            }
-
-            //如果是二维码图需要修改二维码的数据
-            String qrCodeBase64New = "";
-            if(2 == dto.getControlNetType()) {
-                //二维码默认大都是512*512；否则出不了图
-                dto.setHeight(512L);
-                dto.setWidth(512L);
-
-                //1、二维码解码
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("qr_image", domain + imageUrl);
-                String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,"xxxxxx");
-
-                //2、解码后的二维码重新优化
-                if(StringUtils.isNotBlank(qrCodeUrl)) {
-                    qrCodeBase64New = QRCodeUtil.qrCodeOptimize(qrCodeUrl);
-                }
-                model.setInit_images(List.of(qrCodeBase64New));
-            }
-
-            List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
-                    .lambda()
-                    .eq(SdControlNet::getType, dto.getControlNetType())
-                    .eq(SdControlNet::getDelFlag, 0)
-                    .orderByAsc(SdControlNet::getSort));
-
-            List<Args> argList = new ArrayList<>();
-            for (SdControlNet sdControlNet : sdControlNetList) {
-                Args args = Args.builder()
-                        .enabled(true)
-                        .control_mode(0)
-                        .pixel_perfect(true)
-                        .resize_mode(1)
-                        .model(sdControlNet.getModel())
-                        .module(sdControlNet.getModule())
-                        .weight(sdControlNet.getWeight())
-                        .guidance_start(sdControlNet.getGuidanceStart())
-                        .guidance_end(sdControlNet.getGuidanceEnd())
-                        .build();
-                argList.add(args);
-            }
-            model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
-                    .args(argList).build()).build());
+            //处理 controlNet
+            dealControlNet(dto, model, imageUrl);
         }
         else {
-            // 图片中加文字
-            List<Args> argList = new ArrayList<>();
-            if (StringUtils.isNotBlank(dto.getEntryText())) {
-                List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
-                        .lambda()
-                        .eq(SdControlNet::getType, -1)
-                        .eq(SdControlNet::getDelFlag, 0));
-
-                String base64Image = imageUtils.getImageBase64ByText(dto.getEntryText(), 2*dto.getHeight().intValue(), 2*dto.getWidth().intValue());
-
-                for (SdControlNet sdControlNet : sdControlNetList) {
-                    Args args = Args.builder()
-                            .input_image(base64Image)
-                            .enabled(true)
-                            .control_mode(0)
-                            .pixel_perfect(true)
-                            .resize_mode(1)
-                            .model(sdControlNet.getModel())
-                            .module(sdControlNet.getModule())
-                            .weight(sdControlNet.getWeight())
-                            .guidance_start(sdControlNet.getGuidanceStart())
-                            .guidance_end(sdControlNet.getGuidanceEnd())
-                            .build();
-                    argList.add(args);
-                }
-                model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
-                        .args(argList).build()).build());
-            }
+            // 处理 图片中的隐藏文字
+            dealTextInImage(dto, model);
         }
         drawingMapper.insert(drawing);
         //提交任务到队列中
@@ -333,6 +265,100 @@ public class DrawingServiceImpl implements DrawingService {
         return new DrawingTaskVo().setDrawingId(drawing.getDrawingId()).setLocation(redisTemplate.opsForList().size(ServerConstant.DRAWING_SD_TASK_QUEUE));
 
 
+    }
+
+    /**
+     * 处理 图片中的隐藏文字
+     *
+     * @param dto
+     * @param model
+     */
+    private void dealTextInImage(DrawingSdTaskDto dto, SdDrawingModel model) {
+        // 图片中加文字
+        List<Args> argList = new ArrayList<>();
+        if (StringUtils.isNotBlank(dto.getEntryText())) {
+            List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
+                    .lambda()
+                    .eq(SdControlNet::getType, -1)
+                    .eq(SdControlNet::getDelFlag, 0));
+
+            String base64Image = imageUtils.getImageBase64ByText(dto.getEntryText(), 2* dto.getHeight().intValue(), 2* dto.getWidth().intValue());
+
+            for (SdControlNet sdControlNet : sdControlNetList) {
+                Args args = Args.builder()
+                        .input_image(base64Image)
+                        .enabled(true)
+                        .control_mode(0)
+                        .pixel_perfect(true)
+                        .resize_mode(1)
+                        .model(sdControlNet.getModel())
+                        .module(sdControlNet.getModule())
+                        .weight(sdControlNet.getWeight())
+                        .guidance_start(sdControlNet.getGuidanceStart())
+                        .guidance_end(sdControlNet.getGuidanceEnd())
+                        .build();
+                argList.add(args);
+            }
+            model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
+                    .args(argList).build()).build());
+        }
+    }
+
+    /**
+     * 处理二维码
+     *
+     * @param dto
+     * @param model
+     * @param imageUrl
+     */
+    private void dealControlNet(DrawingSdTaskDto dto, SdDrawingModel model, String imageUrl) {
+        // 默认是人物
+        if (null == dto.getControlNetType()) {
+            dto.setControlNetType(0);
+        }
+
+        //如果是二维码图需要修改二维码的数据
+        String qrCodeBase64New = "";
+        if(2 == dto.getControlNetType()) {
+            //二维码默认大都是512*512；否则出不了图
+            dto.setHeight(512L);
+            dto.setWidth(512L);
+
+            //1、二维码解码
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("qr_image", domain + imageUrl);
+            String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,stableDiffusionDefaultConfig.getQrDecodeAuthorization());
+
+            //2、解码后的二维码重新优化
+            if(StringUtils.isNotBlank(qrCodeUrl)) {
+                qrCodeBase64New = QRCodeUtil.qrCodeOptimize(stableDiffusionDefaultConfig.getQrcodeToolkitApiUrl() + qrCodeUrl);
+            }
+            model.setInit_images(List.of(qrCodeBase64New));
+        }
+
+        List<SdControlNet> sdControlNetList = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
+                .lambda()
+                .eq(SdControlNet::getType, dto.getControlNetType())
+                .eq(SdControlNet::getDelFlag, 0)
+                .orderByAsc(SdControlNet::getSort));
+
+        List<Args> argList = new ArrayList<>();
+        for (SdControlNet sdControlNet : sdControlNetList) {
+            Args args = Args.builder()
+                    .enabled(true)
+                    .control_mode(0)
+                    .pixel_perfect(true)
+                    .resize_mode(1)
+                    .model(sdControlNet.getModel())
+                    .module(sdControlNet.getModule())
+                    .weight(sdControlNet.getWeight())
+                    .guidance_start(sdControlNet.getGuidanceStart())
+                    .guidance_end(sdControlNet.getGuidanceEnd())
+                    .build();
+            argList.add(args);
+        }
+        model.setAlwayson_scripts(AlwaysonScripts.builder().controlnet(ControlNet.builder()
+                .args(argList).build()).build());
     }
 
     @Override
