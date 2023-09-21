@@ -140,6 +140,8 @@ public class DrawingServiceImpl implements DrawingService {
     public List<SdModelListVo> getSdModelList() {
         final List<SdModelEntity> sdModelEntities = sdModelEntityMapper.selectList(new QueryWrapper<SdModelEntity>()
                 .lambda()
+                .eq(SdModelEntity::getDelFlag, 0)
+                .orderByAsc(SdModelEntity::getSort)
                 .select(SdModelEntity::getModelName, SdModelEntity::getTextName)
         );
         if (sdModelEntities != null && !sdModelEntities.isEmpty()) {
@@ -503,4 +505,18 @@ public class DrawingServiceImpl implements DrawingService {
         ).convert(c -> new UserDrawingVo().setDrawingId(c.getDrawingId()).setGenerateUrl(c.getGenerateUrl()));
     }
 
+    @Override
+    public List<SdControlNetTypeVo> getSdControlNetType() {
+        final List<SdControlNet> sdControlNets = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
+                .lambda()
+                .eq(SdControlNet::getDelFlag, 0)
+                .orderByAsc(SdControlNet::getSort)
+                .groupBy(SdControlNet::getType)
+                .select(SdControlNet::getType, SdControlNet::getTypeName)
+        );
+        if (sdControlNets != null && !sdControlNets.isEmpty()) {
+            return BeanUtils.copyArrayProperTies(sdControlNets, SdControlNetTypeVo.class);
+        }
+        return null;
+    }
 }

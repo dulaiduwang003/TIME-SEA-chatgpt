@@ -5,7 +5,7 @@ import com.cn.bdth.entity.SdControlNet;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * descThisFile
+ * sd-controlNet
  *
  * @author yzq
  * @date 2023/08/21 17:53

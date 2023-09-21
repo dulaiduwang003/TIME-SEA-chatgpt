@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * descThisFile
+ * sd-controlNet
  *
  * @author yzq
  * @date 2023/08/21 17:44

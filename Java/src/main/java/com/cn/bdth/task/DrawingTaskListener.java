@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.WxSubscribe;
 import com.cn.bdth.common.WxSubscribeTemplate;
+import com.cn.bdth.config.StableDiffusionDefaultConfig;
 import com.cn.bdth.constants.ServerConstant;
 import com.cn.bdth.entity.Drawing;
 import com.cn.bdth.entity.User;
@@ -67,6 +68,8 @@ public class DrawingTaskListener {
 
     private final WeChatUtils weChatUtils;
 
+    private final StableDiffusionDefaultConfig stableDiffusionDefaultConfig;
+
     /**
      * 监听SD任务队列
      */
@@ -108,7 +111,7 @@ public class DrawingTaskListener {
             final String block = webClientBuilder.build()
                     .post()
                     .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + (structure.getIsType() == 0 ? ServerConstant.SD_DRAWING_TEXT : ServerConstant.SD_DRAWING_IMAGE))
-//                    .header(HttpHeaders.AUTHORIZATION,"Basic xxxx")
+                    .header(HttpHeaders.AUTHORIZATION,"Basic " + stableDiffusionDefaultConfig.getSdAuthorization())
                     .body(BodyInserters.fromValue(JSONObject.toJSON(structure.getSdDrawingModel())))
 //                    .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
                     .retrieve()

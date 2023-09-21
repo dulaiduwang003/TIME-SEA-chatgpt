@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * descThisFile
+ * 系统日志
  *
  * @author yzq
  * @date 2023/08/21 17:44

@@ -124,6 +124,8 @@ config:
   qrcodeToolkitApiUrl: 'http://127.0.0.1:3000/qrcode?url='
   #qrcode 二维码解码 密钥 (去这里注册申请一个： https://www.2weima.com)
   qrDecodeAuthorization: 'xxxx'
+  #sd-密钥（没有就空着）
+  sdAuthorization: ''
 
 # 默认终端配置
 control:
@@ -144,3 +146,6 @@ control:
   # 是否开启代理了
   enableProxy: false
 
+
+#logging:
+#  config: classpath:logback/logback-prod.xml

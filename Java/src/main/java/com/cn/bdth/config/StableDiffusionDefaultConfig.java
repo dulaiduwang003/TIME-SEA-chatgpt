@@ -22,6 +22,9 @@ public class StableDiffusionDefaultConfig {
     @Value("${config.sdUrl}")
     private String sdUrl;
 
+    @Value("${config.sdAuthorization}")
+    private String sdAuthorization;
+
     @Value("${config.qrcodeToolkitApiUrl}")
     private String qrcodeToolkitApiUrl;
 

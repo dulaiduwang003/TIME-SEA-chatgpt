@@ -23,8 +23,6 @@ public class SdModelEntity {
 
   private Boolean isSelected;
 
-  private Integer type;
-
   private Integer sort;
 
   private String negativePrompt;

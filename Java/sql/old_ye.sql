@@ -1,16 +1,15 @@
 -- 修改sd_model 表结构；
 alter table sd_model
-    add sampler_index  varchar(500) null comment '采样方法',
-    add type tinyint default 0 not null comment '0:文生图模型；1:图生图模型',
+    add sampler_index  varchar(500) null comment '默认采样方法',
     add sort int null,
-    add promp varchar(500) null comment '默认正向提示词',
+    add prompt varchar(500) null comment '默认正向提示词',
     add negative_prompt varchar(500) null comment '默认反向提示词',
     add is_selected tinyint default 0 null comment '是否默认选中',
     add del_flag tinyint default 0 not null comment '0:未删除；1:已删除';
 
 -- 修改drawing 表结构
 alter table drawing
-    add del_flag1 tinyint default 0 not null comment '删除标识';
+    add del_flag tinyint default 0 not null comment '删除标识';
 
 -- sd-controlNet数据表
 create table if not exists t_sd_control_net
@@ -23,13 +22,13 @@ create table if not exists t_sd_control_net
     guidance_start decimal(3, 2)                       not null comment '开始介入',
     guidance_end   decimal(3, 2)                       not null comment '结束介入',
     text           varchar(64)                         not null comment '描述',
-    type           int                                 not null comment '-1:隐藏文字；0:人物/风景； 1:二维码',
+    type           int                                 not null comment '-1:隐藏文字；0:人物；1:人物； 2:二维码',
+    type_name      varchar(500)                        null comment 'controlNet类型名称',
     sort           int                                 null,
     is_selected    tinyint   default 0                 null comment '是否默认选中',
     del_flag       tinyint   default 0                 not null comment '0:未删除；1:已删除',
     create_time    timestamp default CURRENT_TIMESTAMP not null
-)
-    comment 'sd-controlNet数据表';
+);
 
 -- 系统日志表
 create table if not exists sys_log

@@ -123,4 +123,10 @@ public interface DrawingService {
     IPage<UserDrawingVo> getUserDrawingOpsPage(final int pageNum);
 
 
+    /**
+     * 获取 sd-controlNet 的类型数据
+     *
+     * @return
+     */
+    List<SdControlNetTypeVo> getSdControlNetType();
 }

@@ -56,6 +56,15 @@
 
       </textarea>
       </view>
+
+      <!--  描述词-->
+      <view class="title">
+        <view>隐藏文字(可选,注意如果是竖排，请手动换行)</view>
+        <textarea :show-confirm-bar="false" :auto-height="true" maxlength="2000" confirm-type="done"
+                  v-model="form.entryText"
+                  placeholder-class="placeholder-class" placeholder="请输入隐藏文字，注意如果是竖排，请手动换行"/>
+      </view>
+
       <!--  参数配置-->
       <view class="title">
         <view>图片大小</view>
@@ -80,6 +89,15 @@
           <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in model"
                 :key="index" @click="handleModel(index)">
             {{ item.textName }}
+          </view>
+        </view>
+      </view>
+      <view class="title">
+        <view>图片类型选择</view>
+        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
+          <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in controlNet"
+                :key="index" @click="handleControlNet(index)">
+            {{ item.typeName }}
           </view>
         </view>
       </view>
@@ -114,7 +132,7 @@
 <script>
 import GenerateLoadingComponent from "@/pages/drawing/components/generateLoadingComponent.vue";
 import LoadingComponent from "@/wxcomponents/components/loadingComponent.vue";
-import {addSdtDrawingTask, getSdModelList, isDrawingSucceed, sdConnectivity} from "@/api/drawing";
+import {addSdtDrawingTask, getSdModelList, isDrawingSucceed, sdConnectivity, getSdControlNetType} from "@/api/drawing";
 import env from "@/utils/env";
 import {getToken} from "@/utils/utils";
 
@@ -131,6 +149,8 @@ export default {
         modelName: '',
         sampler_index: "Euler a",
         negative_prompt: '',
+        controlNetType: '',
+        entryText: '',
       },
       msg: '正在检查绘图服务运行状态',
       size: [
@@ -184,6 +204,7 @@ export default {
         }
       ],
       model: [],
+      controlNet:[],
       sampler: [
         {
           value: "Euler a",
@@ -272,6 +293,11 @@ export default {
       this.model[index].isSelected = true
       this.form.modelName = this.model[index].modelName
     },
+    handleControlNet: function (index) {
+      this.controlNet.forEach(s => s.isSelected = false)
+      this.controlNet[index].isSelected = true
+      this.form.controlNetType = this.controlNet[index].type
+    },
     beforeRead: function (e) {
       const {file, callback} = e.detail;
       try {
@@ -310,6 +336,25 @@ export default {
           })
           this.model[0].isSelected = true
           this.form.modelName = this.model[0].modelName
+        }
+      } catch (e) {
+        console.log(e)
+      }
+
+    },
+    getControlNetList: async function () {
+      try {
+        const sdControlNetList = await getSdControlNetType();
+        if (sdControlNetList.length > 0) {
+          console.log(sdControlNetList);
+          sdControlNetList.forEach((a) => {
+            this.controlNet.push({
+              type: a.type,
+              typeName: a.typeName
+            })
+          })
+          this.controlNet[0].isSelected = true
+          this.form.controlNetType = this.controlNet[0].type
         }
       } catch (e) {
         console.log(e)
@@ -418,6 +463,8 @@ export default {
               'sampler_index': _this.form.sampler_index,
               "modelName": _this.form.modelName,
               "negative_prompt": _this.form.negative_prompt,
+              "controlNetType": _this.form.controlNetType,
+              "entryText":  _this.form.entryText,
               "env": 1
             };
             if (_this.form.images) {
@@ -552,6 +599,7 @@ export default {
   onLoad() {
     this.examineServer()
     this.getModelList()
+    this.getControlNetList()
   },
   //刷新次数
   onUnload() {

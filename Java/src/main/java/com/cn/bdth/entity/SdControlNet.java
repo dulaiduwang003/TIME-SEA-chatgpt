@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * descThisFile
+ * sd- controlNet
  *
  * @author yzq
  * @date 2023/08/21 17:44
@@ -53,6 +53,8 @@ public class SdControlNet {
      * '-1:文字嵌入图片；0:人物/风景； 1:二维码',
      */
     private Integer type;
+
+    private String typeName;
 
     private Integer sort;
 

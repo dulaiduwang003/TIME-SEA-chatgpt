@@ -81,3 +81,11 @@ export function deleteDrawingById(id) {
     })
 }
 
+
+export function getSdControlNetType() {
+    return request({
+        url: '/drawing/sd/get/controlNet/type',
+        method: 'GET'
+    })
+}
+

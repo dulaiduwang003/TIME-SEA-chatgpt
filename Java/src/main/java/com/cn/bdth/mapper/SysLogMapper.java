@@ -5,7 +5,7 @@ import com.cn.bdth.entity.SysLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * descThisFile
+ * 系统日志
  *
  * @author yzq
  * @date 2023/08/21 17:44

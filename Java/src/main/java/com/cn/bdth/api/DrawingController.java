@@ -173,4 +173,15 @@ public class DrawingController {
         drawingService.deleteDrawingById(id);
         return Result.ok();
     }
+
+    /**
+     * 获取SD-controlNet类型
+     *
+     * @return the result
+     */
+    @GetMapping(value = "/sd/get/controlNet/type", name = "获取SD-controlNet类型", produces = MediaType.APPLICATION_JSON_VALUE)
+    @UserLastOperationTime
+    public Result getSdControlNetType() {
+        return Result.data(drawingService.getSdControlNetType());
+    }
 }

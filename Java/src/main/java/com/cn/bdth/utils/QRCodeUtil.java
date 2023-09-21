@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 /**
- * descThisFile
+ * 二维码工具类
  *
  * @author yzq
  * @date 2023/09/16 11:02
