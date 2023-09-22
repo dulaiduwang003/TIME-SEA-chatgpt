@@ -62,6 +62,9 @@ public class ServerServiceImpl implements ServerService {
                 new StableDiffusionCommon.StableDiffusionStructure()
                         .setSdUrl(dto.getSdUrl())
                         .setSdImageFrequency(dto.getSdImageFrequency())
+                        .setSdAuthorization(dto.getSdAuthorization())
+                        .setQrcodeToolkitApiUrl(dto.getQrcodeToolkitApiUrl())
+                        .setQrDecodeAuthorization(dto.getQrDecodeAuthorization())
         );
         //Bing
         redisUtils.setValue(ServerConstant.NEW_BING_CONFIG, dto.getNewBingCookie());
@@ -121,6 +124,9 @@ public class ServerServiceImpl implements ServerService {
         dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
         dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
         dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);
+        dispositionVo.setSdAuthorization(chatGptStructure != null ? chatGptStructure.getSdAuthorization() : null);
+        dispositionVo.setQrDecodeAuthorization(chatGptStructure != null ? chatGptStructure.getQrDecodeAuthorization() : null);
+        dispositionVo.setQrcodeToolkitApiUrl(chatGptStructure != null ? chatGptStructure.getQrcodeToolkitApiUrl() : null);
 
         return dispositionVo;
     }

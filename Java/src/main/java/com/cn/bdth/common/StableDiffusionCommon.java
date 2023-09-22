@@ -42,7 +42,10 @@ public class StableDiffusionCommon {
         log.warn("请前往控制台配置ChatGPT参数配置");
         return new StableDiffusionStructure()
                 .setSdUrl(stableDiffusionDefaultConfig.getSdUrl())
-                .setSdImageFrequency(stableDiffusionDefaultConfig.getSdImageFrequency());
+                .setSdImageFrequency(stableDiffusionDefaultConfig.getSdImageFrequency())
+                .setSdAuthorization(stableDiffusionDefaultConfig.getSdAuthorization())
+                .setQrcodeToolkitApiUrl(stableDiffusionDefaultConfig.getQrcodeToolkitApiUrl())
+                .setQrDecodeAuthorization(stableDiffusionDefaultConfig.getQrDecodeAuthorization());
     }
 
     @Data
@@ -52,6 +55,12 @@ public class StableDiffusionCommon {
         private Long sdImageFrequency;
 
         private String sdUrl;
+
+        private String qrcodeToolkitApiUrl;
+
+        private String qrDecodeAuthorization;
+
+        private String sdAuthorization;
 
     }
 }

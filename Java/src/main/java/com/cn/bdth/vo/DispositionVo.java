@@ -45,5 +45,11 @@ public class DispositionVo implements Serializable {
 
     private Long videoFrequency;
 
+    private String qrcodeToolkitApiUrl;
+
+    private String qrDecodeAuthorization;
+
+    private String sdAuthorization;
+
 
 }

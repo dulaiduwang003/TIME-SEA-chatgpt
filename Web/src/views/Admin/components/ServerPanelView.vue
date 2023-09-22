@@ -9,6 +9,29 @@
             v-model="form.sdUrl"
           />
         </el-form-item>
+
+        <el-form-item label="SD绘图授权码" label-width="200px">
+          <el-input
+              placeholder="请设置SD绘图授权码"
+              clearable
+              v-model="form.sdAuthorization"
+          />
+        </el-form-item>
+        <el-form-item label="二维码优化请求链" label-width="200px">
+          <el-input
+              placeholder="请设置二维码优化请求链"
+              clearable
+              v-model="form.qrcodeToolkitApiUrl"
+          />
+        </el-form-item>
+        <el-form-item label="二维码解码授权码" label-width="200px">
+          <el-input
+              placeholder="请设置二维码解码授权码"
+              clearable
+              v-model="form.qrDecodeAuthorization"
+          />
+        </el-form-item>
+
         <el-form-item label="智能GPT对话请求链" label-width="200px">
           <el-input
             placeholder="请设置GPT请求链"
@@ -155,6 +178,9 @@ export default {
       organizationUuid: "",
       conversationUuid: "",
       sessionKey: "",
+      qrcodeToolkitApiUrl: '',
+      qrDecodeAuthorization: '',
+      sdAuthorization: ''
     });
 
     onMounted(() => {

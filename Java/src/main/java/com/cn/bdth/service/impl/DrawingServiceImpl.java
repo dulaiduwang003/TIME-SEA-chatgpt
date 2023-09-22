@@ -93,8 +93,6 @@ public class DrawingServiceImpl implements DrawingService {
 
     private final SdControlNetMapper sdControlNetMapper;
 
-    private final StableDiffusionDefaultConfig stableDiffusionDefaultConfig;
-
     @Value("${ali-oss.domain}")
     private String domain;
 
@@ -329,11 +327,11 @@ public class DrawingServiceImpl implements DrawingService {
             //1、二维码解码
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("qr_image", domain + imageUrl);
-            String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,stableDiffusionDefaultConfig.getQrDecodeAuthorization());
+            String qrCodeUrl = QRCodeUtil.getQRCodeUrl(jsonObject,stableDiffusionCommon.getStableDiffusionStructure().getQrDecodeAuthorization());
 
             //2、解码后的二维码重新优化
             if(StringUtils.isNotBlank(qrCodeUrl)) {
-                qrCodeBase64New = QRCodeUtil.qrCodeOptimize(stableDiffusionDefaultConfig.getQrcodeToolkitApiUrl() + qrCodeUrl);
+                qrCodeBase64New = QRCodeUtil.qrCodeOptimize(stableDiffusionCommon.getStableDiffusionStructure().getQrcodeToolkitApiUrl() + qrCodeUrl);
             }
             model.setInit_images(List.of(qrCodeBase64New));
         }
@@ -385,16 +383,15 @@ public class DrawingServiceImpl implements DrawingService {
 
     @Override
     public boolean isSdServerStateAndFrequency() {
-        return true;
-//        final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
-//
-//        if (!(userMapper.selectCount(new QueryWrapper<User>()
-//                .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
-//                .ge(User::getFrequency, stableDiffusionStructure.getSdImageFrequency())
-//        ) >= 1)) {
-//            throw new FrequencyException();
-//        }
-//        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl());
+        final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
+
+        if (!(userMapper.selectCount(new QueryWrapper<User>()
+                .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
+                .ge(User::getFrequency, stableDiffusionStructure.getSdImageFrequency())
+        ) >= 1)) {
+            throw new FrequencyException();
+        }
+        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl());
     }
 
     @Override

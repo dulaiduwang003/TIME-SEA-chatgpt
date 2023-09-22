@@ -26,6 +26,30 @@
     </view>
     <view class="row">
       <view class="key">
+        SD绘图授权码
+      </view>
+      <view>
+        <input type="text" placeholder="请设置stable diffusion授权码" v-model="form.sdAuthorization" maxlength="-1"/>
+      </view>
+    </view>
+    <view class="row">
+      <view class="key">
+        二维码优化请求链
+      </view>
+      <view>
+        <input type="text" placeholder="请设置二维码优化请求链" v-model="form.qrcodeToolkitApiUrl" maxlength="-1"/>
+      </view>
+    </view>
+    <view class="row">
+      <view class="key">
+        二维码解码授权码
+      </view>
+      <view>
+        <input type="text" placeholder="请设置二维码解码授权码" v-model="form.qrDecodeAuthorization" maxlength="-1"/>
+      </view>
+    </view>
+    <view class="row">
+      <view class="key">
         必应Cookie
       </view>
       <view>
@@ -140,7 +164,7 @@
 import {getServerConfig, putServerConfig} from "@/api/admin";
 import LoadingComponent from "@/wxcomponents/components/loadingComponent.vue";
 
-const requiredFields = ['openAiPlusUrl', 'openAiUrl', 'sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImageFrequency',  'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey'];
+const requiredFields = ['openAiPlusUrl', 'openAiUrl', 'sdUrl', 'openKey', 'incentiveFrequency', 'videoFrequency', 'sdImageFrequency',  'gptFrequency', 'signInFrequency', 'gptTextImageFrequency', 'newBingCookie', 'organizationUuid', 'conversationUuid', 'sessionKey', 'gptPlusFrequency', 'openPlusKey','qrcodeToolkitApiUrl', 'qrDecodeAuthorization', 'sdAuthorization'];
 const fieldNames = {
   'sdUrl': 'SD—API',
   'openKey': '标准密钥',
@@ -157,7 +181,10 @@ const fieldNames = {
   'sessionKey': 'sessionKey',
   'gptPlusFrequency': '增强消耗次数',
   'openPlusKey': '增强密钥',
-  'openAiPlusUrl': '增强请求链'
+  'openAiPlusUrl': '增强请求链',
+  'qrcodeToolkitApiUrl':'二维码优化请求链',
+  'qrDecodeAuthorization':'二维码解码授权码',
+  'sdAuthorization':'SD绘图授权码'
 };
 
 export default {
@@ -180,7 +207,10 @@ export default {
         conversationUuid: '',
         sessionKey: '',
         openPlusKey: '',
-        gptPlusFrequency: undefined
+        gptPlusFrequency: undefined,
+        qrcodeToolkitApiUrl: '',
+        qrDecodeAuthorization: '',
+        sdAuthorization: ''
       }
     };
   },

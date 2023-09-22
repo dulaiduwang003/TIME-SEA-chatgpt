@@ -68,8 +68,6 @@ public class DrawingTaskListener {
 
     private final WeChatUtils weChatUtils;
 
-    private final StableDiffusionDefaultConfig stableDiffusionDefaultConfig;
-
     /**
      * 监听SD任务队列
      */
@@ -111,7 +109,7 @@ public class DrawingTaskListener {
             final String block = webClientBuilder.build()
                     .post()
                     .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + (structure.getIsType() == 0 ? ServerConstant.SD_DRAWING_TEXT : ServerConstant.SD_DRAWING_IMAGE))
-                    .header(HttpHeaders.AUTHORIZATION,"Basic " + stableDiffusionDefaultConfig.getSdAuthorization())
+                    .header(HttpHeaders.AUTHORIZATION,"Basic " + stableDiffusionCommon.getStableDiffusionStructure().getSdAuthorization())
                     .body(BodyInserters.fromValue(JSONObject.toJSON(structure.getSdDrawingModel())))
 //                    .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
                     .retrieve()

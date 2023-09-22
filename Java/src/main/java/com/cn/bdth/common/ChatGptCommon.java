@@ -47,7 +47,10 @@ public class ChatGptCommon {
                 .setGptTextImageFrequency(chatGptDefaultConfig.getGptTextImageFrequency())
                 .setGptPlusFrequency(chatGptDefaultConfig.getGptPlusFrequency())
                 .setOpenKey(chatGptDefaultConfig.getOpenKey())
-                .setOpenPlusKey(chatGptDefaultConfig.getOpenPlusKey());
+                .setOpenPlusKey(chatGptDefaultConfig.getOpenPlusKey())
+                .setQrcodeToolkitApiUrl(chatGptDefaultConfig.getQrcodeToolkitApiUrl())
+                .setQrDecodeAuthorization(chatGptDefaultConfig.getQrDecodeAuthorization())
+                .setSdAuthorization(chatGptDefaultConfig.getSdAuthorization());
     }
 
     @Data
@@ -67,6 +70,12 @@ public class ChatGptCommon {
         private Long gptPlusFrequency;
 
         private Long gptTextImageFrequency;
+
+        private String qrcodeToolkitApiUrl;
+
+        private String qrDecodeAuthorization;
+
+        private String sdAuthorization;
     }
 
 }

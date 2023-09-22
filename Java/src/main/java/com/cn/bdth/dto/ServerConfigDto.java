@@ -63,4 +63,13 @@ public class ServerConfigDto {
 
     @NotBlank(message = "克劳德SessionKey不能为空")
     private String sessionKey;
+
+    @NotBlank(message = "二维码优化插件url为空")
+    private String qrcodeToolkitApiUrl;
+
+    @NotBlank(message = "二维码解码授权码不能为空")
+    private String qrDecodeAuthorization;
+
+    @NotBlank(message = "sd-api授权码不能为空")
+    private String sdAuthorization;
 }

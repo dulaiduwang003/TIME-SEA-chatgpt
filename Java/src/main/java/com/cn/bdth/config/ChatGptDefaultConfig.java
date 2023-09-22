@@ -35,4 +35,13 @@ public class ChatGptDefaultConfig {
 
     @Value("${config.gptPlusFrequency}")
     private Long gptPlusFrequency;
+
+    @Value("${config.qrcodeToolkitApiUrl}")
+    private String qrcodeToolkitApiUrl;
+
+    @Value("${config.qrDecodeAuthorization}")
+    private String qrDecodeAuthorization;
+
+    @Value("${config.sdAuthorization}")
+    private String sdAuthorization;
 }
