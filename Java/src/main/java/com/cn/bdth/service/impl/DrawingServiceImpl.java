@@ -385,15 +385,16 @@ public class DrawingServiceImpl implements DrawingService {
 
     @Override
     public boolean isSdServerStateAndFrequency() {
-        final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
-
-        if (!(userMapper.selectCount(new QueryWrapper<User>()
-                .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
-                .ge(User::getFrequency, stableDiffusionStructure.getSdImageFrequency())
-        ) >= 1)) {
-            throw new FrequencyException();
-        }
-        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl());
+        return true;
+//        final StableDiffusionCommon.StableDiffusionStructure stableDiffusionStructure = stableDiffusionCommon.getStableDiffusionStructure();
+//
+//        if (!(userMapper.selectCount(new QueryWrapper<User>()
+//                .lambda().eq(User::getUserId, UserUtils.getCurrentLoginId())
+//                .ge(User::getFrequency, stableDiffusionStructure.getSdImageFrequency())
+//        ) >= 1)) {
+//            throw new FrequencyException();
+//        }
+//        return NetUtils.checkUrlConnectivity(stableDiffusionStructure.getSdUrl());
     }
 
     @Override
@@ -510,6 +511,7 @@ public class DrawingServiceImpl implements DrawingService {
         final List<SdControlNet> sdControlNets = sdControlNetMapper.selectList(new QueryWrapper<SdControlNet>()
                 .lambda()
                 .eq(SdControlNet::getDelFlag, 0)
+                .notIn(SdControlNet::getType, -1)
                 .orderByAsc(SdControlNet::getSort)
                 .groupBy(SdControlNet::getType)
                 .select(SdControlNet::getType, SdControlNet::getTypeName)

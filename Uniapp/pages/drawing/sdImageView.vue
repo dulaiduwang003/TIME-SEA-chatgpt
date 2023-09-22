@@ -38,6 +38,17 @@
           </view>
         </view>
       </view>
+
+      <view class="title" v-if="form.images">
+        <view>图片类型选择</view>
+        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
+          <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in controlNet"
+                :key="index" @click="handleControlNet(index)">
+            {{ item.typeName }}
+          </view>
+        </view>
+      </view>
+
       <!--  描述词-->
       <view class="title">
         <view>正向提示词(必填)</view>
@@ -58,7 +69,7 @@
       </view>
 
       <!--  描述词-->
-      <view class="title">
+      <view class="title" v-if="!form.images">
         <view>隐藏文字(可选,注意如果是竖排，请手动换行)</view>
         <textarea :show-confirm-bar="false" :auto-height="true" maxlength="2000" confirm-type="done"
                   v-model="form.entryText"
@@ -92,15 +103,7 @@
           </view>
         </view>
       </view>
-      <view class="title">
-        <view>图片类型选择</view>
-        <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
-          <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in controlNet"
-                :key="index" @click="handleControlNet(index)">
-            {{ item.typeName }}
-          </view>
-        </view>
-      </view>
+
       <view class="title">
         <view>迭代次数</view>
         <view style="display: flex;flex-wrap: wrap;padding-top: 30rpx">
@@ -110,18 +113,18 @@
           </view>
         </view>
       </view>
-      <view class="title">
-        <view>采样方法</view>
-        <scroll-view scroll-x>
-          <view style="display: flex;padding-top: 30rpx">
-            <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in sampler"
-                  :key="index" @click="handleSampler(index)">
-              {{ item.value }}
-            </view>
-          </view>
-        </scroll-view>
+<!--      <view class="title">-->
+<!--        <view>采样方法</view>-->
+<!--        <scroll-view scroll-x>-->
+<!--          <view style="display: flex;padding-top: 30rpx">-->
+<!--            <view :class="item.isSelected?'model_choose_selected':'model_choose'" v-for="(item,index) in sampler"-->
+<!--                  :key="index" @click="handleSampler(index)">-->
+<!--              {{ item.value }}-->
+<!--            </view>-->
+<!--          </view>-->
+<!--        </scroll-view>-->
 
-      </view>
+<!--      </view>-->
     </scroll-view>
     <view class="levitation">
       <button @click="submit" class="sub_btn">立即生成</button>
