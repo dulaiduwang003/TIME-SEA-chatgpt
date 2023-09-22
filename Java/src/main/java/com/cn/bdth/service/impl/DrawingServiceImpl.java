@@ -221,6 +221,9 @@ public class DrawingServiceImpl implements DrawingService {
             if (StringUtils.isNotBlank(sdModel.getPrompt())) {
                 dto.setPrompt(sdModel.getPrompt() + "," + dto.getPrompt());
             }
+            if(StringUtils.isNotBlank(sdModel.getSamplerIndex())) {
+                dto.setSampler_index(sdModel.getSamplerIndex());
+            }
         }
 
         //发布绘图任务
