@@ -21,6 +21,7 @@ import com.cn.bdth.utils.BaiduTranslationUtil;
 import com.cn.bdth.utils.WeChatUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -86,7 +87,7 @@ public class DrawingTaskListener {
                         try {
                             model.setPrompt(baiduTranslationUtil.englishTranslation(model.getPrompt()));
                         } catch (Exception e) {
-                            log.warn("绘图时调用百度翻译翻译失败 本次绘图将采用原文提示词");
+                            log.warn("绘图时调用百度翻译翻译失败 本次绘图将采用原文提示词: {}", ExceptionUtils.getStackTrace(e));
                         }
                         invokeSdDrawingApi(drawingSdQueueStructure);
                     }

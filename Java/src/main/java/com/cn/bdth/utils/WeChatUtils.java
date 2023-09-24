@@ -10,6 +10,7 @@ import com.cn.bdth.model.WeChaQrCodeModel;
 import com.cn.bdth.model.WeChatMsgCheckModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.MediaType;
@@ -93,11 +94,12 @@ public class WeChatUtils {
                 throw new ViolationsException(ExceptionMessages.DRAWING_DELETE);
             }
         }
-        try {
-            content = translationUtil.chineseTranslation(content);
-        } catch (Exception e) {
-            log.error("微信文本安全调用翻译失败,将采用原文检测");
-        }
+        // 这里使用 百度的api 和下次使用的间隔时间太短了，会报错；这里去掉；--默认就是中文
+//        try {
+//            content = translationUtil.chineseTranslation(content);
+//        } catch (Exception e) {
+//            log.error("微信文本安全调用翻译失败,将采用原文检测: {}", ExceptionUtils.getStackTrace(e));
+//        }
         JSONObject jsonObject = null;
         try {
             final String response = WEB_CLIENT.post().uri("https://api.weixin.qq.com/wxa/msg_sec_check?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret))

@@ -37,6 +37,7 @@ import com.cn.bdth.vo.*;
 import com.cn.bdth.vo.admin.DrawingVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -154,7 +155,7 @@ public class DrawingServiceImpl implements DrawingService {
         try {
             gptImageModel.setPrompt(translationUtil.englishTranslation(gptImageModel.getPrompt()));
         } catch (Exception e) {
-            log.warn("GPT绘图时 百度翻译调用失败 本次调用将采用原文提示词");
+            log.warn("GPT绘图时 百度翻译调用失败 本次调用将采用原文提示词: {}", ExceptionUtils.getStackTrace(e));
         }
         webClientBuilder.baseUrl(openUrl)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + openKey)
