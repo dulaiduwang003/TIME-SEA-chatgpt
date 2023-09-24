@@ -162,6 +162,9 @@
                     />
                   </el-icon>
                 </el-upload>
+                <el-button v-if="tempFile" @click="deleteImage" type="danger" plain style="margin-top: 10px">
+                  删除图片
+                </el-button>
               </div>
 
               <div class="title" v-if="form.images">
@@ -396,6 +399,12 @@ export default {
     const isNet = ref(false)
 
     const tempFile = ref('')
+    const deleteImage = () => {
+      // 隐藏对应功能
+      tempFile.value = null;
+      // 删除图片
+      form.value.images = null;
+    };
 
     const modelList = ref([]);
 
@@ -699,7 +708,8 @@ export default {
       imageList,
       stepsList,
       samplerList,
-      sizeList
+      sizeList,
+      deleteImage
     };
   },
 };
