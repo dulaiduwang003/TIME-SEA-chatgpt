@@ -124,9 +124,9 @@ public class ServerServiceImpl implements ServerService {
         dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
         dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
         dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);
-        dispositionVo.setSdAuthorization(chatGptStructure != null ? chatGptStructure.getSdAuthorization() : null);
-        dispositionVo.setQrDecodeAuthorization(chatGptStructure != null ? chatGptStructure.getQrDecodeAuthorization() : null);
-        dispositionVo.setQrcodeToolkitApiUrl(chatGptStructure != null ? chatGptStructure.getQrcodeToolkitApiUrl() : null);
+        dispositionVo.setSdAuthorization(sdStructure != null ? sdStructure.getSdAuthorization() : null);
+        dispositionVo.setQrDecodeAuthorization(sdStructure != null ? sdStructure.getQrDecodeAuthorization() : null);
+        dispositionVo.setQrcodeToolkitApiUrl(sdStructure != null ? sdStructure.getQrcodeToolkitApiUrl() : null);
 
         return dispositionVo;
     }
