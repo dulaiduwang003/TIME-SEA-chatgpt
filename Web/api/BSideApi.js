@@ -442,3 +442,10 @@ export function isQrCodeLoginSucceed(data) {
         method: 'GET'
     })
 }
+
+export function GetSdControlNetType() {
+    return request({
+        url: '/drawing/sd/get/controlNet/type',
+        method: 'GET'
+    })
+}

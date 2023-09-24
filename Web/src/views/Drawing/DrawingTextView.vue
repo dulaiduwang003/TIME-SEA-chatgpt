@@ -59,6 +59,35 @@
                     v-model="form.negative_prompt"
                 ></el-input>
               </div>
+
+              <div class="header"  v-if="!form.images">
+                <div class="title">
+                  <span>隐藏文字(可选,注意如果是竖排，请手动换行)</span>
+                  <el-popover
+                      placement="bottom"
+                      effect="dark"
+                      title="嵌入"
+                      :width="300"
+                      trigger="hover"
+                      content="用于将指定文字嵌入到图片中去，不支持指定图片；文字最好不要超过3个！ "
+                  >
+                    <template #reference>
+                      <el-icon>
+                        <info-filled/>
+                      </el-icon>
+                    </template>
+                  </el-popover>
+                </div>
+              </div>
+              <div class="input"  v-if="!form.images">
+                <el-input
+                    placeholder="指定文字嵌入到图片"
+                    type="textarea"
+                    rows="5"
+                    v-model="form.entryText"
+                ></el-input>
+              </div>
+
               <div class="header">
                 <div class="title">
                   <span>绘画风格</span>
@@ -96,7 +125,7 @@
               </div>
               <div class="header">
                 <div class="title">
-                  <span>参考图(可选)</span>
+                  <span>参考图(可选，可优化二维码)</span>
                   <el-popover
                       placement="bottom"
                       effect="dark"
@@ -134,6 +163,41 @@
                   </el-icon>
                 </el-upload>
               </div>
+
+              <div class="title" v-if="form.images">
+                <span>图片类型</span>
+                <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="控制模型"
+                    :width="300"
+                    trigger="hover"
+                    content="用于控制生成图像的样式，可以影响图像的内容和样式"
+                >
+                  <template #reference>
+                    <el-icon>
+                      <info-filled/>
+                    </el-icon>
+                  </template>
+                </el-popover>
+              </div>
+            <div style="padding: 15px"  v-if="form.images">
+              <el-select
+                  v-model="form.controlNetType"
+                  class="m-2"
+                  placeholder="请选择图片类型"
+                  size="large"
+                  style="width: 100%"
+              >
+                <el-option
+                    v-for="item in controlNetList"
+                    :key="item.typeName"
+                    :label="item.typeName"
+                    :value="item.type"
+                />
+              </el-select>
+            </div>
+
               <div class="header">
                 <div class="title">
                   <span>迭代步数</span>
@@ -312,7 +376,8 @@ import {
   GetDrawingResult,
   GetPublicRandomOps,
   GetSdModelList,
-  SdConnectivity
+  SdConnectivity,
+  GetSdControlNetType
 } from "../../../api/BSideApi";
 import store from "@/store";
 import {ElLoading, ElNotification} from "element-plus";
@@ -333,6 +398,8 @@ export default {
     const tempFile = ref('')
 
     const modelList = ref([]);
+
+    const controlNetList = ref([]);
 
     const imageUrl = ref('')
 
@@ -405,6 +472,7 @@ export default {
         sdConnect()
         getPublicOps()
         getSdModelList()
+        getSdControlNetType()
       } else {
         loginVisible.value = true
       }
@@ -498,6 +566,19 @@ export default {
       }
     }
 
+    async function getSdControlNetType() {
+      try {
+        let newVar = await GetSdControlNetType();
+        if (newVar.length > 0) {
+          controlNetList.value = newVar
+          form.value.controlNetType = controlNetList.value[0].type
+        }
+
+      } catch (e) {
+        console.log(e)
+      }
+    }
+
     const image = ref('')
 
     const form = ref({
@@ -509,6 +590,9 @@ export default {
       height: 512,
       prompt: '',
       negative_prompt: '',
+      controlNetType: '',
+      entryText: '',
+
     });
     let loginVisible = ref(false);
 
@@ -609,6 +693,7 @@ export default {
       onChangeSize,
       imageUrl,
       modelList,
+      controlNetList,
       loginVisible,
       form,
       imageList,
