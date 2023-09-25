@@ -513,7 +513,7 @@ public class DrawingServiceImpl implements DrawingService {
                 .lambda()
                 .eq(SdControlNet::getDelFlag, 0)
                 .notIn(SdControlNet::getType, -1)
-                .orderByAsc(SdControlNet::getSort)
+//                .orderByAsc(SdControlNet::getSort)
                 .groupBy(SdControlNet::getType)
                 .select(SdControlNet::getType, SdControlNet::getTypeName)
         );
