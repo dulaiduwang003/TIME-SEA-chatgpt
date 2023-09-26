@@ -34,8 +34,8 @@ public class RewardTaskTimer {
 
     private final AliUploadUtils aliUploadUtils;
 
-//    @Scheduled(cron = " 0 0 0 * * ?")
-    @PostConstruct
+    @Scheduled(cron = " 0 0 0 * * ?")
+//    @PostConstruct
     @Transactional(rollbackFor = Exception.class)
     public void executeTask() {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<User>()
