@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 /**
  * 雨纷纷旧故里草木深
@@ -43,11 +44,7 @@ public class RewardTaskTimer {
         userMapper.update(null, updateWrapper);
 
         //清除无效绘图
-        drawingMapper.selectList(new QueryWrapper<Drawing>()
-                .lambda()
-                .isNull(Drawing::getGenerateUrl)
-                .select(Drawing::getOriginalUrl, Drawing::getGenerateUrl, Drawing::getDrawingId)
-        ).forEach(this::deleteResource);
+        drawingMapper.getCleanDrawing().forEach(this::deleteResource);
 
         drawingMapper.selectList(new QueryWrapper<Drawing>()
                 .lambda()
@@ -60,8 +57,6 @@ public class RewardTaskTimer {
     private void deleteResource(Drawing drawing) {
         final String generateUrl = drawing.getGenerateUrl();
         if (!StringUtils.notEmpty(generateUrl)) {
-            //删除图片数据
-            drawingMapper.delete(new QueryWrapper<Drawing>().lambda().eq(Drawing::getDrawingId, drawing.getDrawingId()));
             final String originalUrl = drawing.getOriginalUrl();
             try {
                 if (StringUtils.notEmpty(originalUrl)) {
@@ -70,6 +65,8 @@ public class RewardTaskTimer {
                 if (StringUtils.notEmpty(generateUrl)) {
                     aliUploadUtils.deleteFile(generateUrl);
                 }
+                //删除图片数据--彻底删除
+                drawingMapper.cleanDrawingById(drawing.getDrawingId());
             } catch (Exception e) {
                 log.warn("删除OSS图片数据失败");
             }
