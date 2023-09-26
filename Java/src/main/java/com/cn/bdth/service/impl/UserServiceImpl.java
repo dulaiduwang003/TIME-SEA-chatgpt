@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
                 .like(StringUtils.notEmpty(prompt), User::getUserName, prompt)
                 .or().like(StringUtils.notEmpty(prompt), User::getOpenId, prompt)
                 .select(User::getFrequency, User::getUserName, User::getCreatedTime, User::getUserId, User::getEmail)
-                .orderByDesc(User::getFrequency)
+                .orderByDesc(User::getUpdateTime)
         ).convert(u -> {
             //设置用户最后功能操作时间
             final Object value = redisUtils.getValue(OperateConstant.USER_CALL_TIME + u.getUserId());

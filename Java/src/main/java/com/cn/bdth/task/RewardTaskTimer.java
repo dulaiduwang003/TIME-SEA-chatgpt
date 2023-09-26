@@ -1,12 +1,14 @@
 package com.cn.bdth.task;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.cn.bdth.entity.Drawing;
 import com.cn.bdth.entity.User;
 import com.cn.bdth.mapper.DrawingMapper;
 import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.utils.AliUploadUtils;
 import com.cn.bdth.utils.StringUtils;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,15 +34,18 @@ public class RewardTaskTimer {
 
     private final AliUploadUtils aliUploadUtils;
 
-    @Scheduled(cron = " 0 0 0 * * ?")
+//    @Scheduled(cron = " 0 0 0 * * ?")
+    @PostConstruct
     @Transactional(rollbackFor = Exception.class)
     public void executeTask() {
-        //回滚签到
-        userMapper.update(new User().setIsSignIn(0L), null);
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<User>()
+                .setSql("is_sign_in = 0,update_time = update_time");
+        userMapper.update(null, updateWrapper);
+
         //清除无效绘图
         drawingMapper.selectList(new QueryWrapper<Drawing>()
                 .lambda()
-                .eq(Drawing::getGenerateUrl, null)
+                .isNull(Drawing::getGenerateUrl)
                 .select(Drawing::getOriginalUrl, Drawing::getGenerateUrl, Drawing::getDrawingId)
         ).forEach(this::deleteResource);
 

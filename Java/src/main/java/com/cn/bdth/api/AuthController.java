@@ -4,12 +4,17 @@ import com.cn.bdth.dto.EmailCodeDto;
 import com.cn.bdth.dto.EmailLoginDto;
 import com.cn.bdth.dto.WeChatAuthLoginDto;
 import com.cn.bdth.dto.WeChatAuthQrCodeLoginDto;
+import com.cn.bdth.entity.SysLog;
 import com.cn.bdth.exceptions.EmailBackException;
 import com.cn.bdth.exceptions.LoginPasswordException;
 import com.cn.bdth.exceptions.RegistrationException;
 import com.cn.bdth.exceptions.WechatException;
+import com.cn.bdth.mapper.SysLogMapper;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.AuthService;
+import com.cn.bdth.utils.IpUtils;
+import com.cn.bdth.utils.UserUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -30,6 +35,7 @@ public class AuthController {
 
 
     private final AuthService authService;
+    private final SysLogMapper sysLogMapper;
 
     /**
      * 获取注册验证码
@@ -87,9 +93,19 @@ public class AuthController {
      * @return the result
      */
     @PostMapping(value = "/email/login", name = "登录", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result emailLogin(@RequestBody @Validated final EmailLoginDto dto) {
+    public Result emailLogin(HttpServletRequest request, @RequestBody @Validated final EmailLoginDto dto) {
         try {
-            return Result.data(authService.emailLogin(dto));
+            String result = authService.emailLogin(dto);
+
+            final Long currentLoginId = UserUtils.getCurrentLoginId();
+            //保存登录日志
+            sysLogMapper.insert(new SysLog()
+                    .setIp(IpUtils.getIpAddr(request))
+                    .setMethod("com.cn.bdth.api.AuthController.emailLogin")
+                    .setLogContent("邮箱登录")
+                    .setUserId(currentLoginId));
+
+            return Result.data(result);
         } catch (LoginPasswordException e) {
             return Result.error(e.getMessage());
         }
@@ -102,9 +118,19 @@ public class AuthController {
      * @return the result
      */
     @PostMapping(value = "/wechat/login", name = "微信授权登录", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Result wechatAuthLogin(@RequestBody @Validated WeChatAuthLoginDto dto) {
+    public Result wechatAuthLogin(HttpServletRequest request, @RequestBody @Validated WeChatAuthLoginDto dto) {
         try {
-            return Result.data(authService.wechatAuthorizedLogin(dto.getCode()));
+            String result = authService.wechatAuthorizedLogin(dto.getCode());
+
+            final Long currentLoginId = UserUtils.getCurrentLoginId();
+            //保存登录日志
+            sysLogMapper.insert(new SysLog()
+                    .setIp(IpUtils.getIpAddr(request))
+                    .setMethod("com.cn.bdth.api.AuthController.wechatAuthLogin")
+                    .setLogContent("微信授权登录")
+                    .setUserId(currentLoginId));
+
+            return Result.data(result);
         } catch (LoginPasswordException | WechatException e) {
             return Result.error(e.getMessage());
         }

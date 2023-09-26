@@ -63,7 +63,7 @@ public class User {
     /**
      * 修改时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+//    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 

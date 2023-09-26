@@ -1,5 +1,23 @@
 Java/target/
 Uniapp/node_modules/
 Uniapp/unpackage/
+Uniapp/.hbuilderx
 
 Web/dist/
+
+.idea
+*.iml
+*.cmd
+*.class
+/mvnw
+/log
+log/
+*.log
+HELP.md
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+*.iws
+*.ipr

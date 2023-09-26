@@ -8,7 +8,7 @@ create table if not exists super_bot.drawing
     generate_url varchar(200)                       null comment '生成图',
     is_public    tinyint  default 0                 not null comment '是否公开',
     created_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    update_time  datetime default CURRENT_TIMESTAMP not null comment '修改时间',
+    update_time  datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '修改时间',
     env          tinyint  default 0                 not null
 );
 
