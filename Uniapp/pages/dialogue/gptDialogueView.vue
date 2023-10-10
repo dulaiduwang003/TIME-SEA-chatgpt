@@ -111,7 +111,7 @@
           <image src="/static/assets/super.svg"/>
         </view>
         <view class="memory-title">
-          TIME SEA PLUS
+          WOO CLOUD PLUS
         </view>
         <view class="memory-button-model">
           <view class="memory-button" @click="createdNewChat">

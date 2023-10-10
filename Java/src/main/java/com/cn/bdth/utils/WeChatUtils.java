@@ -9,6 +9,7 @@ import com.cn.bdth.model.WeChaQrCodeModel;
 import com.cn.bdth.model.WeChatMsgCheckModel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -105,34 +106,39 @@ public class WeChatUtils {
         }
     }
 
-    public void filterImage(final String image) {
-        try {
-            String imageUrl = domain + image;
-            final byte[] block = WebClient.builder()
-                    .codecs(item -> item.defaultCodecs().maxInMemorySize(10 * 1024 * 1024)).build().get()
-                    .uri(imageUrl)
-                    .accept(MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG, MediaType.IMAGE_JPEG)
-                    .retrieve()
-                    .bodyToMono(byte[].class)
-                    .block();
-            final String json = WebClient.create().post()
-                    .uri("https://api.weixin.qq.com/wxa/img_sec_check?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret))
-                    .header("Content-Type", "application/octet-stream")
-                    .body(BodyInserters.fromValue(block))
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
-            final Integer errcode = JSONObject.parseObject(json).getInteger("errcode");
-            if (errcode != 0) {
-                //删除图片
-                aliUploadUtils.deleteFile(image);
-                throw new RuntimeException();
-            }
-        } catch (Exception e) {
-            throw new RuntimeException();
+    public class MyCustomException extends RuntimeException {
+        public MyCustomException(String message) {
+            super(message);
         }
+    }
 
+    public Mono<Void> filterImage(final String image) {
+        return WebClient.builder()
+            .codecs(item -> item.defaultCodecs().maxInMemorySize(10 * 1024 * 1024))
+            .build()
+            .get()
+            .uri(domain + image)
+            .accept(MediaType.IMAGE_JPEG, MediaType.IMAGE_PNG, MediaType.IMAGE_JPEG)
+            .retrieve()
+            .bodyToMono(byte[].class)
+            .flatMap(block -> WebClient.create()
+                .post()
+                .uri("https://api.weixin.qq.com/wxa/img_sec_check?access_token=" + WeChatTokenUtil.INSTANCE.getWechatToken(appId, secret))
+                .header("Content-Type", "application/octet-stream")
+                .body(BodyInserters.fromValue(block))
+                .retrieve()
+                .bodyToMono(String.class)
+            )
+            .flatMap(json -> {
+                Integer errcode = JSONObject.parseObject(json).getInteger("errcode");
+                if (errcode != 0) {
+                    aliUploadUtils.deleteFile(image);
+                    return Mono.error(new MyCustomException("微信图片安全检查失败，错误码：" + errcode));
+                } else {
+                    return Mono.empty();
+                }
+            }
+        );
     }
 
 

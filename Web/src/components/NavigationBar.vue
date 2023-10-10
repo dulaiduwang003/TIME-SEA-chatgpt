@@ -126,7 +126,7 @@
 
   <el-dialog
     v-model="appletDialogVisible"
-    title="TIME SEA PLUS"
+    title="WOO CLOUD PLUS"
     width="300"
     center
     align-center

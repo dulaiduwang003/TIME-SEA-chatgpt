@@ -109,7 +109,7 @@ public class AuthServiceImpl implements AuthService {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setSubject("TIME SEA PLUS GPT验证码");
+            helper.setSubject("WOO CLOUD PLUS GPT验证码");
             helper.setFrom(username);
             helper.setTo(email);
             helper.setSentDate(new Date());

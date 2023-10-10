@@ -1,0 +1,25 @@
+# Compiled class file
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA files
+.idea/
+
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# Maven files
+target/
+
+# settings
+*.yml
+*.pfx
+
+# Gradle files
+build/
+.gradle/
+!.gradle/

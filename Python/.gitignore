@@ -1,0 +1,13 @@
+.idea
+/venv/
+*.log
+*.pot
+*.py[cod]
+__pycache__
+.env
+.venv
+config.py
+settings.py
+pip-log.txt
+pip-delete-this-directory.txt
+0*.py

@@ -194,7 +194,7 @@ router.beforeEach(async (to) => {
     })
 
     // TODO 设置浏览器Title
-    document.title = (to.meta.title ? to.meta.title : '') + ' - TIME SEA PLUS'
+    document.title = (to.meta.title ? to.meta.title : '') + ' - WOO CLOUD PLUS'
 })
 
 export default router

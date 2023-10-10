@@ -642,7 +642,7 @@ export default {
       } else {
         conversationList.value[0] = {
           user: "你好",
-          assistant: "您好!我是 TIME SEA 助手 , 请问有什么需要帮助的吗?",
+          assistant: "您好!我是 WOO CLOUD 助手 , 请问有什么需要帮助的吗?",
           isError: false,
         };
       }

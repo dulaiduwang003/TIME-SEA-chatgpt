@@ -178,3 +178,38 @@ create index idx_update_time
 create index user_email_password_index
     on super_bot.user (email, password);
 
+-- sd-controlNet数据表
+create table if not exists t_sd_control_net
+(
+    type_id             bigint auto_increment
+        primary key,
+    module         varchar(500)                        null comment '预处理器',
+    model          varchar(500)                        not null comment '模型',
+    weight         decimal(3, 2)                       not null comment '权重',
+    guidance_start decimal(3, 2)                       not null comment '开始介入',
+    guidance_end   decimal(3, 2)                       not null comment '结束介入',
+    text           varchar(64)                         not null comment '描述',
+    type           int                                 not null comment '-1:隐藏文字；0:人物一；1:人物二； 2:二维码',
+    type_name      varchar(500)                        null comment 'controlNet类型名称',
+    is_selected    tinyint   default 0                 null comment '是否默认选中',
+    created_time   datetime  default CURRENT_TIMESTAMP not null comment '创建时间',
+    update_time    datetime  default CURRENT_TIMESTAMP not null comment '修改时间'
+);
+
+create index idx_created_time
+    on super_bot.t_sd_control_net (created_time);
+
+create index idx_update_time
+    on super_bot.t_sd_control_net (update_time);
+
+create index idx_type_id
+    on super_bot.t_sd_control_net (type_id);
+
+create index idx_type
+    on super_bot.t_sd_control_net (type);
+
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (1, 'softedge_h', 'control_v1', 1.00, 0.00, 1.00, '软边缘检测', 1, '人物')
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (2, 'none', 'control_v1', 1.20, 0.00, 1.00, '二维码', 2, '二维码')
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (3, 'none', 'control_v1', 0.30, 0.60, 0.90, '明亮', 3, '二维码')
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (4, 'canny', 'control_v1', 1.00, 0.00, 1.00, '硬边缘检测', 4, '人物')
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`, `is_selected`) VALUES (5, 'none', 'control_v1', 0.60, 0.20, 0.80, '文字内嵌图', -1, '隐藏文字', 1)

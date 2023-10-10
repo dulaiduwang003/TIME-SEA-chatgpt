@@ -6,7 +6,7 @@
           <image src="/static/assets/super.svg" class="image-container" />
         </view>
         <view class="text-container">
-          欢迎来到 TIME SEA
+          欢迎来到 WOO CLOUD
         </view>
         <mp-html class="html-container"
                  :copy-link="true"

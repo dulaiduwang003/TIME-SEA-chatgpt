@@ -8,17 +8,23 @@
               <div class="header">
                 <div class="title">
                   <span>正向提示词</span>
+                  <el-button class="random-prompt" @click="randomForward"
+                    >随机</el-button
+                  >
+                  <el-button class="clear-prompt" @click="clearForward"
+                    >清空</el-button
+                  >
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="提示词"
-                      :width="300"
-                      trigger="hover"
-                      content="用于指定生成图像的文本提示，可以是一个或多个句子 示例: 风景,雨天,树林 "
+                    placement="bottom"
+                    effect="dark"
+                    title="提示词"
+                    :width="300"
+                    trigger="hover"
+                    content="用于指定生成图像的文本提示，可以是一个或多个句子 示例: 风景,雨天,树林 "
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -26,26 +32,32 @@
               </div>
               <div class="input">
                 <el-input
-                    placeholder="描述你要画的图(英文更加准确)"
-                    type="textarea"
-                    rows="5"
-                    v-model="form.prompt"
+                  placeholder="描述你要画的图(英文更加准确)"
+                  type="textarea"
+                  rows="5"
+                  v-model="form.prompt"
                 ></el-input>
               </div>
               <div class="header">
                 <div class="title">
                   <span>反向提示词(可选)</span>
+                  <el-button class="random-prompt" @click="randomReverse"
+                    >随机</el-button
+                  >
+                  <el-button class="clear-prompt" @click="clearReverse"
+                    >清空</el-button
+                  >
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="过滤"
-                      :width="300"
-                      trigger="hover"
-                      content="用于指定生成图像时的负面文本提示，可以用于约束生成图像的内容。简单来说就是 你不想本次绘图中出现的内容 例如: 雪,动物 "
+                    placement="bottom"
+                    effect="dark"
+                    title="过滤"
+                    :width="300"
+                    trigger="hover"
+                    content="用于指定生成图像时的负面文本提示，可以用于约束生成图像的内容。简单来说就是 你不想本次绘图中出现的内容 例如: 雪,动物 "
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -53,26 +65,53 @@
               </div>
               <div class="input">
                 <el-input
-                    placeholder="过滤本次绘图出现的事物(英文更加准确)"
-                    type="textarea"
-                    rows="5"
-                    v-model="form.negative_prompt"
+                  placeholder="过滤本次绘图出现的事物(英文更加准确)"
+                  type="textarea"
+                  rows="5"
+                  v-model="form.negative_prompt"
+                ></el-input>
+              </div>
+              <div class="header" v-if="!form.images">
+                <div class="title">
+                  <span>隐藏文字(可选)</span>
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="嵌入"
+                    :width="300"
+                    trigger="hover"
+                    content="用于将指定文字嵌入到图片中去，不支持指定图片，注意如果是竖排，请手动换行，文字最好不要超过3个！ "
+                  >
+                    <template #reference>
+                      <el-icon>
+                        <info-filled />
+                      </el-icon>
+                    </template>
+                  </el-popover>
+                </div>
+              </div>
+              <div class="input" v-if="!form.images">
+                <el-input
+                  placeholder="指定文字嵌入到图片"
+                  type="textarea"
+                  rows="5"
+                  v-model="form.entryText"
                 ></el-input>
               </div>
               <div class="header">
                 <div class="title">
                   <span>绘画风格</span>
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="输出模型"
-                      :width="300"
-                      trigger="hover"
-                      content="用于控制生成图像的数据模型，可以影响图像的内容和样式"
+                    placement="bottom"
+                    effect="dark"
+                    title="输出模型"
+                    :width="300"
+                    trigger="hover"
+                    content="用于控制生成图像的数据模型，可以影响图像的内容和样式"
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -80,34 +119,34 @@
               </div>
               <div style="padding: 15px">
                 <el-select
-                    v-model="form.modelName"
-                    class="m-2"
-                    placeholder="请选择绘画风格"
-                    size="large"
-                    style="width: 100%"
+                  v-model="form.modelName"
+                  class="m-2"
+                  placeholder="请选择绘画风格"
+                  size="large"
+                  style="width: 100%"
                 >
                   <el-option
-                      v-for="item in modelList"
-                      :key="item.modelName"
-                      :label="item.textName"
-                      :value="item.modelName"
+                    v-for="item in modelList"
+                    :key="item.modelName"
+                    :label="item.textName"
+                    :value="item.modelName"
                   />
                 </el-select>
               </div>
               <div class="header">
                 <div class="title">
-                  <span>参考图(可选)</span>
+                  <span>参考图(可选，可优化二维码)</span>
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="参考图"
-                      :width="300"
-                      trigger="hover"
-                      content="生成于参考图相似的图片内容"
+                    placement="bottom"
+                    effect="dark"
+                    title="参考图"
+                    :width="300"
+                    trigger="hover"
+                    content="生成于参考图相似的图片内容"
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -115,7 +154,7 @@
               </div>
               <div style="padding: 15px">
                 <el-upload
-                    style="
+                  style="
                     background-color: var(--bgColor2);
                     width: 100px;
                     height: 100px;
@@ -123,31 +162,43 @@
                     justify-content: center;
                     align-items: center;
                   "
-                    :auto-upload="false"
-                    :on-change="onChange"
-                    :show-file-list="false"
+                  :auto-upload="false"
+                  :on-change="onChange"
+                  :show-file-list="false"
                 >
-                  <img v-if="tempFile" :src="tempFile" style="width: 100px;height: 100px"/>
+                  <img
+                    v-if="tempFile"
+                    :src="tempFile"
+                    style="width: 100px; height: 100px"
+                  />
                   <el-icon v-else class="avatar-uploader-icon">
-                    <Plus
-                    />
+                    <Plus />
                   </el-icon>
                 </el-upload>
+                <el-button
+                  v-if="tempFile"
+                  @click="removeImage"
+                  type="danger"
+                  plain
+                  style="margin-top: 10px"
+                >
+                  删除图片
+                </el-button>
               </div>
               <div class="header">
                 <div class="title">
                   <span>迭代步数</span>
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="绘制次数"
-                      :width="300"
-                      trigger="hover"
-                      content="生成图像时的最大步骤数，步骤数越多，生成的图像可能会更加详细，但处理时间也会增加。"
+                    placement="bottom"
+                    effect="dark"
+                    title="绘制次数"
+                    :width="300"
+                    trigger="hover"
+                    content="生成图像时的最大步骤数，步骤数越多，生成的图像可能会更加详细，但处理时间也会增加。"
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -155,17 +206,17 @@
               </div>
               <div style="padding: 15px">
                 <el-select
-                    v-model="form.steps"
-                    class="m-2"
-                    placeholder="Select"
-                    size="large"
-                    style="width: 100%"
+                  v-model="form.steps"
+                  class="m-2"
+                  placeholder="Select"
+                  size="large"
+                  style="width: 100%"
                 >
                   <el-option
-                      v-for="item in stepsList"
-                      :key="item"
-                      :label="item"
-                      :value="item"
+                    v-for="item in stepsList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
                   />
                 </el-select>
               </div>
@@ -173,16 +224,16 @@
                 <div class="title">
                   <span>采样方法</span>
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="采样器"
-                      :width="300"
-                      trigger="hover"
-                      content="用于控制生成图像的采样器索引，可以影响图像的内容和样式。"
+                    placement="bottom"
+                    effect="dark"
+                    title="采样器"
+                    :width="300"
+                    trigger="hover"
+                    content="用于控制生成图像的采样器索引，可以影响图像的内容和样式。"
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
@@ -190,17 +241,52 @@
               </div>
               <div style="padding: 15px">
                 <el-select
-                    v-model="form.sampler_index"
-                    class="m-2"
-                    placeholder="Select"
-                    size="large"
-                    style="width: 100%"
+                  v-model="form.sampler_index"
+                  class="m-2"
+                  placeholder="Select"
+                  size="large"
+                  style="width: 100%"
                 >
                   <el-option
-                      v-for="item in samplerList"
-                      :key="item"
-                      :label="item"
-                      :value="item"
+                    v-for="item in samplerList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
+              </div>
+              <div class="header">
+                <div class="title">
+                  <span>绘图模式</span>
+                  <el-popover
+                    placement="bottom"
+                    effect="dark"
+                    title="模式"
+                    :width="300"
+                    trigger="hover"
+                    content="用于控制生成图像的模式，可以是二维码可以是文字内嵌也可以是普通绘图。"
+                  >
+                    <template #reference>
+                      <el-icon>
+                        <info-filled />
+                      </el-icon>
+                    </template>
+                  </el-popover>
+                </div>
+              </div>
+              <div style="padding: 15px">
+                <el-select
+                  v-model="form.controlNetType"
+                  class="m-2"
+                  placeholder="Select"
+                  size="large"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="item in controlNetList"
+                    :key="item.text"
+                    :label="item.text"
+                    :value="item.type"
                   />
                 </el-select>
               </div>
@@ -208,27 +294,36 @@
                 <div class="title">
                   <span>尺寸比例</span>
                   <el-popover
-                      placement="bottom"
-                      effect="dark"
-                      title="图片比例"
-                      :width="300"
-                      trigger="hover"
-                      content="生成绘图的宽度和高度比例"
+                    placement="bottom"
+                    effect="dark"
+                    title="图片比例"
+                    :width="300"
+                    trigger="hover"
+                    content="生成绘图的宽度和高度比例"
                   >
                     <template #reference>
                       <el-icon>
-                        <info-filled/>
+                        <info-filled />
                       </el-icon>
                     </template>
                   </el-popover>
                 </div>
               </div>
               <div class="size-container">
-                <div :class="item.isSelected?'size-model-selected':'size-model'" v-for="(item,index) in sizeList"
-                     :key="index" @click="onChangeSize(index)">
+                <div
+                  :class="
+                    item.isSelected ? 'size-model-selected' : 'size-model'
+                  "
+                  v-for="(item, index) in sizeList"
+                  :key="index"
+                  @click="onChangeSize(index)"
+                >
                   <div>
                     <div class="size-logo">
-                      <img :src="require('../../assets/'+item.image)" alt=""/>
+                      <img
+                        :src="require('../../assets/' + item.image)"
+                        alt=""
+                      />
                     </div>
                     <div class="size-proportion">
                       {{ item.proportion }}
@@ -236,11 +331,10 @@
                     <div class="size-text">{{ item.text }}</div>
                   </div>
                 </div>
-
               </div>
             </div>
             <div
-                style="
+              style="
                 border-top: 1px solid var(--textColor5);
                 display: flex;
                 align-items: center;
@@ -250,11 +344,14 @@
                 font-weight: 500;
               "
             >
-              <div style="font-size: 9px">
-                每次绘图消耗5个SUPER币
-              </div>
+              <div style="font-size: 9px">每次绘图消耗5个SUPER币</div>
               <div>
-                <el-button round color="var(--themeColor2)" @click="onSubmit" :loading="load===1">
+                <el-button
+                  round
+                  color="var(--themeColor2)"
+                  @click="onSubmit"
+                  :loading="load === 1"
+                >
                   立即生成
                 </el-button>
               </div>
@@ -262,60 +359,86 @@
           </div>
         </div>
         <div class="content">
-          <div v-if="load===0">
-            <div style="text-align: center;padding-bottom: 40px">创作欣赏</div>
+          <div v-if="load === 0">
+            <div style="text-align: center; padding-bottom: 40px">创作欣赏</div>
             <div style="max-width: 480px">
               <el-row :gutter="4">
-                <el-col v-for="(item,index) in imageList" :key="index" :md="8">
-                  <el-image class="public-image" :src="imageUrl+item" fit="cover" :preview-src-list="[imageUrl+item]"/>
+                <el-col v-for="(item, index) in imageList" :key="index" :md="8">
+                  <el-image
+                    class="public-image"
+                    :src="imageUrl + item"
+                    fit="cover"
+                    :preview-src-list="[imageUrl + item]"
+                  />
                 </el-col>
               </el-row>
             </div>
-            <div style="text-align: center;font-size: 13px;margin-top: 20px;font-weight: 500;color: #888888">
+            <div
+              style="
+                text-align: center;
+                font-size: 13px;
+                margin-top: 20px;
+                font-weight: 500;
+                color: #888888;
+              "
+            >
               快来生成属于自己的创作吧~
             </div>
           </div>
-          <ViewState v-if="load===1" LoadText="正在生成(你可以进行其他操作,请勿刷新浏览器)..."/>
-          <el-image v-if="load===2" :src="imageUrl+image"
-                    style="width:500px;height: 350px" fit="cover" :preview-src-list="[imageUrl+image]"/>
           <ViewState
-              v-if="load===3"
-              @ClickTheButton="back"
-              Type="error"
-              ErrorText="哦豁!绘制失败了 请稍后再试"
-              IsShowBottom
-              ButtonText="好的"
+            v-if="load === 1"
+            LoadText="正在生成(你可以进行其他操作,请勿刷新浏览器)..."
+          />
+          <el-image
+            v-if="load === 2"
+            :src="imageUrl + image"
+            style="width: 500px; height: 350px"
+            fit="cover"
+            :preview-src-list="[imageUrl + image]"
+          />
+          <ViewState
+            v-if="load === 3"
+            @ClickTheButton="back"
+            Type="error"
+            ErrorText="哦豁!绘制失败了 请稍后再试"
+            IsShowBottom
+            ButtonText="好的"
           />
         </div>
       </div>
       <ViewState
-          v-else
-          @ClickTheButton="sdConnect"
-          Type="error"
-          ErrorText="绘图服务貌似未开启"
-          IsShowBottom
-          ButtonText="重新检查"
+        v-else
+        @ClickTheButton="sdConnect"
+        Type="error"
+        ErrorText="绘图服务貌似未开启"
+        IsShowBottom
+        ButtonText="重新检查"
       />
     </div>
   </div>
-  <LoginDialog :show="loginVisible" @close="loginVisible = false"/>
+  <LoginDialog :show="loginVisible" @close="loginVisible = false" />
 </template>
 
 <script>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
+import prompt from "@/utils/prompt";
 
 import LoginDialog from "@/components/LoginDialog.vue";
-import {InfoFilled, Plus} from "@element-plus/icons-vue";
+import { InfoFilled, Plus } from "@element-plus/icons-vue";
 import {
   DrawingSdTask,
   GetDrawingDataResult,
   GetDrawingResult,
   GetPublicRandomOps,
   GetSdModelList,
-  SdConnectivity
+  SdConnectivity,
 } from "../../../api/BSideApi";
+import {
+  SdControlNetDraught,
+  GetSdControlNetType,
+} from "../../../api/YSideApi";
 import store from "@/store";
-import {ElLoading, ElNotification} from "element-plus";
+import { ElLoading, ElNotification } from "element-plus";
 import ViewState from "@/components/ViewState.vue";
 import router from "@/router";
 
@@ -323,92 +446,116 @@ export default {
   name: "DrawingTextView",
   computed: {
     store() {
-      return store
-    }
+      return store;
+    },
   },
-  components: {ViewState, Plus, InfoFilled, LoginDialog},
+  components: { ViewState, Plus, InfoFilled, LoginDialog },
   setup() {
-    const isNet = ref(false)
+    const isNet = ref(false);
 
-    const tempFile = ref('')
+    const tempFile = ref("");
 
     const modelList = ref([]);
 
-    const imageUrl = ref('')
+    const controlNetList = ref([]);
 
-    const imageList = ref([])
+    const imageUrl = ref("");
 
-    const stepsList = ref([20, 40, 60, 80, 100])
+    const imageList = ref([]);
+
+    const stepsList = ref([20, 30, 40, 60, 80, 100]);
 
     const samplerList = ref([
-      "Euler a", "Euler", "LMS", "Heun", "DPM2", "DPM2 a", "DPM++ 2S a", "DPM++ 2M", "DPM++ SDE",
-      "DPM fast", "DPM adaptive", "LMS Karras", "DPM2 Karras", "DPM2 a Karras", "DPM++ 2S a Karras",
-      "DPM++ 2M Karras", "DPM++ SDE Karras", "DDIM"
-    ])
+      "Euler a",
+      "Euler",
+      "LMS",
+      "Heun",
+      "DPM2",
+      "DPM2 a",
+      "DPM++ 2S a",
+      "DPM++ 2M",
+      "DPM++ SDE",
+      "DPM fast",
+      "DPM adaptive",
+      "LMS Karras",
+      "DPM2 Karras",
+      "DPM2 a Karras",
+      "DPM++ 2S a Karras",
+      "DPM++ 2M Karras",
+      "DPM++ SDE Karras",
+      "DDIM",
+      "Restart",
+    ]);
 
-    const load = ref(0)
+    // 正向英文提示词
+    const prompForwardEnglish = ref("");
+    // 反向英文提示词
+    const prompReverseEnglish = ref("");
+
+    const load = ref(0);
 
     const sizeList = ref([
       {
-        proportion: '1:1',
-        text: '头像',
-        image: 'size-1-1.f9b344b9.svg',
+        proportion: "1:1",
+        text: "头像",
+        image: "size-1-1.f9b344b9.svg",
         isSelected: true,
         width: 512,
-        height: 512
+        height: 512,
       },
       {
-        proportion: '1:2',
-        text: '手机壁纸',
-        image: 'size-1-2.62c2da58.svg',
+        proportion: "1:2",
+        text: "手机壁纸",
+        image: "size-1-2.62c2da58.svg",
         isSelected: false,
         width: 1080,
-        height: 2160
+        height: 2160,
       },
       {
-        proportion: '3:4',
-        text: '文案图',
-        image: 'size-3-4.ba364264.svg',
+        proportion: "3:4",
+        text: "文案图",
+        image: "size-3-4.ba364264.svg",
         isSelected: false,
         width: 384,
-        height: 512
+        height: 512,
       },
       {
-        proportion: '4:3',
-        text: '小红书',
-        image: 'size-4-3.a0ec2a1c.svg',
+        proportion: "4:3",
+        text: "小红书",
+        image: "size-4-3.a0ec2a1c.svg",
         isSelected: false,
         width: 512,
-        height: 384
+        height: 384,
       },
       {
-        proportion: '9:16',
-        text: '海报',
-        image: 'size-9-16.498b0472.svg',
+        proportion: "9:16",
+        text: "海报(内嵌图)",
+        image: "size-9-16.498b0472.svg",
         isSelected: false,
         width: 768,
-        height: 1365
+        height: 1365,
       },
       {
-        proportion: '16:9',
-        text: '电脑壁纸',
-        image: 'size-4-3.a0ec2a1c.svg',
+        proportion: "16:9",
+        text: "电脑壁纸",
+        image: "size-4-3.a0ec2a1c.svg",
         isSelected: false,
         width: 1980,
-        height: 1080
-      }
-    ])
+        height: 1080,
+      },
+    ]);
 
     onMounted(() => {
       imageUrl.value = process.env.VUE_APP_IMAGE;
       if (store.getters.userinfo) {
-        sdConnect()
-        getPublicOps()
-        getSdModelList()
+        sdConnect();
+        getPublicOps();
+        getSdModelList();
+        getSdControlNetType();
       } else {
-        loginVisible.value = true
+        loginVisible.value = true;
       }
-    })
+    });
 
     async function sdConnect() {
       try {
@@ -426,12 +573,11 @@ export default {
             message: "绘图服务器暂未开启,请联系站点管理员开启绘图服务",
             type: "error",
           });
-          isNet.value = false
+          isNet.value = false;
         } else {
-          isNet.value = true
+          isNet.value = true;
         }
         ElLoading.service().close();
-
       } catch (e) {
         ElLoading.service().close();
         ElNotification({
@@ -439,27 +585,31 @@ export default {
           message: e,
           type: "error",
         });
-        router.go(-1)
+        router.go(-1);
       }
     }
 
     function onChange(e) {
-      console.log(e.raw.type)
-      if (e.raw.type === 'image/jpg' || e.raw.type === 'image/png' || e.raw.type === 'image/jpeg') {
+      console.log(e.raw.type);
+      if (
+        e.raw.type === "image/jpg" ||
+        e.raw.type === "image/png" ||
+        e.raw.type === "image/jpeg"
+      ) {
         if (e.raw.size / 1024 / 1024 > 2) {
           ElNotification({
             title: "错误",
-            message: '图片大小不得超过2MB',
+            message: "图片大小不得超过2MB",
             type: "error",
           });
-          return false
+          return false;
         }
         new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (event) => {
-            tempFile.value = event.target.result
-            form.value.images = e.raw
-            console.log(e)
+            tempFile.value = event.target.result;
+            form.value.images = e.raw;
+            console.log(e);
             resolve(e);
           };
           reader.onerror = (error) => {
@@ -470,18 +620,23 @@ export default {
       } else {
         ElNotification({
           title: "错误",
-          message: '请上传正确的图片',
+          message: "请上传正确的图片",
           type: "error",
         });
-        return false
+        return false;
       }
+    }
+
+    function removeImage() {
+      tempFile.value = null;
+      form.value.images = null;
     }
 
     async function getPublicOps() {
       try {
-        imageList.value = await GetPublicRandomOps()
+        imageList.value = await GetPublicRandomOps();
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
 
@@ -489,16 +644,31 @@ export default {
       try {
         let newVar = await GetSdModelList();
         if (newVar.length > 0) {
-          modelList.value = newVar
-          form.value.modelName = modelList.value[0].modelName
+          modelList.value = newVar;
+          form.value.modelName = modelList.value[0].modelName;
         }
-
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
 
-    const image = ref('')
+    async function getSdControlNetType() {
+      try {
+        let newVar = await GetSdControlNetType();
+        let defaultItem = {
+          text: '普通绘图',
+          type: '-2'
+        };
+        if (newVar.length > 0) {
+          controlNetList.value = [defaultItem, ...newVar];
+          form.value.controlNetType = controlNetList.value[0].type;
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    const image = ref("");
 
     const form = ref({
       modelName: "",
@@ -507,8 +677,10 @@ export default {
       sampler_index: "Euler a",
       width: 512,
       height: 512,
-      prompt: '',
-      negative_prompt: '',
+      prompt: "",
+      negative_prompt: "",
+      entryText: "",
+      controlNetType: "",
     });
     let loginVisible = ref(false);
 
@@ -522,40 +694,105 @@ export default {
       });
     }
 
+    /**
+     * 正向随机提示词
+     */
+    function randomForward() {
+      // 首先，从 prompt 中随机选择一条数据
+      const randomItem =
+        prompt.promptForward[
+          Math.floor(Math.random() * prompt.promptForward.length)
+        ];
+      // 将 key 和 val 内容分别赋值给相应变量
+      form.value.prompt = randomItem.key;
+      prompForwardEnglish.value = randomItem.val;
+    }
+
+    /**
+     * 反向随机提示词
+     */
+    function randomReverse() {
+      // 首先，从 prompt 中随机选择一条数据
+      const randomItem =
+        prompt.promptReverse[
+          Math.floor(Math.random() * prompt.promptReverse.length)
+        ];
+      // 将 key 和 val 内容分别赋值给相应变量
+      form.value.negative_prompt = randomItem.key;
+      prompReverseEnglish.value = randomItem.val;
+    }
+
+    /**
+     * 清空正向提示词
+     */
+    function clearForward() {
+      form.value.prompt = "";
+      prompForwardEnglish.value = "";
+    }
+
+    /**
+     * 清空反向提示词
+     */
+    function clearReverse() {
+      form.value.negative_prompt = "";
+      prompReverseEnglish.value = "";
+    }
+
     async function onSubmit() {
       if (load.value === 1) {
-        return
+        return;
       }
       let value = form.value;
+      // 判断this.prompForwardEnglish是否有值 有值的话替换
+      if (prompForwardEnglish.value) {
+        value.prompt = prompForwardEnglish.value;
+      }
+      // 判断this.prompReverseEnglish是否有值 有值的话替换
+      if (prompReverseEnglish.value) {
+        value.negative_prompt = prompReverseEnglish.value;
+      }
       if (!value.prompt) {
         ElNotification({
           title: "错误",
-          message: '请设置绘画提示词',
+          message: "请设置绘画提示词",
           type: "error",
         });
-        return
+        return;
       }
       const formData = new FormData();
       // 添加自定义参数到 FormData
       for (const key in form.value) {
         if (form.value[key]) {
           formData.append(key, form.value[key]);
-          console.log(key)
+          console.log(key);
         }
       }
-      formData.append('env', 0)
-      load.value = 1
+      formData.append("env", 0);
+      load.value = 1;
       try {
-        let promise = await DrawingSdTask(formData);
-        startTimer(promise.drawingId)
+        // 新增判断逻辑
+        console.log(value)
+        if (value.controlNetType) {
+          if (Number(value.controlNetType) === -2) {
+            let promise = await DrawingSdTask(formData);
+            startTimer(promise.drawingId);
+          }else {
+            let text_promise = await SdControlNetDraught(formData);
+            startTimer(text_promise.drawingId);
+          }
+        } else {
+          throw new Error("请选择绘图类型");
+        }
+        // 清空随机词防止重复
+        prompForwardEnglish.value = "";
+        prompReverseEnglish.value = "";
       } catch (e) {
-        load.value = 0
+        load.value = 0;
         ElNotification({
           title: "错误",
           message: e,
           type: "error",
         });
-
       }
     }
 
@@ -571,13 +808,13 @@ export default {
             timerId.value = null;
             let newVar = await GetDrawingDataResult(id);
             // eslint-disable-next-line no-prototype-builtins
-            if (newVar.hasOwnProperty('drawingImage')){
-              image.value = newVar.drawingImage.generateImage
-            }else {
-              image.value = newVar.drawingText.generateImage
+            if (newVar.hasOwnProperty("drawingImage")) {
+              image.value = newVar.drawingImage.generateImage;
+            } else {
+              image.value = newVar.drawingText.generateImage;
             }
 
-            load.value = 2
+            load.value = 2;
             ElNotification({
               title: "提示",
               message: "图片绘制成功 请前往绘图查看",
@@ -585,8 +822,8 @@ export default {
             });
           }
         } catch (e) {
-          console.log(e)
-          load.value = 3
+          console.log(e);
+          load.value = 3;
           clearInterval(timerId.value);
           timerId.value = null;
         }
@@ -594,7 +831,7 @@ export default {
     };
 
     function back() {
-      load.value = 0
+      load.value = 0;
     }
 
     return {
@@ -605,6 +842,7 @@ export default {
       load,
       onSubmit,
       onChange,
+      removeImage,
       tempFile,
       onChangeSize,
       imageUrl,
@@ -614,7 +852,14 @@ export default {
       imageList,
       stepsList,
       samplerList,
-      sizeList
+      controlNetList,
+      sizeList,
+      randomForward,
+      prompForwardEnglish,
+      randomReverse,
+      prompReverseEnglish,
+      clearForward,
+      clearReverse,
     };
   },
 };
@@ -805,7 +1050,7 @@ export default {
   width: 150px;
   height: 190px;
   margin-bottom: 5px;
-  border-radius: 8px
+  border-radius: 8px;
 }
 
 div::-webkit-scrollbar {
@@ -845,23 +1090,42 @@ div::-webkit-scrollbar {
   border: 1px solid rgb(129, 102, 231);
 }
 
-
 .size-logo {
-  padding-bottom: 5px
+  padding-bottom: 5px;
 }
 
 .size-logo img {
   width: 23px;
-  height: 23px
+  height: 23px;
 }
 
 .size-proportion {
-  padding-bottom: 2px
+  padding-bottom: 2px;
 }
 
 .size-text {
   font-size: 9px;
   font-weight: 500;
-  color: #636363
+  color: #636363;
+}
+
+.random-prompt {
+  background-color: rgb(138, 117, 255);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-right: -5px;
+}
+
+.clear-prompt {
+  background-color: rgb(138, 117, 255);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
 }
 </style>
