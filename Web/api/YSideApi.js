@@ -11,11 +11,22 @@ export function GetSdControlNetType() {
 }
 
 /**
- *    CN内嵌图
+ *    CN文本内嵌图
  */
-export function SdControlNetDraught(data) {
+export function SdTextControlNetDraught(data) {
     return request({
         url: '/drawing/sd/text/controlNet/draught/',
+        method: 'POST',
+        data
+    })
+}
+
+/**
+ *    CN图片内嵌图
+ */
+export function SdImageControlNetDraught(data) {
+    return request({
+        url: '/drawing/sd/image/controlNet/draught/',
         method: 'POST',
         data
     })

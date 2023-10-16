@@ -434,7 +434,8 @@ import {
   SdConnectivity,
 } from "../../../api/BSideApi";
 import {
-  SdControlNetDraught,
+  SdTextControlNetDraught,
+  SdImageControlNetDraught,
   GetSdControlNetType,
 } from "../../../api/YSideApi";
 import store from "@/store";
@@ -497,11 +498,11 @@ export default {
     const sizeList = ref([
       {
         proportion: "1:1",
-        text: "头像",
+        text: "二维码",
         image: "size-1-1.f9b344b9.svg",
         isSelected: true,
-        width: 512,
-        height: 512,
+        width: 910,
+        height: 910,
       },
       {
         proportion: "1:2",
@@ -654,17 +655,18 @@ export default {
 
     async function getSdControlNetType() {
       try {
-        let newVar = await GetSdControlNetType();
-        let defaultItem = {
-          text: '普通绘图',
-          type: '-2'
-        };
-        if (newVar.length > 0) {
-          controlNetList.value = [defaultItem, ...newVar];
-          form.value.controlNetType = controlNetList.value[0].type;
-        }
+          let newVar = await GetSdControlNetType();
+          let defaultItem = {
+              text: '普通绘图',
+              type: '-2'
+          };
+          if (newVar.length > 0) {
+              controlNetList.value = newVar.filter(item => item.is_selected != 0);
+              controlNetList.value.unshift(defaultItem);
+              form.value.controlNetType = controlNetList.value[0].type;
+          }
       } catch (e) {
-        console.log(e);
+          console.log(e);
       }
     }
 
@@ -771,13 +773,15 @@ export default {
       load.value = 1;
       try {
         // 新增判断逻辑
-        console.log(value)
         if (value.controlNetType) {
           if (Number(value.controlNetType) === -2) {
             let promise = await DrawingSdTask(formData);
             startTimer(promise.drawingId);
-          }else {
-            let text_promise = await SdControlNetDraught(formData);
+          } else if (Number(value.controlNetType) === 1) {
+            let image_promise = await SdImageControlNetDraught(formData);
+            startTimer(image_promise.drawingId);
+          } else {
+            let text_promise = await SdTextControlNetDraught(formData);
             startTimer(text_promise.drawingId);
           }
         } else {

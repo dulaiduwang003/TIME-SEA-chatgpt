@@ -208,8 +208,8 @@ create index idx_type_id
 create index idx_type
     on super_bot.t_sd_control_net (type);
 
-INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (1, 'softedge_h', 'control_v1', 1.00, 0.00, 1.00, '软边缘检测', 1, '人物')
-INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (2, 'none', 'control_v1', 1.20, 0.00, 1.00, '二维码', 2, '二维码')
-INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (3, 'none', 'control_v1', 0.30, 0.60, 0.90, '明亮', 3, '二维码')
-INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (4, 'canny', 'control_v1', 1.00, 0.00, 1.00, '硬边缘检测', 4, '人物')
-INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`, `is_selected`) VALUES (5, 'none', 'control_v1', 0.60, 0.20, 0.80, '文字内嵌图', -1, '隐藏文字', 1)
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (1, 'softedge_h', 'control_v1', 1.00, 0.00, 1.00, '软边缘检测', 1, '人物');
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (2, 'none', 'control_v1', 1.20, 0.00, 1.00, '二维码', 2, '二维码');
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (3, 'none', 'control_v1', 0.30, 0.60, 0.90, '明亮', 3, '二维码');
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`) VALUES (4, 'canny', 'control_v1', 1.00, 0.00, 1.00, '硬边缘检测', 4, '人物');
+INSERT INTO `super_bot`.`t_sd_control_net` (`type_id`, `module`, `model`, `weight`, `guidance_start`, `guidance_end`, `text`, `type`, `type_name`, `is_selected`) VALUES (5, 'none', 'control_v1', 0.60, 0.20, 0.80, '文字内嵌图', -1, '隐藏文字', 1);

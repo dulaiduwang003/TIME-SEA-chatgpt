@@ -44,3 +44,4 @@ mysql -uroot -p super_bot < super_bot.sql
 /usr/local/bin/uwsgi --ini wsgi.ini
 ```
 10. 微信小程序域名白名单增加8626端口
+11. npm install canvas --canvas_binary_host_mirror=https://registry.npmmirror.com/-/binary/canvas
