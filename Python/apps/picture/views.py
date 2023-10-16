@@ -12,7 +12,7 @@ from utils.jsonResponse import SuccessResponse, ErrorResponse, DetailResponse
 from utils.aliyunoss import aliyunossuploads
 from rest_framework.views import APIView
 from system.views import UserTokenCheckView
-from system.models import Drawing, TSdControlNet
+from system.models import Drawing, TSdControlNet, User
 from config import IS_DELETE, API_TOKEN, API_URL, CODE_TOOL_URL
 from utils.common import get_parameter_dic
 
@@ -138,6 +138,20 @@ class SdTextControlNetDraught(APIView):
         payloads = UserTokenCheckView.token_check(request)
         if not payloads:
             return ErrorResponse(msg='token校验失败，请不要模拟接口使用')
+        
+        redis_conn = get_redis_connection('session')
+        sd_image_frequency = json.loads(redis_conn.get('SD_CONFIG').decode(
+            'utf-8'))[1]['sdImageFrequency']
+        url = json.loads(redis_conn.get('SD_CONFIG').decode(
+            'utf-8'))[1]['sdUrl'] + '/sdapi/v1/txt2img'
+        
+        # 查询ai币
+        frequency_num = User.objects.filter(user_id=payloads).values('frequency').get()['frequency']
+        if int(frequency_num) < 5:
+            return ErrorResponse(code=2005, msg='Super币不足 请观看广告视频获取奖励')
+        else:
+            # 进行扣费
+            User.objects.filter(user_id=payloads).update(frequency=F('frequency') - int(sd_image_frequency))
 
         parameter_dic = get_parameter_dic(request)
 
@@ -150,10 +164,6 @@ class SdTextControlNetDraught(APIView):
             model = item['model']
             module = item['module']
             weight = round(float(item['weight']), 2)
-
-        redis_conn = get_redis_connection('session')
-        url = json.loads(redis_conn.get('SD_CONFIG').decode(
-            'utf-8'))[1]['sdUrl'] + '/sdapi/v1/txt2img'
 
         headers = {
             'Content-Type': 'application/json',
@@ -293,6 +303,20 @@ class SdImageControlNetDraught(APIView):
         payloads = UserTokenCheckView.token_check(request)
         if not payloads:
             return ErrorResponse(msg='token校验失败，请不要模拟接口使用')
+        
+        redis_conn = get_redis_connection('session')
+        sd_image_frequency = json.loads(redis_conn.get('SD_CONFIG').decode(
+            'utf-8'))[1]['sdImageFrequency']
+        url = json.loads(redis_conn.get('SD_CONFIG').decode(
+            'utf-8'))[1]['sdUrl'] + '/sdapi/v1/txt2img'
+        
+        # 查询ai币
+        frequency_num = User.objects.filter(user_id=payloads).values('frequency').get()['frequency']
+        if int(frequency_num) < 5:
+            return ErrorResponse(code=2005, msg='Super币不足 请观看广告视频获取奖励')
+        else:
+            # 进行扣费
+            User.objects.filter(user_id=payloads).update(frequency=F('frequency') - int(sd_image_frequency))
 
         parameter_dic = get_parameter_dic(request)
 
@@ -315,10 +339,6 @@ class SdImageControlNetDraught(APIView):
             module = item['module']
             weight = round(float(item['weight']), 2)
 
-        redis_conn = get_redis_connection('session')
-        url = json.loads(redis_conn.get('SD_CONFIG').decode(
-            'utf-8'))[1]['sdUrl'] + '/sdapi/v1/txt2img'
-
         headers = {
             'Content-Type': 'application/json',
         }
@@ -329,21 +349,21 @@ class SdImageControlNetDraught(APIView):
                     "args": [
                         {
                             "enabled": True,
-                            "guidance_end": temp_guidance_end,
-                            "guidance_start": temp_guidance_start,
-                            "model": temp_model,
-                            "module": temp_module,
-                            "pixel_perfect": True,
-                            "weight": temp_weight,
-                        },
-                        {
-                            "enabled": True,
                             "guidance_end": guidance_end,
                             "guidance_start": guidance_start,
                             "model": model,
                             "module": module,
                             "pixel_perfect": True,
                             "weight": weight,
+                        },
+                        {
+                            "enabled": True,
+                            "guidance_end": temp_guidance_end,
+                            "guidance_start": temp_guidance_start,
+                            "model": temp_model,
+                            "module": temp_module,
+                            "pixel_perfect": True,
+                            "weight": temp_weight,
                         },
                     ],
                 },
