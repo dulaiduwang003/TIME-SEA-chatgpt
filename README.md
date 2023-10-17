@@ -3,7 +3,7 @@
 基于 SpringBoot3 开发的 Ai 多功能项目,支持(H5,Web,微信小程序) 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
 两个端 可自行选择性部署 也可两个都部署(推荐做法)
 
-每个分支都用不同的功能 选择自己喜欢的
+每个分支都用不同的功能 选择自己喜欢的 master为默认版本分支 woo-cloud对与Ai绘画部分做了更丰富的功能(额外接入Python SDK)
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
