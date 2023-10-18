@@ -27,6 +27,13 @@
           >
             {{ isLogin ? "邮箱登录" : "注册账号" }}
           </div>
+
+          <div
+              :class="loginType === 2 ? 'login-selected' : ''"
+              @click="switchLoginType(2)"
+          >
+            手机号登录
+          </div>
         </div>
         <!--微信扫码登录-->
         <div v-if="loginType === 0">
@@ -167,6 +174,66 @@
             </el-form-item>
           </el-form>
         </div>
+
+        <!--登录-->
+        <div
+            v-if="loginType === 2"
+            style="margin-top: 40px; padding: 0 60px 50px"
+        >
+          <el-form @keyup.enter="onSubmit" ref="formRef" size="large">
+            <el-form-item prop="username">
+              <el-input
+                  type="text"
+                  clearable
+                  v-model="emailForm.email_xx"
+                  placeholder="请输入手机号"
+                  autocomplete="“off”"
+              >
+                <template #prefix>
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
+                    <UserFilled />
+                  </el-icon>
+                </template>
+              </el-input>
+            </el-form-item>
+
+            <el-form-item prop="code">
+              <el-input
+                  maxlength="6"
+                  minlength="6"
+                  ref="codeRef"
+                  type="text"
+                  clearable
+                  v-model="emailForm.code_xx"
+                  placeholder="请输入验证码"
+                  autocomplete="“off”"
+              >
+                >
+                <template #prefix>
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
+                    <Connection />
+                  </el-icon>
+                </template>
+                <template #append>
+                  <div style="padding-left: 10px; background: none">
+                    <el-button
+                        :disabled="disabled"
+                        @click="startCountdown_xx"
+                        v-text="buttonText"
+                        style="
+                        background-color: var(--themeColor1);
+                        color: var(--themeTextColor);
+                      "
+                    ></el-button>
+                  </div>
+                </template>
+              </el-input>
+            </el-form-item>
+
+          </el-form>
+        </div>
+
+
       </div>
     </el-dialog>
     <!--找回密码-->
