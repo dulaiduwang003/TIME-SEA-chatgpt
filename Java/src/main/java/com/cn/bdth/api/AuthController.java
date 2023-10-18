@@ -1,11 +1,15 @@
 package com.cn.bdth.api;
 
+import cn.hutool.core.lang.Validator;
 import com.cn.bdth.dto.EmailCodeDto;
 import com.cn.bdth.dto.EmailLoginDto;
+import com.cn.bdth.dto.MobileCodeDto;
+import com.cn.bdth.dto.MobileLoginDto;
 import com.cn.bdth.dto.WeChatAuthLoginDto;
 import com.cn.bdth.dto.WeChatAuthQrCodeLoginDto;
 import com.cn.bdth.entity.SysLog;
 import com.cn.bdth.exceptions.EmailBackException;
+import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.LoginPasswordException;
 import com.cn.bdth.exceptions.RegistrationException;
 import com.cn.bdth.exceptions.WechatException;
@@ -87,7 +91,7 @@ public class AuthController {
     }
 
     /**
-     * 注册账号
+     * 邮箱登录
      *
      * @param dto dto
      * @return the result
@@ -196,6 +200,46 @@ public class AuthController {
             return Result.ok();
         } catch (LoginPasswordException e) {
             return Result.error(e.getMessage(), e.getCode());
+        }
+    }
+
+    /**
+     * 发送手机短信验证码
+     *
+     * @param mobileCodeDto
+     * @return
+     */
+    @PostMapping("/mobile/create-code")
+    public Result createMobileCode(@RequestBody MobileCodeDto mobileCodeDto) {
+        if(!Validator.isMobile(mobileCodeDto.getMobile())) {
+            return Result.error(ExceptionMessages.NOT_MOBILE);
+        }
+
+        return Result.ok();
+    }
+
+    /**
+     * 手机 验证码 登录
+     *
+     * @param dto dto
+     * @return the result
+     */
+    @PostMapping(value = "/mobile/login", name = "登录", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Result mobileLogin(HttpServletRequest request, @RequestBody @Validated final MobileLoginDto dto) {
+        try {
+            String result = authService.mobileLogin(dto);
+
+            final Long currentLoginId = UserUtils.getCurrentLoginId();
+            //保存登录日志
+            sysLogMapper.insert(new SysLog()
+                    .setIp(IpUtils.getIpAddr(request))
+                    .setMethod("com.cn.bdth.api.AuthController.mobileLogin")
+                    .setLogContent("手机号登录")
+                    .setUserId(currentLoginId));
+
+            return Result.data(result);
+        } catch (LoginPasswordException e) {
+            return Result.error(e.getMessage());
         }
     }
 

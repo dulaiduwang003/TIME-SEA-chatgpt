@@ -9,6 +9,7 @@ import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.dto.EmailCodeDto;
 import com.cn.bdth.dto.EmailLoginDto;
+import com.cn.bdth.dto.MobileLoginDto;
 import com.cn.bdth.entity.SysLog;
 import com.cn.bdth.entity.User;
 import com.cn.bdth.exceptions.*;
@@ -210,5 +211,8 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-
+    @Override
+    public String mobileLogin(MobileLoginDto dto) {
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package com.cn.bdth.service;
 
 import com.cn.bdth.dto.EmailCodeDto;
 import com.cn.bdth.dto.EmailLoginDto;
+import com.cn.bdth.dto.MobileLoginDto;
 import com.cn.bdth.vo.WechatCodeVo;
 
 /**
@@ -76,4 +77,12 @@ public interface AuthService {
      * 注销
      */
     void logout();
+
+    /**
+     * 手机号验证码登录
+     *
+     * @param dto
+     * @return
+     */
+    String mobileLogin(MobileLoginDto dto);
 }

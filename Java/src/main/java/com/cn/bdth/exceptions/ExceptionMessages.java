@@ -60,4 +60,6 @@ public interface ExceptionMessages {
 
     String DRAWING_MISTAKE = "创作失败!请检查是否涉及敏感词!";
 
+    String NOT_MOBILE = "不是手机号！";
+
 }
