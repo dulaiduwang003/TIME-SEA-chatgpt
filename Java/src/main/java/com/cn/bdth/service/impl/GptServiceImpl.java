@@ -141,9 +141,10 @@ public class GptServiceImpl implements GptService {
         model.setModel(isAdvanced ? AiModelConstant.ADVANCED : AiModelConstant.BASIC);
 
         return webClient.baseUrl(isAdvanced ? chatGptStructure.getOpenAiPlusUrl() : chatGptStructure.getOpenAiUrl())
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
+//                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
+                .defaultHeader("api-key", (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
                 .post()
-                .uri(ServerConstant.GPT_DIALOGUE)
+//                .uri(ServerConstant.GPT_DIALOGUE)
                 .body(BodyInserters.fromValue(model))
                 .retrieve()
                 .bodyToFlux(String.class);

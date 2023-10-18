@@ -78,7 +78,8 @@ public class WebGptWss {
             final String s = chatUtils.drawingCueWord(gptWebDto.getMessages());
 
             if (s == null) {
-                boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
+//                boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
+                boolean isAdvancedModel = false;
 
                 final Long frequency = controlCommon.getControl().getEnableGptPlus() ? (isAdvancedModel ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency()) : chatGptStructure.getGptFrequency();
 

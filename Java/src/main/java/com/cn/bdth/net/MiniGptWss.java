@@ -98,7 +98,8 @@ public class MiniGptWss {
 
                 final ControlStructure control = controlCommon.getControl();
 
-                final boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
+//                final boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
+                final boolean isAdvancedModel = false;
 
                 final Long frequency = control.getEnableGptPlus() ? (isAdvancedModel ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency()) : chatGptStructure.getGptFrequency();
 
