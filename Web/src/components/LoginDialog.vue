@@ -185,7 +185,7 @@
               <el-input
                   type="text"
                   clearable
-                  v-model="emailForm.email_xx"
+                  v-model="mobileForm.mobile"
                   placeholder="请输入手机号"
                   autocomplete="“off”"
               >
@@ -204,7 +204,7 @@
                   ref="codeRef"
                   type="text"
                   clearable
-                  v-model="emailForm.code_xx"
+                  v-model="mobileForm.code"
                   placeholder="请输入验证码"
                   autocomplete="“off”"
               >
@@ -218,7 +218,7 @@
                   <div style="padding-left: 10px; background: none">
                     <el-button
                         :disabled="disabled"
-                        @click="startCountdown_xx"
+                        @click="startMobileCountdown"
                         v-text="buttonText"
                         style="
                         background-color: var(--themeColor1);
@@ -229,7 +229,18 @@
                 </template>
               </el-input>
             </el-form-item>
-
+            <el-form-item>
+              <el-button
+                  :loading="loginLoading"
+                  class="submit-button"
+                  round
+                  type="primary"
+                  size="large"
+                  @click="onSubmit"
+              >
+                验证身份
+              </el-button>
+            </el-form-item>
           </el-form>
         </div>
 
@@ -366,6 +377,7 @@ import {
   GetWechatCode,
   isQrCodeLoginSucceed,
   RetrieveEmailPassword,
+  getMobileCode, MobileLogin,
 } from "../../api/BSideApi";
 import { ElMessage, ElNotification } from "element-plus";
 import store from "@/store";
@@ -405,6 +417,11 @@ export default defineComponent({
       email: "",
       password: "",
       code: "",
+    });
+    const mobileForm = ref({
+      mobile: "",
+      code: "",
+      type:""
     });
     watch(
       () => props.show,
@@ -493,6 +510,49 @@ export default defineComponent({
         try {
           buttonText.value = "正在发送中";
           await getEmailCode(emailForm.value.email);
+          ElMessage.info("验证码发送成功");
+          disabled.value = true;
+        } catch (e) {
+          ElNotification({
+            title: "错误",
+            message: e,
+            type: "error",
+          });
+          buttonText.value = "重新获取验证码";
+          isCode.value = true;
+          return;
+        }
+        countdown.value = setInterval(() => {
+          if (seconds === 0) {
+            clearInterval(countdown.value);
+            countdown.value = null;
+            disabled.value = false;
+            buttonText.value = "重新获取验证码";
+            isCode.value = true;
+          } else {
+            seconds--;
+            buttonText.value = `${seconds}` + "后重新获取";
+          }
+        }, 1000);
+      }
+    }
+
+    /**
+     * 获取手机验证码
+     * @returns {Promise<void>}
+     */
+    async function startMobileCountdown() {
+      if (isCode.value) {
+        if (!mobileForm.value.mobile) {
+          ElMessage.warning("手机号不能为空");
+          return;
+        }
+        isCode.value = false;
+        let seconds = 120;
+        try {
+          buttonText.value = "正在发送中";
+          mobileForm.value.type = "0";
+          await getMobileCode(mobileForm.value);
           ElMessage.info("验证码发送成功");
           disabled.value = true;
         } catch (e) {
@@ -629,6 +689,50 @@ export default defineComponent({
       }
     }
 
+    /**
+     * 手机号登录
+     * @returns {Promise<void>}
+     */
+    async function mobileLogin() {
+      if (loginLoading.value) {
+        return;
+      }
+      let value = mobileForm.value;
+      if (!value.mobile) {
+        ElMessage.warning("登录手机号不能为空");
+        return;
+      }
+      if (!value.code) {
+        ElMessage.warning("验证码不能为空");
+        return;
+      }
+      loginLoading.value = true;
+      try {
+        let promise = await MobileLogin(mobileForm.value);
+        localStorage.setItem("token", promise);
+        try {
+          let res = await GetUserInfo();
+          store.commit("setUserinfo", res);
+          // eslint-disable-next-line no-empty
+        } catch (e) {
+          console.log(e);
+        }
+        dialogVisible.value = false;
+        loginLoading.value = false;
+        ElNotification({
+          title: "登录成功",
+          message: "快登录体验TIME SEA PLUS吧",
+          type: "success",
+        });
+        loginLoading.value = false;
+        isLogin.value = true;
+        location.reload();
+      } catch (e) {
+        ElMessage.error(e);
+        loginLoading.value = false;
+      }
+    }
+
     async function register() {
       try {
         if (loginLoading.value) {
@@ -666,7 +770,11 @@ export default defineComponent({
 
     function onSubmit() {
       if (isLogin.value) {
-        emailLogin();
+        if (loginType.value === 1) {
+          emailLogin();
+        }else {
+          mobileLogin();
+        }
       } else {
         register();
       }
@@ -696,6 +804,8 @@ export default defineComponent({
       emailForm,
       disabled,
       store,
+      mobileForm,
+      startMobileCountdown,
     };
   },
 });

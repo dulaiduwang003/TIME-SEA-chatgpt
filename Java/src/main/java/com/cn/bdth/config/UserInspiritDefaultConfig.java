@@ -23,4 +23,9 @@ public class UserInspiritDefaultConfig {
     @Value("${config.videoFrequency}")
     private Long videoFrequency;
 
+    @Value("${config.shansuma.appId}")
+    private String shansumaAppId;
+
+    @Value("${config.shansuma.secretKey}")
+    private String shansumaSecretKey;
 }

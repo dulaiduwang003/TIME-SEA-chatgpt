@@ -30,4 +30,14 @@ public interface CommonConstant {
      * String 类型的空值
      */
     String STRING_NULL = "null";
+
+    /**
+     * 短信验证码redis-key的前缀
+     */
+    String PHONE_REDIS_KEY_PRE = "phone_msg_%s";
+
+    /**
+     * 短信验证码的次数限制
+     */
+    String PHONE_REDIS_KEY_MSG_LIMIT = "phone:msg:limit:%s";
 }

@@ -449,3 +449,25 @@ export function GetSdControlNetType() {
         method: 'GET'
     })
 }
+
+/**
+ *    获取手机号验证码
+ */
+export function getMobileCode(data) {
+    return request({
+        url: '/auth/mobile/create-code',
+        method: 'POST',
+        data
+    })
+}
+
+/**
+ *   手机号登录
+ */
+export function MobileLogin(data) {
+    return request({
+        url: '/auth/mobile/login',
+        method: 'POST',
+        data
+    })
+}

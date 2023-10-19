@@ -213,6 +213,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String mobileLogin(MobileLoginDto dto) {
-        return null;
+        User user = userMapper.selectOne(new QueryWrapper<User>()
+                .lambda()
+                .eq(User::getMobile, dto.getMobile())
+                .select(User::getType, User::getUserId)
+        );
+        if (user == null) {
+            user = new User()
+                    .setMobile(dto.getMobile())
+                    .setFrequency(userInspiritCommon.getInspiritStructure().getIncentiveFrequency())
+                    .setType(AuthConstant.USER);
+            // 新建一个用户
+            userMapper.insert(user);
+        }
+        StpUtil.login(user.getUserId());
+        //设置具体TOKEN Session权限
+        StpUtil.getSession()
+                .set(AuthConstant.ROLE, user.getType());
+        return StpUtil.getTokenValue();
     }
 }

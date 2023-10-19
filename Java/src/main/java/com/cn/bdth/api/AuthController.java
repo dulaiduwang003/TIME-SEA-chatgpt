@@ -1,6 +1,11 @@
 package com.cn.bdth.api;
 
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.RandomUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
+import com.cn.bdth.config.UserInspiritDefaultConfig;
+import com.cn.bdth.constants.CommonConstant;
 import com.cn.bdth.dto.EmailCodeDto;
 import com.cn.bdth.dto.EmailLoginDto;
 import com.cn.bdth.dto.MobileCodeDto;
@@ -17,10 +22,14 @@ import com.cn.bdth.mapper.SysLogMapper;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.AuthService;
 import com.cn.bdth.utils.IpUtils;
+import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.UserUtils;
+import com.cn.bdth.utils.sms.DySmsEnum;
+import com.cn.bdth.utils.sms.DySmsHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +49,8 @@ public class AuthController {
 
     private final AuthService authService;
     private final SysLogMapper sysLogMapper;
+    private final RedisUtils redisUtils;
+    private final UserInspiritDefaultConfig userInspiritDefaultConfig;
 
     /**
      * 获取注册验证码
@@ -211,11 +222,34 @@ public class AuthController {
      */
     @PostMapping("/mobile/create-code")
     public Result createMobileCode(@RequestBody MobileCodeDto mobileCodeDto) {
-        if(!Validator.isMobile(mobileCodeDto.getMobile())) {
+        if (!Validator.isMobile(mobileCodeDto.getMobile())) {
             return Result.error(ExceptionMessages.NOT_MOBILE);
         }
+        String mobile = mobileCodeDto.getMobile();
+        String redisKey = String.format(CommonConstant.PHONE_REDIS_KEY_PRE, mobile);
+        if (redisUtils.hasKey(redisKey)) {
+            return Result.error("验证码20分钟内，仍然有效！");
+        }
+        //随机数
+        String captcha = RandomUtil.randomNumbers(6);
+        JSONObject obj = new JSONObject();
+        obj.put("code", captcha);
+        try {
+            //闪速码的key和密钥
+            DySmsHelper.setAccessKeyId(userInspiritDefaultConfig.getShansumaAppId());
+            DySmsHelper.setAccessKeySecret(userInspiritDefaultConfig.getShansumaSecretKey());
+            //登录模板
+            boolean b = DySmsHelper.sendSms(mobile, obj, DySmsEnum.LOGIN_TEMPLATE_CODE, redisUtils);
 
-        return Result.ok();
+            if (!b) {
+                return Result.error("短信验证码发送失败,请稍后重试");
+            }
+            redisUtils.setValueTimeout(redisKey, captcha, 20 * 60);
+            return Result.ok();
+        } catch (ClientException e) {
+            log.error(ExceptionUtils.getStackTrace(e));
+            return Result.error("短信接口未配置，请联系管理员！");
+        }
     }
 
     /**
@@ -227,6 +261,12 @@ public class AuthController {
     @PostMapping(value = "/mobile/login", name = "登录", produces = MediaType.APPLICATION_JSON_VALUE)
     public Result mobileLogin(HttpServletRequest request, @RequestBody @Validated final MobileLoginDto dto) {
         try {
+            String smsCode = dto.getCode();
+            String redisKey = String.format(CommonConstant.PHONE_REDIS_KEY_PRE, dto.getMobile());
+            Object code = redisUtils.getValue(redisKey);
+            if (!smsCode.equals(code)) {
+                return Result.error("手机验证码错误");
+            }
             String result = authService.mobileLogin(dto);
 
             final Long currentLoginId = UserUtils.getCurrentLoginId();

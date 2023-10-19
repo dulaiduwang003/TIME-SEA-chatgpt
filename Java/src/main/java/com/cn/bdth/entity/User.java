@@ -53,6 +53,8 @@ public class User {
      */
     private Long isSignIn;
 
+    private String mobile;
+
 
     /**
      * 创建时间
