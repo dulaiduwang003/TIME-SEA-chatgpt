@@ -37,7 +37,12 @@ public interface CommonConstant {
     String PHONE_REDIS_KEY_PRE = "phone_msg_%s";
 
     /**
-     * 短信验证码的次数限制
+     * 短信验证码的次数限制（每个手机号每天只能发20次）
      */
     String PHONE_REDIS_KEY_MSG_LIMIT = "phone:msg:limit:%s";
+
+    /**
+     * 短信验证码的ip次数限制（每个ip每天只能发30次）
+     */
+    String PHONE_REDIS_KEY_MSG_IP_LIMIT = "phone:msg:ip:limit:%s";
 }

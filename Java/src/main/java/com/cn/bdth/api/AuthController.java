@@ -23,6 +23,7 @@ import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.AuthService;
 import com.cn.bdth.utils.IpUtils;
 import com.cn.bdth.utils.RedisUtils;
+import com.cn.bdth.utils.StringUtils;
 import com.cn.bdth.utils.UserUtils;
 import com.cn.bdth.utils.sms.DySmsEnum;
 import com.cn.bdth.utils.sms.DySmsHelper;
@@ -221,15 +222,29 @@ public class AuthController {
      * @return
      */
     @PostMapping("/mobile/create-code")
-    public Result createMobileCode(@RequestBody MobileCodeDto mobileCodeDto) {
+    public Result createMobileCode(HttpServletRequest request, @RequestBody MobileCodeDto mobileCodeDto) {
         if (!Validator.isMobile(mobileCodeDto.getMobile())) {
             return Result.error(ExceptionMessages.NOT_MOBILE);
         }
         String mobile = mobileCodeDto.getMobile();
         String redisKey = String.format(CommonConstant.PHONE_REDIS_KEY_PRE, mobile);
         if (redisUtils.hasKey(redisKey)) {
-            return Result.error("验证码20分钟内，仍然有效！");
+            return Result.error("验证码30分钟内，仍然有效！");
         }
+        //增加ip限制；--同一个ip每天只能发送30次验证码
+        String ip = IpUtils.getIpAddr(request);
+        if(StringUtils.isNotBlank(ip)) {
+            String ipRedisKey = String.format(CommonConstant.PHONE_REDIS_KEY_MSG_IP_LIMIT, ip);
+            if (redisUtils.hasKey(ipRedisKey)) {
+                redisUtils.increment(ipRedisKey, 1);
+            } else {
+                redisUtils.setValueTimeout(ipRedisKey, 1, 24 * 3600);
+            }
+            if (Integer.parseInt(String.valueOf(redisUtils.getValue(ipRedisKey))) >= 30) {
+                throw new RuntimeException("已经超出每天短信数量限制！");
+            }
+        }
+
         //随机数
         String captcha = RandomUtil.randomNumbers(6);
         JSONObject obj = new JSONObject();
@@ -244,7 +259,7 @@ public class AuthController {
             if (!b) {
                 return Result.error("短信验证码发送失败,请稍后重试");
             }
-            redisUtils.setValueTimeout(redisKey, captcha, 20 * 60);
+            redisUtils.setValueTimeout(redisKey, captcha, 30 * 60);
             return Result.ok();
         } catch (ClientException e) {
             log.error(ExceptionUtils.getStackTrace(e));
