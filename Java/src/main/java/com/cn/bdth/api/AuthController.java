@@ -22,12 +22,15 @@ import com.cn.bdth.mapper.SysLogMapper;
 import com.cn.bdth.msg.Result;
 import com.cn.bdth.service.AuthService;
 import com.cn.bdth.utils.IpUtils;
+import com.cn.bdth.utils.Md5Util;
+import com.cn.bdth.utils.RandImageUtil;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.StringUtils;
 import com.cn.bdth.utils.UserUtils;
 import com.cn.bdth.utils.sms.DySmsEnum;
 import com.cn.bdth.utils.sms.DySmsHelper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -226,6 +229,19 @@ public class AuthController {
         if (!Validator.isMobile(mobileCodeDto.getMobile())) {
             return Result.error(ExceptionMessages.NOT_MOBILE);
         }
+        // 需要加一个随机码 + 图形验证码的校验功能 随机码是为了保持唯一性，图形验证码是为了保证人工操作
+        String checkKey = mobileCodeDto.getCheckKey(); //随机码
+        String captcha = mobileCodeDto.getCaptcha();   //验证码
+        if (StringUtils.isBlank(captcha)) {
+            return Result.error("验证码无效");
+        }
+        String lowerCaseCaptcha = captcha.toLowerCase();
+        String realKey = Md5Util.md5Encode(lowerCaseCaptcha + checkKey, "utf-8");
+        Object checkCode = redisUtils.getValue(realKey);
+        if (checkCode == null || !checkCode.equals(lowerCaseCaptcha)) {
+            return Result.error("验证码错误");
+        }
+
         String mobile = mobileCodeDto.getMobile();
         String redisKey = String.format(CommonConstant.PHONE_REDIS_KEY_PRE, mobile);
         if (redisUtils.hasKey(redisKey)) {
@@ -246,9 +262,9 @@ public class AuthController {
         }
 
         //随机数
-        String captcha = RandomUtil.randomNumbers(6);
+        String captchaMobileCode = RandomUtil.randomNumbers(6);
         JSONObject obj = new JSONObject();
-        obj.put("code", captcha);
+        obj.put("code", captchaMobileCode);
         try {
             //闪速码的key和密钥
             DySmsHelper.setAccessKeyId(userInspiritDefaultConfig.getShansumaAppId());
@@ -259,7 +275,7 @@ public class AuthController {
             if (!b) {
                 return Result.error("短信验证码发送失败,请稍后重试");
             }
-            redisUtils.setValueTimeout(redisKey, captcha, 30 * 60);
+            redisUtils.setValueTimeout(redisKey, captchaMobileCode, 30 * 60);
             return Result.ok();
         } catch (ClientException e) {
             log.error(ExceptionUtils.getStackTrace(e));
@@ -297,5 +313,53 @@ public class AuthController {
             return Result.error(e.getMessage());
         }
     }
+
+    /**
+     * 获取图形验证码，返回base64的图片
+     */
+    @GetMapping(value = "/randomImage/{checkKey}")
+    public Result randomImage(@PathVariable("checkKey") String checkKey) {
+        try {
+            //生成验证码
+            String captcha = RandomUtil.randomString(CommonConstant.BASE_CHECK_CODES, 4);
+            //存到redis中
+            String lowerCaseCode = captcha.toLowerCase();
+
+            // 加入密钥作为混淆，避免简单的拼接，被外部利用，用户自定义该密钥即可
+            String origin = lowerCaseCode + checkKey;
+            String realKey = Md5Util.md5Encode(origin, "utf-8");
+
+            redisUtils.setValueTimeout(realKey, lowerCaseCode, 60);
+            log.info("获取验证码，Redis key = {}，checkCode = {}", realKey, captcha);
+            //返回前端
+            String base64 = RandImageUtil.generate(captcha);
+            return Result.data(base64);
+        } catch (Exception e) {
+            log.error("获取验证码失败: {}", ExceptionUtils.getStackTrace(e));
+            return Result.error("获取验证码失败,请检查配置!");
+        }
+    }
+
+    /**
+     * 图形验证码
+     *
+     * @param sysLoginModel
+     * @return
+     */
+//    @PostMapping(value = "/checkCaptcha")
+//    public Result checkCaptcha(@RequestBody SysLoginModel sysLoginModel) {
+//        String captcha = sysLoginModel.getCaptcha();
+//        String checkKey = sysLoginModel.getCheckKey();
+//        if (captcha == null) {
+//            return Result.error("验证码无效");
+//        }
+//        String lowerCaseCaptcha = captcha.toLowerCase();
+//        String realKey = Md5Util.md5Encode(lowerCaseCaptcha + checkKey, "utf-8");
+//        Object checkCode = redisUtils.getValue(realKey);
+//        if (checkCode == null || !checkCode.equals(lowerCaseCaptcha)) {
+//            return Result.error("验证码错误");
+//        }
+//        return Result.ok();
+//    }
 
 }

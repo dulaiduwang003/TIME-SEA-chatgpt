@@ -45,4 +45,6 @@ public interface CommonConstant {
      * 短信验证码的ip次数限制（每个ip每天只能发30次）
      */
     String PHONE_REDIS_KEY_MSG_IP_LIMIT = "phone:msg:ip:limit:%s";
+
+    String BASE_CHECK_CODES = "qwertyuiplkjhgfdsazxcvbnmQWERTYUPLKJHGFDSAZXCVBNM1234567890";
 }
