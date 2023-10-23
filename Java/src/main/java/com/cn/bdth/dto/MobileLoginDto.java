@@ -1,6 +1,7 @@
 package com.cn.bdth.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -20,5 +21,17 @@ public class MobileLoginDto {
 
     @NotBlank(message = "验证码不能为空")
     private String code;
+
+    /**
+     * 验证码
+     */
+    @NotNull(message = "验证码不能空")
+    private String captcha;
+
+    /**
+     * 验证码key
+     */
+    @NotNull(message = "验证码Key不能空")
+    private String checkKey;
 
 }

@@ -291,6 +291,16 @@ public class AuthController {
      */
     @PostMapping(value = "/mobile/login", name = "登录", produces = MediaType.APPLICATION_JSON_VALUE)
     public Result mobileLogin(HttpServletRequest request, @RequestBody @Validated final MobileLoginDto dto) {
+        // 需要加一个随机码 + 图形验证码的校验功能 随机码是为了保持唯一性，图形验证码是为了保证人工操作
+        String checkKey = dto.getCheckKey(); //随机码
+        String captcha = dto.getCaptcha();   //验证码
+        String lowerCaseCaptcha = captcha.toLowerCase();
+        String realKey = Md5Util.md5Encode(lowerCaseCaptcha + checkKey, "utf-8");
+        Object checkCode = redisUtils.getValue(realKey);
+        if (checkCode == null || !checkCode.equals(lowerCaseCaptcha)) {
+            return Result.error("验证码错误");
+        }
+
         try {
             String smsCode = dto.getCode();
             String redisKey = String.format(CommonConstant.PHONE_REDIS_KEY_PRE, dto.getMobile());

@@ -199,6 +199,32 @@
 
             <el-form-item prop="code">
               <el-input
+                  maxlength="4"
+                  minlength="4"
+                  ref="codeRef"
+                  type="text"
+                  clearable
+                  v-model="mobileForm.captcha"
+                  placeholder="请输入图形验证码"
+                  autocomplete="“off”"
+              >
+                >
+                <template #prefix>
+                  <el-icon :size="16" color="var(&#45;&#45;textColor2)">
+                    <Connection />
+                  </el-icon>
+                </template>
+                <template #append>
+                  <div style="padding-left: 0px; background: none">
+                    <img v-if="randCodeData.requestCodeSuccess" style="margin-top: 2px; max-width: initial; display: block; margin: auto;" :src="randCodeData.randCodeImage" @click="handleChangeCheckCode" />
+                    <img v-else style="margin-top: 2px; max-width: initial; display: block; margin: auto;" :src="require('../assets/checkcode.png')" @click="handleChangeCheckCode" />
+                  </div>
+                </template>
+              </el-input>
+            </el-form-item>
+
+            <el-form-item prop="code">
+              <el-input
                   maxlength="6"
                   minlength="6"
                   ref="codeRef"
@@ -377,7 +403,9 @@ import {
   GetWechatCode,
   isQrCodeLoginSucceed,
   RetrieveEmailPassword,
-  getMobileCode, MobileLogin,
+  getMobileCode,
+  MobileLogin,
+  randomCaptchaImage,
 } from "../../api/BSideApi";
 import { ElMessage, ElNotification } from "element-plus";
 import store from "@/store";
@@ -421,7 +449,14 @@ export default defineComponent({
     const mobileForm = ref({
       mobile: "",
       code: "",
-      type:""
+      type: "",
+      captcha: "",
+      checkKey: "",
+    });
+    const randCodeData = ref({
+      randCodeImage: '',
+      requestCodeSuccess: false,
+      checkKey: null,
     });
     watch(
       () => props.show,
@@ -445,6 +480,8 @@ export default defineComponent({
       clearInterval(timerId);
       if (type === 0) {
         getLoginQRCode();
+      }else if (type === 2) {
+        handleChangeCheckCode();
       }
       loginType.value = type;
     }
@@ -547,6 +584,10 @@ export default defineComponent({
           ElMessage.warning("手机号不能为空");
           return;
         }
+        if (!mobileForm.value.captcha || !mobileForm.value.checkKey) {
+          ElMessage.warning("请进行图形验证！");
+          return;
+        }
         isCode.value = false;
         let seconds = 120;
         try {
@@ -563,6 +604,7 @@ export default defineComponent({
           });
           buttonText.value = "重新获取验证码";
           isCode.value = true;
+          await handleChangeCheckCode();
           return;
         }
         countdown.value = setInterval(() => {
@@ -578,6 +620,16 @@ export default defineComponent({
           }
         }, 1000);
       }
+    }
+
+    async function handleChangeCheckCode() {
+      mobileForm.value.captcha = '';
+      randCodeData.value.checkKey = new Date().getTime();
+      mobileForm.value.checkKey = randCodeData.value.checkKey;
+      randomCaptchaImage(randCodeData.value.checkKey).then((res) => {
+        randCodeData.value.randCodeImage = res;
+        randCodeData.value.requestCodeSuccess = true;
+      });
     }
 
     /**
@@ -806,6 +858,8 @@ export default defineComponent({
       store,
       mobileForm,
       startMobileCountdown,
+      randCodeData,
+      handleChangeCheckCode,
     };
   },
 });

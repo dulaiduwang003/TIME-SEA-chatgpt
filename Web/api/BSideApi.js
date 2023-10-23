@@ -471,3 +471,13 @@ export function MobileLogin(data) {
         data
     })
 }
+
+/**
+ *   获取图形验证码
+ */
+export function randomCaptchaImage(data) {
+    return request({
+        url: '/auth/randomImage/' + data,
+        method: 'GET'
+    })
+}

@@ -23,7 +23,7 @@ public class RandImageUtil {
     /**
      * 定义图形大小
      */
-    private static final int WIDTH = 105;
+    private static final int WIDTH = 100;
     /**
      * 定义图形大小
      */
