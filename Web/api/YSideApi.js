@@ -31,3 +31,13 @@ export function SdImageControlNetDraught(data) {
         data
     })
 }
+
+/**
+ *    CN随机生成图
+ */
+export function SdRandomControlNetDraught() {
+    return request({
+        url: '/drawing/sd/random/controlNet/draught/',
+        method: 'POST'
+    })
+}

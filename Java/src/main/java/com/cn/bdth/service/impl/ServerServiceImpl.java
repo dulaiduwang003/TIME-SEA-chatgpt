@@ -61,6 +61,8 @@ public class ServerServiceImpl implements ServerService {
         redisUtils.setValue(ServerConstant.SD_CONFIG,
                 new StableDiffusionCommon.StableDiffusionStructure()
                         .setSdUrl(dto.getSdUrl())
+                        .setSdUsername(dto.getSdUsername())
+                        .setSdPassword(dto.getSdPassword())
                         .setSdImageFrequency(dto.getSdImageFrequency())
         );
         //Bing
@@ -110,6 +112,8 @@ public class ServerServiceImpl implements ServerService {
         dispositionVo.setOpenAiPlusUrl(chatGptStructure != null ? chatGptStructure.getOpenAiPlusUrl() : null);
         dispositionVo.setSessionKey(claudeModel != null ? claudeModel.getSessionKey() : null);
         dispositionVo.setSdUrl(sdStructure != null ? sdStructure.getSdUrl() : null);
+        dispositionVo.setSdUsername(sdStructure != null ? sdStructure.getSdUsername() : null);
+        dispositionVo.setSdPassword(sdStructure != null ? sdStructure.getSdPassword() : null);
         dispositionVo.setSdImageFrequency(sdStructure != null ? sdStructure.getSdImageFrequency() : null);
         dispositionVo.setGptFrequency(chatGptStructure != null ? chatGptStructure.getGptFrequency() : null);
         dispositionVo.setGptPlusFrequency(chatGptStructure != null ? chatGptStructure.getGptPlusFrequency() : null);

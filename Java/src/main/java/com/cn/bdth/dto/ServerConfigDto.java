@@ -15,6 +15,12 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ServerConfigDto {
 
+    @NotBlank(message = "SD_USERNAME不能为空")
+    private String sdUsername;
+
+    @NotBlank(message = "SD_PASSWORD不能为空")
+    private String sdPassword;
+
     @NotBlank(message = "SD_URL不能为空")
     private String sdUrl;
 

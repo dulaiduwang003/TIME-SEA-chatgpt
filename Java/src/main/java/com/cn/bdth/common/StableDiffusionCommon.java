@@ -42,6 +42,8 @@ public class StableDiffusionCommon {
         log.warn("请前往控制台配置ChatGPT参数配置");
         return new StableDiffusionStructure()
                 .setSdUrl(stableDiffusionDefaultConfig.getSdUrl())
+                .setSdUsername(stableDiffusionDefaultConfig.getSdUsername())
+                .setSdPassword(stableDiffusionDefaultConfig.getSdPassword())
                 .setSdImageFrequency(stableDiffusionDefaultConfig.getSdImageFrequency());
     }
 
@@ -52,6 +54,10 @@ public class StableDiffusionCommon {
         private Long sdImageFrequency;
 
         private String sdUrl;
+
+        private String sdUsername;
+
+        private String sdPassword;
 
     }
 }

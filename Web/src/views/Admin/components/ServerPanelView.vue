@@ -2,6 +2,20 @@
   <div class="s_container">
     <el-scrollbar height="100%">
       <el-form :inline="true" class="demo-form-inline" label-position="left">
+        <el-form-item label="SD授权用户名" label-width="200px">
+          <el-input
+            placeholder="请输入授权用户名"
+            clearable
+            v-model="form.sdUsername"
+          />
+        </el-form-item>
+        <el-form-item label="SD授权密码" label-width="200px">
+          <el-input
+            placeholder="请输入授权密码"
+            clearable
+            v-model="form.sdPassword"
+          />
+        </el-form-item>
         <el-form-item label="SD绘图请求链" label-width="200px">
           <el-input
             placeholder="请设置SD请求链"
@@ -140,6 +154,8 @@ export default {
   setup() {
     const form = ref({
       sdUrl: "",
+      sdUsername: "",
+      sdPassword: "",
       openAiUrl: "",
       openAiPlusUrl: "",
       openKey: "",
@@ -256,13 +272,13 @@ export default {
   background: none;
 }
 
-/deep/.el-input__inner {
+::v-deep(.el-input__inner) {
   background: var(--bgColor2);
 
   font-weight: 400;
   color: var(--textColor2);
 }
-/deep/.el-input__wrapper {
+::v-deep(.el-input__wrapper) {
   background: var(--bgColor2);
   box-shadow: none;
 }

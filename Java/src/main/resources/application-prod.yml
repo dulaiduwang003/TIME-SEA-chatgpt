@@ -94,6 +94,10 @@ config:
   openAiPlusUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
   # SD API
   sdUrl: 'SD绘图API 到7860端口即可'
+    # SD 授权用户名
+  sdUsername: '授权用户名'
+  # SD 授权密码
+  sdPassword: '授权密码'
   # 配置
   openKey: 'GPT 密钥 3.5'
   # GPT-4

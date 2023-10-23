@@ -16,7 +16,7 @@ Including another URLconf
 from django.urls import path,include, re_path
 from django.conf import settings
 
-from apps.picture.views import GetSdControlNetType, SdTextControlNetDraught, SdImageControlNetDraught
+from apps.picture.views import GetSdControlNetType, SdTextControlNetDraught, SdImageControlNetDraught, SdRandomControlNetDraught
 
 # 媒体文件流式响应
 from utils.streamingmedia_response import streamingmedia_serve
@@ -27,4 +27,5 @@ urlpatterns = [
     path('drawing/sd/get/controlNet/type/', GetSdControlNetType.as_view(), name='SD CN类型'),
     path('drawing/sd/text/controlNet/draught/', SdTextControlNetDraught.as_view(), name='SD CN文字内嵌图'),
     path('drawing/sd/image/controlNet/draught/', SdImageControlNetDraught.as_view(), name='SD CN图片内嵌图'),
+    path('drawing/sd/random/controlNet/draught/', SdRandomControlNetDraught.as_view(), name='SD CN随机生成图'),
 ]

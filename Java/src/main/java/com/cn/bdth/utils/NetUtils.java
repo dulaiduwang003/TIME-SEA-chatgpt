@@ -30,9 +30,9 @@ public class NetUtils {
                 .map(ResponseEntity::getStatusCode);
         try {
             final HttpStatusCode status = response.timeout(Duration.ofSeconds(5)).block();
-            return status != null && status.is2xxSuccessful();
+            return status != null && (status.is2xxSuccessful() || status.value() == 401);
         }catch (WebClientResponseException ex){
-            return !(ex.getStatusCode().is4xxClientError()||ex.getStatusCode().is5xxServerError());
+            return !(ex.getStatusCode().is4xxClientError()||ex.getStatusCode().is5xxServerError()) || ex.getStatusCode().value() == 401;
         }
         catch (Exception e) {
             return false;

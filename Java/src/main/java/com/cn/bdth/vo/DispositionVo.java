@@ -39,6 +39,10 @@ public class DispositionVo implements Serializable {
 
     private String sdUrl;
 
+    private String sdUsername;
+
+    private String sdPassword;
+
     private Long incentiveFrequency;
 
     private Long signInFrequency;

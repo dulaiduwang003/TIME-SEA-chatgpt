@@ -349,6 +349,16 @@
                 <el-button
                   round
                   color="var(--themeColor2)"
+                  @click="onRandomSubmit"
+                  :loading="load === 1"
+                >
+                  全随机
+                </el-button>
+              </div>
+              <div>
+                <el-button
+                  round
+                  color="var(--themeColor2)"
                   @click="onSubmit"
                   :loading="load === 1"
                 >
@@ -437,9 +447,10 @@ import {
   SdTextControlNetDraught,
   SdImageControlNetDraught,
   GetSdControlNetType,
+  SdRandomControlNetDraught,
 } from "../../../api/YSideApi";
 import store from "@/store";
-import { ElLoading, ElNotification } from "element-plus";
+import { ElLoading, ElNotification, ElMessageBox } from "element-plus";
 import ViewState from "@/components/ViewState.vue";
 import router from "@/router";
 
@@ -655,18 +666,18 @@ export default {
 
     async function getSdControlNetType() {
       try {
-          let newVar = await GetSdControlNetType();
-          let defaultItem = {
-              text: '普通绘图',
-              type: '-2'
-          };
-          if (newVar.length > 0) {
-              controlNetList.value = newVar.filter(item => item.is_selected != 0);
-              controlNetList.value.unshift(defaultItem);
-              form.value.controlNetType = controlNetList.value[0].type;
-          }
+        let newVar = await GetSdControlNetType();
+        let defaultItem = {
+          text: "普通绘图",
+          type: "-2",
+        };
+        if (newVar.length > 0) {
+          controlNetList.value = newVar.filter((item) => item.is_selected != 0);
+          controlNetList.value.unshift(defaultItem);
+          form.value.controlNetType = controlNetList.value[0].type;
+        }
       } catch (e) {
-          console.log(e);
+        console.log(e);
       }
     }
 
@@ -800,6 +811,38 @@ export default {
       }
     }
 
+    async function onRandomSubmit() {
+      if (load.value === 1) {
+        return;
+      }
+      ElMessageBox.confirm("无需填写任何参数，将会随机生成一张唯美图片", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          load.value = 1;
+          try {
+            let promise = await SdRandomControlNetDraught();
+            startTimer(promise.drawingId);
+          } catch (e) {
+            load.value = 0;
+            ElNotification({
+              title: "错误",
+              message: e,
+              type: "error",
+            });
+          }
+        })
+        .catch(() => {
+          ElNotification({
+            title: "取消",
+            message: "操作已取消",
+            type: "info",
+          });
+        });
+    }
+
     const timerId = ref(null);
 
     // 创建定时器
@@ -845,6 +888,7 @@ export default {
       back,
       load,
       onSubmit,
+      onRandomSubmit,
       onChange,
       removeImage,
       tempFile,

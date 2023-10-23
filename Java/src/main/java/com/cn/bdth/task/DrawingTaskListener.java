@@ -104,7 +104,8 @@ public class DrawingTaskListener {
     public void invokeSdDrawingApi(final DrawingSdQueueStructure structure) {
         String imageUri = null;
         try {
-            final String block = webClientBuilder.build()
+            final String block = webClientBuilder.defaultHeaders(header -> header.setBasicAuth(stableDiffusionCommon.getStableDiffusionStructure().getSdUsername(), stableDiffusionCommon.getStableDiffusionStructure().getSdPassword()))
+                    .build()
                     .post()
                     .uri(stableDiffusionCommon.getStableDiffusionStructure().getSdUrl() + (structure.getIsType() == 0 ? ServerConstant.SD_DRAWING_TEXT : ServerConstant.SD_DRAWING_IMAGE))
                     .body(BodyInserters.fromValue(structure.getSdDrawingModel()))
