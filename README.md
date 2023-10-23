@@ -50,7 +50,8 @@ web部署太简单了 跟着视频来就行
 
 https://anchwngb.cn
 
-` Web备用站点`
+` Web 备用站点`
+
 https://chat.yycld.com
 
 ### 主要功能以及特性
