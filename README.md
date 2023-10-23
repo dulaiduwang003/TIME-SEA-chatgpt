@@ -8,14 +8,6 @@
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-
-##### v1.4.1 2323/09/14
-1.Web新增绘图功能
-2.Web新增黑夜模式 日间模式切换
-3.双端后台新增模型管理配置
-4.移除env模型配置
-5.后端API接口调整 绘图类API重覆写
-
 ## 一键部署
 `一定一定先把各端配置文件修改完成`
 - java项目 修改src/resources/application-docker.yml文件
