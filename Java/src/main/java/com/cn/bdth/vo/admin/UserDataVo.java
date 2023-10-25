@@ -27,4 +27,6 @@ public class UserDataVo {
 
     private String email;
 
+    private String mobile;
+
 }

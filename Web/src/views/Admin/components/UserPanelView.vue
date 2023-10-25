@@ -23,7 +23,7 @@
       <el-table-column prop="userId" label="标识" />
       <el-table-column prop="userName" label="昵称" />
       <el-table-column prop="frequency" label="Ai币" />
-      <el-table-column prop="email" label="邮箱" />
+      <el-table-column prop="email" label="邮箱/手机号" />
       <el-table-column prop="lastOperationTime" label="最后操作时间" />
       <el-table-column prop="createdTime" label="创建时间" />
       <el-table-column fixed="right" label="操作" width="200">
@@ -209,7 +209,11 @@ export default {
         if (records.length > 0) {
           records.forEach((r) => {
             if (!r.email) {
-              r.email = "--";
+              if (r.mobile) {
+                r.email = r.mobile;
+              }else {
+                r.email = "--";
+              }
             }
             if (!r.userName) {
               r.userName = "用户未设置昵称";

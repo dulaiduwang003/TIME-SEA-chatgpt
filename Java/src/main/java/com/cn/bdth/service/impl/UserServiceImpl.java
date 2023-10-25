@@ -149,13 +149,16 @@ public class UserServiceImpl implements UserService {
                 .lambda()
                 .like(StringUtils.notEmpty(prompt), User::getUserName, prompt)
                 .or().like(StringUtils.notEmpty(prompt), User::getOpenId, prompt)
-                .select(User::getFrequency, User::getUserName, User::getCreatedTime, User::getUserId, User::getEmail)
+                .or().like(StringUtils.notEmpty(prompt), User::getEmail, prompt)
+                .or().like(StringUtils.notEmpty(prompt), User::getMobile, prompt)
+                .select(User::getFrequency, User::getUserName, User::getCreatedTime, User::getUserId, User::getEmail, User::getMobile)
                 .orderByDesc(User::getUpdateTime)
         ).convert(u -> {
             //设置用户最后功能操作时间
             final Object value = redisUtils.getValue(OperateConstant.USER_CALL_TIME + u.getUserId());
             final UserDataVo userDataVo = new UserDataVo()
                     .setEmail(u.getEmail())
+                    .setMobile(u.getMobile())
                     .setUserId(u.getUserId())
                     .setUserName(u.getUserName())
                     .setFrequency(u.getFrequency())
