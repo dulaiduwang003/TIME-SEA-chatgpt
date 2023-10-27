@@ -1,5 +1,6 @@
 package com.cn.bdth.api;
 
+import com.cn.bdth.annotations.note.AdminAuth;
 import com.cn.bdth.dto.*;
 import com.cn.bdth.dto.admin.AnnouncementDto;
 import com.cn.bdth.dto.admin.UserPutDto;
@@ -43,6 +44,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/sd/page/model", name = "分页获取SD模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getSdModelPages(@RequestParam(defaultValue = "1") final int pageNum, final String prompt) {
         return Result.data(
                 drawingService.getDrawingModelPage(pageNum, prompt)
@@ -56,6 +58,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/sd/put/data", name = "添加SD模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result putSdModel(@RequestBody @Validated final DrawingSdDto dto) {
         drawingService.addSdModel(dto);
         return Result.ok();
@@ -67,6 +70,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/sd/delete/{id}", name = "删除指定模型", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result deleteDrawingById(@PathVariable Long id) {
         drawingService.deletedSdModel(id);
         return Result.ok();
@@ -80,6 +84,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/exchange/build", name = "生成对话码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result buildExchangeCode(@RequestBody @Validated final PutExchangeDto dto) {
         serverService.buildRedemptionCode(dto);
         return Result.ok();
@@ -93,6 +98,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/server/put/config", name = "用于保存或更新服务器参数", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result heavyLoadServerConfig(@RequestBody @Validated final ServerConfigDto dto) {
         serverService.heavyLoadDisposition(dto);
         return Result.ok();
@@ -104,6 +110,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/server/get/config", name = "获取服务器配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getServerConfig() {
         return Result.data(serverService.getDisposition());
     }
@@ -116,6 +123,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/server/put/terminal", name = "用于保存或更新终端参数", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result putTerminalConfig(@RequestBody @Validated final TerminalConfigDto dto) {
         serverService.putTerminal(dto);
         return Result.ok();
@@ -127,6 +135,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/server/get/terminal", name = "获取服务器配置", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getTerminalConfig() {
         return Result.data(serverService.getTerminal());
     }
@@ -140,6 +149,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/user/get/page", name = "分页获取用户信息", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getUserPages(@RequestParam(defaultValue = "1") final int pageNum, final String prompt) {
 
         return Result.data(
@@ -151,6 +161,7 @@ public class AdminController {
      * 获取平台总人数
      */
     @GetMapping(value = "/user/get/count", name = "获取平台总人数", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getPlatformCount() {
         return Result.data(
                 userService.getTotalUsers()
@@ -165,6 +176,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/orders/page", name = "分页获取订单信息", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getOrdersPages(@RequestParam(defaultValue = "1") final int pageNum, @RequestParam final String prompt, @RequestParam final String status) {
         return Result.data(
                 payService.getUserOrderPage(pageNum, prompt, status)
@@ -177,6 +189,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/product/put/data", name = "新增产品", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result productsShelf(@RequestBody @Validated ShelvesProductDto dto) {
         payService.shelvesProduct(dto);
         return Result.ok();
@@ -190,6 +203,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @GetMapping(value = "/product/get/page", name = "分页获取产品", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getProductPages(@RequestParam(defaultValue = "1") final int pageNum, final String prompt) {
         return Result.data(
                 payService.getProductPageVo(pageNum, prompt)
@@ -202,6 +216,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/product/delete/{id}", name = "删除产品", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result productsDelete(@PathVariable final long id) {
         payService.deleteProductById(id);
         return Result.ok();
@@ -215,6 +230,7 @@ public class AdminController {
      * @return the bot configuration
      */
     @PostMapping(value = "/user/put/data", name = "修改用户数据信息", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result updateUserById(@RequestBody @Validated final UserPutDto dto) {
         userService.updateById(dto);
         return Result.ok();
@@ -228,6 +244,7 @@ public class AdminController {
      * @return the result
      */
     @GetMapping(value = "/exchange/get/page", name = "兑换码列表", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result redemptionCodePage(@RequestParam(defaultValue = "1") int pageNum, @RequestParam final String prompt) {
 
         return Result.data(serverService.getRedemptionCodePage(pageNum, prompt));
@@ -240,6 +257,7 @@ public class AdminController {
      * @return the result
      */
     @PostMapping(value = "/exchange/delete/{id}", name = "删除兑换码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result deleteExchangeById(@PathVariable final Long id) {
         serverService.deleteRedemptionCodeBasedOnTheId(id);
         return Result.ok();
@@ -252,6 +270,7 @@ public class AdminController {
      * @return the result
      */
     @GetMapping(value = "/drawing/page", name = "获取绘图分页", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result getDrawingPage(@RequestParam(defaultValue = "1") final int pageNum) {
         return Result.data(drawingService.getDrawingPage(pageNum));
     }
@@ -262,6 +281,7 @@ public class AdminController {
      * @return the result
      */
     @PostMapping(value = "/drawing/status/{id}", name = "设置绘图状态", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result putDrawingStatus(@PathVariable final Long id) {
         drawingService.putPublicDrawingOps(id);
         return Result.ok();
@@ -273,6 +293,7 @@ public class AdminController {
      * @return the result
      */
     @PostMapping(value = "/put/announcement", name = "更新公告", produces = MediaType.APPLICATION_JSON_VALUE)
+    @AdminAuth
     public Result putAnnouncement(@RequestBody @Validated final AnnouncementDto dto) {
         serverService.putAnnouncement(dto);
         return Result.ok();

@@ -8,12 +8,15 @@ import com.cn.bdth.common.ControlCommon;
 import com.cn.bdth.common.StableDiffusionCommon;
 import com.cn.bdth.common.UserInspiritCommon;
 import com.cn.bdth.constants.ServerConstant;
+import com.cn.bdth.constants.user.AuthConstant;
 import com.cn.bdth.dto.PutExchangeDto;
 import com.cn.bdth.dto.ServerConfigDto;
 import com.cn.bdth.dto.TerminalConfigDto;
 import com.cn.bdth.dto.admin.AnnouncementDto;
 import com.cn.bdth.entity.Exchange;
+import com.cn.bdth.entity.User;
 import com.cn.bdth.mapper.ExchangeMapper;
+import com.cn.bdth.mapper.UserMapper;
 import com.cn.bdth.model.ClaudeModel;
 import com.cn.bdth.service.ServerService;
 import com.cn.bdth.structure.AnnouncementStructure;
@@ -21,6 +24,7 @@ import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.utils.BeanUtils;
 import com.cn.bdth.utils.RedisUtils;
 import com.cn.bdth.utils.StringUtils;
+import com.cn.bdth.utils.UserUtils;
 import com.cn.bdth.vo.DispositionVo;
 import com.cn.bdth.vo.admin.RedemptionCodeVo;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +52,8 @@ public class ServerServiceImpl implements ServerService {
 
     private final ControlCommon controlCommon;
 
+    private final UserMapper userMapper;
+
     @Override
     public void heavyLoadDisposition(final ServerConfigDto dto) {
         //激励
@@ -58,25 +64,29 @@ public class ServerServiceImpl implements ServerService {
                         .setVideoFrequency(dto.getVideoFrequency())
         );
         //SD
+        final StableDiffusionCommon.StableDiffusionStructure sdStructure = (StableDiffusionCommon.StableDiffusionStructure) redisUtils.getValue(ServerConstant.SD_CONFIG);
+
         redisUtils.setValue(ServerConstant.SD_CONFIG,
                 new StableDiffusionCommon.StableDiffusionStructure()
-                        .setSdUrl(dto.getSdUrl())
+                        .setSdUrl("******".equalsIgnoreCase(dto.getSdUrl())?sdStructure.getSdUrl():dto.getSdUrl())
                         .setSdImageFrequency(dto.getSdImageFrequency())
-                        .setSdAuthorization(dto.getSdAuthorization())
-                        .setQrcodeToolkitApiUrl(dto.getQrcodeToolkitApiUrl())
-                        .setQrDecodeAuthorization(dto.getQrDecodeAuthorization())
+                        .setSdAuthorization("******".equalsIgnoreCase(dto.getSdAuthorization())?sdStructure.getSdAuthorization():dto.getSdAuthorization())
+                        .setQrcodeToolkitApiUrl("******".equalsIgnoreCase(dto.getQrcodeToolkitApiUrl())?sdStructure.getQrcodeToolkitApiUrl():dto.getQrcodeToolkitApiUrl())
+                        .setQrDecodeAuthorization("******".equalsIgnoreCase(dto.getQrDecodeAuthorization())?sdStructure.getQrDecodeAuthorization():dto.getQrDecodeAuthorization())
         );
         //Bing
         redisUtils.setValue(ServerConstant.NEW_BING_CONFIG, dto.getNewBingCookie());
         // CHAT GPT
+        final ChatGptCommon.ChatGptStructure chatGptStructure = (ChatGptCommon.ChatGptStructure) redisUtils.getValue(ServerConstant.CHAT_GPT_CONFIG);
+
         redisUtils.setValue(ServerConstant.CHAT_GPT_CONFIG,
                 new ChatGptCommon.ChatGptStructure()
                         .setGptFrequency(dto.getGptFrequency())
                         .setGptPlusFrequency(dto.getGptPlusFrequency())
-                        .setOpenAiPlusUrl(dto.getOpenAiPlusUrl())
-                        .setOpenKey(dto.getOpenKey())
-                        .setOpenPlusKey(dto.getOpenPlusKey())
-                        .setOpenAiUrl(dto.getOpenAiUrl())
+                        .setOpenAiPlusUrl("******".equalsIgnoreCase(dto.getOpenAiPlusUrl())?chatGptStructure.getOpenAiPlusUrl():dto.getOpenAiPlusUrl())
+                        .setOpenKey("******".equalsIgnoreCase(dto.getOpenKey())?chatGptStructure.getOpenKey():dto.getOpenKey())
+                        .setOpenPlusKey("******".equalsIgnoreCase(dto.getOpenPlusKey())?chatGptStructure.getOpenPlusKey():dto.getOpenPlusKey())
+                        .setOpenAiUrl("******".equalsIgnoreCase(dto.getOpenAiUrl())?chatGptStructure.getOpenAiUrl():dto.getOpenAiUrl())
                         .setGptTextImageFrequency(dto.getGptTextImageFrequency())
         );
         // claude
@@ -101,32 +111,40 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public DispositionVo getDisposition() {
-        final ClaudeModel claudeModel = (ClaudeModel) redisUtils.getValue(ServerConstant.CLAUDE_CONFIG);
-        final StableDiffusionCommon.StableDiffusionStructure sdStructure = (StableDiffusionCommon.StableDiffusionStructure) redisUtils.getValue(ServerConstant.SD_CONFIG);
-        final ChatGptCommon.ChatGptStructure chatGptStructure = (ChatGptCommon.ChatGptStructure) redisUtils.getValue(ServerConstant.CHAT_GPT_CONFIG);
-        final String newBingCookie = String.valueOf(redisUtils.getValue(ServerConstant.NEW_BING_CONFIG));
-        final UserInspiritCommon.InspiritStructure inspiritStructure = (UserInspiritCommon.InspiritStructure) redisUtils.getValue(ServerConstant.INSPIRIT_CONFIG);
         final DispositionVo dispositionVo = new DispositionVo();
+        final Long currentLoginId = UserUtils.getCurrentLoginId();
+        final User currentUser = userMapper.selectOne(new QueryWrapper<User>()
+                .lambda()
+                .eq(User::getUserId, currentLoginId)
+                .eq(User::getType, AuthConstant.ADMIN));
 
-        dispositionVo.setConversationUuid(claudeModel != null ? claudeModel.getConversation_uuid() : null);
-        dispositionVo.setOrganizationUuid(claudeModel != null ? claudeModel.getOrganization_uuid() : null);
-        dispositionVo.setOpenAiPlusUrl(chatGptStructure != null ? chatGptStructure.getOpenAiPlusUrl() : null);
-        dispositionVo.setSessionKey(claudeModel != null ? claudeModel.getSessionKey() : null);
-        dispositionVo.setSdUrl(sdStructure != null ? sdStructure.getSdUrl() : null);
-        dispositionVo.setSdImageFrequency(sdStructure != null ? sdStructure.getSdImageFrequency() : null);
-        dispositionVo.setGptFrequency(chatGptStructure != null ? chatGptStructure.getGptFrequency() : null);
-        dispositionVo.setGptPlusFrequency(chatGptStructure != null ? chatGptStructure.getGptPlusFrequency() : null);
-        dispositionVo.setOpenAiUrl(chatGptStructure != null ? chatGptStructure.getOpenAiUrl() : null);
-        dispositionVo.setOpenKey(chatGptStructure != null ? chatGptStructure.getOpenKey() : null);
-        dispositionVo.setOpenPlusKey(chatGptStructure != null ? chatGptStructure.getOpenPlusKey() : null);
-        dispositionVo.setGptTextImageFrequency(chatGptStructure != null ? chatGptStructure.getGptTextImageFrequency() : null);
-        dispositionVo.setNewBingCookie(StringUtils.isNotBlank(newBingCookie) ? newBingCookie : "");
-        dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
-        dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
-        dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);
-        dispositionVo.setSdAuthorization(sdStructure != null ? sdStructure.getSdAuthorization() : null);
-        dispositionVo.setQrDecodeAuthorization(sdStructure != null ? sdStructure.getQrDecodeAuthorization() : null);
-        dispositionVo.setQrcodeToolkitApiUrl(sdStructure != null ? sdStructure.getQrcodeToolkitApiUrl() : null);
+        if(null != currentUser) {
+            final ClaudeModel claudeModel = (ClaudeModel) redisUtils.getValue(ServerConstant.CLAUDE_CONFIG);
+            final StableDiffusionCommon.StableDiffusionStructure sdStructure = (StableDiffusionCommon.StableDiffusionStructure) redisUtils.getValue(ServerConstant.SD_CONFIG);
+            final ChatGptCommon.ChatGptStructure chatGptStructure = (ChatGptCommon.ChatGptStructure) redisUtils.getValue(ServerConstant.CHAT_GPT_CONFIG);
+            final String newBingCookie = String.valueOf(redisUtils.getValue(ServerConstant.NEW_BING_CONFIG));
+            final UserInspiritCommon.InspiritStructure inspiritStructure = (UserInspiritCommon.InspiritStructure) redisUtils.getValue(ServerConstant.INSPIRIT_CONFIG);
+
+            dispositionVo.setConversationUuid(claudeModel != null ? "******" : null);
+            dispositionVo.setOrganizationUuid(claudeModel != null ? "******" : null);
+            dispositionVo.setOpenAiPlusUrl(chatGptStructure != null && StringUtils.isNotBlank(chatGptStructure.getOpenAiPlusUrl()) ? "******" : null);
+            dispositionVo.setSessionKey(claudeModel != null ? "******" : null);
+            dispositionVo.setSdUrl(sdStructure != null && StringUtils.isNotBlank(sdStructure.getSdUrl()) ? "******" : null);
+            dispositionVo.setSdImageFrequency(sdStructure != null ? sdStructure.getSdImageFrequency() : null);
+            dispositionVo.setGptFrequency(chatGptStructure != null ? chatGptStructure.getGptFrequency() : null);
+            dispositionVo.setGptPlusFrequency(chatGptStructure != null ? chatGptStructure.getGptPlusFrequency() : null);
+            dispositionVo.setOpenAiUrl(chatGptStructure != null && StringUtils.isNotBlank(chatGptStructure.getOpenAiUrl()) ? "******" : null);
+            dispositionVo.setOpenKey(chatGptStructure != null && StringUtils.isNotBlank(chatGptStructure.getOpenKey()) ? "******" : null);
+            dispositionVo.setOpenPlusKey(chatGptStructure != null && StringUtils.isNotBlank(chatGptStructure.getOpenPlusKey()) ? "******" : null);
+            dispositionVo.setGptTextImageFrequency(chatGptStructure != null ? chatGptStructure.getGptTextImageFrequency() : null);
+            dispositionVo.setNewBingCookie(StringUtils.isNotBlank(newBingCookie) ? newBingCookie : "");
+            dispositionVo.setSignInFrequency(inspiritStructure != null ? inspiritStructure.getSignInFrequency() : null);
+            dispositionVo.setVideoFrequency(inspiritStructure != null ? inspiritStructure.getVideoFrequency() : null);
+            dispositionVo.setIncentiveFrequency(inspiritStructure != null ? inspiritStructure.getIncentiveFrequency() : null);
+            dispositionVo.setSdAuthorization(sdStructure != null && StringUtils.isNotBlank(sdStructure.getSdAuthorization()) ? "******" : null);
+            dispositionVo.setQrDecodeAuthorization(sdStructure != null && StringUtils.isNotBlank(sdStructure.getQrDecodeAuthorization()) ? "******" : null);
+            dispositionVo.setQrcodeToolkitApiUrl(sdStructure != null && StringUtils.isNotBlank(sdStructure.getQrcodeToolkitApiUrl()) ? "******" : null);
+        }
 
         return dispositionVo;
     }
