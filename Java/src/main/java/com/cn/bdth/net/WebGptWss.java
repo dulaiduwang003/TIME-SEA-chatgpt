@@ -157,7 +157,7 @@ public class WebGptWss {
                                                 if (!(throwable1 instanceof CloseException)) {
                                                     chatUtils.compensate(frequency, userId);
                                                     log.error("调用GPT-OPEN-WEB时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException) throwable1).getResponseBodyAsString():throwable1.getMessage());
-                                                    appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
+                                                    appointSendingSystem(ExceptionMessages.GPT_LIMIT);
                                                 }
                                             });
                                 }else {

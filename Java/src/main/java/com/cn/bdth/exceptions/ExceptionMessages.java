@@ -41,7 +41,7 @@ public interface ExceptionMessages {
 
     String GPT_CONFIG_ERR = "哦豁!貌似参数配置不对 请检查一下Ai配置";
 
-    String GPT_FREQUENT = "SUPER币不足,请观看小程序广告获得奖励";
+    String GPT_FREQUENT = "YiYi币不足,请观看小程序广告获得奖励";
 
     String GPT_ERR = "建立连接失败,请重新发送数据";
 
@@ -61,5 +61,7 @@ public interface ExceptionMessages {
     String DRAWING_MISTAKE = "创作失败!请检查是否涉及敏感词!";
 
     String NOT_MOBILE = "不是手机号！";
+
+    String GPT_LIMIT = "提问过于频繁,请稍后继续！";
 
 }
