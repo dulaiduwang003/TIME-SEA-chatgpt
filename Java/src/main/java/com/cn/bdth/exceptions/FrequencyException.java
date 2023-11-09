@@ -31,7 +31,7 @@ public class FrequencyException extends RuntimeException {
     }
 
     public FrequencyException() {
-        this.message = "Super币不足 请观看广告视频获取奖励";
+        this.message = "YiYi币不足 请观看广告视频获取奖励";
         this.code = 500;
     }
 }

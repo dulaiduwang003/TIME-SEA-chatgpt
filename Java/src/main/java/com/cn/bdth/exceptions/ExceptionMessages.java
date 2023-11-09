@@ -62,6 +62,6 @@ public interface ExceptionMessages {
 
     String NOT_MOBILE = "不是手机号！";
 
-    String GPT_LIMIT = "提问过于频繁,请稍后继续！";
+    String GPT_LIMIT = "提问过于频繁，请喝杯☕️休息下～～😊";
 
 }

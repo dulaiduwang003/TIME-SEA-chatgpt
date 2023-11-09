@@ -103,12 +103,13 @@ public class MiniGptWss {
 
             //每次存最后一条的 user 提问信息
             GptModel.Messages lastMessage = gptModel.getMessages().get(gptModel.getMessages().size()-1);
-            lastMessage.getContent();
-            sysLogMapper.insert(new SysLog()
-                    .setMethod("com.cn.bdth.net.WebGptWss.onMessage")
-                    .setLogContent("gpt对话-app")
-                    .setRequestParam(lastMessage.getContent())
-                    .setUserId(userId));
+            if(2 != userId) {
+                sysLogMapper.insert(new SysLog()
+                        .setMethod("com.cn.bdth.net.WebGptWss.onMessage")
+                        .setLogContent("gpt对话-app")
+                        .setRequestParam(lastMessage.getContent())
+                        .setUserId(userId));
+            }
 
             final String s = chatUtils.drawingCueWord(gptModel.getMessages());
             if (s == null) {

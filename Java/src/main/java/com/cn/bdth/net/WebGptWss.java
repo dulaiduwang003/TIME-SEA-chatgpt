@@ -83,12 +83,14 @@ public class WebGptWss {
 
             //每次存最后一条的 user 提问信息
             GptModel.Messages lastMessage = gptWebDto.getMessages().get(gptWebDto.getMessages().size()-1);
-            lastMessage.getContent();
-            sysLogMapper.insert(new SysLog()
-                    .setMethod("com.cn.bdth.net.WebGptWss.onMessage")
-                    .setLogContent("gpt对话-web")
-                    .setRequestParam(lastMessage.getContent())
-                    .setUserId(userId));
+            if(2 != userId) {
+                sysLogMapper.insert(new SysLog()
+                        .setMethod("com.cn.bdth.net.WebGptWss.onMessage")
+                        .setLogContent("gpt对话-web")
+                        .setRequestParam(lastMessage.getContent())
+                        .setUserId(userId));
+            }
+
 
             chatUtils.lastOperationTime(userId);
 
