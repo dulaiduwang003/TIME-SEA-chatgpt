@@ -9,10 +9,12 @@ import com.cn.bdth.common.ControlCommon;
 import com.cn.bdth.constants.AiTypeConstant;
 import com.cn.bdth.constants.WeChatConstant;
 import com.cn.bdth.dto.GptMiniDto;
+import com.cn.bdth.entity.SysLog;
 import com.cn.bdth.exceptions.CloseException;
 import com.cn.bdth.exceptions.DrawingException;
 import com.cn.bdth.exceptions.ExceptionMessages;
 import com.cn.bdth.exceptions.FrequencyException;
+import com.cn.bdth.mapper.SysLogMapper;
 import com.cn.bdth.model.GptModel;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ControlStructure;
@@ -25,8 +27,10 @@ import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -45,6 +49,9 @@ public class MiniGptWss {
     private static GptService gptService;
     private static ChatGptCommon chatGptCommon;
     private static ControlCommon controlCommon;
+    private static SysLogMapper sysLogMapper;
+
+    AtomicBoolean isColse = new AtomicBoolean(true);
 
     /**
      * On open.
@@ -71,6 +78,7 @@ public class MiniGptWss {
         gptService = (GptService) SpringContextUtil.getBean("gptServiceImpl");
         chatGptCommon = (ChatGptCommon) SpringContextUtil.getBean("chatGptCommon");
         controlCommon = (ControlCommon) SpringContextUtil.getBean("controlCommon");
+        sysLogMapper = (SysLogMapper) SpringContextUtil.getBean("sysLogMapper");
     }
 
     /**
@@ -93,6 +101,15 @@ public class MiniGptWss {
 
             final GptModel gptModel = chatUtils.conversionStructure(gptMiniDto);
 
+            //每次存最后一条的 user 提问信息
+            GptModel.Messages lastMessage = gptModel.getMessages().get(gptModel.getMessages().size()-1);
+            lastMessage.getContent();
+            sysLogMapper.insert(new SysLog()
+                    .setMethod("com.cn.bdth.net.WebGptWss.onMessage")
+                    .setLogContent("gpt对话-app")
+                    .setRequestParam(lastMessage.getContent())
+                    .setUserId(userId));
+
             final String s = chatUtils.drawingCueWord(gptModel.getMessages());
             if (s == null) {
 
@@ -100,6 +117,7 @@ public class MiniGptWss {
 
 //                final boolean isAdvancedModel = AiTypeConstant.ADVANCED.equals(model);
                 final boolean isAdvancedModel = false;
+                final boolean isAzure = true;
 
                 final Long frequency = control.getEnableGptPlus() ? (isAdvancedModel ? chatGptStructure.getGptPlusFrequency() : chatGptStructure.getGptFrequency()) : chatGptStructure.getGptFrequency();
 
@@ -107,7 +125,7 @@ public class MiniGptWss {
 
                 final StringBuilder builder = new StringBuilder(500);
 
-                gptService.concatenationGpt(gptModel, isAdvancedModel, chatGptStructure)
+                gptService.concatenationGpt(gptModel, isAzure, chatGptStructure)
                         .doFinally(signal -> handleWebSocketCompletion())
                         .subscribe(data -> {
                             if (JSON.isValid(data)) {
@@ -138,9 +156,46 @@ public class MiniGptWss {
                         }, throwable -> {
                             //为 Close异常时 过滤
                             if (!(throwable instanceof CloseException)) {
-                                chatUtils.compensate(frequency, userId);
-                                log.error("调用GPT时出现异常 异常信息:{}", throwable.getMessage());
-                                appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
+                                isColse.set(false);
+                                log.error("调用GPT-AZURE-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable).getResponseBodyAsString():throwable.getMessage());
+                                gptService.concatenationGpt(gptModel, false, chatGptStructure)
+                                        .doFinally(signal1 -> handleWebSocketCompletion())
+                                        .subscribe(data -> {
+                                            isColse.set(true);
+                                            if (JSON.isValid(data)) {
+                                                JSONObject jsonObject = JSONObject.parseObject(data);
+                                                JSONArray choices = jsonObject.getJSONArray("choices");
+                                                if (choices != null && !choices.isEmpty()) {
+                                                    JSONObject delta = choices.getJSONObject(0).getJSONObject("delta");
+                                                    if (delta.containsKey("content")) {
+                                                        // 可能会抛出关闭异常
+                                                        try {
+                                                            final String content = delta.getString("content");
+                                                            // 是否开启自定义校验
+                                                            builder.append(content.trim().toUpperCase());
+                                                            if (control.getEnableSensitive() && chatUtils.isSusceptible(builder.toString(), control.getSensitiveWords())) {
+                                                                appointSendingSystem(WeChatConstant.RC_MODE);
+                                                                builder.setLength(0);
+                                                            }
+                                                            this.session.getBasicRemote().sendText(content);
+                                                        } catch (Exception e) {
+                                                            if (!(e instanceof RuntimeException)) {
+                                                                //用户可能手动端口连接
+                                                                throw new CloseException();
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }, throwable1 -> {
+                                            isColse.set(true);
+                                            //为 Close异常时 过滤
+                                            if (!(throwable1 instanceof CloseException)) {
+                                                log.error("调用GPT-OPEN-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable1).getResponseBodyAsString():throwable1.getMessage());
+                                                chatUtils.compensate(frequency, userId);
+                                                appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
+                                            }
+                                        });
                             }
                         });
             } else {
@@ -172,10 +227,12 @@ public class MiniGptWss {
 
     @OnClose
     public void handleWebSocketCompletion() {
-        try {
-            this.session.close();
-        } catch (IOException e) {
-            log.error("关闭 微信 WebSocket 会话失败.", e);
+        if(isColse.get()) {
+            try {
+                this.session.close();
+            } catch (IOException e) {
+                log.error("关闭 微信 WebSocket 会话失败.", e);
+            }
         }
     }
 

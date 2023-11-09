@@ -22,7 +22,7 @@ public interface GptService {
      * @param model 请求模型
      * @return string 流数据
      */
-    Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure);
+    Flux<String> concatenationGpt(final GptModel model, final boolean isAzure, final ChatGptCommon.ChatGptStructure chatGptStructure);
 
     /**
      * 通过GPT绘制图片

@@ -8,9 +8,11 @@ package com.cn.bdth.constants;
  */
 public interface AiModelConstant {
 
-    String BASIC = "gpt-3.5-turbo-16k-0613";
+    //gpt-3.5-turbo-1106
+    String BASIC = "gpt-3.5-turbo-1106";
 
-    String ADVANCED = "gpt-4-0613";
+    //GPT-4-1106
+    String ADVANCED = "gpt-4-1106-preview";
 
 }
 

@@ -136,13 +136,14 @@ public class GptServiceImpl implements GptService {
     }
 
     @Override
-    public Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure) {
+    public Flux<String> concatenationGpt(final GptModel model, final boolean isAzure, final ChatGptCommon.ChatGptStructure chatGptStructure) {
         //设置请求模型
-        model.setModel(isAdvanced ? AiModelConstant.ADVANCED : AiModelConstant.BASIC);
+        model.setModel(AiModelConstant.BASIC);
 
-        return webClient.baseUrl(isAdvanced ? chatGptStructure.getOpenAiPlusUrl() : chatGptStructure.getOpenAiUrl())
+        return webClient.baseUrl(isAzure ? chatGptStructure.getOpenAiUrl() : chatGptStructure.getOpenAiPlusUrl())
 //                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
-                .defaultHeader("api-key", (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
+                .defaultHeader(isAzure ? "api-key" : HttpHeaders.AUTHORIZATION, isAzure ? chatGptStructure.getOpenKey() : "Bearer " + chatGptStructure.getOpenPlusKey()).build()
+//                .defaultHeader("api-key", (isAdvanced ? chatGptStructure.getOpenPlusKey() : chatGptStructure.getOpenKey())).build()
                 .post()
 //                .uri(ServerConstant.GPT_DIALOGUE)
                 .body(BodyInserters.fromValue(model))
