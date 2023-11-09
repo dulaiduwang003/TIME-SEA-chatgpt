@@ -128,7 +128,7 @@ public class WebGptWss {
                         }, throwable -> {
                             //为 Close异常时 过滤
                             if (!(throwable instanceof CloseException)) {
-                                log.error("调用GPT-AZURE-WEB时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable).getResponseBodyAsString():throwable.getMessage());
+                                log.error("调用GPT-AZURE-WEB时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable instanceof WebClientResponseException)?((WebClientResponseException) throwable).getResponseBodyAsString():throwable.getMessage());
                                 if(true) {
                                     isColse.set(false);
                                     gptService.concatenationGpt(chatUtils.conversionStructure(gptWebDto), false, chatGptStructure)
@@ -156,7 +156,7 @@ public class WebGptWss {
                                                 //为 Close异常时 过滤
                                                 if (!(throwable1 instanceof CloseException)) {
                                                     chatUtils.compensate(frequency, userId);
-                                                    log.error("调用GPT-OPEN-WEB时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable1).getResponseBodyAsString():throwable1.getMessage());
+                                                    log.error("调用GPT-OPEN-WEB时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException) throwable1).getResponseBodyAsString():throwable1.getMessage());
                                                     appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                                                 }
                                             });

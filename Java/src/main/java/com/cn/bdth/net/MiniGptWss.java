@@ -157,7 +157,8 @@ public class MiniGptWss {
                             //为 Close异常时 过滤
                             if (!(throwable instanceof CloseException)) {
                                 isColse.set(false);
-                                log.error("调用GPT-AZURE-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable).getResponseBodyAsString():throwable.getMessage());
+                                log.error("调用GPT-AZURE-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable instanceof WebClientResponseException)?((WebClientResponseException) throwable).getResponseBodyAsString():throwable.getMessage());
+
                                 gptService.concatenationGpt(gptModel, false, chatGptStructure)
                                         .doFinally(signal1 -> handleWebSocketCompletion())
                                         .subscribe(data -> {
@@ -191,7 +192,8 @@ public class MiniGptWss {
                                             isColse.set(true);
                                             //为 Close异常时 过滤
                                             if (!(throwable1 instanceof CloseException)) {
-                                                log.error("调用GPT-OPEN-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException.BadRequest) throwable1).getResponseBodyAsString():throwable1.getMessage());
+                                                log.error("调用GPT-OPEN-APP时出现异常 userId:{} 提问内容:{} 异常信息:{} ", userId, lastMessage.getContent(), (throwable1 instanceof WebClientResponseException)?((WebClientResponseException) throwable1).getResponseBodyAsString():throwable1.getMessage());
+
                                                 chatUtils.compensate(frequency, userId);
                                                 appointSendingSystem(ExceptionMessages.GPT_TIMEOUT);
                                             }
