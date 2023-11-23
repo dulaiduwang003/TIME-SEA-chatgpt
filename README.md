@@ -1,18 +1,14 @@
 # TIME-SEA-PLUS
 
+# 新版本为 SpringCloudAlibaba 全新UI全新功能 版本 仓库 Deep Sea
+
 基于 SpringBoot3 开发的 Ai 多功能项目,支持(H5,Web,微信小程序) 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
 两个端 可自行选择性部署 也可两个都部署(推荐做法)
 
+每个分支都用不同的功能 选择自己喜欢的 master为默认版本分支 woo-cloud与 old_ye 对与Ai绘画部分做了更丰富的功能(额外接入Python SDK) 
+
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-
-
-##### v1.4.1 2323/09/14
-1.Web新增绘图功能
-2.Web新增黑夜模式 日间模式切换
-3.双端后台新增模型管理配置
-4.移除env模型配置
-5.后端API接口调整 绘图类API重覆写
 
 ## 一键部署
 `一定一定先把各端配置文件修改完成`
@@ -54,8 +50,11 @@ web部署太简单了 跟着视频来就行
 
 ` web 演示`
 
-https://anchwngb.cn/
+https://anchwngb.cn
 
+` Web 备用站点`
+
+https://chat.yycld.com
 
 ### 主要功能以及特性
 
