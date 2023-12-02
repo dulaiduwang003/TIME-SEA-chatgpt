@@ -227,6 +227,7 @@ import LoginDialog from "@/components/LoginDialog.vue";
 import InputFormField from "@/components/InputFormField.vue";
 import store from "@/store";
 import {conversionTime} from "../utils/date";
+import debounce from 'lodash.debounce'
 
 export default {
   name: "dialogueView",
@@ -536,14 +537,13 @@ export default {
             } else {
               conversationList.value[index].assistant = character;
             }
-            scrollToTheBottom();
+            scrollToTheBottom2();
             setTimeout(displayNextCharacter, rate.value);
           } else {
             isDisplaying = false;
             displayMessages(); // 显示下一条消息
           }
         }
-
         displayNextCharacter();
       } else {
         isDisplaying = false; // 重置标志以便下次能够正确显示消息
@@ -586,6 +586,10 @@ export default {
         scrollRef.value.scrollTop = scrollRef.value.scrollHeight;
       });
     }
+
+    const scrollToTheBottom2 = debounce(() => {
+      scrollRef.value.scrollTop = scrollRef.value.scrollHeight;
+    }, 50, { 'maxWait': 100 })
 
     // TODO 复制代码块
     function handleCopyCodeSuccess(code) {
