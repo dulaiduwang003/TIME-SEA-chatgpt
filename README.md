@@ -7,10 +7,9 @@
 
 每个分支都用不同的功能 选择自己喜欢的 master为默认版本分支 woo-cloud与 old_ye 对与Ai绘画部分做了更丰富的功能(额外接入Python SDK) 
 ## preview分支
-提供了图像识别和图像绘制功能，当然，你也可以在智能问答中输入/image 要求ai画一张图
+- 提供了图像识别和图像绘制功能，当然，你也可以在智能问答中输入/image 要求ai画一张图
+- 相比master分支需要新增preview_images表
 ![img.png](img.png)
-
-
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
