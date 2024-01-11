@@ -10,12 +10,12 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/super_bot?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
     username: root
-    password: 123
+    password: 1234
   # 邮箱
   mail:
     host: smtp.qq.com
-    username: QQ邮箱
-    password: 'QQ邮箱授权码'
+    username: 6
+    password: c
     default-encoding: UTF-8
     properties:
       mail:
@@ -27,56 +27,56 @@ spring:
 # 微信
 we-chat:
   # APPID
-  appId: '微信APPID'
+  appId: 'w'
   # 密钥
-  secret: '微信密钥'
+  secret: 'f'
   # 通知模板
-  template: '微信审核通知模板'
+  template: 'z'
 
 
 # 超级管理员账号密码
 root:
   # 邮箱
-  email: 管理员邮箱
+  email: ''
   # 密码
-  password: '管理员密码'
+  password: ''
 
 # 百度翻译
 baidu-translation:
   # 百度翻译Appid
-  appid: '百度翻译APPID'
+  appid: ''
   # 百度翻译密码要
-  secret: '百度翻译密钥'
+  secret: ''
 
 # 阿里OSS
 ali-oss:
-  endpoint: 'oss-cn-shanghai.aliyuncs.com'
-  accessKey: '阿里云OSSKey'
-  secretKey: '阿里云OSS密钥'
-  bucketName: 'sea-time'
-  domain: '阿里云图片服务器域名'
+  endpoint: ''
+  accessKey: ''
+  secretKey: ''
+  bucketName: ''
+  domain: ''
 
 # GPT 对话助手配置
 gpt:
   # 开发者名称
-  author: '时间海'
+  author: ''
   # BOT 中文名
-  botNameChinese: '时间海'
+  botNameChinese: ''
   # BOT 英文名
-  botNameEnglish: 'TIME SEA'
+  botNameEnglish: ''
 
 
 
 # 支付宝配置
 ali-pay:
   # 支付宝应用ID
-  appId: '支付宝当面付Appid'
+  appId: ''
   # 支付宝公钥
-  alipayPublicKey: '支付宝公钥'
-  # 私钥
-  privateKey: '支付宝私钥'
-  # 域名
-  domain: '后端服务器域名:8625'
+  alipayPublicKey: ''
+  # 支付宝私钥
+  privateKey: ''
+  # 后端服务器域名
+  domain: 'http://localhost:8625'
 
 #以下配置的东西 不是不填 这里只是默认配置 也可以部署完毕后自行去后台中配置
 
@@ -87,7 +87,7 @@ config:
   #增强openAiUrl
   openAiPlusUrl: 'https://chatgpt1.nextweb.fun/api/proxy/v1'
   # SD API
-  sdUrl: 'SD绘图API 到7860端口即可'
+  sdUrl: 'http://localhost:7860/'
   # 配置
   openKey: 'GPT 密钥 3.5'
   # GPT-4

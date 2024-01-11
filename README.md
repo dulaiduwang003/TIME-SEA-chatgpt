@@ -6,6 +6,11 @@
 两个端 可自行选择性部署 也可两个都部署(推荐做法)
 
 每个分支都用不同的功能 选择自己喜欢的 master为默认版本分支 woo-cloud与 old_ye 对与Ai绘画部分做了更丰富的功能(额外接入Python SDK) 
+## preview分支
+提供了图像识别和图像绘制功能，当然，你也可以在智能问答中输入/image 要求ai画一张图
+![img.png](img.png)
+
+
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
@@ -47,6 +52,9 @@ web部署太简单了 跟着视频来就行
 ##### 小程序 演示
 
 <img style="width:200px;height:200px" src="https://github.com/dulaiduwang003/TIME-SEA-PLUS/assets/87460202/dac39061-6104-4ce2-b631-506eee27dca8" />
+
+` preview分支 演示`
+https://font.TIME-SEA-PLUS-ai.com.cn/
 
 ` web 演示`
 

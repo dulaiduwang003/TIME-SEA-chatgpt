@@ -13,6 +13,28 @@ const routes = [{
     }
     },
     {
+        path: '/drawing',
+        name: 'Drawing',
+        component: () => import('../views/DallDrawingView.vue'),
+        meta: {
+            title: '图像绘制',
+            isHeadNavigation: true,
+            keepAlive: false,
+            isLeftMenu: true
+        }
+    },
+    {
+        path: '/preview',
+        name: 'Preview',
+        component: () => import('../views/PreviewDialogueView.vue'),
+        meta: {
+            title: '图像识别',
+            isHeadNavigation: true,
+            keepAlive: false,
+            isLeftMenu: true
+        }
+    },
+    {
         path: '/create',
         name: 'Create',
         component: () => import('../views/Create/CreateView.vue'),
@@ -39,7 +61,7 @@ const routes = [{
         name: "SD DRAWING",
         component: () => import('../views/Drawing/DrawingTextView.vue'),
         meta: {
-            title: '绘图',
+            title: 'sd绘图',
             isHeadNavigation: true,
             keepAlive: true,
             isLeftMenu: false
@@ -194,7 +216,7 @@ router.beforeEach(async (to) => {
     })
 
     // TODO 设置浏览器Title
-    document.title = (to.meta.title ? to.meta.title : '') + ' - TIME SEA PLUS'
+    document.title = (to.meta.title ? to.meta.title : '') + ' - TIME-SEA-PLUS-Ai'
 })
 
 export default router

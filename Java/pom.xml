@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.cn.bdth</groupId>
-    <artifactId>BDTH-SUPER</artifactId>
+    <artifactId>TIME-SEA-PLUSAi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>BDTH-SUPER</name>
-    <description>BDTH-SUPER</description>
+    <name>TIME-SEA-PLUSAi</name>
+    <description>TIME-SEA-PLUSAi</description>
     <properties>
         <java.version>17</java.version>
     </properties>

@@ -132,6 +132,10 @@
           @onSubmit="onSubmit"
         />
       </div>
+      <div class="icp">
+        <!-- 将以下链接和文本替换成您的ICP备案信息 -->
+        <a href="https://beian.miit.gov.cn" target="_blank">沪ICP备2023035605号</a>
+      </div>
     </div>
   </div>
   <el-dialog
@@ -1076,5 +1080,15 @@ export default {
   align-items: center;
   justify-content: right;
   margin-right: 5px;
+}
+.icp a {
+  color: #333; /* 链接颜色，可根据需要调整 */
+  text-decoration: none; /* 去除下划线 */
+  font-size: 14px;
+  text-align: center; /* 使文本居中 */
+}
+
+.icp a:hover {
+  text-decoration: underline; /* 鼠标悬停时添加下划线 */
 }
 </style>

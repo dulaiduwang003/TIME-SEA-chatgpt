@@ -161,6 +161,10 @@
             @onSubmit="onSubmit"
         />
       </div>
+      <div class="icp">
+        <!-- 将以下链接和文本替换成您的ICP备案信息 -->
+        <a href="https://beian.miit.gov.cn" target="_blank">沪ICP备2023035605号</a>
+      </div>
     </div>
   </div>
   <el-dialog
@@ -289,7 +293,7 @@
               title="GPT请求地址"
               :width="300"
               trigger="hover"
-              content="格式为 https://chatgpt1.nextweb.fun/api/proxy/v1"
+              content="格式为 https://api.openai-proxy.com/v1/"
           >
             <template #reference>
               <el-icon>
@@ -575,7 +579,7 @@ export default {
       max_tokens: 2048,
       temperature: 1,
       openKey: "",
-      openAiUrl: "https://chatgpt1.nextweb.fun/api/proxy/v1",
+      openAiUrl: "https://api.openai-proxy.com/v1/",
       questions:
           "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
       answer: "请提供故事主题",
@@ -642,7 +646,7 @@ export default {
       } else {
         conversationList.value[0] = {
           user: "你好",
-          assistant: "您好!我是 TIME SEA 助手 , 请问有什么需要帮助的吗?",
+          assistant: "您好!我是 TIME-SEA-PLUSAi 助手 , 请问有什么需要帮助的吗?",
           isError: false,
         };
       }
@@ -689,7 +693,7 @@ export default {
           max_tokens: 2048,
           temperature: 1,
           openKey: "",
-          openAiUrl: "https://chatgpt1.nextweb.fun/api/proxy/v1",
+          openAiUrl: "https://api.openai-proxy.com/v1/",
           questions:
               "我想让你充当一个讲故事的人。你将想出有趣的故事，这些故事要引人入胜、富有想象力和吸引人。如果明白请回复: 请提供故事主题",
           answer: "请提供故事主题",
@@ -1659,5 +1663,15 @@ export default {
   align-items: center;
   justify-content: right;
   margin-right: 5px;
+}
+.icp a {
+  color: #333; /* 链接颜色，可根据需要调整 */
+  text-decoration: none; /* 去除下划线 */
+  font-size: 14px;
+  text-align: center; /* 使文本居中 */
+}
+
+.icp a:hover {
+  text-decoration: underline; /* 鼠标悬停时添加下划线 */
 }
 </style>

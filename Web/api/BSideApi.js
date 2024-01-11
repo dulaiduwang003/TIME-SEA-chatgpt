@@ -65,6 +65,17 @@ export function DrawingSdTask(data) {
     })
 }
 
+export function PreviewUploadImage(data) {
+    return request({
+        url: '/preview/upload/image',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        },
+        data
+    })
+}
+
 /**
  *    设置个性参数GPT
  */

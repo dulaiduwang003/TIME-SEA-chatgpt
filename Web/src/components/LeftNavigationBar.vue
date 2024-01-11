@@ -39,7 +39,7 @@
             :src="require('../assets/logoHead.svg')"
         />
         <div class="bottomRight">
-          <div class="bottomRightName">TIME SEA PLUS</div>
+          <div class="bottomRightName">TIME-SEA-PLUS-Ai</div>
           <div class="bottomRightEdition">v1.4.1</div>
         </div>
       </div>
@@ -74,7 +74,15 @@
 import {defineComponent, onMounted, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 // eslint-disable-next-line no-unused-vars
-import {ChatDotSquare, MessageBox, Odometer, ScaleToOriginal, UserFilled,} from "@element-plus/icons-vue";
+import {
+  ChatDotSquare,
+  MagicStick,
+  MessageBox,
+  Odometer,
+  Picture,
+  ScaleToOriginal,
+  UserFilled,
+} from "@element-plus/icons-vue";
 import router from "@/router";
 import store from "../store";
 import LoginDialog from "@/components/LoginDialog.vue";
@@ -107,6 +115,16 @@ export default defineComponent({
         title: "智能问答",
         icon: ChatDotSquare,
         to: "/",
+      },
+      {
+        title: "图像绘制",
+        icon: Picture,
+        to: "/drawing",
+      },
+      {
+        title: "图像识别",
+        icon: MagicStick,
+        to: "/preview",
       },
       {
         title: "预设角色",

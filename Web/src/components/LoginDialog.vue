@@ -196,7 +196,7 @@
         </div>
         <div style="padding: 20px 40px 30px">
           <div class="login-title">
-            <div class="login-selected">TIME SEA PLUS</div>
+            <div class="login-selected">TIME-SEA-PLUS-Ai</div>
           </div>
           <el-form @keyup.enter="retrievePassword" ref="formRef" size="large">
             <el-form-item prop="username">
@@ -500,7 +500,7 @@ export default defineComponent({
             clearInterval(timerId);
             ElNotification({
               title: "登录成功",
-              message: "欢迎使用TIME SEA PLUS",
+              message: "欢迎使用TIME-SEA-PLUS-Ai",
               type: "success",
             });
             emit("loginSucceeded");
@@ -550,7 +550,7 @@ export default defineComponent({
         loginLoading.value = false;
         ElNotification({
           title: "登录成功",
-          message: "快登录体验TIME SEA PLUS吧",
+          message: "快登录体验TIME-SEA-PLUS-Ai吧",
           type: "success",
         });
         loginLoading.value = false;

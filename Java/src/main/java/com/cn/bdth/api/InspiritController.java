@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 雨纷纷旧故里草木深
- *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */

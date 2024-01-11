@@ -22,6 +22,7 @@ import com.cn.bdth.mapper.PersonalityMapper;
 import com.cn.bdth.model.ClaudeModel;
 import com.cn.bdth.model.GptImageModel;
 import com.cn.bdth.model.GptModel;
+import com.cn.bdth.model.GptPreviewModel;
 import com.cn.bdth.service.GptService;
 import com.cn.bdth.structure.ControlStructure;
 import com.cn.bdth.structure.PersonalityConfigStructure;
@@ -47,8 +48,6 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 雨纷纷旧故里草木深
- *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */
@@ -149,17 +148,50 @@ public class GptServiceImpl implements GptService {
                 .bodyToFlux(String.class);
     }
 
+    /**
+     * 识别画图
+     * @param model 请求模型
+     * @param isAdvanced
+     * @param chatGptStructure
+     * @return
+     */
+    @Override
+    public Flux<String> concatenationGpt(GptPreviewModel model, boolean isAdvanced, ChatGptCommon.ChatGptStructure chatGptStructure) {
+        //设置请求模型
+        model.setModel(isAdvanced ? AiModelConstant.PERVIEW : AiModelConstant.ADVANCED);
+
+        JSONObject body = (JSONObject) JSONObject.toJSON(model);
+        System.out.println(body);
+
+        return webClient.baseUrl(chatGptStructure.getOpenAiPlusUrl())
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + (chatGptStructure.getOpenPlusKey())).build()
+                .post()
+                .uri(ServerConstant.GPT_DIALOGUE)
+                .body(BodyInserters.fromValue(body))
+                .retrieve()
+                .bodyToFlux(String.class);
+    }
+
     @Override
     public String drawAccordingGpt(final String promptWords, final ChatGptCommon.ChatGptStructure str) {
         try {
+            GptImageModel gptImageModel = new GptImageModel().setPrompt(promptWords);
+            if (promptWords.startsWith("1024x1024")){
+                gptImageModel.setSize("1024x1024");
+            }
+            if (promptWords.startsWith("1792x1024")){
+                gptImageModel.setSize("1792x1024");
+            }
+            if (promptWords.startsWith("1024x1792")){
+                gptImageModel.setSize("1024x1792");
+            }
             final String block = webClient.baseUrl(str.getOpenAiUrl())
                     .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + str.getOpenKey())
                     .build()
                     .post()
                     .uri(ServerConstant.GPT_DRAWING)
-                    .body(BodyInserters.fromValue(new GptImageModel()
-                            .setPrompt(promptWords)
-                    ))
+                    .body(BodyInserters.fromValue(gptImageModel)
+                   )
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();

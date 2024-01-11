@@ -126,7 +126,7 @@
 
   <el-dialog
     v-model="appletDialogVisible"
-    title="TIME SEA PLUS"
+    title="TIME-SEA-PLUS-Ai"
     width="300"
     center
     align-center
@@ -136,7 +136,6 @@
       <div>微信扫一扫</div>
     </div>
   </el-dialog>
-
   <LoginDialog :show="dialogVisible" @close="dialogVisible = false" />
 </template>
 <script>

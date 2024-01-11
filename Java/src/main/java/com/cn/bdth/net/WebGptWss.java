@@ -28,7 +28,7 @@ import java.io.IOException;
 /**
  * 长连接响应. (标准)
  *
- * @author bdth
+ * @author 时间海 @github dulaiduwang003
  */
 @Slf4j
 @ServerEndpoint("/gpt-web/api/{token}/{model}")

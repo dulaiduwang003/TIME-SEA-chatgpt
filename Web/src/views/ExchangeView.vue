@@ -13,7 +13,7 @@
       <div>
         <img class="logo" :src="require('../assets/logoHead.svg')" alt="" />
       </div>
-      <div class="title">TIME SEA PLUS</div>
+      <div class="title">TIME-SEA-PLUS-Ai</div>
       <input
         type="text"
         class="input"

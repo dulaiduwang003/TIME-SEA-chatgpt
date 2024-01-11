@@ -1,13 +1,15 @@
 <template>
   <div class="body" ref="scrollRef">
     <div v-if="!conversationList.length" class="explain">
+      <div class="header-big  canvas-fx mb-4"><iframe class="canvas-bg" scrolling="no" sandbox="allow-scripts allow-same-origin" src="/lightParticles.html"></iframe></div>
       <img class="logo" alt="Vue logo" src="../assets/logo02.svg"/>
-      <div class="expositoryCase">欢迎使用TIME SEA PLUS</div>
+      <div class="expositoryCase">欢迎使用TIME-SEA-PLUS-Ai</div>
       <div class="consume">
         <el-icon>
           <Goods/>
         </el-icon>
-        <div class="consumeText">每次提问消耗1个SUPER币</div>
+        <div class="consumeText">智能模型每次提问消耗1个SUPER币</div>
+        <div class="consumeText">增强模型每次提问消耗30个SUPER币</div>
       </div>
       <div class="beCareful">请注意不支持违法、违规等不当信息内容</div>
     </div>
@@ -141,12 +143,19 @@
 
         <InputFormField
             ref="inputRef"
+            :basicShowOptions="showBasic"
+            :advancedShowOptions="showAdvanced"
+            :previewShowOptions="showPreview"
             :aiLoading="aiLoading"
             :inputText="input"
             @update:inputText="input = $event"
             @update:model="model = $event"
             @onSubmit="onSubmit"
         />
+      </div>
+      <div class="icp">
+        <!-- 将以下链接和文本替换成您的ICP备案信息 -->
+        <a href="https://beian.miit.gov.cn" target="_blank">沪ICP备2023035605号</a>
       </div>
     </div>
   </div>
@@ -161,7 +170,7 @@
       <div class="cache-flex-center">
         <img alt="Vue logo" src="../assets/logo02.svg" class="cache-img"/>
       </div>
-      <div class="cache-text">TIME SEA PLUS</div>
+      <div class="cache-text">TIME-SEA-PLUS-Ai</div>
       <div class="cache-flex-center cache-padding-top">
         <div class="cache-btn" @click="createdNewChat">
           <el-icon size="16px">
@@ -243,6 +252,13 @@ export default {
 
     LoginDialog,
   },
+  data() {
+    return {
+      showBasic: true, // 或根据逻辑设置为 false
+      showAdvanced: true, // 或根据逻辑设置为 false
+      showPreview: false // 或根据逻辑设置为 false
+    };
+  },
   computed: {
     store() {
       return store;
@@ -307,7 +323,6 @@ export default {
         }
       }
     });
-
     //提交内容的快捷键监听
     function handleKeyDown(e) {
       // 判断是否按下了 alt 键和 enter 键
@@ -702,6 +717,7 @@ export default {
 // 这里需要做媒体查询， 兼容小屏幕的对话框
 
 .body {
+  z-index: 2;
   scroll-behavior: smooth;
   width: 100%;
   height: 100%;
@@ -715,11 +731,40 @@ export default {
   background-color: var(--bgColor2);
 }
 
+.header-big {
+  z-index: 1;
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  overflow: auto;
+  background-color: var(--bgColor2);
+  position: absolute;
+  margin-top: -200px;
+  padding-left: 0px;
+}
+.header-big .canvas-bg {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-width: 0;
+}
+.header-big .canvas-fx {
+  background-color: var(--bgColor2);
+}
+.mb-4, .my-4 {
+  margin-bottom: 1.5rem!important;
+}
+
+
 .footer {
   width: 100%;
   box-sizing: border-box;
   z-index: 1;
-  pointer-events: none;
+  //关闭接收指针事件
+  //pointer-events: none;
   background: linear-gradient(rgba(246, 246, 246, 0), var(--bgColor2) 25%);
   flex-shrink: 0;
   padding: 30px 20px;
@@ -927,7 +972,6 @@ export default {
     transform: scale(1);
   }
 }
-
 .suspend {
   animation: explainAnimation 0.3s;
   position: fixed;
@@ -961,34 +1005,46 @@ export default {
 }
 
 .logo {
+  z-index: 2;
   width: 100px;
   margin-bottom: 20px;
   animation: beating 0.7s infinite alternate;
 }
 
 .expositoryCase {
+  z-index: 2;
   font-size: 20px;
   margin-top: 15px;
   text-align: center;
 }
 
 .consume {
+  z-index: 2;
   display: flex;
   align-items: center;
   margin-top: 30px;
 }
 
 .consumeText {
+  z-index: 2;
   margin-left: 10px;
   font-size: 15px;
 }
 
 .beCareful {
+  z-index: 2;
   padding: 40px 6px 12px;
   color: var(--textColor2);
   font-size: 15px;
   line-height: 1.6;
 }
+
+/*.header-big {
+  padding: 40px 6px 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}*/
+
 
 :deep(.answer > .el-avatar, .question > .el-avatar) {
   background-color: var(--bgColor2);
@@ -1023,10 +1079,44 @@ export default {
   box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
 }
 
+
 @media (max-width: 767px) {
   .clear2 {
     margin-left: 80px;
   }
+}
+
+.clear3 {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  font-size: 8px;
+  color: var(--textColor4);
+  background-color: var(--bgColor1);
+  border-radius: 5px;
+  padding: 3px 10px;
+  margin-left: 184px;
+  box-shadow: 0 5px 7px rgb(0 0 0 / 6%);
+}
+
+
+.upload-preview-container {
+  display: flex;
+  align-items: center;
+}
+
+
+.thumbnail-container {
+  margin-left: 20px; /* 与上传按钮保持一定间距 */
+}
+
+.thumbnail {
+  width: 50px; /* 缩略图的宽度 */
+  height: 50px; /* 缩略图的高度 */
+  object-fit: cover; /* 保证图片不变形 */
+  border-radius: 4px; /* 可选的圆角边框 */
 }
 
 .cache-flex-center {
@@ -1138,6 +1228,17 @@ export default {
 .select_style {
   width: 100px;
   margin-right: -20px;
+}
+
+.icp a {
+  color: #333; /* 链接颜色，可根据需要调整 */
+  text-decoration: none; /* 去除下划线 */
+  font-size: 14px;
+  text-align: center; /* 使文本居中 */
+}
+
+.icp a:hover {
+  text-decoration: underline; /* 鼠标悬停时添加下划线 */
 }
 
 .dot_0,

@@ -28,8 +28,10 @@
         placeholder="Ai模型"
         @change="updateModel"
       >
-        <el-option value="BASIC" label="智能" />
-        <el-option value="ADVANCED" label="增强" />
+        <el-option value="BASIC" label="智能(3.5)" v-if="basicShowOptions"/>
+        <el-option value="ADVANCED" label="增强(4)" v-if="advancedShowOptions"/>
+        <el-option value="PREVIEW" label="图像分析(4-preview)" v-if="previewShowOptions"/>
+        <el-option value="DRAWING" label="图像绘制(e-3)" v-if="drawingShowOptions"/>
       </el-select>
       <el-input
         :style="{ marginLeft: needSelect ? '0px' : '10px' }"
@@ -40,7 +42,7 @@
         ref="inputRefInner"
         type="textarea"
         :placeholder="
-          aiLoading ? '思考中..' : '输入你想问的...  ctrl+enter发送'
+          aiLoading ? '思考中..' : '输入你想问的...，图像分析请先点击图片上传  ctrl+enter发送'
         "
         :disabled="aiLoading"
       >
@@ -71,6 +73,22 @@ export default defineComponent({
     Promotion,
   },
   props: {
+    basicShowOptions: {
+      type: Boolean,
+      default: false
+    },
+    advancedShowOptions: {
+      type: Boolean,
+      default: false
+    },
+    previewShowOptions: {
+      type: Boolean,
+      default: false
+    },
+    drawingShowOptions: {
+      type: Boolean,
+      default: false
+    },
     needSelect: {
       type: Boolean,
       default: true,
@@ -78,7 +96,7 @@ export default defineComponent({
     // 选择的模型
     model: {
       type: String,
-      default: null,
+      default: 'BASIC',
     },
     // 选择的模型
     inputText: {
@@ -94,14 +112,14 @@ export default defineComponent({
   setup(props, { emit }) {
     // 通过ref监听组件值
     let inputTextInner = ref(null);
-    let modelInner = ref("BASIC");
+    let modelInner = ref(props.model);
     const inputRefInner = ref(null);
 
     //监听父的model 双向绑定需要
     watch(
       () => props.model,
       (newVal) => {
-        modelInner = newVal;
+        modelInner.value = newVal;
       }
     );
 
@@ -139,7 +157,7 @@ export default defineComponent({
     // 更新父model  选择智能还是标准
     function updateModel(value) {
       // console.log("更新父组件的model", value);
-      modelInner = value;
+      modelInner.value = value;
       emit("update:model", value);
     }
 
@@ -158,6 +176,9 @@ export default defineComponent({
       inputTextInner,
       modelInner,
       inputRefInner,
+      // basicShowOptions:true,
+      // advancedShowOptions:true,
+      // previewShowOptions:true,
     };
   },
 });
@@ -185,7 +206,7 @@ export default defineComponent({
 }
 
 :deep(.selectWrapper) {
-  width: 150px;
+  width: 160px;
   .el-input {
     .el-input__wrapper {
       padding-top: 25px;

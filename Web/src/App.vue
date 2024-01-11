@@ -235,7 +235,7 @@ body {
 .lightMode {
   --bgColor1: #f5f5f5;
   --bgboxShadowColor1: #cccccc44;
-  --bgColor2: #eee;
+  --bgColor2: #ffffff;
   --bgboxShadowColor2: #dddddd44;
   --bgColor3: #ddd;
   --themeColor1: #8166e7;

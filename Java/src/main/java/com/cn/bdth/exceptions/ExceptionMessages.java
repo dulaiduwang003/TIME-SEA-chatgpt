@@ -38,6 +38,7 @@ public interface ExceptionMessages {
     String BUILD_FAILED_PAY_ERR = "生成支付二维码失败";
 
     String GPT_TIMEOUT = "哦豁!现在貌似出了点问题 请重新发送试试";
+    String MODEL_ERR = "哦豁!非正确模型 请检查一下Ai配置";
 
     String GPT_CONFIG_ERR = "哦豁!貌似参数配置不对 请检查一下Ai配置";
 

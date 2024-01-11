@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 雨纷纷旧故里草木深
- *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */

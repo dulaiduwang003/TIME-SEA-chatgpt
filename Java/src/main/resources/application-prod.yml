@@ -1,9 +1,9 @@
-server:
-  #   SSL证书
-  ssl:
-    key-store: classpath:anchwngb.cn.pfx
-    key-store-password: v5my46148ph3t
-    key-store-type: PKCS12
+#server:
+#  #   SSL证书
+#  ssl:
+#    key-store: classpath:anchwngb.cn.pfx
+#    key-store-password: v5my46148ph3t
+#    key-store-type: PKCS12
 
 spring:
   data:
@@ -12,17 +12,17 @@ spring:
       database: 1
       host: 127.0.0.1
       port: 6379
-      password: 'eBI6YnFIEQ5'
+      password: ''
   # mysql配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/super_bot?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
-    username: super_bot
-    password: 'hthWC78MHFZ7KACK'
+    url: jdbc:mysql://127.0.0.1:3306/ai?useUnicode=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&allowMultiQueries=true&useSSL=true
+    username:
+    password:
   # 邮箱
   mail:
     host: smtp.qq.com
-    username: QQ邮箱
-    password: 'QQ邮箱授权码'
+    username:
+    password:
     default-encoding: UTF-8
     properties:
       mail:
@@ -34,58 +34,59 @@ spring:
 # 微信
 we-chat:
   # APPID
-  appId: '微信APPID'
+  appId: ''
   # 密钥
-  secret: '微信密钥'
+  secret: ''
   # 通知模板
-  template: '微信审核通知模板'
+  template: ''
 
 
 # 超级管理员账号密码
 root:
   # 邮箱
-  email: 管理员邮箱
+  email: ''
   # 密码
-  password: '管理员密码'
+  password: ''
 
 # 百度翻译
 baidu-translation:
   # 百度翻译Appid
-  appid: '百度翻译APPID'
+  appid: ''
   # 百度翻译密码要
-  secret: '百度翻译密钥'
+  secret: ''
 
 # 阿里OSS
 ali-oss:
-  endpoint: 'oss-cn-shanghai.aliyuncs.com'
-  accessKey: '阿里云OSSKey'
-  secretKey: '阿里云OSS密钥'
-  bucketName: 'sea-time'
-  domain: '阿里云图片服务器域名'
+  endpoint: ''
+  accessKey: ''
+  secretKey: ''
+  bucketName: ''
+  domain: ''
 
 # GPT 对话助手配置
 gpt:
   # 开发者名称
-  author: '时间海'
+  author: ''
   # BOT 中文名
-  botNameChinese: '时间海'
+  botNameChinese: ''
   # BOT 英文名
-  botNameEnglish: 'TIME SEA'
+  botNameEnglish: 'TIME-SEA-PLUS-AI'
 
 
 
 # 支付宝配置
 ali-pay:
   # 支付宝应用ID
-  appId: '支付宝当面付Appid'
+  appId: ''
   # 支付宝公钥
-  alipayPublicKey: '支付宝公钥'
-  # 私钥
-  privateKey: '支付宝私钥'
-  # 域名
-  domain: '后端服务器域名:8625'
+  alipayPublicKey: ''
+  # 支付宝私钥
+  privateKey: ''
+  # 后端服务器域名
+  domain: ''
 
-# 默认服务器配置 以下非必填
+#以下配置的东西 不是不填 这里只是默认配置 也可以部署完毕后自行去后台中配置
+
 
 config:
   #基本openAiUrl 基本和增强的URL可以一致
@@ -139,4 +140,3 @@ control:
   enableWechatAppMain: true
   # 是否开启代理了
   enableProxy: false
-

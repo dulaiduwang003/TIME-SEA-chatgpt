@@ -16,7 +16,8 @@ spring:
       max-file-size: 10240MB
       max-request-size: 10240MB
   profiles:
-    active: @spring.profiles.active@
+#    active: @spring.profiles.active@
+    active: dev
   data:
     redis:
       timeout: 10s

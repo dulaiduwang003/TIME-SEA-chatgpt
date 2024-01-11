@@ -178,3 +178,36 @@ create index idx_update_time
 create index user_email_password_index
     on super_bot.user (email, password);
 
+
+--
+-- 表的结构 `preview_images`
+--
+CREATE TABLE `preview_images` (
+                                  `image_id` bigint NOT NULL,
+                                  `user_id` bigint DEFAULT NULL,
+                                  `url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+                                  `created_time` datetime DEFAULT (now()),
+                                  `update_time` datetime DEFAULT (now())
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `preview_images`
+--
+ALTER TABLE `preview_images`
+    ADD PRIMARY KEY (`image_id`),
+  ADD KEY `preview_images_user_id_index` (`user_id`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `preview_images`
+--
+ALTER TABLE `preview_images`
+    MODIFY `image_id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+COMMIT;
+

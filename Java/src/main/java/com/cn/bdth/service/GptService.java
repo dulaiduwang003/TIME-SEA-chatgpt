@@ -3,14 +3,13 @@ package com.cn.bdth.service;
 import com.cn.bdth.common.ChatGptCommon;
 import com.cn.bdth.dto.PersonalityDto;
 import com.cn.bdth.model.GptModel;
+import com.cn.bdth.model.GptPreviewModel;
 import com.cn.bdth.structure.PersonalityConfigStructure;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
 
 /**
- * 雨纷纷旧故里草木深
- *
  * @author 时间海 @github dulaiduwang003
  * @version 1.0
  */
@@ -23,6 +22,14 @@ public interface GptService {
      * @return string 流数据
      */
     Flux<String> concatenationGpt(final GptModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure);
+
+    /**
+     * 建立GPT 流式连接 分析图片
+     *
+     * @param model 请求模型
+     * @return string 流数据
+     */
+    Flux<String> concatenationGpt(final GptPreviewModel model, final boolean isAdvanced, final ChatGptCommon.ChatGptStructure chatGptStructure);
 
     /**
      * 通过GPT绘制图片

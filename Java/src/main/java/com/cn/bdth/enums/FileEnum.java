@@ -21,6 +21,8 @@ public enum FileEnum {
     AVATAR("avatar"),
     //绘图
     PAINTING("painting"),
+    //图像识别
+    PREVIEW("preview"),
     //视频
     AUDIO("audio");
     String dec;
