@@ -133,7 +133,7 @@
       </div>
       <div class="icp">
         <!-- 将以下链接和文本替换成您的ICP备案信息 -->
-        <a href="https://beian.miit.gov.cn" target="_blank">沪ICP备2023035605号</a>
+        <a href="https://beian.miit.gov.cn" target="_blank">ICP备号</a>
       </div>
     </div>
   </div>
