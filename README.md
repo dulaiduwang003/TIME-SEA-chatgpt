@@ -55,11 +55,11 @@ web部署太简单了 跟着视频来就行
 ` preview分支 演示`
 https://font.TIME-SEA-PLUS-ai.com.cn/
 
-` web 演示`
+`master分支 web 演示`
 
 https://anchwngb.cn
 
-` Web 备用站点`
+`master分支 Web 备用站点`
 
 https://chat.yycld.com
 
