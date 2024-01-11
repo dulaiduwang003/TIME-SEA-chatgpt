@@ -9,7 +9,8 @@
 ## preview分支
 - 提供了图像识别和图像绘制功能，当然，你也可以在智能问答中输入/image 要求ai画一张图
 - 相比master分支需要新增preview_images表
-![img.png](https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/53166168/9d3202f3-341e-495d-9dbe-386379156c97)
+![img](https://github.com/dulaiduwang003/TIME-SEA-chatgpt/assets/53166168/2e53bfc9-06ee-46a8-9315-de8e39b4328a)
+
 
 [![GitHub release](https://img.shields.io/static/v1?label=release&message=v2.4&color=blue)](<[https://www.github.com/novicezk/midjourney-proxy](https://github.com/dulaiduwang003/TIME-SEA-PLUS)>)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
