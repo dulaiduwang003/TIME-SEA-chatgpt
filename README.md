@@ -1,7 +1,4 @@
 # TIME-SEA-PLUS
-
-# 新版本为 SpringCloudAlibaba 全新UI全新功能 版本 仓库 Deep Sea
-
 基于 SpringBoot3 开发的 Ai 多功能项目,支持(H5,Web,微信小程序) 此项目为长期维护更新项目 有什么问题可以直接在微信群问或者留下你的 issues
 两个端 可自行选择性部署 也可两个都部署(推荐做法)
 
