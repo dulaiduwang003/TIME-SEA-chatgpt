@@ -57,7 +57,7 @@ web部署太简单了 跟着视频来就行
 ##### PC 演示
 ` preview分支 演示`
 
-https://font.TIME-SEA-PLUS-ai.com.cn/
+https://font.moonwalk-ai.com.cn/#/
 
 `master分支 web 演示`
 
